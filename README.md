@@ -243,7 +243,7 @@ LLM 호출은 추출(Tier B) 한 단계뿐입니다. 그 결과는 원장(ledger
 ### 파이프라인
 
 ```mermaid
-flowchart LR
+flowchart TD
     SRC["원문<br/>md 문서 · py/ts 코드"] --> ING["ingest · l1_snapshot<br/>섹션 · 심볼 스냅샷"]
     ING --> PREP["prep<br/>단계별 입력 준비"]
     PREP --> TB["Tier B (LLM)<br/>개념 귀속 · 관계 · 별칭"]
