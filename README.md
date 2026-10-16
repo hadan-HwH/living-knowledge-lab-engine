@@ -31,6 +31,19 @@
 
 목표는 문서를 새로 작성하게 만드는 것이 아니라, **이미 작성한 문서와 코드에서 필요한 맥락을 찾아갈 수 있게 하는 것**입니다.
 
+### 출발점
+
+기획 문서는 Slack · Notion · 회의록 · Word · Figma 등 여러 도구에 흩어져 있었습니다. 이 문서들을 하나로 통합하기 위해 개인 PM 핸드북을 정리하는 작업에서 시작해, 팀 단위 기획 문서를 GitHub 기반 Markdown 저장소 한곳으로 모으고 정책 · 규칙 · 설명을 구분해 관리했습니다. 문서를 한곳에서 검토하고 변경 사항을 반영하기는 편해졌지만, 서로 연결된 결정과 구현을 찾는 과정은 여전히 수작업에 의존했습니다.
+
+이 문제를 해결하기 위한 첫 번째 실험이 [PPIR](https://github.com/hadan-HwH/product-planning-ir)이었습니다. PPIR에서는 지식을 구조화하는 가능성을 확인했지만, 사람이 개념 구조를 직접 작성하고 유지해야 하는 부담이 컸습니다.
+
+LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추가로 관리하기보다, 기존 문서와 코드에서 구조를 추출하는 방식**을 연구했습니다.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/timeline-dark.svg">
+  <img src="assets/timeline-light.svg" alt="PM 핸드북에서 PPIR을 거쳐 LKL로 이어진 연구 과정" width="100%">
+</picture>
+
 ## 주요 기능
 
 | 기능 | 설명 |
@@ -166,19 +179,6 @@ python structure_app.py impact personal-wevolley lib.realtime-reconnect.forceRec
 재생 후 `engine/fixtures/personal-wevolley/canon/canon-viewer.html` 파일을 브라우저에서 열면 정본 뷰어를 확인할 수 있습니다.
 
 </details>
-
-## 프로젝트의 출발점
-
-기획 문서는 Slack · Notion · 회의록 · Word · Figma 등 여러 도구에 흩어져 있었습니다. 이 문서들을 하나로 통합하기 위해 개인 PM 핸드북을 정리하는 작업에서 시작해, 팀 단위 기획 문서를 GitHub 기반 Markdown 저장소 한곳으로 모으고 정책 · 규칙 · 설명을 구분해 관리했습니다. 문서를 한곳에서 검토하고 변경 사항을 반영하기는 편해졌지만, 서로 연결된 결정과 구현을 찾는 과정은 여전히 수작업에 의존했습니다.
-
-이 문제를 해결하기 위한 첫 번째 실험이 [PPIR](https://github.com/hadan-HwH/product-planning-ir)이었습니다. PPIR에서는 지식을 구조화하는 가능성을 확인했지만, 사람이 개념 구조를 직접 작성하고 유지해야 하는 부담이 컸습니다.
-
-LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추가로 관리하기보다, 기존 문서와 코드에서 구조를 추출하는 방식**을 연구했습니다.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/timeline-dark.svg">
-  <img src="assets/timeline-light.svg" alt="PM 핸드북에서 PPIR을 거쳐 LKL로 이어진 연구 과정" width="100%">
-</picture>
 
 ## 현재 상태와 한계
 
