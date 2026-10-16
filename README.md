@@ -82,7 +82,42 @@
 
 내부 처리 과정과 검증 규칙은 [엔진 기술 문서](engine/README.md) 및 [불변식 문서](engine/INVARIANTS.md)에서 확인할 수 있습니다.
 
+## 아키텍처
+
+### 처리 단계
+
+| 단계 | 처리 방식 | 결과 |
+| --- | :---: | --- |
+| **수집** | 결정론 | 문서 섹션과 코드 심볼 스냅샷 |
+| **개념 추출** | LLM | 개념 · 소속 · 관계 · 별칭 후보 |
+| **원문 대조** | 결정론 | 원문에 없는 인용 거부, 판정 대기 목록 |
+| **정본 생성** | 결정론 | 개념별 현행 본문과 이력 |
+| **검증 · 조회** | 결정론 | 지표 · 재현성 검증 · 불일치 후보 · 뷰어 |
+
+### 저장소 구조
+
+```
+living-knowledge-lab-engine/
+├── engine/
+│   ├── structure_app.py         # 명령 진입점 (수집 · 정본 생성 · 조회)
+│   ├── regen.py                 # 정본 재생 절차
+│   ├── ingest.py · parsers.py   # 문서 · 코드 수집과 파싱
+│   ├── canon_store.py           # 정본 조립 · 병합
+│   ├── queries.py · brief.py    # 조회와 요약
+│   ├── crosscheck.py            # 불일치 후보 탐지
+│   ├── provenance_gate.py       # 출처 검증
+│   ├── viewer.py                # 정본 뷰어 생성
+│   ├── INVARIANTS.md            # 16개 불변식
+│   └── fixtures/personal-wevolley/   # 데모 코퍼스 (추출 기록 · 정본)
+└── scripts/regen.sh             # 정본 재생 실행
+```
+
 ## 실행 및 확인
+
+<details>
+<summary><b>실행 방법 보기</b></summary>
+
+<br>
 
 Python 3.9 이상 환경이 필요합니다. 공개 데모의 **테스트·재생·질의에는 LLM API가 필요하지 않습니다.** 새 자료의 의미 추출은 별도 LLM 실행 과정에 의존합니다.
 
@@ -116,6 +151,8 @@ python structure_app.py impact personal-wevolley lib.realtime-reconnect.forceRec
 ```
 
 재생 후 `engine/fixtures/personal-wevolley/canon/canon-viewer.html` 파일을 브라우저에서 열면 정본 뷰어를 확인할 수 있습니다.
+
+</details>
 
 ## 프로젝트의 출발점
 
