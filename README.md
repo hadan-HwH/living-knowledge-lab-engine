@@ -14,6 +14,7 @@
     <img src="https://github.com/hadan-HwH/living-knowledge-lab-engine/actions/workflows/verify.yml/badge.svg" alt="Verification workflow">
   </a>
   <img src="https://img.shields.io/badge/Research-Prototype-64748b?style=flat-square" alt="Research prototype">
+  <a href="https://github.com/hadan-HwH/product-planning-ir"><img src="https://img.shields.io/badge/%EC%9D%B4%EC%A0%84%20%EC%97%B0%EA%B5%AC-PPIR-0F766E?style=flat-square" alt="이전 연구: PPIR"></a>
 </p>
 
 <p align="center"><sub>개인 연구 프로젝트 · 2026.07–08 · 개발 일시 중단</sub></p>
@@ -21,6 +22,8 @@
 ---
 
 ## 프로젝트 소개
+
+> 이전 연구 [PPIR](https://github.com/hadan-HwH/product-planning-ir)에서 드러난 한계를 바탕으로 다시 설계한 후속 연구입니다.
 
 기획 문서와 실제 구현 코드는 같은 기능을 서로 다른 방식으로 설명합니다. 변경이 쌓이면 어느 설명이 최신인지, 특정 결정이 코드의 어디에 반영되어 있는지, 이전에는 왜 다르게 설계했는지 파악하기 어려워집니다.
 
