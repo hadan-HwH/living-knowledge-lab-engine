@@ -1,0 +1,368 @@
+subconcepts:
+# ── 57-bot-skill-split-quality.md ────────────────────────────────────────────
+- anchor: sc-skill-per-publish-format
+  name: 발행 형태 1개 = 스킬 1개 — 역할 혼재 스킬 2개를 포맷 기준 4개로 분해
+  commitment: frozen
+  confidence: high
+  quote: '발행 형태 1개 = 스킬 1개'
+- anchor: sc-format-choice-is-operator
+  name: 포맷 선택은 운영자 몫 — "애매하면 article" 자동 판단 규칙 폐기
+  commitment: frozen
+  confidence: high
+  quote: '"소재 성격에 맞는 포맷 고르기"는 운영자 몫으로 명시 이동'
+- anchor: sc-deep-opt-in
+  name: deep 인자만 Workflow 승격 — 항상-deep은 비용·시간으로 기각
+  commitment: frozen
+  confidence: high
+  quote: '항상-deep은 주 3회 발행이라도 비용·시간 부담이 커서 기각'
+- anchor: sc-liker-cron-stays
+  name: 좋아요는 크론 유지 — 스킬 이관 시 딸깍 누락 = 좋아요 정지
+  commitment: frozen
+  confidence: high
+  quote: '로직을 스킬로 옮기면 딸깍 누락 = 좋아요 정지가 되므로 기각'
+- anchor: sc-duplicate-over-shared-doc
+  name: 공통 블록은 복제 — 공유 문서는 스킬 자립성을 깬다
+  commitment: frozen
+  confidence: high
+  quote: '공유 문서로 빼면 스킬 자립성이 깨지고'
+- anchor: sc-launchd-plist-restale
+  name: launchd plist는 문자열 박제 — 개명 시 off→on 재생성 필요
+  commitment: frozen
+  confidence: high
+  quote: 'plist는 `bot-auto.sh on` 시점의 문자열이 박제되므로 스크립트만 고치면 기존 가동분은 계속 `/bot-tick`을 부른다'
+- anchor: sc-one-pass-writing-root-cause
+  name: 품질 문제의 구조적 원인 = 한 패스 집필
+  commitment: frozen
+  confidence: high
+  quote: '품질 문제의 구조적 원인은 "한 패스 집필"이다'
+- anchor: sc-factpack-source-required
+  name: 팩트팩 밖 주장 리젝 — 출처 URL 필수(할루시네이션 방어)
+  commitment: frozen
+  confidence: high
+  quote: '팩트팩에 출처 URL 필수, 비평 단계가 팩트팩 밖 주장 리젝'
+- anchor: sc-research-critique-pipeline
+  name: 3단 품질 파이프라인 — 리서치 팩트팩 → 집필 → 비평 리젝
+  commitment: frozen
+  confidence: high
+  quote: '기본 실행이 3단 파이프라인이다: 리서치 서브에이전트(팩트팩) → 본체 집필 → 비평 서브에이전트(팩트 대조·무정보 리젝·규격 검증) → 퇴고 → 예약'
+- anchor: sc-article-spec-freed
+  name: article 규격 해방 800~1500자 — 렌더러 실측 근거, 앱 변경 0
+  commitment: frozen
+  confidence: high
+  quote: 'article 규격이 확장된다: 포인트 4~~6개, 포인트당 body 150~~300자(기존 90자 권장 폐지), 전체 800~1500자'
+- anchor: sc-noinfo-point-reject
+  name: 무정보 포인트 리젝 — 일반론 금지, 한 장 = 한 액션 + 구체 디테일 1개
+  commitment: frozen
+  confidence: high
+  quote: '"연습은 짧게 자주" 류 무정보 포인트 리젝'
+- anchor: sc-bot-skill-four-plus-one
+  name: 봇 스킬 4+1 체계 — /bot-react·/bot-chat·/bot-cards·/bot-article + /bot-daily
+  commitment: frozen
+  confidence: high
+  quote: '스킬이 발행 형태 기준 4개로 분리된다'
+- anchor: sc-fallback-body-compact
+  name: 구버전 폴백 body는 압축 유지 — 본문 전문을 넣지 않는다
+  commitment: working
+  confidence: high
+  quote: '폴백은 기존대로 title+head 위주 압축 유지 (본문 전문을 넣지 않는다고 규격에 명시)'
+- anchor: sc-content-schedule-no-body-edit
+  name: 콘텐츠 예약 수정 금지 — body만 고치면 content JSONB와 어긋난다, 취소 후 재집필
+  commitment: frozen
+  confidence: high
+  quote: '`awaiting_approval` 콘텐츠를 `admin_update_bot_schedule`(00139)로 고치지 않는다'
+- anchor: sc-rename-reference-sweep
+  name: 개명은 저장소 전 참조 일괄 갱신 — 잔존 참조 grep 0건이 완료 조건
+  commitment: working
+  confidence: high
+  quote: '저장소 내 참조(런북·bot/README·bot-auto.sh·liker 주석)가 새 이름으로 갱신된다 (잔존 참조 grep 0건)'
+# ── reference/49-bot-ops-runbook.md ──────────────────────────────────────────
+- anchor: sc-kill-switch
+  name: 킬스위치 — community_bot_config.enabled=false 한 방으로 봇 전체 정지
+  commitment: frozen
+  confidence: high
+  quote: '`community_bot_config.enabled=false`면 봇 스킬 4종·publisher·liker·director(실주입) 전부 skip'
+- anchor: sc-approval-gate
+  name: 승인 게이트 — 글은 awaiting_approval, 댓글은 자율 발행
+  commitment: frozen
+  confidence: high
+  quote: '글 예약(`require_approval=true`)은 `awaiting_approval`로 들어온다'
+- anchor: sc-no-api-key-in-prod
+  name: prod에 LLM API 키 없음 — 두뇌는 Claude Code 구독, DB 파이프라인은 키 0
+  commitment: frozen
+  confidence: high
+  quote: 'prod에 `ANTHROPIC_API_KEY`를 넣지 않는다(사용자 확정)'
+- anchor: sc-event-queue
+  name: 이벤트 큐 — 글·댓글 INSERT를 트리거가 community_bot_events에 적재(http 호출 없음)
+  commitment: frozen
+  confidence: high
+  quote: '사람/봇 글·댓글 INSERT --트리거(00141)--> community_bot_events (큐, http 호출 없음)'
+- anchor: sc-bot-publisher
+  name: community-bot-publisher — 5분 크론 발행기(CAS 클레임, content JSONB 패스스루)
+  commitment: frozen
+  confidence: high
+  quote: '시각 도달한 `community_bot_schedule` 예약을 실제 글/댓글로 INSERT'
+- anchor: sc-bot-liker
+  name: community-bot-liker — 사람 글 0.8·봇 글 0.4 확률 좋아요, 하루 3회 크론
+  commitment: frozen
+  confidence: high
+  quote: '최근 48h 글에 페르소나 좋아요. **사람 글 0.8 · 봇 글(콘텐츠 포함) 0.4** 확률'
+- anchor: sc-bot-moderator
+  name: community-bot-moderator — 하드 룰 자동 숨김·검토 큐, 킬스위치와 무관하게 돈다
+  commitment: frozen
+  confidence: high
+  quote: '신규·수정 글/댓글을 하드 룰과 대조해 자동 숨김 + 검토 큐 적재'
+- anchor: sc-bot-events-retention
+  name: community-bot-events-retention — 이벤트 큐 보존 기간 청소(done 14일·pending 30일)
+  commitment: working
+  confidence: high
+  quote: '이벤트 큐 정리(done/skipped 14일·pending 30일 경과분 삭제)'
+- anchor: sc-director-manual-scene-injection
+  name: 수동 장면 주입 — scenes JSON이 있으면 LLM 무호출, 검증·시각 배정·승인은 동일
+  commitment: frozen
+  confidence: high
+  quote: 'body에 `scenes`가 있으면 LLM을 아예 호출하지 않으며'
+- anchor: sc-publish-time-by-code-random
+  name: 발행 시각은 LLM 아닌 코드 난수 — 크론 틱 패턴 유출 차단
+  commitment: frozen
+  confidence: high
+  quote: '발행 시각은 코드가 배정한다(아침/점심/저녁 윈도우 난수, 지난 시각이면 자동 +1일)'
+- anchor: sc-approval-shift-required
+  name: psql 승인 전 시프트 문장 필수 — 빼먹으면 지난 예약이 한 틱에 도배된다
+  commitment: frozen
+  confidence: high
+  quote: '**RPC와 동일한 시프트 문장을 반드시 먼저** 실행한다'
+- anchor: sc-local-push-config-redirect
+  name: db reset 후 _push_config 로컬 리다이렉트 — 안 하면 로컬이 prod를 때린다
+  commitment: frozen
+  confidence: high
+  quote: '**로컬 `_push_config`에 prod service key가 시딩돼 있다**(00076)'
+- anchor: sc-prod-deploy-is-manual
+  name: prod 배포는 수동 — 머지 ≠ 배포, 작업 전 반영 상태부터 확인
+  commitment: frozen
+  confidence: high
+  quote: '**prod 배포는 수동이다(머지 ≠ 배포)**'
+- anchor: sc-migration-before-function-deploy
+  name: 마이그레이션 먼저·함수 배포 나중 — 역순이면 없는 컬럼 SELECT로 5분마다 500
+  commitment: frozen
+  confidence: high
+  quote: '항상 `supabase db push` 먼저, `functions deploy` 나중'
+- anchor: sc-content-channel-three-slots
+  name: 콘텐츠 채널 3개와 요일 슬롯 — 화 뉴스·목 꿀팁·토 장비, 놓치면 따라잡지 않는다
+  commitment: frozen
+  confidence: high
+  quote: '3채널 = `community_bot_personas` 중 concept이 `[콘텐츠채널]`로 시작하는 계정'
+- anchor: sc-content-v3-format-spec
+  name: 콘텐츠 v3 포인트 정형 규격 — cards 하드 상한 vs article 확장, highlight는 head 부분문자열
+  commitment: frozen
+  confidence: high
+  quote: '규격: cards 포인트 3~~5개·head ≤17자·body ≤90자(하드), article 포인트 4~~6개·body 150~~300자·전체 800~~1500자'
+- anchor: sc-daily-tick-cycle
+  name: 일상 딸깍 사이클 — 하루 2~3회 /bot-react, 랜덤 지연 예약·연속 실행 멱등
+  commitment: frozen
+  confidence: high
+  quote: '하루 2~~3회 `/bot-react`면 충분하다'
+- anchor: sc-bot-auto-launchd
+  name: scripts/bot-auto.sh — launchd 45분 헤드리스 자동 딸깍(옵션)
+  commitment: working
+  confidence: high
+  quote: 'launchd가 45분마다 `claude -p "/bot-react"` 헤드리스 실행'
+- anchor: sc-local-rehearsal-seed
+  name: 로컬 리허설·시드 — 스택 기동 후 페르소나 시드, GoTrue 403은 직접 INSERT 우회
+  commitment: working
+  confidence: high
+  quote: '로컬 GoTrue ES256 이슈로 mjs의 auth user 생성이 403이 날 수 있다'
+- anchor: sc-bot-credential-handling
+  name: 자격증명 취급 — service_role은 쉘에서 명시적으로, 키는 리포에 커밋 금지
+  commitment: frozen
+  confidence: high
+  quote: 'API 키를 리포 파일에 커밋하지 말 것'
+- anchor: sc-persona-roster-split
+  name: 페르소나 명부 이원화 — 대화 페르소나 11명 vs 콘텐츠 채널 3계정(반응·잡담에서 제외)
+  commitment: frozen
+  confidence: high
+  quote: '/bot-react·/bot-chat이 이 계정들을 반응 댓글·잡담 집필 페르소나에서 제외하고 콘텐츠 집필 전담으로 쓴다'
+- anchor: sc-insta-png-export
+  name: 인스타 PNG 추출 — VOLT 템플릿 1080×1350, DB 읽기 전용·업로드는 수동
+  commitment: frozen
+  confidence: high
+  quote: '이미 쓴 콘텐츠(또는 새 원고)를 VOLT 템플릿 PNG 묶음(1080×1350)으로 굽는다'
+  governed_by: "0020"
+- anchor: sc-cover-baked-from-template
+  name: 커버는 레포 정적 HTML 템플릿에서 굽는다 — 아티클 커버도 같은 템플릿
+  commitment: frozen
+  confidence: high
+  quote: '/bot-article이 같은 템플릿(5a~5d)에서 구워 `image_url`에 넣는다'
+  governed_by: "0020"
+- anchor: sc-bot-emergent-loop
+  name: 봇끼리 창발 루프 — 발행분이 다시 이벤트 큐로 적재된다
+  commitment: frozen
+  confidence: high
+  quote: '발행분을 다시 이벤트 큐에 적재(봇끼리 창발 루프)'
+- anchor: sc-bot-ledger-files
+  name: 봇 운영 대장 — bot/topics.md(소재)·bot/content-log.md(발행), 커밋은 운영자
+  commitment: working
+  confidence: high
+  quote: '`bot/topics.md`(소재 대장)·`bot/content-log.md`(발행 대장)'
+# ── reference/linkedin-100days-series.md · linkedin-ep1-draft.md ─────────────
+- anchor: sc-linkedin-series-positioning
+  name: 연재 포지셔닝 — "코딩 못하는데 AI로 성공" 장르 기각, 설계하는 PM 페르소나
+  commitment: working
+  confidence: high
+  quote: '"코딩 못하는데 AI로 성공" 서사가 아님. 그 장르는 이미 포화.'
+- anchor: sc-requirements-are-discovered
+  name: 요구사항은 발견되는 것 — 문서가 아니라 운영에서 나온다
+  commitment: working
+  confidence: high
+  quote: '"요구사항은 문서에서 안 나온다. 운영에서 나온다. 그래서 결정 로그는 append-only여야 한다."'
+- anchor: sc-growth-arc-to-work
+  name: 성장 아크 — 풀스택 한 사이클 완주, 두려움의 정체는 경험의 부재
+  commitment: working
+  confidence: high
+  quote: '두려움의 정체는 능력 부족이 아니라 사이클을 끝까지 돌아본 경험의 부재였다'
+- anchor: sc-planning-system-portable
+  name: 문서 체계는 회사에 이식 가능 — 노션·피그마 버리고 기획 문서를 GitHub으로
+  commitment: hypothesis
+  confidence: high
+  quote: '**노션과 피그마를 버리고, 기획 문서를 전부 GitHub에서 하자고 회사에 제안**'
+- anchor: sc-linkedin-post-grammar
+  name: 링크드인 문법 9규칙 — 한 포스트 한 메시지·1,000~1,500자·훅 2줄·숫자 3개
+  commitment: frozen
+  confidence: high
+  quote: '**한 포스트 = 한 메시지.** 편별 서사 항목을 전부 넣지 않는다.'
+- anchor: sc-verified-numbers-only
+  name: 검증된 숫자만 — 모든 수치는 repo 실측(타임라인 앵커·핵심 스탯)
+  commitment: frozen
+  confidence: high
+  quote: '모든 수치는 repo 실측 (git log, PR 목록, planning/ 문서)'
+- anchor: sc-series-five-episode-plan
+  name: 5편 구성과 발행 캘린더 — D+100 피날레 역산, 1편·5편 수미상관
+  commitment: working
+  confidence: high
+  quote: '발행 캘린더 (주 2회, D+100 피날레 역산)'
+- anchor: sc-design-first-db
+  name: 시작은 코드가 아니라 DB — 도메인 모델·권한 구조 선고정, 화면은 소모품
+  commitment: frozen
+  confidence: high
+  quote: '**시작 전에 DB부터 그렸다.**'
+- anchor: sc-role-split-app-vs-club
+  name: 역할 구조 이원화 — 앱 전체 역할과 동호회 내 역할 분리(app_role vs club_members.role)
+  commitment: frozen
+  confidence: medium
+  quote: 'CLAUDE.md의 역할 구조(app_role vs club_members.role)'
+- anchor: sc-architecture-held-discipline-broke
+  name: 아키텍처는 버텼고 무너진 건 규율 — 감사 진단 "구조는 좋다, 강제와 관측성이 없다"
+  commitment: frozen
+  confidence: high
+  quote: '즉 설계는 버텼고, 무너진 건 규율'
+- anchor: sc-enforcement-by-gates
+  name: 규율은 사람이 아니라 게이트가 지킨다 — pre-commit·CI·lint 총량 동결(ratchet)
+  commitment: frozen
+  confidence: high
+  quote: '규율은 사람이 아니라 게이트가 지킨다.'
+- anchor: sc-three-refactoring-waves
+  name: 3번의 리팩토링 물결 — 증상 대응 → 체계전 → 캐시·아키텍처 정리
+  commitment: working
+  confidence: high
+  quote: '3번의 리팩토링 물결 (PR 번호로 실증)'
+- anchor: sc-rebranding-tokens-first
+  name: 리브랜딩은 토큰 선치환 — 순서를 뒤집으니 색 변경이 값 교체가 됐다
+  commitment: frozen
+  confidence: high
+  quote: '순서를 뒤집음. 리브랜딩 전에 primitives 토큰 치환(#82)부터.'
+- anchor: sc-env-inlined-at-build
+  name: EXPO_PUBLIC 환경변수는 빌드 시점 인라인 — 빌드 가드 + OTA 경계 분리로 재발 방지
+  commitment: frozen
+  confidence: high
+  quote: 'EXPO_PUBLIC 환경변수는 빌드 시점에 인라인된다는 것을 사고로 배움'
+- anchor: sc-cold-start-bot-seeding
+  name: 콜드스타트 — 90명 규모의 빈 게시판은 없느니만 못하다, 그래서 봇
+  commitment: frozen
+  confidence: high
+  quote: '문제 정의: 콜드스타트. 약 90명 규모에서 커뮤니티 오픈 = 빈 게시판 = 역효과'
+- anchor: sc-persona-to-content-pivot
+  name: 페르소나에서 콘텐츠로 피벗 — 사람을 모으는 건 인격이 아니라 콘텐츠
+  commitment: frozen
+  confidence: high
+  quote: '사람들이 쓰게 만드는 건 결국 양질의 콘텐츠라는 결론 -> 콘텐츠봇'
+- anchor: sc-bot-volume-inverse-to-human
+  name: 봇 발화량은 사람 활동량에 반비례 — 봇이 사람을 밀어내지 않게 하는 상한
+  commitment: frozen
+  confidence: high
+  quote: '사람 활동량에 반비례해 봇 발화량 자동 감소'
+- anchor: sc-automation-boundary-by-design
+  name: 무엇을 수동으로 남길지가 진짜 설계 — prod 마이그레이션·함수 배포·EAS 빌드는 손으로
+  commitment: frozen
+  confidence: high
+  quote: '"전부 자동화"가 아니라 "무엇을 수동으로 남길지 결정"이 진짜 설계'
+- anchor: sc-full-automation-redefined
+  name: 완전 자동화 재정의 — 사람이 0이 아니라, 사람 없이도 안 죽는 구조
+  commitment: frozen
+  confidence: high
+  quote: '완전 자동화 = 사람이 0이 아니라, 사람 없이도 안 죽고 + 사람이 있으면 더 좋아지는 구조'
+- anchor: sc-operator-free-club-vision
+  name: 운영자 없는 동호회 비전 — 총무 없이 자동화·탈중앙화로 돌아가는 커뮤니티
+  commitment: frozen
+  confidence: high
+  quote: '"운영자가 갈려 나가지 않는 동호회. 총무 없이, 공지 담당 없이, 완전 자동화와 탈중앙화로 돌아가는 커뮤니티. 멋지지 않나?"'
+- anchor: sc-push-rollout-client-first
+  name: 푸시 채널 롤아웃은 클라 선배포 — 서버 먼저면 구버전 푸시가 조용히 드롭
+  commitment: frozen
+  confidence: high
+  quote: '서버를 먼저 바꾸면 구버전 클라이언트의 푸시가 조용히 드롭. 클라 선배포 후 서버 전환으로 교정.'
+- anchor: sc-study-not-business
+  name: 이건 사업이 아니라 공부 — 흩어진 실무 지식을 하나로 파이프라인화
+  commitment: frozen
+  confidence: high
+  quote: '이건 사업이 아니라 **나의 공부**다.'
+- anchor: sc-ai-types-human-decides
+  name: 타이핑은 AI·설계와 결정은 사람 — 바이브코딩의 상한은 설계 역량이 정한다
+  commitment: frozen
+  confidence: high
+  quote: '"AI가 실행을 맡는 시대에 사람의 일은 두 가지로 수렴한다. 아키텍처를 잡는 일과, 요구사항을 발견하는 일. 바이브코딩의 상한은 프롬프트 실력이 아니라 설계 역량이 정한다."'
+- anchor: sc-crossposting-long-version
+  name: 긴 버전은 버리지 않고 크로스포스팅용 보관 — 링크드인 본문은 벼린 판
+  commitment: working
+  confidence: high
+  quote: '긴 버전(기승전결 완결형)은 버리지 말고 브런치/블로그 크로스포스팅용으로 보관'
+- anchor: sc-screenshot-privacy-check
+  name: 발행 전 캡처 프라이버시 점검 — 실유저 닉네임·민감 테이블명 노출 전수 확인
+  commitment: working
+  confidence: high
+  quote: '스크린샷에 실유저 닉네임/프로필 노출 여부 전수 확인 (블러 처리)'
+- anchor: sc-plan-doc-precedes-work
+  name: 모든 작업은 계획 문서 선행 — 실측→DoD→기각한 대안→검증 방법
+  commitment: frozen
+  confidence: high
+  quote: '모든 작업은 계획 문서 선행. 실측 -> Definition of Done -> 설계 트레이드오프와 기각한 대안 -> 검증 방법.'
+- anchor: sc-bot-detectability-in-public-writing
+  name: 봇 운영기 공개 시 판별 디테일 삭제 — 글감보다 서비스 신뢰가 우선
+  commitment: hypothesis
+  confidence: high
+  quote: '판별 가능한 디테일(페르소나 수, 발행 시간대 분포, 말투 규칙) 삭제 후 발행. 글감보다 서비스 신뢰가 우선.'
+  governed_by: "0010"
+- anchor: sc-script-orchestrator
+  name: 봇 시딩 아키텍처 = 대본 오케스트레이터(디렉터 LLM 1회/일 통째 집필)
+  commitment: frozen
+  confidence: high
+  quote: '대본형 봇. 디렉터 LLM이 하루치 "대화 장면"을 한 호출로 통째로 집필'
+- anchor: sc-bot-no-reresponse
+  name: 반응 패스는 댓글 1개·재응답 없음 — 무응답 발각 리스크 차단
+  commitment: frozen
+  confidence: high
+  quote: '글당 봇 댓글 최대 1개, 사람 재답글에 봇 재응답 금지'
+- anchor: sc-bot-private-operation
+  name: 시딩 봇 비공개 운영 — AI 배지 공개(0009)를 같은 주에 뒤집음
+  commitment: frozen
+  confidence: high
+  quote: '같은 주에 비공개 가명 운영으로 뒤집음(0010)'
+  governed_by: "0010"
+- anchor: sc-decisions-append-only
+  name: 결정 로그 append-only — 뒤집을 땐 지우지 않고 대체 표시
+  commitment: frozen
+  confidence: high
+  quote: '결정은 DECISIONS.md에 append-only (결정/왜/기각 대안 5줄, 뒤집으면 지우지 않고 "NNNN로 대체" 표시)'
+- anchor: sc-picker-watchdog
+  name: 픽커 유실 복구 = JS 워치독 래퍼 — OS 레벨 버그를 우회
+  commitment: frozen
+  confidence: high
+  quote: '이미지 픽커 행 복구 (#139, planning/50): OS 레벨 버그를 워치독으로 우회한 이야기.'

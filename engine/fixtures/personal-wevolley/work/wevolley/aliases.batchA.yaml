@@ -1,0 +1,46 @@
+aliases:
+- anchor: wevolley#sc-daily-tick-cycle
+  surface: 딸깍
+  confidence: high
+- anchor: wevolley#sc-daily-tick-cycle
+  surface: 반응 틱
+  confidence: high
+- anchor: wevolley#sc-bot-skill-four-plus-one
+  surface: 반응 두뇌
+  confidence: high
+- anchor: wevolley#sc-bot-skill-four-plus-one
+  surface: 콘텐츠 두뇌
+  confidence: high
+- anchor: wevolley#sc-bot-skill-four-plus-one
+  surface: 스킬 4+1 재편
+  confidence: high
+- anchor: wevolley#sc-bot-publisher
+  surface: community-bot-publisher
+  confidence: high
+- anchor: wevolley#sc-bot-moderator
+  surface: community-bot-moderator
+  confidence: high
+- anchor: wevolley#sc-bot-events-retention
+  surface: community-bot-events-retention
+  confidence: high
+- anchor: wevolley#sc-event-queue
+  surface: community_bot_events
+  confidence: high
+- anchor: wevolley#sc-script-orchestrator
+  surface: 대본형 봇
+  confidence: high
+- anchor: wevolley#sc-content-v3-format-spec
+  surface: v3 포인트 정형
+  confidence: high
+- anchor: wevolley#sc-research-critique-pipeline
+  surface: 3단 파이프라인
+  confidence: high
+- anchor: wevolley#sc-enforcement-by-gates
+  surface: 거부 장치
+  confidence: medium
+- anchor: wevolley#sc-no-api-key-in-prod
+  surface: 킬러 아키텍처, 키 0
+  confidence: medium
+- anchor: wevolley#sc-linkedin-post-grammar
+  surface: 링크드인 문법
+  confidence: high

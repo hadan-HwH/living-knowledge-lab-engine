@@ -1,0 +1,91 @@
+relations:
+- from: sc-map-visual-single-source
+  to: sc-native-map-webview-kakao
+  canonical: part_of
+  surface: web·WebView 공용
+  quote: 선택 라벨 인라인 CSS — web(여기서 직접)·WebView(CONFIG 주입) 단일 소스
+- from: sc-map-initial-view-policy
+  to: sc-map-visual-single-source
+  canonical: part_of
+  surface: 양쪽이 같은 결정을 쓰도록 순수 함수로 추출
+  quote: 초기 뷰 정책(M1/M2/M3, §3.1) — 양쪽이 같은 결정을 쓰도록 순수 함수로 추출
+- from: sc-in-app-foreground-banner
+  to: sc-notification-deeplink-cold-start
+  canonical: derived_from
+  surface: 라우팅은 기존 getNotificationRoute 를 재사용
+  quote: 라우팅은 기존 getNotificationRoute 를 재사용
+- from: sc-in-app-foreground-banner
+  to: sc-http-refetch-owns-consistency
+  canonical: triggers
+  surface: 배너 표시 여부와 무관하게 관련 쿼리를 즉시 회수
+  quote: 배너 표시 여부와 무관하게 관련 쿼리를 즉시 회수한다
+- from: sc-report-block-ugc-safety
+  to: sc-community-profiles
+  canonical: constrains
+  surface: 표시는 커뮤니티 프로필(가명) — 실명 노출 없음
+  quote: 표시는 커뮤니티 프로필(가명) — 실명 노출 없음
+- from: sc-report-block-ugc-safety
+  to: sc-ui-gate-rls-final
+  canonical: part_of
+  surface: 차단 동반 시 RLS 필터로 즉시 사라지므로
+  quote: 차단 동반 시 해당 유저 글/댓글이 RLS 필터로 즉시 사라지므로
+- from: sc-volt-ink-over-lime-legibility
+  to: sc-rebranding-tokens-first
+  canonical: derived_from
+  surface: 'VOLT: 선택 = 잉크 반전'
+  quote: 'VOLT: 선택 = 잉크 반전'
+- from: sc-reduce-motion-invariant
+  to: sc-micro-motion-p1
+  canonical: constrains
+  surface: reduce motion 시 생략 — 즉시 최종 상태
+  quote: 장식 연출(와이프·슬라이드·타이핑)은 reduce motion 시 생략
+- from: sc-extract-when-two-places-diverge
+  to: sc-no-over-standardization
+  canonical: tension_with
+  surface: 억지로 합치지 않는다
+  quote: 억지로 합치지 않는다
+- from: sc-option-value-single-label-variants
+  to: sc-validation-single-rule-source
+  canonical: part_of
+  surface: 값(value) 은 LEVEL_OPTIONS / LEVEL_LABEL 과 호환
+  quote: 값(value) 은 LEVEL_OPTIONS / LEVEL_LABEL 과 호환
+- from: sc-club-event-recurrence-model
+  to: sc-guest-request-event-scoped
+  canonical: enables
+  surface: 게스트 신청 단위 = 클럽 일정
+  quote: club_events
+- from: sc-location-input-stack
+  to: sc-map-initial-view-policy
+  canonical: enables
+  surface: 위치 결과가 나온 뒤 1회
+  quote: focus 진입 아니고 위치 결과가 나온 뒤 1회
+- from: sc-ime-slice-trap
+  to: sc-validation-single-rule-source
+  canonical: constrains
+  surface: maxLength 가 상한을 네이티브로 강제
+  quote: maxLength 가 상한을 네이티브로 강제
+- from: sc-local-date-string-scattered
+  to: sc-fix-at-choke-point
+  canonical: tension_with
+  surface: toISOString()은 UTC 기준이라 KST에서 하루 차이
+  quote: toISOString()은 UTC 기준이라 KST에서 하루 차이가 날 수 있다
+- from: sc-invite-flag-not-secret-token
+  to: sc-share-og-canonical-split
+  canonical: part_of
+  surface: 초대 링크의 invite 플래그를 상류로 전달
+  quote: invite 플래그를 상류(share-page)로 전달
+- from: sc-my-activity-three-tabs
+  to: sc-community-profiles
+  canonical: part_of
+  surface: 드로어 진입
+  quote: 드로어 진입
+- from: sc-notice-official-channel
+  to: sc-community-soft-launch-gate
+  canonical: part_of
+  surface: 피드 공지 스트립
+  quote: 피드 공지 스트립
+- from: sc-read-progress-codec
+  to: sc-reader-retired-detail-inline
+  canonical: tension_with
+  surface: 리더 철거 후에도 진행률 기록은 남는다
+  quote: 읽음 진행률은 useReadEpisodes(AsyncStorage)

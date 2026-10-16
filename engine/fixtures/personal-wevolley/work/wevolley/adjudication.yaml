@@ -1,0 +1,1456 @@
+queue:
+- sid: wevolley#sc-action-notification-inbox
+  target: NEW
+  confidence: high
+  evidence: 알림 인박스 9단위 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-adaptive-list-web-flatlist
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-auth-gate-return-to
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-automation-boundary-by-design
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-balance-is-derived
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-bot-detectability-in-public-writing
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-bot-emergent-loop
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-cache-buster-on-policy-change
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 운영 규약
+  was: new
+- sid: wevolley#sc-card-snapshot-metadata
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-club-event-recurrence-model
+  target: NEW
+  confidence: high
+  evidence: 일정 도메인 34단위(반복 규칙 vs 단발 이벤트) — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-cold-start-bot-seeding
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-community-soft-launch-gate
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-content-channel-three-slots
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-crossposting-long-version
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-decisions-log-separation
+  target: NEW
+  confidence: high
+  evidence: '**구조 결정은 문서 본문에 묻지 말고 DECISIONS.md에 한 항목으로 추가** — 기획 문서는 폐기돼도 결정은 남아야
+    한다.'
+  was: new
+- sid: wevolley#sc-deep-link-path-normalization
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-deterministic-default-avatar
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-doc-global-number
+  target: NEW
+  confidence: high
+  evidence: 번호는 전역 시퀀스로 폴더를 옮겨도 유지된다 (33은 어디에 있어도 33)
+  was: new
+- sid: wevolley#sc-doc-location-is-state
+  target: NEW
+  confidence: high
+  evidence: 문서의 **위치가 곧 상태**다. 문서 하나가 기획→구현→완료로 흐르면서 폴더를 이동한다.
+  was: new
+- sid: wevolley#sc-doc-type-roles
+  target: NEW
+  confidence: high
+  evidence: '- **기획 문서** (backlog/): 문제·목표·비목표·코어 플로우·모델 초안·오픈 퀘스천. 구현 방법은 얕게.'
+  was: new
+- sid: wevolley#sc-doc-wip-limit
+  target: NEW
+  confidence: high
+  evidence: 루트에 문서가 3개 이상 쌓이면 진행 중 작업이 너무 많다는 신호
+  was: new
+- sid: wevolley#sc-emit-domain-event-swallow
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 구현 규약
+  was: new
+- sid: wevolley#sc-env-inlined-at-build
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-event-queue
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-external-validation-needed
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-extract-when-two-places-diverge
+  target: NEW
+  confidence: high
+  evidence: 공용 컴포넌트 추출 근거가 파일마다 반복 — canon tier B에 해당 개념 없음(길목 수정은 버그 수정 위치 개념이라 다름)
+  was: new
+- sid: wevolley#sc-fee-info-text-migration
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-full-automation-redefined
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-gin-fastupdate-trap
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+  was: new
+- sid: wevolley#sc-growth-arc-to-work
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-guest-approval-rpc
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-fee-charge-on-approval
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-independent-release
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-payment-guide-table-rls
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-phasing
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-post-approval-dm
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-recruit-feed
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-request-edge-cases
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-guest-review-deferred
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-image-original-aspect
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-ime-slice-trap
+  target: NEW
+  confidence: high
+  evidence: 문서(개선 카탈로그 E1)와 코드 주석 2곳이 같은 함정을 말한다 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-in-app-foreground-banner
+  target: NEW
+  confidence: high
+  evidence: 인앱 배너 계층 14단위 — canon tier B의 딥링크·콜드스타트 개념과 다른 축(포그라운드 표시)
+  was: new
+- sid: wevolley#sc-invite-flag-not-secret-token
+  target: NEW
+  confidence: high
+  evidence: 초대 플래그 규약이 SSR·앱·API 3층에 걸침 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-is-anonymous-dropped
+  target: NEW
+  confidence: high
+  evidence: '**is_anonymous/"익명의 배구인"은 도입 안 함**(사용자 결정)'
+  was: new
+- sid: wevolley#sc-korean-error-single-mapping
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-ledger-precursor-to-payment
+  target: NEW
+  confidence: medium
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-local-date-string-scattered
+  target: NEW
+  confidence: high
+  evidence: 같은 이름의 toDateStr/todayStr가 date·calendar·home·experience·match에 각각 존재
+    — 드리프트 관측
+  was: new
+- sid: wevolley#sc-location-input-stack
+  target: NEW
+  confidence: high
+  evidence: 위치 입력·해석 18단위 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-map-initial-view-policy
+  target: NEW
+  confidence: high
+  evidence: 초기 뷰 정책이 Phase 18에서 재조정된 결정 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-map-visual-single-source
+  target: NEW
+  confidence: high
+  evidence: 지도 상수 26개가 전부 "web·WebView 공용 단일 소스"를 근거로 든다 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-micro-motion-p1
+  target: NEW
+  confidence: high
+  evidence: '디자인 시스템 P1 #8이 파일마다 인용됨 — canon tier B에 없음(Reduce Motion 불변 규칙은 그 예외
+    처리라 별개)'
+  was: new
+- sid: wevolley#sc-migrate-proven-surface-last
+  target: NEW
+  confidence: high
+  evidence: 운영자 결정(2026-07-28)인데 정본에 이관 순서 개념 없음
+  was: new
+- sid: wevolley#sc-migration-before-function-deploy
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-my-activity-three-tabs
+  target: NEW
+  confidence: high
+  evidence: 내 활동 5단위(45B 검수 결정) — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-native-map-webview-kakao
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-no-app-code-change-perf-win
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+  was: new
+- sid: wevolley#sc-no-retroactive-approval-unification
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-no-speculative-fix
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+  was: new
+- sid: wevolley#sc-noinfo-point-reject
+  target: NEW
+  confidence: high
+  evidence: canon sc-factpack-source-required는 출처 URL 요구(팩트 진위)이고 이 개념은 근거가 있어도 정보가
+    없으면 리젝(정보 밀도) — 정본에 대응 개념 없음
+  was: new
+- sid: wevolley#sc-notice-official-channel
+  target: NEW
+  confidence: high
+  evidence: 공지 채널 13단위(2026-07-16 사용자 결정) — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-optimistic-snapshot-rollback
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-option-value-single-label-variants
+  target: NEW
+  confidence: high
+  evidence: 옵션 어휘 23단위가 한 규칙(값 호환·라벨 변이)을 따름 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-persona-to-content-pivot
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-plan-doc-precedes-work
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-planning-system-portable
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-preview-shares-real-renderer
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-product-judgment-discards-feature
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 판단 기록
+  was: new
+- sid: wevolley#sc-push-fallback-fail-open
+  target: NEW
+  confidence: high
+  evidence: '**푸시 함수(00095)는 ELSE 폴백이 실명이라 fail-open** → CHECK 확장·RPC 파라미터화·푸시 분기를
+    한 마이그레이션에서'
+  was: new
+- sid: wevolley#sc-read-progress-codec
+  target: NEW
+  confidence: high
+  evidence: 읽음 진행률 코덱 9단위(56 Task 7) — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-reader-retired-detail-inline
+  target: NEW
+  confidence: high
+  evidence: 같은 철거 결정이 세 화면에 각각 주석으로 남음 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-reduce-motion-invariant
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-rename-reference-sweep
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-repeat-request-friction-accepted
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-report-block-ugc-safety
+  target: NEW
+  confidence: high
+  evidence: 신고·차단 스택 23단위 — canon tier B에 해당 개념 없음
+  was: new
+- sid: wevolley#sc-requirements-are-discovered
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-review-2026-07-05-nav-rollback
+  target: NEW
+  confidence: high
+  evidence: 같은 검수(2026-07-05)가 6개 화면의 진입 동선을 되돌림 — canon tier B에 없음
+  was: new
+- sid: wevolley#sc-sentry-domain-tagging
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-series-five-episode-plan
+  target: NEW
+  confidence: high
+  evidence: canon-context 263건(tier A 183·tier B 80) 전량 훑음 — 대응 정본 개념 없음
+  was: new
+- sid: wevolley#sc-share-deploy-order
+  target: NEW
+  confidence: high
+  evidence: '**배포 순서 강제**: PR A(웹 게이트 완화 + AppOpenBanner) → PR B(share-page body 제거
+    + redirec'
+  was: new
+- sid: wevolley#sc-soft-delete-placeholder
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-status-single-matrix
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-thin-rules-dumb-ledger
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-toggle-visible-to-real-superadmin
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+  was: new
+- sid: wevolley#sc-ui-gate-rls-final
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-validation-single-rule-source
+  target: NEW
+  confidence: high
+  evidence: 코드에만 있는 규약 — canon-context tier B 전량 대조 후 해당 개념 없음
+  was: new
+- sid: wevolley#sc-volt-ink-over-lime-legibility
+  target: NEW
+  confidence: high
+  evidence: '코드 전반의 반복 규칙 — canon tier B 대조 후 해당 개념 없음(리브랜딩 토큰 개념과 별개: 이건 색 선택 규칙)'
+  was: new
+carried: []
+tombstones: []
+auto_fold:
+- sid: wevolley#sc-account-info-exposure-scope
+  target: wevolley#sc-account-info-exposure-scope
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-ai-types-human-decides
+  target: wevolley#sc-ai-types-human-decides
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-allow-dm-toggle
+  target: wevolley#sc-allow-dm-toggle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-analytics-blind-spot
+  target: wevolley#sc-analytics-blind-spot
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-anon-column-scoped-read
+  target: wevolley#sc-anon-column-scoped-read
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-approval-gate
+  target: wevolley#sc-approval-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-approval-shift-required
+  target: wevolley#sc-approval-shift-required
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-architecture-held-discipline-broke
+  target: wevolley#sc-architecture-held-discipline-broke
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-array-column-normalization
+  target: wevolley#sc-array-column-normalization
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-article-spec-freed
+  target: wevolley#sc-article-spec-freed
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-author-set-null-on-delete
+  target: wevolley#sc-author-set-null-on-delete
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-badge-vs-action-gate
+  target: wevolley#sc-badge-vs-action-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-auto-launchd
+  target: wevolley#sc-bot-auto-launchd
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-credential-handling
+  target: wevolley#sc-bot-credential-handling
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-events-retention
+  target: wevolley#sc-bot-events-retention
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-ledger-files
+  target: wevolley#sc-bot-ledger-files
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-liker
+  target: wevolley#sc-bot-liker
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-bot-moderator
+  target: wevolley#sc-bot-moderator
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-bot-publisher
+  target: wevolley#sc-bot-publisher
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-bot-skill-four-plus-one
+  target: wevolley#sc-bot-skill-four-plus-one
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-bot-volume-inverse-to-human
+  target: wevolley#sc-bot-volume-inverse-to-human
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-broadcast-over-postgres-changes
+  target: wevolley#sc-broadcast-over-postgres-changes
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-broadcast-payload-privacy
+  target: wevolley#sc-broadcast-payload-privacy
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-bundle-diet
+  target: wevolley#sc-bundle-diet
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-catalog-item-promotion
+  target: wevolley#sc-catalog-item-promotion
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-center-modal-only
+  target: wevolley#sc-center-modal-only
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-charge-plans
+  target: wevolley#sc-charge-plans
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-charge-status-enum
+  target: wevolley#sc-charge-status-enum
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-chat-realtime-three-symptoms-one-root
+  target: wevolley#sc-chat-realtime-three-symptoms-one-root
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-churn-response-loop
+  target: wevolley#sc-churn-response-loop
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-client-side-image-pipeline
+  target: wevolley#sc-client-side-image-pipeline
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-client-toggle-server-limit
+  target: wevolley#sc-client-toggle-server-limit
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-club-activity-survey
+  target: wevolley#sc-club-activity-survey
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-club-charges
+  target: wevolley#sc-club-charges
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-club-expenses
+  target: wevolley#sc-club-expenses
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-club-finance-settings
+  target: wevolley#sc-club-finance-settings
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-club-role-surface-dominates
+  target: wevolley#sc-club-role-surface-dominates
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-committed-service-role-key-incident
+  target: wevolley#sc-committed-service-role-key-incident
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-community-dm-room-type
+  target: wevolley#sc-community-dm-room-type
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-community-profiles
+  target: wevolley#sc-community-profiles
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-content-schedule-no-body-edit
+  target: wevolley#sc-content-schedule-no-body-edit
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-content-v3-format-spec
+  target: wevolley#sc-content-v3-format-spec
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-convention-drift-guard
+  target: wevolley#sc-convention-drift-guard
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-daily-tick-cycle
+  target: wevolley#sc-daily-tick-cycle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-data-loop-alerting
+  target: wevolley#sc-data-loop-alerting
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-deep-opt-in
+  target: wevolley#sc-deep-opt-in
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-defaults-over-optin-lists
+  target: wevolley#sc-defaults-over-optin-lists
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-dependency-health-policy
+  target: wevolley#sc-dependency-health-policy
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-design-first-db
+  target: wevolley#sc-design-first-db
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-designated-depositor-name
+  target: wevolley#sc-designated-depositor-name
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-diagnostic-code-not-dead-code
+  target: wevolley#sc-diagnostic-code-not-dead-code
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-director-manual-scene-injection
+  target: wevolley#sc-director-manual-scene-injection
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-draft-dm-room
+  target: wevolley#sc-draft-dm-room
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-dual-entry-transition-risk
+  target: wevolley#sc-dual-entry-transition-risk
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-dues-auto-reminder
+  target: wevolley#sc-dues-auto-reminder
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-duplicate-over-shared-doc
+  target: wevolley#sc-duplicate-over-shared-doc
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-early-solution-becomes-debt
+  target: wevolley#sc-early-solution-becomes-debt
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-eliminate-infinite-wait
+  target: wevolley#sc-eliminate-infinite-wait
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-enforcement-by-gates
+  target: wevolley#sc-enforcement-by-gates
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-entry-loading-data-gate
+  target: wevolley#sc-entry-loading-data-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-error-display-classification
+  target: wevolley#sc-error-display-classification
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-expense-record-only
+  target: wevolley#sc-expense-record-only
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-fallback-body-compact
+  target: wevolley#sc-fallback-body-compact
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-finance-summary-visibility
+  target: wevolley#sc-finance-summary-visibility
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-fix-at-choke-point
+  target: wevolley#sc-fix-at-choke-point
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-font-fallback-explicit
+  target: wevolley#sc-font-fallback-explicit
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-foreground-recovery
+  target: wevolley#sc-foreground-recovery
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-form-hook-mirroring
+  target: wevolley#sc-form-hook-mirroring
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-format-choice-is-operator
+  target: wevolley#sc-format-choice-is-operator
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-freshness-gate-dedupe
+  target: wevolley#sc-freshness-gate-dedupe
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-funnel-retention-visibility
+  target: wevolley#sc-funnel-retention-visibility
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-gate-at-derivation-point
+  target: wevolley#sc-gate-at-derivation-point
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-gate-only-no-cache-manipulation
+  target: wevolley#sc-gate-only-no-cache-manipulation
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-git-history-purge-deferred
+  target: wevolley#sc-git-history-purge-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-guest-as-personal-user-value
+  target: wevolley#sc-guest-as-personal-user-value
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-guest-cancellation
+  target: wevolley#sc-guest-cancellation
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-capacity-autoclose
+  target: wevolley#sc-guest-capacity-autoclose
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-dm-roundtrip-pain
+  target: wevolley#sc-guest-dm-roundtrip-pain
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-guest-first-validation-target
+  target: wevolley#sc-guest-first-validation-target
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-guest-login-required
+  target: wevolley#sc-guest-login-required
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-mode-deferred
+  target: wevolley#sc-guest-mode-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-guest-open-toggle
+  target: wevolley#sc-guest-open-toggle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-payment-guide-gated
+  target: wevolley#sc-guest-payment-guide-gated
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-profile-card
+  target: wevolley#sc-guest-profile-card
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-reject-reason-required
+  target: wevolley#sc-guest-reject-reason-required
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-request-event-scoped
+  target: wevolley#sc-guest-request-event-scoped
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-request-lifecycle
+  target: wevolley#sc-guest-request-lifecycle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-guest-scope-club-detail-only
+  target: wevolley#sc-guest-scope-club-detail-only
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-home-state-branching
+  target: wevolley#sc-home-state-branching
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-http-refetch-owns-consistency
+  target: wevolley#sc-http-refetch-owns-consistency
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-immutable-ledger
+  target: wevolley#sc-immutable-ledger
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-impersonation-rejected
+  target: wevolley#sc-impersonation-rejected
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-improvement-catalog
+  target: wevolley#sc-improvement-catalog
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-insta-png-export
+  target: wevolley#sc-insta-png-export
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-invalidation-audit-with-persistence
+  target: wevolley#sc-invalidation-audit-with-persistence
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-is-bot-never-exposed
+  target: wevolley#sc-is-bot-never-exposed
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-ismember-drop-intended
+  target: wevolley#sc-ismember-drop-intended
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-kill-switch
+  target: wevolley#sc-kill-switch
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-launchd-plist-restale
+  target: wevolley#sc-launchd-plist-restale
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-legacy-key-anon-coupling
+  target: wevolley#sc-legacy-key-anon-coupling
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-lib-api-on-demand
+  target: wevolley#sc-lib-api-on-demand
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-library-minor-breaks-assumptions
+  target: wevolley#sc-library-minor-breaks-assumptions
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-limit-as-runaway-cap
+  target: wevolley#sc-limit-as-runaway-cap
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-linkedin-post-grammar
+  target: wevolley#sc-linkedin-post-grammar
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-linkedin-series-positioning
+  target: wevolley#sc-linkedin-series-positioning
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-list-cell-render-cost
+  target: wevolley#sc-list-cell-render-cost
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-live-product-priority
+  target: wevolley#sc-live-product-priority
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-loading-responsibility
+  target: wevolley#sc-loading-responsibility
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-local-push-config-redirect
+  target: wevolley#sc-local-push-config-redirect
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-local-rehearsal-seed
+  target: wevolley#sc-local-rehearsal-seed
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-map-platform-parity
+  target: wevolley#sc-map-platform-parity
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-measure-first
+  target: wevolley#sc-measure-first
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-modal-three-tier
+  target: wevolley#sc-modal-three-tier
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-mode-indicator-pill
+  target: wevolley#sc-mode-indicator-pill
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-mode-toggle-instant-reversible
+  target: wevolley#sc-mode-toggle-instant-reversible
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-monthly-report-share-image
+  target: wevolley#sc-monthly-report-share-image
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-my-requests-guest-section
+  target: wevolley#sc-my-requests-guest-section
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-native-e2e-gap
+  target: wevolley#sc-native-e2e-gap
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-negative-verification
+  target: wevolley#sc-negative-verification
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-new-key-scheme-deferred
+  target: wevolley#sc-new-key-scheme-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-nickname-app-wide-unique
+  target: wevolley#sc-nickname-app-wide-unique
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-nickname-numeric-suffix
+  target: wevolley#sc-nickname-numeric-suffix
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-no-api-key-in-prod
+  target: wevolley#sc-no-api-key-in-prod
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-no-direct-supabase-in-view
+  target: wevolley#sc-no-direct-supabase-in-view
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-no-money-through-app
+  target: wevolley#sc-no-money-through-app
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-no-over-standardization
+  target: wevolley#sc-no-over-standardization
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-nonblocking-heuristic-gate
+  target: wevolley#sc-nonblocking-heuristic-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-nonmember-event-visibility
+  target: wevolley#sc-nonmember-event-visibility
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-noshow-tracking-deferred
+  target: wevolley#sc-noshow-tracking-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-notification-deeplink-cold-start
+  target: wevolley#sc-notification-deeplink-cold-start
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-notify-single-entry-precondition
+  target: wevolley#sc-notify-single-entry-precondition
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-one-pass-writing-root-cause
+  target: wevolley#sc-one-pass-writing-root-cause
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-open-banking-rejected
+  target: wevolley#sc-open-banking-rejected
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-operator-free-club-vision
+  target: wevolley#sc-operator-free-club-vision
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-perf-history-reference
+  target: wevolley#sc-perf-history-reference
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-perf-improvement-cycle
+  target: wevolley#sc-perf-improvement-cycle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-persist-denylist
+  target: wevolley#sc-persist-denylist
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-persona-roster-split
+  target: wevolley#sc-persona-roster-split
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-picker-watchdog
+  target: wevolley#sc-picker-watchdog
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-placeholder-zero-ms-entry
+  target: wevolley#sc-placeholder-zero-ms-entry
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-platform-divergent-decision
+  target: wevolley#sc-platform-divergent-decision
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-post-rotation-verification
+  target: wevolley#sc-post-rotation-verification
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-posthog-http-capture
+  target: wevolley#sc-posthog-http-capture
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-prod-deploy-is-manual
+  target: wevolley#sc-prod-deploy-is-manual
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-publish-time-by-code-random
+  target: wevolley#sc-publish-time-by-code-random
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-push-receipt-confirmation
+  target: wevolley#sc-push-receipt-confirmation
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-push-rollout-client-first
+  target: wevolley#sc-push-rollout-client-first
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-realtime-auth-gate
+  target: wevolley#sc-realtime-auth-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-realtime-hybrid
+  target: wevolley#sc-realtime-hybrid
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-realtime-screen-declarative
+  target: wevolley#sc-realtime-screen-declarative
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-realtime-topic-lifecycle
+  target: wevolley#sc-realtime-topic-lifecycle
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-rebranding-tokens-first
+  target: wevolley#sc-rebranding-tokens-first
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-refetch-type-tiering
+  target: wevolley#sc-refetch-type-tiering
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-release-automation
+  target: wevolley#sc-release-automation
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-research-critique-pipeline
+  target: wevolley#sc-research-critique-pipeline
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-resilient-channel
+  target: wevolley#sc-resilient-channel
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-rls-full-reaudit
+  target: wevolley#sc-rls-full-reaudit
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-role-split-app-vs-club
+  target: wevolley#sc-role-split-app-vs-club
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-rotation-irreversible
+  target: wevolley#sc-rotation-irreversible
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-rotation-redeploy-single-window
+  target: wevolley#sc-rotation-redeploy-single-window
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-route-guard-default-deny
+  target: wevolley#sc-route-guard-default-deny
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-runbook-one-time-manual-op
+  target: wevolley#sc-runbook-one-time-manual-op
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-scale-appropriate-design
+  target: wevolley#sc-scale-appropriate-design
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-screen-orchestration-only
+  target: wevolley#sc-screen-orchestration-only
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-screenshot-privacy-check
+  target: wevolley#sc-screenshot-privacy-check
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-script-orchestrator
+  target: wevolley#sc-script-orchestrator
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-search-client-gate
+  target: wevolley#sc-search-client-gate
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-self-report-adoption-risk
+  target: wevolley#sc-self-report-adoption-risk
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-sensitive-transition-via-rpc
+  target: wevolley#sc-sensitive-transition-via-rpc
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-server-pagination-keyset-deferred
+  target: wevolley#sc-server-pagination-keyset-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-server-side-processing
+  target: wevolley#sc-server-side-processing
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-share-og-canonical-split
+  target: wevolley#sc-share-og-canonical-split
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-skeleton-render-contract
+  target: wevolley#sc-skeleton-render-contract
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-skill-per-publish-format
+  target: wevolley#sc-skill-per-publish-format
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-sourcemap-verification
+  target: wevolley#sc-sourcemap-verification
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-study-not-business
+  target: wevolley#sc-study-not-business
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-sync-latency-instrumentation
+  target: wevolley#sc-sync-latency-instrumentation
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-three-refactoring-waves
+  target: wevolley#sc-three-refactoring-waves
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-admin-inbox
+  target: wevolley#sc-treasury-admin-inbox
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-core-loop
+  target: wevolley#sc-treasury-core-loop
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-ledger
+  target: wevolley#sc-treasury-ledger
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-must-replace-excel
+  target: wevolley#sc-treasury-must-replace-excel
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-notification-set
+  target: wevolley#sc-treasury-notification-set
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-pain-three
+  target: wevolley#sc-treasury-pain-three
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-phasing
+  target: wevolley#sc-treasury-phasing
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-semi-auto
+  target: wevolley#sc-treasury-semi-auto
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-success-metrics
+  target: wevolley#sc-treasury-success-metrics
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-treasury-three-principles
+  target: wevolley#sc-treasury-three-principles
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-trigram-search
+  target: wevolley#sc-trigram-search
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-two-admin-lineages
+  target: wevolley#sc-two-admin-lineages
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-tx-paste-parsing-deferred
+  target: wevolley#sc-tx-paste-parsing-deferred
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-vault-key-injection
+  target: wevolley#sc-vault-key-injection
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-verified-numbers-only
+  target: wevolley#sc-verified-numbers-only
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-verifier-web-evidence
+  target: wevolley#sc-verifier-web-evidence
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-verify-then-fix
+  target: wevolley#sc-verify-then-fix
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-view-as-member
+  target: wevolley#sc-view-as-member
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-view-as-member-quality-loop
+  target: wevolley#sc-view-as-member-quality-loop
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-view-as-member-v1-assets
+  target: wevolley#sc-view-as-member-v1-assets
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-web-layout-animation-landmine
+  target: wevolley#sc-web-layout-animation-landmine
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+- sid: wevolley#sc-wizard-cold-load-prefill
+  target: wevolley#sc-wizard-cold-load-prefill
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 미커버 단위를 이 개념에 귀속
+- sid: wevolley#sc-zombie-channel-force-rebuild
+  target: wevolley#sc-zombie-channel-force-rebuild
+  confidence: high
+  evidence: canon-context tier B의 같은 개념 — anchor 재사용, 이번 회차는 이를 구현한 코드 단위를 귀속
+synonym_record:
+  wevolley#sc-account-info-exposure-scope: wevolley#sc-account-info-exposure-scope
+  wevolley#sc-ai-types-human-decides: wevolley#sc-ai-types-human-decides
+  wevolley#sc-allow-dm-toggle: wevolley#sc-allow-dm-toggle
+  wevolley#sc-analytics-blind-spot: wevolley#sc-analytics-blind-spot
+  wevolley#sc-anon-column-scoped-read: wevolley#sc-anon-column-scoped-read
+  wevolley#sc-approval-gate: wevolley#sc-approval-gate
+  wevolley#sc-approval-shift-required: wevolley#sc-approval-shift-required
+  wevolley#sc-architecture-held-discipline-broke: wevolley#sc-architecture-held-discipline-broke
+  wevolley#sc-array-column-normalization: wevolley#sc-array-column-normalization
+  wevolley#sc-article-spec-freed: wevolley#sc-article-spec-freed
+  wevolley#sc-author-set-null-on-delete: wevolley#sc-author-set-null-on-delete
+  wevolley#sc-badge-vs-action-gate: wevolley#sc-badge-vs-action-gate
+  wevolley#sc-bot-auto-launchd: wevolley#sc-bot-auto-launchd
+  wevolley#sc-bot-credential-handling: wevolley#sc-bot-credential-handling
+  wevolley#sc-bot-events-retention: wevolley#sc-bot-events-retention
+  wevolley#sc-bot-ledger-files: wevolley#sc-bot-ledger-files
+  wevolley#sc-bot-liker: wevolley#sc-bot-liker
+  wevolley#sc-bot-moderator: wevolley#sc-bot-moderator
+  wevolley#sc-bot-publisher: wevolley#sc-bot-publisher
+  wevolley#sc-bot-skill-four-plus-one: wevolley#sc-bot-skill-four-plus-one
+  wevolley#sc-bot-volume-inverse-to-human: wevolley#sc-bot-volume-inverse-to-human
+  wevolley#sc-broadcast-over-postgres-changes: wevolley#sc-broadcast-over-postgres-changes
+  wevolley#sc-broadcast-payload-privacy: wevolley#sc-broadcast-payload-privacy
+  wevolley#sc-bundle-diet: wevolley#sc-bundle-diet
+  wevolley#sc-catalog-item-promotion: wevolley#sc-catalog-item-promotion
+  wevolley#sc-center-modal-only: wevolley#sc-center-modal-only
+  wevolley#sc-charge-plans: wevolley#sc-charge-plans
+  wevolley#sc-charge-status-enum: wevolley#sc-charge-status-enum
+  wevolley#sc-chat-realtime-three-symptoms-one-root: wevolley#sc-chat-realtime-three-symptoms-one-root
+  wevolley#sc-churn-response-loop: wevolley#sc-churn-response-loop
+  wevolley#sc-client-side-image-pipeline: wevolley#sc-client-side-image-pipeline
+  wevolley#sc-client-toggle-server-limit: wevolley#sc-client-toggle-server-limit
+  wevolley#sc-club-activity-survey: wevolley#sc-club-activity-survey
+  wevolley#sc-club-charges: wevolley#sc-club-charges
+  wevolley#sc-club-expenses: wevolley#sc-club-expenses
+  wevolley#sc-club-finance-settings: wevolley#sc-club-finance-settings
+  wevolley#sc-club-role-surface-dominates: wevolley#sc-club-role-surface-dominates
+  wevolley#sc-committed-service-role-key-incident: wevolley#sc-committed-service-role-key-incident
+  wevolley#sc-community-dm-room-type: wevolley#sc-community-dm-room-type
+  wevolley#sc-community-profiles: wevolley#sc-community-profiles
+  wevolley#sc-content-schedule-no-body-edit: wevolley#sc-content-schedule-no-body-edit
+  wevolley#sc-content-v3-format-spec: wevolley#sc-content-v3-format-spec
+  wevolley#sc-convention-drift-guard: wevolley#sc-convention-drift-guard
+  wevolley#sc-daily-tick-cycle: wevolley#sc-daily-tick-cycle
+  wevolley#sc-data-loop-alerting: wevolley#sc-data-loop-alerting
+  wevolley#sc-deep-opt-in: wevolley#sc-deep-opt-in
+  wevolley#sc-defaults-over-optin-lists: wevolley#sc-defaults-over-optin-lists
+  wevolley#sc-dependency-health-policy: wevolley#sc-dependency-health-policy
+  wevolley#sc-design-first-db: wevolley#sc-design-first-db
+  wevolley#sc-designated-depositor-name: wevolley#sc-designated-depositor-name
+  wevolley#sc-diagnostic-code-not-dead-code: wevolley#sc-diagnostic-code-not-dead-code
+  wevolley#sc-director-manual-scene-injection: wevolley#sc-director-manual-scene-injection
+  wevolley#sc-draft-dm-room: wevolley#sc-draft-dm-room
+  wevolley#sc-dual-entry-transition-risk: wevolley#sc-dual-entry-transition-risk
+  wevolley#sc-dues-auto-reminder: wevolley#sc-dues-auto-reminder
+  wevolley#sc-duplicate-over-shared-doc: wevolley#sc-duplicate-over-shared-doc
+  wevolley#sc-early-solution-becomes-debt: wevolley#sc-early-solution-becomes-debt
+  wevolley#sc-eliminate-infinite-wait: wevolley#sc-eliminate-infinite-wait
+  wevolley#sc-enforcement-by-gates: wevolley#sc-enforcement-by-gates
+  wevolley#sc-entry-loading-data-gate: wevolley#sc-entry-loading-data-gate
+  wevolley#sc-error-display-classification: wevolley#sc-error-display-classification
+  wevolley#sc-expense-record-only: wevolley#sc-expense-record-only
+  wevolley#sc-fallback-body-compact: wevolley#sc-fallback-body-compact
+  wevolley#sc-finance-summary-visibility: wevolley#sc-finance-summary-visibility
+  wevolley#sc-fix-at-choke-point: wevolley#sc-fix-at-choke-point
+  wevolley#sc-font-fallback-explicit: wevolley#sc-font-fallback-explicit
+  wevolley#sc-foreground-recovery: wevolley#sc-foreground-recovery
+  wevolley#sc-form-hook-mirroring: wevolley#sc-form-hook-mirroring
+  wevolley#sc-format-choice-is-operator: wevolley#sc-format-choice-is-operator
+  wevolley#sc-freshness-gate-dedupe: wevolley#sc-freshness-gate-dedupe
+  wevolley#sc-funnel-retention-visibility: wevolley#sc-funnel-retention-visibility
+  wevolley#sc-gate-at-derivation-point: wevolley#sc-gate-at-derivation-point
+  wevolley#sc-gate-only-no-cache-manipulation: wevolley#sc-gate-only-no-cache-manipulation
+  wevolley#sc-git-history-purge-deferred: wevolley#sc-git-history-purge-deferred
+  wevolley#sc-guest-as-personal-user-value: wevolley#sc-guest-as-personal-user-value
+  wevolley#sc-guest-cancellation: wevolley#sc-guest-cancellation
+  wevolley#sc-guest-capacity-autoclose: wevolley#sc-guest-capacity-autoclose
+  wevolley#sc-guest-dm-roundtrip-pain: wevolley#sc-guest-dm-roundtrip-pain
+  wevolley#sc-guest-first-validation-target: wevolley#sc-guest-first-validation-target
+  wevolley#sc-guest-login-required: wevolley#sc-guest-login-required
+  wevolley#sc-guest-mode-deferred: wevolley#sc-guest-mode-deferred
+  wevolley#sc-guest-open-toggle: wevolley#sc-guest-open-toggle
+  wevolley#sc-guest-payment-guide-gated: wevolley#sc-guest-payment-guide-gated
+  wevolley#sc-guest-profile-card: wevolley#sc-guest-profile-card
+  wevolley#sc-guest-reject-reason-required: wevolley#sc-guest-reject-reason-required
+  wevolley#sc-guest-request-event-scoped: wevolley#sc-guest-request-event-scoped
+  wevolley#sc-guest-request-lifecycle: wevolley#sc-guest-request-lifecycle
+  wevolley#sc-guest-scope-club-detail-only: wevolley#sc-guest-scope-club-detail-only
+  wevolley#sc-home-state-branching: wevolley#sc-home-state-branching
+  wevolley#sc-http-refetch-owns-consistency: wevolley#sc-http-refetch-owns-consistency
+  wevolley#sc-immutable-ledger: wevolley#sc-immutable-ledger
+  wevolley#sc-impersonation-rejected: wevolley#sc-impersonation-rejected
+  wevolley#sc-improvement-catalog: wevolley#sc-improvement-catalog
+  wevolley#sc-insta-png-export: wevolley#sc-insta-png-export
+  wevolley#sc-invalidation-audit-with-persistence: wevolley#sc-invalidation-audit-with-persistence
+  wevolley#sc-is-bot-never-exposed: wevolley#sc-is-bot-never-exposed
+  wevolley#sc-ismember-drop-intended: wevolley#sc-ismember-drop-intended
+  wevolley#sc-kill-switch: wevolley#sc-kill-switch
+  wevolley#sc-launchd-plist-restale: wevolley#sc-launchd-plist-restale
+  wevolley#sc-legacy-key-anon-coupling: wevolley#sc-legacy-key-anon-coupling
+  wevolley#sc-lib-api-on-demand: wevolley#sc-lib-api-on-demand
+  wevolley#sc-library-minor-breaks-assumptions: wevolley#sc-library-minor-breaks-assumptions
+  wevolley#sc-limit-as-runaway-cap: wevolley#sc-limit-as-runaway-cap
+  wevolley#sc-linkedin-post-grammar: wevolley#sc-linkedin-post-grammar
+  wevolley#sc-linkedin-series-positioning: wevolley#sc-linkedin-series-positioning
+  wevolley#sc-list-cell-render-cost: wevolley#sc-list-cell-render-cost
+  wevolley#sc-live-product-priority: wevolley#sc-live-product-priority
+  wevolley#sc-loading-responsibility: wevolley#sc-loading-responsibility
+  wevolley#sc-local-push-config-redirect: wevolley#sc-local-push-config-redirect
+  wevolley#sc-local-rehearsal-seed: wevolley#sc-local-rehearsal-seed
+  wevolley#sc-map-platform-parity: wevolley#sc-map-platform-parity
+  wevolley#sc-measure-first: wevolley#sc-measure-first
+  wevolley#sc-modal-three-tier: wevolley#sc-modal-three-tier
+  wevolley#sc-mode-indicator-pill: wevolley#sc-mode-indicator-pill
+  wevolley#sc-mode-toggle-instant-reversible: wevolley#sc-mode-toggle-instant-reversible
+  wevolley#sc-monthly-report-share-image: wevolley#sc-monthly-report-share-image
+  wevolley#sc-my-requests-guest-section: wevolley#sc-my-requests-guest-section
+  wevolley#sc-native-e2e-gap: wevolley#sc-native-e2e-gap
+  wevolley#sc-negative-verification: wevolley#sc-negative-verification
+  wevolley#sc-new-key-scheme-deferred: wevolley#sc-new-key-scheme-deferred
+  wevolley#sc-nickname-app-wide-unique: wevolley#sc-nickname-app-wide-unique
+  wevolley#sc-nickname-numeric-suffix: wevolley#sc-nickname-numeric-suffix
+  wevolley#sc-no-api-key-in-prod: wevolley#sc-no-api-key-in-prod
+  wevolley#sc-no-direct-supabase-in-view: wevolley#sc-no-direct-supabase-in-view
+  wevolley#sc-no-money-through-app: wevolley#sc-no-money-through-app
+  wevolley#sc-no-over-standardization: wevolley#sc-no-over-standardization
+  wevolley#sc-nonblocking-heuristic-gate: wevolley#sc-nonblocking-heuristic-gate
+  wevolley#sc-nonmember-event-visibility: wevolley#sc-nonmember-event-visibility
+  wevolley#sc-noshow-tracking-deferred: wevolley#sc-noshow-tracking-deferred
+  wevolley#sc-notification-deeplink-cold-start: wevolley#sc-notification-deeplink-cold-start
+  wevolley#sc-notify-single-entry-precondition: wevolley#sc-notify-single-entry-precondition
+  wevolley#sc-one-pass-writing-root-cause: wevolley#sc-one-pass-writing-root-cause
+  wevolley#sc-open-banking-rejected: wevolley#sc-open-banking-rejected
+  wevolley#sc-operator-free-club-vision: wevolley#sc-operator-free-club-vision
+  wevolley#sc-perf-history-reference: wevolley#sc-perf-history-reference
+  wevolley#sc-perf-improvement-cycle: wevolley#sc-perf-improvement-cycle
+  wevolley#sc-persist-denylist: wevolley#sc-persist-denylist
+  wevolley#sc-persona-roster-split: wevolley#sc-persona-roster-split
+  wevolley#sc-picker-watchdog: wevolley#sc-picker-watchdog
+  wevolley#sc-placeholder-zero-ms-entry: wevolley#sc-placeholder-zero-ms-entry
+  wevolley#sc-platform-divergent-decision: wevolley#sc-platform-divergent-decision
+  wevolley#sc-post-rotation-verification: wevolley#sc-post-rotation-verification
+  wevolley#sc-posthog-http-capture: wevolley#sc-posthog-http-capture
+  wevolley#sc-prod-deploy-is-manual: wevolley#sc-prod-deploy-is-manual
+  wevolley#sc-publish-time-by-code-random: wevolley#sc-publish-time-by-code-random
+  wevolley#sc-push-receipt-confirmation: wevolley#sc-push-receipt-confirmation
+  wevolley#sc-push-rollout-client-first: wevolley#sc-push-rollout-client-first
+  wevolley#sc-realtime-auth-gate: wevolley#sc-realtime-auth-gate
+  wevolley#sc-realtime-hybrid: wevolley#sc-realtime-hybrid
+  wevolley#sc-realtime-screen-declarative: wevolley#sc-realtime-screen-declarative
+  wevolley#sc-realtime-topic-lifecycle: wevolley#sc-realtime-topic-lifecycle
+  wevolley#sc-rebranding-tokens-first: wevolley#sc-rebranding-tokens-first
+  wevolley#sc-refetch-type-tiering: wevolley#sc-refetch-type-tiering
+  wevolley#sc-release-automation: wevolley#sc-release-automation
+  wevolley#sc-research-critique-pipeline: wevolley#sc-research-critique-pipeline
+  wevolley#sc-resilient-channel: wevolley#sc-resilient-channel
+  wevolley#sc-rls-full-reaudit: wevolley#sc-rls-full-reaudit
+  wevolley#sc-role-split-app-vs-club: wevolley#sc-role-split-app-vs-club
+  wevolley#sc-rotation-irreversible: wevolley#sc-rotation-irreversible
+  wevolley#sc-rotation-redeploy-single-window: wevolley#sc-rotation-redeploy-single-window
+  wevolley#sc-route-guard-default-deny: wevolley#sc-route-guard-default-deny
+  wevolley#sc-runbook-one-time-manual-op: wevolley#sc-runbook-one-time-manual-op
+  wevolley#sc-scale-appropriate-design: wevolley#sc-scale-appropriate-design
+  wevolley#sc-screen-orchestration-only: wevolley#sc-screen-orchestration-only
+  wevolley#sc-screenshot-privacy-check: wevolley#sc-screenshot-privacy-check
+  wevolley#sc-script-orchestrator: wevolley#sc-script-orchestrator
+  wevolley#sc-search-client-gate: wevolley#sc-search-client-gate
+  wevolley#sc-self-report-adoption-risk: wevolley#sc-self-report-adoption-risk
+  wevolley#sc-sensitive-transition-via-rpc: wevolley#sc-sensitive-transition-via-rpc
+  wevolley#sc-server-pagination-keyset-deferred: wevolley#sc-server-pagination-keyset-deferred
+  wevolley#sc-server-side-processing: wevolley#sc-server-side-processing
+  wevolley#sc-share-og-canonical-split: wevolley#sc-share-og-canonical-split
+  wevolley#sc-skeleton-render-contract: wevolley#sc-skeleton-render-contract
+  wevolley#sc-skill-per-publish-format: wevolley#sc-skill-per-publish-format
+  wevolley#sc-sourcemap-verification: wevolley#sc-sourcemap-verification
+  wevolley#sc-study-not-business: wevolley#sc-study-not-business
+  wevolley#sc-sync-latency-instrumentation: wevolley#sc-sync-latency-instrumentation
+  wevolley#sc-three-refactoring-waves: wevolley#sc-three-refactoring-waves
+  wevolley#sc-treasury-admin-inbox: wevolley#sc-treasury-admin-inbox
+  wevolley#sc-treasury-core-loop: wevolley#sc-treasury-core-loop
+  wevolley#sc-treasury-ledger: wevolley#sc-treasury-ledger
+  wevolley#sc-treasury-must-replace-excel: wevolley#sc-treasury-must-replace-excel
+  wevolley#sc-treasury-notification-set: wevolley#sc-treasury-notification-set
+  wevolley#sc-treasury-pain-three: wevolley#sc-treasury-pain-three
+  wevolley#sc-treasury-phasing: wevolley#sc-treasury-phasing
+  wevolley#sc-treasury-semi-auto: wevolley#sc-treasury-semi-auto
+  wevolley#sc-treasury-success-metrics: wevolley#sc-treasury-success-metrics
+  wevolley#sc-treasury-three-principles: wevolley#sc-treasury-three-principles
+  wevolley#sc-trigram-search: wevolley#sc-trigram-search
+  wevolley#sc-two-admin-lineages: wevolley#sc-two-admin-lineages
+  wevolley#sc-tx-paste-parsing-deferred: wevolley#sc-tx-paste-parsing-deferred
+  wevolley#sc-vault-key-injection: wevolley#sc-vault-key-injection
+  wevolley#sc-verified-numbers-only: wevolley#sc-verified-numbers-only
+  wevolley#sc-verifier-web-evidence: wevolley#sc-verifier-web-evidence
+  wevolley#sc-verify-then-fix: wevolley#sc-verify-then-fix
+  wevolley#sc-view-as-member: wevolley#sc-view-as-member
+  wevolley#sc-view-as-member-quality-loop: wevolley#sc-view-as-member-quality-loop
+  wevolley#sc-view-as-member-v1-assets: wevolley#sc-view-as-member-v1-assets
+  wevolley#sc-web-layout-animation-landmine: wevolley#sc-web-layout-animation-landmine
+  wevolley#sc-wizard-cold-load-prefill: wevolley#sc-wizard-cold-load-prefill
+  wevolley#sc-zombie-channel-force-rebuild: wevolley#sc-zombie-channel-force-rebuild
+stats:
+  auto_fold: 201
+  errors: 0
+  quote_gate:
+    ok: 237
+    rejected: 0
+  relation_vocab:
+    ok: 58
+    new_proposals: 0
+    unregistered: []

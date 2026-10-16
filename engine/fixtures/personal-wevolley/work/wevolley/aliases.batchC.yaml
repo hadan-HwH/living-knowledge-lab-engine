@@ -1,0 +1,19 @@
+aliases:
+- anchor: wevolley#sc-treasury-ledger
+  surface: 클럽 금고
+  confidence: high
+- anchor: wevolley#sc-treasury-write-role
+  surface: 총무
+  confidence: medium
+- anchor: wevolley#sc-guest-request-lifecycle
+  surface: 게스트 신청→승인
+  confidence: high
+- anchor: wevolley#sc-view-as-member
+  surface: View-as-Member
+  confidence: high
+- anchor: wevolley#sc-view-as-member
+  surface: viewAsMember 토글
+  confidence: medium
+- anchor: wevolley#sc-treasury-admin-inbox
+  surface: 확인 대기 인박스
+  confidence: high

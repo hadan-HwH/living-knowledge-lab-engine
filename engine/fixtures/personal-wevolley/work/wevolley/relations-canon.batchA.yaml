@@ -1,0 +1,278 @@
+relations:
+- from: sc-bot-skill-four-plus-one
+  to: sc-skill-per-publish-format
+  canonical: derived_from
+  surface: 발행 형태 기준 4개로 분리된다
+  quote: 스킬이 발행 형태 기준 4개로 분리된다
+- from: sc-format-choice-is-operator
+  to: sc-skill-per-publish-format
+  canonical: derived_from
+  surface: 운영자 몫으로 명시 이동
+  quote: '"소재 성격에 맞는 포맷 고르기"는 운영자 몫으로 명시 이동'
+- from: sc-factpack-source-required
+  to: sc-research-critique-pipeline
+  canonical: part_of
+  surface: 비평 단계가 팩트팩 밖 주장 리젝
+  quote: 팩트팩에 출처 URL 필수, 비평 단계가 팩트팩 밖 주장 리젝
+- from: sc-noinfo-point-reject
+  to: sc-research-critique-pipeline
+  canonical: part_of
+  surface: 무정보 포인트 리젝
+  quote: '"연습은 짧게 자주" 류 무정보 포인트 리젝'
+- from: sc-research-critique-pipeline
+  to: sc-one-pass-writing-root-cause
+  canonical: derived_from
+  surface: 최소 해법
+  quote: 팩트팩 → 집필 → 비평의 분업이 최소 해법.
+- from: sc-deep-opt-in
+  to: sc-research-critique-pipeline
+  canonical: constrains
+  surface: 비용·시간 부담이 커서 기각
+  quote: 항상-deep은 주 3회 발행이라도 비용·시간 부담이 커서 기각
+- from: sc-kill-switch
+  to: sc-bot-publisher
+  canonical: constrains
+  surface: 킬스위치 종속
+  quote: '**조작**: 킬스위치 종속. CAS 클레임이라 중복 발행 없음.'
+- from: sc-kill-switch
+  to: sc-bot-liker
+  canonical: constrains
+  surface: 전부 skip
+  quote: '`community_bot_config.enabled=false`면 봇 스킬 4종·publisher·liker·director(실주입) 전부 skip'
+- from: sc-bot-moderator
+  to: sc-kill-switch
+  canonical: tension_with
+  surface: 킬스위치와 무관하게 돈다
+  quote: 킬스위치와 무관하게 돈다**(안전장치는 봇 정지와 독립).
+- from: sc-event-queue
+  to: sc-bot-skill-four-plus-one
+  canonical: triggers
+  surface: 딸깍이 소비
+  quote: '/bot-react (딸깍)이 소비: 반응 판단·집필'
+- from: sc-bot-publisher
+  to: sc-bot-emergent-loop
+  canonical: triggers
+  surface: 다시 이벤트 큐에 적재
+  quote: 발행분을 다시 이벤트 큐에 적재(봇끼리 창발 루프)
+- from: sc-approval-gate
+  to: sc-bot-publisher
+  canonical: constrains
+  surface: 글 승인 / 댓글 자율
+  quote: '글 승인: require_approval / 댓글: auto_react_enabled'
+- from: sc-approval-shift-required
+  to: sc-approval-gate
+  canonical: part_of
+  surface: 시프트 문장을 반드시 먼저
+  quote: '**RPC와 동일한 시프트 문장을 반드시 먼저** 실행한다'
+- from: sc-publish-time-by-code-random
+  to: sc-director-manual-scene-injection
+  canonical: constrains
+  surface: 발행 시각은 코드가 배정한다
+  quote: 발행 시각은 코드가 배정한다(아침/점심/저녁 윈도우 난수, 지난 시각이면 자동 +1일)
+- from: sc-director-manual-scene-injection
+  to: sc-script-orchestrator
+  canonical: derived_from
+  surface: 레거시 경로
+  quote: 일상 운영은 /bot-react가 대체했고, 특정 장면을 정확히 심고 싶을 때만 쓴다
+- from: sc-persona-to-content-pivot
+  to: sc-script-orchestrator
+  canonical: NEW
+  surface: 대본은 살아있지 않다
+  quote: '피벗 (7/16, #131): 대본은 살아있지 않다.'
+  new_family: supersedes
+  new_meaning: 'A가 B를 대체·폐기하고 그 자리를 차지한다(결정 번복의 관계판). canon-13의 tension_with는 ''긴장하되 둘 다 산다''이고 precedes는 순서일 뿐이라, ''뒤집혀서 이제 안 쓴다''를 담을 어휘가 없다. 이 코퍼스에서 반복 관측: 대본봇→콘텐츠봇, 0009→0010(AI 배지 공개→비공개 운영), 0004→0005(게스트 도메인).'
+- from: sc-script-orchestrator
+  to: sc-cold-start-bot-seeding
+  canonical: derived_from
+  surface: 빈 게시판 = 역효과
+  quote: '문제 정의: 콜드스타트. 약 90명 규모에서 커뮤니티 오픈 = 빈 게시판 = 역효과'
+- from: sc-bot-volume-inverse-to-human
+  to: sc-bot-emergent-loop
+  canonical: constrains
+  surface: 스키마 레벨에서 강제
+  quote: '"봇이 사람을 밀어내지 않게 하는 상한"을 스키마 레벨에서 강제.'
+- from: sc-bot-no-reresponse
+  to: sc-bot-emergent-loop
+  canonical: constrains
+  surface: 봇 댓글 최대 1개
+  quote: 글당 봇 댓글 최대 1개, 사람 재답글에 봇 재응답 금지
+- from: sc-bot-detectability-in-public-writing
+  to: sc-bot-private-operation
+  canonical: derived_from
+  surface: 비공개 운영 상태에서 공개하는 문제
+  quote: 봇 비공개 운영(DECISIONS 0010) 상태에서 봇 운영기를 공개하는 문제.
+- from: sc-publish-time-by-code-random
+  to: sc-bot-private-operation
+  canonical: enables
+  surface: 봇 티 방지
+  quote: 발행 시각은 LLM이 아니라 코드 난수가 결정 (매일 같은 시각 발행 = 봇 티 방지)
+- from: sc-enforcement-by-gates
+  to: sc-architecture-held-discipline-broke
+  canonical: derived_from
+  surface: 무너진 건 규율
+  quote: 무너진 건 구조가 아니라 규율이었다.
+- from: sc-plan-doc-precedes-work
+  to: sc-planning-system-portable
+  canonical: part_of
+  surface: 회사 조직에 그대로 이식 가능
+  quote: 이 문서 체계(계획 문서 + append-only 결정 로그 + ratchet 게이트)는 회사 조직에 그대로 이식 가능.
+- from: sc-decisions-append-only
+  to: sc-planning-system-portable
+  canonical: part_of
+  surface: 회사에 이식
+  quote: 위볼리의 planning/ + DECISIONS.md 체제를 회사에 이식.
+- from: sc-decisions-append-only
+  to: sc-requirements-are-discovered
+  canonical: enables
+  surface: 결정 로그는 append-only여야 한다
+  quote: '"요구사항은 문서에서 안 나온다. 운영에서 나온다. 그래서 결정 로그는 append-only여야 한다."'
+- from: sc-architecture-held-discipline-broke
+  to: sc-design-first-db
+  canonical: tests
+  surface: 사후 감사 문서로 증명되는 구조
+  quote: '"설계를 머리에 넣고 시작했다"는 주장이 사후 감사 문서로 증명되는 구조'
+- from: sc-rebranding-tokens-first
+  to: sc-enforcement-by-gates
+  canonical: compares_with
+  surface: 2편(코드 규율)의 디자인 버전
+  quote: 2편(코드 규율)의 디자인 버전임을 명시해 시리즈 논지를 반복.
+- from: sc-ai-types-human-decides
+  to: sc-linkedin-series-positioning
+  canonical: part_of
+  surface: 관통 메시지 (모든 편의 저류)
+  quote: '**관통 메시지 (모든 편의 저류)**:'
+- from: sc-crossposting-long-version
+  to: sc-linkedin-post-grammar
+  canonical: part_of
+  surface: 버리지 말고 보관
+  quote: 긴 버전(기승전결 완결형)은 버리지 말고 브런치/블로그 크로스포스팅용으로 보관
+- from: sc-screenshot-privacy-check
+  to: sc-series-five-episode-plan
+  canonical: constrains
+  surface: 연재 전 결정 필요
+  quote: 연재 전 결정 필요 (4편 발행 전까지)
+- from: sc-no-api-key-in-prod
+  to: sc-full-automation-redefined
+  canonical: enables
+  surface: 키 없이 완전 자율
+  quote: DB 파이프라인(트리거 -> 이벤트 큐 -> 크론 발행)은 키 없이 완전 자율.
+- from: sc-automation-boundary-by-design
+  to: sc-full-automation-redefined
+  canonical: constrains
+  surface: 무엇을 수동으로 남길지 결정
+  quote: '"전부 자동화"가 아니라 "무엇을 수동으로 남길지 결정"이 진짜 설계'
+- from: sc-prod-deploy-is-manual
+  to: sc-automation-boundary-by-design
+  canonical: part_of
+  surface: 손으로
+  quote: prod DB 마이그레이션과 Edge Function 배포는 손으로 (사고 반경 때문), EAS 빌드도 사람이 누름.
+- from: sc-push-rollout-client-first
+  to: sc-migration-before-function-deploy
+  canonical: compares_with
+  surface: 자동화는 순서가 전부
+  quote: 자동화는 순서가 전부라는 교훈.
+- from: sc-local-push-config-redirect
+  to: sc-local-rehearsal-seed
+  canonical: constrains
+  surface: 리셋 후마다 재실행
+  quote: '`supabase db reset`이 prod 값으로 되돌리므로 **리셋 후마다** 재실행'
+- from: sc-content-v3-format-spec
+  to: sc-article-spec-freed
+  canonical: tension_with
+  surface: article이 cards 제약에 갇힘
+  quote: '**article이 cards 제약에 갇힘**'
+- from: sc-fallback-body-compact
+  to: sc-article-spec-freed
+  canonical: constrains
+  surface: 본문 전문을 넣지 않는다
+  quote: 폴백은 기존대로 title+head 위주 압축 유지 (본문 전문을 넣지 않는다고 규격에 명시)
+- from: sc-content-schedule-no-body-edit
+  to: sc-content-v3-format-spec
+  canonical: derived_from
+  surface: content JSONB와 어긋난다
+  quote: 그 RPC는 body(폴백)만 수정해 content JSONB와 어긋난다.
+- from: sc-launchd-plist-restale
+  to: sc-rename-reference-sweep
+  canonical: constrains
+  surface: 스크립트만 고치면
+  quote: plist는 `bot-auto.sh on` 시점의 문자열이 박제되므로 스크립트만 고치면 기존 가동분은 계속 `/bot-tick`을 부른다
+- from: sc-bot-auto-launchd
+  to: sc-daily-tick-cycle
+  canonical: enables
+  surface: 자동화(옵션)
+  quote: '**자동화(옵션)**: `scripts/bot-auto.sh on|off|status`'
+- from: sc-liker-cron-stays
+  to: sc-bot-liker
+  canonical: constrains
+  surface: 딸깍 누락 = 좋아요 정지
+  quote: 로직을 스킬로 옮기면 딸깍 누락 = 좋아요 정지가 되므로 기각
+- from: sc-persona-roster-split
+  to: sc-content-channel-three-slots
+  canonical: constrains
+  surface: 콘텐츠 집필 전담
+  quote: /bot-react·/bot-chat이 이 계정들을 반응 댓글·잡담 집필 페르소나에서 제외하고 콘텐츠 집필 전담으로 쓴다
+- from: sc-cover-baked-from-template
+  to: sc-insta-png-export
+  canonical: derived_from
+  surface: 같은 템플릿(5a~5d)에서 구워
+  quote: '**아티클 커버**: /bot-article이 같은 템플릿(5a~5d)에서 구워 `image_url`에 넣는다.'
+- from: sc-duplicate-over-shared-doc
+  to: sc-bot-skill-four-plus-one
+  canonical: constrains
+  surface: 스킬 자립성이 깨지고
+  quote: 공유 문서로 빼면 스킬 자립성이 깨지고
+- from: sc-bot-ledger-files
+  to: sc-content-channel-three-slots
+  canonical: records
+  surface: 발행 기록은 content-log.md
+  quote: 소재는 `bot/topics.md` 백로그 소비, 발행 기록은 `bot/content-log.md`.
+- from: sc-growth-arc-to-work
+  to: sc-study-not-business
+  canonical: derived_from
+  surface: 사업이 아니라 나의 공부
+  quote: 이건 사업이 아니라 **나의 공부**다.
+- from: sc-operator-free-club-vision
+  to: sc-study-not-business
+  canonical: enables
+  surface: 공부 범위를 끝까지 밀어붙이는 장치
+  quote: '"완전 자동화"라는 제품 목표가 공부 범위(운영/자동화까지)를 끝까지 밀어붙이는 장치가 됐다.'
+- from: sc-cold-start-bot-seeding
+  to: sc-operator-free-club-vision
+  canonical: part_of
+  surface: 비전의 시험대
+  quote: '그리고 이것은 비전의 시험대: 운영자 없이 돌아가려면 "초기 활성화"라는 운영 업무부터 자동화되어야 한다.'
+- from: sc-role-split-app-vs-club
+  to: sc-design-first-db
+  canonical: part_of
+  surface: 머리에 넣고 시작
+  quote: 권한 구조(앱 역할 vs 동호회 역할 분리, 모든 테이블 RLS)를 머리에 넣고 시작.
+- from: sc-bot-events-retention
+  to: sc-event-queue
+  canonical: part_of
+  surface: 이벤트 큐 정리
+  quote: 이벤트 큐 정리(done/skipped 14일·pending 30일 경과분 삭제)
+- from: sc-bot-credential-handling
+  to: sc-director-manual-scene-injection
+  canonical: constrains
+  surface: service_role 전용
+  quote: 디렉터는 service_role 또는 super_admin JWT 둘 다 받고, publisher는 service_role 전용.
+- from: sc-three-refactoring-waves
+  to: sc-architecture-held-discipline-broke
+  canonical: records
+  surface: PR 번호로 실증
+  quote: 3번의 리팩토링 물결 (PR 번호로 실증)
+- from: sc-verified-numbers-only
+  to: sc-linkedin-post-grammar
+  canonical: constrains
+  surface: 숫자는 편당 3개만
+  quote: '**숫자는 편당 3개만.** 나머지 수치는 캡처 이미지가 말하게 한다.'
+- from: sc-daily-tick-cycle
+  to: sc-full-automation-redefined
+  canonical: part_of
+  surface: 하루 한 번 딸깍
+  quote: 내 일과는 하루 한 번 딸깍, 혹은 그 이하.
+- from: sc-content-v3-format-spec
+  to: sc-content-channel-three-slots
+  canonical: constrains
+  surface: cards 하드 상한
+  quote: '규격: cards 포인트 3~~5개·head ≤17자·body ≤90자(하드)'

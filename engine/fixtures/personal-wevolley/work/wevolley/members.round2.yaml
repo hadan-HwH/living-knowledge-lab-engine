@@ -1,0 +1,1778 @@
+members:
+  wevolley#sc-bot-skill-four-plus-one:
+  - unit: planning/bot-skill-split-quality#57-—-봇-스킬-4+1-재편과-콘텐츠-품질-파이프라인-(Bot-Skill-Split-&-Content-Quality-Pipeline)
+    quote: 역할이 섞인 봇 스킬 2개를 발행 형태 기준 4개로 쪼개고
+  - unit: planning/bot-skill-split-quality#구멍-—-이번에-닫는다
+    quote: 역할 혼재
+  - unit: planning/bot-skill-split-quality#§4-구현-계획-(단계별)
+    quote: Step 1 — `/bot-react` 신설
+  - unit: planning/reference/bot-ops-runbook#§6-봇별-매뉴얼
+    quote: §0 지도의 컴포넌트별 상세
+  wevolley#sc-one-pass-writing-root-cause:
+  - unit: planning/bot-skill-split-quality#구멍-—-이번에-닫는다
+    quote: 품질 파이프라인 부재
+  - unit: planning/bot-skill-split-quality#핵심-통찰
+    quote: 품질 문제의 구조적 원인은 "한 패스 집필"이다
+  wevolley#sc-article-spec-freed:
+  - unit: planning/bot-skill-split-quality#핵심-통찰
+    quote: article 확장은 공짜다
+  - unit: planning/bot-skill-split-quality#§6-이번-범위-밖-(후속/별도)
+    quote: 앱·DB·Edge Function 변경 없음
+  wevolley#sc-skill-per-publish-format:
+  - unit: planning/bot-skill-split-quality#3-1.-분리-기준:-포맷-우선,-채널-자유-(가장-중요한-결정)
+    quote: B안(채택) 포맷별 스킬 + 채널 자유
+  - unit: planning/bot-skill-split-quality#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: 발행 형태 1개 = 스킬 1개
+  wevolley#sc-format-choice-is-operator:
+  - unit: planning/bot-skill-split-quality#3-1.-분리-기준:-포맷-우선,-채널-자유-(가장-중요한-결정)
+    quote: 운영자 몫으로 명시 이동
+  wevolley#sc-deep-opt-in:
+  - unit: planning/bot-skill-split-quality#3-2.-파이프라인-무게:-기본-경량,-deep-인자-(사용자-결정)
+    quote: 항상-deep은 주 3회 발행이라도 비용·시간 부담이 커서 기각
+  wevolley#sc-research-critique-pipeline:
+  - unit: planning/bot-skill-split-quality#3-2.-파이프라인-무게:-기본-경량,-deep-인자-(사용자-결정)
+    quote: 기본 = 서브에이전트 2회(리서치 1 + 비평 1)
+  - unit: planning/bot-skill-split-quality#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: 팩트팩 근거 집필 + 비평 리젝 통과분만 예약
+  wevolley#sc-duplicate-over-shared-doc:
+  - unit: planning/bot-skill-split-quality#3-4.-공통-블록-복제-vs-공유-문서
+    quote: 공유 문서로 빼면 스킬 자립성이 깨지고
+  wevolley#sc-launchd-plist-restale:
+  - unit: planning/bot-skill-split-quality#3-5.-개명-파급:-launchd-plist는-재생성-필요
+    quote: 기존 가동분은 계속 `/bot-tick`을 부른다
+  - unit: planning/bot-skill-split-quality#구멍-—-이번에-닫는다
+    quote: 개명 파급점 3곳
+  - unit: planning/reference/bot-ops-runbook#6-7.-scripts/bot-auto.sh---자동-딸깍-(옵션)
+    quote: 스킬명이 plist에 박제되므로
+  wevolley#sc-no-over-standardization:
+  - unit: planning/bot-skill-split-quality#3-4.-공통-블록-복제-vs-공유-문서
+    quote: 과표준화 경고
+  - unit: planning/backlog/view-as-member-v2#3.2-정보성-뱃지는-두고-행동-게이트만-내린다-(과표준화-경고)
+    quote: 소비처를 전부 바꾸면
+  wevolley#sc-treasury-ledger:
+  - unit: planning/backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+    quote: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부
+  wevolley#sc-treasury-semi-auto:
+  - unit: planning/backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+    quote: 입금 확인은 셀프 신고 + 총무 승인의 반자동
+  wevolley#sc-treasury-pain-three:
+  - unit: planning/backlog/club-treasury#1.-문제
+    quote: 대조 노동
+  wevolley#sc-treasury-must-replace-excel:
+  - unit: planning/backlog/club-treasury#1.-문제
+    quote: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다
+  wevolley#sc-treasury-success-metrics:
+  - unit: planning/backlog/club-treasury#2.-목표-/-성공-지표
+    quote: 총무의 엑셀 대체
+  wevolley#sc-open-banking-rejected:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: 마이데이터(허가제, 자본금 5억) 기각
+  wevolley#sc-no-money-through-app:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: 돈은 앱을 거치지 않는다
+  wevolley#sc-expense-record-only:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: 지출은 기록만
+  wevolley#sc-tx-paste-parsing-deferred:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: v1 제외, v1.5 후보
+  wevolley#sc-noshow-tracking-deferred:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: 노쇼 이력은 수요 확인 후
+  wevolley#sc-treasury-core-loop:
+  - unit: planning/backlog/club-treasury#4.-코어-루프
+    quote: '[청구 발행]'
+  wevolley#sc-treasury-three-principles:
+  - unit: planning/backlog/club-treasury#4.-코어-루프
+    quote: 입력을 멤버에게 분산
+  wevolley#sc-designated-depositor-name:
+  - unit: planning/backlog/club-treasury#4.-코어-루프
+    quote: 입금자명을 앱이 지정
+  wevolley#sc-dues-auto-reminder:
+  - unit: planning/backlog/club-treasury#4.-코어-루프
+    quote: 미납은 N일차 자동 리마인드
+  wevolley#sc-club-charges:
+  - unit: planning/backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 장부의 원자 단위
+  wevolley#sc-charge-status-enum:
+  - unit: planning/backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: pending → reported → confirmed | exempt | void
+  wevolley#sc-club-finance-settings:
+  - unit: planning/backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 계좌는 민감 정보 → 별도 테이블 + RLS
+  wevolley#sc-charge-plans:
+  - unit: planning/backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 청구 템플릿
+  wevolley#sc-club-expenses:
+  - unit: planning/backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: club_expenses
+  wevolley#sc-finance-summary-visibility:
+  - unit: planning/backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: 개인 납부 상태는 미노출
+  wevolley#sc-treasury-admin-inbox:
+  - unit: planning/backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제)
+  wevolley#sc-monthly-report-share-image:
+  - unit: planning/backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: 카톡 공유용 이미지 생성
+  wevolley#sc-treasury-notification-set:
+  - unit: planning/backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: charge_issued(청구 발행)
+  wevolley#sc-notify-single-entry-precondition:
+  - unit: planning/backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: notify() 단일 진입점 마이그레이션을 이 기능 첫 스키마 작업으로 선행
+  wevolley#sc-treasury-phasing:
+  - unit: planning/backlog/club-treasury#10.-요구사항-우선순위
+    quote: P0 (없으면 배포 안 함)
+  wevolley#sc-self-report-adoption-risk:
+  - unit: planning/backlog/club-treasury#11.-리스크
+    quote: 멤버가 셀프 신고를 안 함
+  wevolley#sc-dual-entry-transition-risk:
+  - unit: planning/backlog/club-treasury#11.-리스크
+    quote: 총무의 이중 입력기
+  wevolley#sc-immutable-ledger:
+  - unit: planning/backlog/club-treasury#11.-리스크
+    quote: confirmed 취소는 void+재발행
+  wevolley#sc-account-info-exposure-scope:
+  - unit: planning/backlog/club-treasury#11.-리스크
+    quote: 계좌 정보 노출
+  wevolley#sc-guest-dm-roundtrip-pain:
+  - unit: planning/backlog/guest-request#1.-문제
+    quote: DM 왕복으로 처리되고
+  wevolley#sc-guest-as-personal-user-value:
+  - unit: planning/backlog/guest-request#1.-문제
+    quote: 첫 번째 명확한 사용 이유
+  wevolley#sc-guest-first-validation-target:
+  - unit: planning/backlog/guest-request#2.-목표
+    quote: 3개 클럽이 모집을 켜고
+  wevolley#sc-view-as-member:
+  - unit: planning/backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 일반 회원 모드 ON 상태에서
+  - unit: planning/backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+    quote: club admin 클라이언트 표면 다운그레이드
+  wevolley#sc-mode-indicator-pill:
+  - unit: planning/backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 모든 화면 상단에 모드 인디케이터
+  - unit: planning/backlog/view-as-member-v2#3.4-모드-인디케이터-—-위치와-형태
+    quote: 좌하단 pill
+  - unit: planning/backlog/view-as-member-v2#§4-구현-계획-(단일-PR,-커밋-3개)
+    quote: 모드 인디케이터 pill
+  wevolley#sc-mode-toggle-instant-reversible:
+  - unit: planning/backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 새로고침 불필요
+  wevolley#sc-badge-vs-action-gate:
+  - unit: planning/backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 정보성 role 뱃지
+  - unit: planning/backlog/view-as-member-v2#3.2-정보성-뱃지는-두고-행동-게이트만-내린다-(과표준화-경고)
+    quote: 이건 **거짓 정보**다
+  wevolley#sc-view-as-member-v1-assets:
+  - unit: planning/backlog/view-as-member-v2#v1(81)이-이미-만든-것-—-재사용
+    quote: AsyncStorage 영속
+  wevolley#sc-club-role-surface-dominates:
+  - unit: planning/backlog/view-as-member-v2#핵심-통찰
+    quote: 체감은 app_role이 아니라 club role 표면에서 나온다
+  wevolley#sc-gate-at-derivation-point:
+  - unit: planning/backlog/view-as-member-v2#핵심-통찰
+    quote: 파생 지점만 고치면 일괄 적용
+  - unit: planning/backlog/view-as-member-v2#3.3-어디서-내리나-—-파생-지점-vs-소비처
+    quote: 각 소비처에서 체크하면 새 화면마다 잊기 쉽다
+  - unit: planning/backlog/view-as-member-v2#§4-구현-계획-(단일-PR,-커밋-3개)
+    quote: club role 게이트 다운그레이드
+  wevolley#sc-impersonation-rejected:
+  - unit: planning/backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+    quote: C는 과욕 (테스트 계정이 대체재)
+  - unit: planning/backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: 완전한 일반 회원 시뮬레이션은 테스트 계정으로
+  wevolley#sc-gate-only-no-cache-manipulation:
+  - unit: planning/backlog/view-as-member-v2#3.5-쿼리·캐시
+    quote: 캐시 조작이 필요 없다
+  wevolley#sc-negative-verification:
+  - unit: planning/backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: '**음성**'
+  wevolley#sc-verifier-web-evidence:
+  - unit: planning/backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: verifier-web
+  - unit: planning/reference/bot-ops-runbook#4-4.-상태-확인-치트시트
+    quote: UI 확인은 verifier-web 스킬
+  wevolley#sc-guest-mode-deferred:
+  - unit: planning/backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: 비회원(게스트) 모드
+  wevolley#sc-client-toggle-server-limit:
+  - unit: planning/backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: RLS가 super admin에게 더 반환하는 행
+  wevolley#sc-ismember-drop-intended:
+  - unit: planning/backlog/view-as-member-v2#§7-리스크-&-완화
+    quote: '`isMember` 하락'
+  wevolley#sc-view-as-member-quality-loop:
+  - unit: planning/backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: 운영자가 일반 회원의 실제 화면
+  wevolley#sc-improvement-catalog:
+  - unit: planning/reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 다음에 손볼 것의 통합 카탈로그
+  wevolley#sc-live-product-priority:
+  - unit: planning/reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 기술부채 정리
+  - unit: planning/reference/improvement-catalog#E.-출시-품질-—-거친-사용자-대면-부분-(신규-·-2026-06-03-·-실유저-직격)
+    quote: 라이브 제품에선 폴리시가 곧 리텐션이다
+  - unit: planning/reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: 실유저 폴리시 → 가시화 → 리텐션 대응 → 기술부채
+  wevolley#sc-chat-realtime-three-symptoms-one-root:
+  - unit: planning/reference/improvement-catalog#BUG.-채팅-실시간·로딩-→-10-상세-문서(../작업완료/10-chat-realtime-bugfix.md)-✅
+    quote: 세 증상 = 한 뿌리
+  wevolley#sc-verify-then-fix:
+  - unit: planning/reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: 추측이 아니라 실재 기준으로 좁힘
+  wevolley#sc-diagnostic-code-not-dead-code:
+  - unit: planning/reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: 임시코드 2곳
+  wevolley#sc-wizard-cold-load-prefill:
+  - unit: planning/reference/improvement-catalog#E2.-위저드-콜드-로드-prefill/저장-버그-(🆕-22번-검증-중-발견)
+    quote: profile async 미도착으로 ''로 굳음
+  - unit: app.profile-wizard.ProfileWizardScreen
+    quote: auth 복원이 위저드 마운트보다 늦는 딥링크 케이스
+  wevolley#sc-array-column-normalization:
+  - unit: planning/reference/improvement-catalog#B1.-데이터-모델-정규화
+    quote: 배열→enum/정규화 테이블
+  - unit: lib.api.clubs.fetchClubPositionHolders
+    quote: 'export async function fetchClubPositionHolders(clubId: string): Promise<ClubPositionHolders> {'
+  - unit: lib.api.clubs.ClubPositionHolders
+    quote: export interface ClubPositionHolders {
+  wevolley#sc-push-receipt-confirmation:
+  - unit: planning/reference/improvement-catalog#B2.-푸시-Receipt-확인-(Tier-3)
+    quote: receipt(실제 단말 도달) 미확인
+  wevolley#sc-rls-full-reaudit:
+  - unit: planning/reference/improvement-catalog#B3.-RLS-정책-전수-재감사
+    quote: 자기참조 정책이 모두 SECURITY DEFINER 헬퍼 경유하는지
+  wevolley#sc-native-e2e-gap:
+  - unit: planning/reference/improvement-catalog#C1.-네이티브-E2E-(Android)
+    quote: '**web-only**'
+  wevolley#sc-sourcemap-verification:
+  - unit: planning/reference/improvement-catalog#C2.-소스맵-업로드-검증
+    quote: minify 아닌 원본 스택 확인
+  wevolley#sc-dependency-health-policy:
+  - unit: planning/reference/improvement-catalog#D2.-의존성-건강-전략-→-24-상세-문서-§D2(../작업완료/24-scalability-product-infra.md)
+    quote: exact 고정
+  wevolley#sc-release-automation:
+  - unit: planning/reference/improvement-catalog#D3.-릴리즈-자동화-→-24-상세-문서-§D3(../작업완료/24-scalability-product-infra.md)
+    quote: 릴리즈 체크리스트
+  wevolley#sc-club-activity-survey:
+  - unit: planning/reference/improvement-catalog#G2.-동호회-활성도-실태-점검-(싼-선행-조사-—-권장순-0)
+    quote: managed가 몇 개인지
+  wevolley#sc-churn-response-loop:
+  - unit: planning/reference/improvement-catalog#G1.-이탈-지점-대응-루프-(권장순-3)
+    quote: 한 번에 하나, 측정 기반
+  wevolley#sc-data-loop-alerting:
+  - unit: planning/reference/improvement-catalog#F1.-데이터-루프-—-Sentry-알림-+-푸시-대시보드-(D1과-연계)
+    quote: 모인 데이터가 행동으로 연결
+  wevolley#sc-analytics-blind-spot:
+  - unit: planning/reference/improvement-catalog#F1.-데이터-루프-—-Sentry-알림-+-푸시-대시보드-(D1과-연계)
+    quote: 자동으로 사람에게 안 옴
+  wevolley#sc-catalog-item-promotion:
+  - unit: planning/reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: '`/plan-doc <항목>`으로'
+  wevolley#sc-runbook-one-time-manual-op:
+  - unit: planning/reference/prod-key-rotation-runbook#배포-런북-—-service_role-키-회전-+-Vault-주입
+    quote: prod 배포 시점에 1회 실행하는 운영 작업
+  wevolley#sc-committed-service-role-key-incident:
+  - unit: planning/reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+    quote: 평문으로 git에 커밋
+  wevolley#sc-vault-key-injection:
+  - unit: planning/reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+    quote: Supabase Vault
+  - unit: planning/reference/prod-key-rotation-runbook#3.3-새-service_role-키를-Vault에-주입
+    quote: push_service_role_key
+  wevolley#sc-rotation-irreversible:
+  - unit: planning/reference/prod-key-rotation-runbook#1.-선행-조건
+    quote: 회전하면 푸시가 즉시 끊긴다
+  - unit: planning/reference/prod-key-rotation-runbook#5.-롤백-/-사고-대응
+    quote: 회전을 되돌릴 수는 없다
+  wevolley#sc-legacy-key-anon-coupling:
+  - unit: planning/reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+    quote: 레거시 키는 anon 키와 같은 JWT secret으로 서명
+  - unit: planning/reference/prod-key-rotation-runbook#3.1-키-회전-(유출-키-무효화)
+    quote: anon도 같이 바뀜
+  wevolley#sc-rotation-redeploy-single-window:
+  - unit: planning/reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+    quote: 한 배포에 묶어야
+  - unit: planning/reference/prod-key-rotation-runbook#3.2-클라이언트-재배포-(anon-키-갱신)
+    quote: 앱·웹 재배포
+  wevolley#sc-new-key-scheme-deferred:
+  - unit: planning/reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+    quote: 이번 범위 밖
+  - unit: planning/reference/prod-key-rotation-runbook#6.-후속-(이번-범위-밖)
+    quote: 새 `sb_secret_*` 키 체계 전환
+  wevolley#sc-bot-credential-handling:
+  - unit: planning/reference/prod-key-rotation-runbook#3.3-새-service_role-키를-Vault에-주입
+    quote: 어디에도 커밋/메모 금지
+  wevolley#sc-post-rotation-verification:
+  - unit: planning/reference/prod-key-rotation-runbook#4.-배포-후-검증
+    quote: 푸시 실발송 1건
+  wevolley#sc-git-history-purge-deferred:
+  - unit: planning/reference/prod-key-rotation-runbook#6.-후속-(이번-범위-밖)
+    quote: git history purge
+  wevolley#sc-daily-tick-cycle:
+  - unit: planning/reference/bot-ops-runbook#로컬(기본):-그냥-실행---127.0.0.1:54322-대상
+    quote: /bot-react
+  - unit: planning/reference/bot-ops-runbook#6-1.-/bot-react-(Claude-Code-스킬)---반응-두뇌
+    quote: 수동 딸깍(하루 2~3회 권장)
+  wevolley#sc-local-rehearsal-seed:
+  - unit: planning/reference/bot-ops-runbook#3-2.-dry-미리보기-→-실주입
+    quote: SRK=$(supabase status
+  - unit: planning/reference/bot-ops-runbook#4-1.-스택-기동
+    quote: supabase start
+  - unit: planning/reference/bot-ops-runbook#대화-페르소나-11명-(멱등)
+    quote: seed-bot-personas.mjs
+  - unit: planning/reference/bot-ops-runbook#콘텐츠-채널-3계정-(§2)
+    quote: 로컬 GoTrue ES256 이슈로
+  wevolley#sc-prod-deploy-is-manual:
+  - unit: planning/reference/bot-ops-runbook#응답의-runId를-기록해-둘-것
+    quote: prod 배포는 수동이다
+  wevolley#sc-local-push-config-redirect:
+  - unit: planning/reference/bot-ops-runbook#4-2.-db-reset-후-필수:-_push_config-로컬-리다이렉트
+    quote: 리셋 후마다
+  wevolley#sc-insta-png-export:
+  - unit: planning/reference/bot-ops-runbook#6-1d.-/bot-cards-insta---인스타-추출-(집필과-별개)
+    quote: VOLT 템플릿 PNG 묶음(1080×1350)
+  wevolley#sc-bot-events-retention:
+  - unit: planning/reference/bot-ops-runbook#6-6.-community-bot-events-retention---청소
+    quote: 이벤트 큐 정리(done/skipped 14일
+  wevolley#sc-bot-auto-launchd:
+  - unit: planning/reference/bot-ops-runbook#6-7.-scripts/bot-auto.sh---자동-딸깍-(옵션)
+    quote: launchd가 45분마다
+  wevolley#sc-bot-ledger-files:
+  - unit: planning/reference/bot-ops-runbook#6-8.-운영-대장-(bot/-폴더)
+    quote: bot/topics.md
+  wevolley#sc-verified-numbers-only:
+  - unit: planning/reference/linkedin-100days-series#링크드인-연재:-100일간의-1인-풀스택-개발-(위볼리)
+    quote: 모든 수치는 repo 실측
+  - unit: planning/reference/linkedin-100days-series#0-C.-타임라인-앵커-(검증된-숫자만)
+    quote: git log --reverse
+  wevolley#sc-linkedin-series-positioning:
+  - unit: planning/reference/linkedin-100days-series#링크드인-연재:-100일간의-1인-풀스택-개발-(위볼리)
+    quote: 잘한 것 자랑이 아니라
+  - unit: planning/reference/linkedin-100days-series#0-A.-포지셔닝-(시리즈-전체의-정체성)
+    quote: '"코딩 못하는데 AI로 성공" 서사가 아님'
+  wevolley#sc-ai-types-human-decides:
+  - unit: planning/reference/linkedin-100days-series#0-A.-포지셔닝-(시리즈-전체의-정체성)
+    quote: 바이브코딩의 상한은 프롬프트 실력이 아니라 설계 역량이 정한다
+  - unit: planning/reference/linkedin-ep1-draft#링크드인-버전-(본문,-약-1,400자)
+    quote: 타이핑은 AI(Claude Code)에게 맡기고
+  wevolley#sc-architecture-held-discipline-broke:
+  - unit: planning/reference/linkedin-100days-series#0-A.-포지셔닝-(시리즈-전체의-정체성)
+    quote: 구조(아키텍처 선언)는 좋다. 강제와 관측성이 없다
+  wevolley#sc-linkedin-post-grammar:
+  - unit: planning/reference/linkedin-100days-series#0-B.-링크드인-문법-(초안-렌더링-규칙,-개요와-별개)
+    quote: 한 포스트 = 한 메시지
+  wevolley#sc-study-not-business:
+  - unit: planning/reference/linkedin-ep1-draft#1편-초안-(발행-목표-7/23)
+    quote: 이건 사업이 아니라 공부였다
+  - unit: planning/reference/linkedin-ep1-draft#링크드인-버전-(본문,-약-1,400자)
+    quote: 이건 사업이 아니라 공부다
+  wevolley#sc-design-first-db:
+  - unit: planning/reference/linkedin-ep1-draft#링크드인-버전-(본문,-약-1,400자)
+    quote: 시작은 코드가 아니라 DB였습니다
+  wevolley#sc-operator-free-club-vision:
+  - unit: planning/reference/linkedin-ep1-draft#링크드인-버전-(본문,-약-1,400자)
+    quote: 운영자 없이 자동으로 돌아가는 동호회
+  wevolley#sc-screenshot-privacy-check:
+  - unit: planning/reference/linkedin-ep1-draft#발행-전-체크
+    quote: 민감 테이블명(봇 관련) 노출 여부 확인
+  wevolley#sc-perf-history-reference:
+  - unit: planning/reference/perf-loading-realtime-history#성능·로딩·실시간성-개선의-전체-역사-(2026-04-~-2026-07)
+    quote: 상시 참조 문서(reference)
+  wevolley#sc-perf-improvement-cycle:
+  - unit: planning/reference/perf-loading-realtime-history#성능·로딩·실시간성-개선의-전체-역사-(2026-04-~-2026-07)
+    quote: 이 반복이 곧 이 프로젝트의 성능 개선 방법론이다
+  wevolley#sc-three-refactoring-waves:
+  - unit: planning/reference/perf-loading-realtime-history#1.-시대-①---초창기-로딩-개선-(2026-04-20-~-05-23)
+    quote: 이후 모든 캐시 전략의 뼈대
+  wevolley#sc-error-display-classification:
+  - unit: components.home.MyRequestsSection.MyRequestsSection
+    quote: 'degrade-ok: 보조 섹션'
+  - unit: components.community.NoticeStrip.NoticeStrip
+    quote: 'degrade-ok: 공지 스트립은 보조 정보'
+  - unit: lib.hooks.community.useCommunityTags.useCommunityTags
+    quote: 'degrade-ok: 태그 풀 로드 실패'
+  - unit: app.profile.ProfileScreen
+    quote: 'degrade-ok: 소속 클럽 수는 보조 스탯'
+  - unit: app.(tabs).community.series.SeriesHubScreen
+    quote: 'degrade-ok: 채널 행 프로필 로드 실패'
+  - unit: app.(tabs).game.tournament.[id].index.TournamentDetailScreen
+    quote: 'degrade-ok: 참가 동호회 목록(보조)'
+  - unit: app.(tabs).club.[id].index.ClubDetailScreen
+    quote: 'degrade-ok: CTA 라벨 분기용 카운트'
+  - unit: lib.notifications.resolve-avatar-sources
+    quote: 실패는 degrade-ok
+  - unit: lib.hooks.community.useCommunityPost.usePrefetchCommunityPost
+    quote: 콜드/실패 케이스는 기존 LoadingScreen 경로가 그대로 처리
+  - unit: lib.prefetch.detail-prefetch.prefetchChatRoomFromPush
+    quote: 프리페치 실패는 무해
+  - unit: components.ui.ErrorRetry.ErrorRetry
+    quote: 'export function ErrorRetry({ message, onRetry }: ErrorRetryProps) {'
+  - unit: components.ui.FormErrorBanner.FormErrorBanner
+    quote: 'export function FormErrorBanner({ message }: FormErrorBannerProps) {'
+  - unit: components.ui.AppErrorBoundary.AppErrorBoundary
+    quote: export class AppErrorBoundary extends Component<Props, State> {
+  - unit: components.ui.MapErrorBoundary.MapErrorBoundary
+    quote: export class MapErrorBoundary extends Component<Props, State> {
+  - unit: components.ui.OfflineBanner.OfflineBanner
+    quote: export function OfflineBanner() {
+  wevolley#sc-korean-error-single-mapping:
+  - unit: lib.utils.error-messages.toKoreanMessage
+    quote: 'export function toKoreanMessage(message: string | undefined | null): string {'
+  - unit: lib.utils.error.getErrorMessage
+    quote: 'export function getErrorMessage(error: unknown): string {'
+  - unit: lib.utils.error.handleMutationError
+    quote: 'export function handleMutationError(error: unknown, fallbackMessage?: string) {'
+  - unit: lib.hooks.forms.useFormErrors.useFormErrors
+    quote: 폼 필드별 에러 메시지를 관리하는 훅
+  - unit: lib.api.account.checkNicknameAvailable
+    quote: throw하면 UX가 망가짐
+  - unit: components.ui.FieldError.FieldError
+    quote: 폼 필드 하단 에러 메시지
+  wevolley#sc-sentry-domain-tagging:
+  - unit: lib.observability.logger
+    quote: 개발 환경에서만 동작하는 구조화 로거
+  - unit: lib.observability.logger.logger
+    quote: export const logger = {
+  - unit: lib.sentry
+    quote: EXPO_PUBLIC_SENTRY_FORCE=1
+  - unit: lib.sentry.initSentry
+    quote: PII 스크럽
+  wevolley#sc-center-modal-only:
+  - unit: components.club.AvatarEditModal.AvatarEditModal
+    quote: CenterModal 로 이관
+  - unit: components.club.EventFormModal.EventFormModal
+    quote: 공용 CenterModal 로 이관
+  - unit: components.club.RecurrenceFormModal.RecurrenceFormModal
+    quote: 공용 CenterModal 로 이관
+  - unit: components.ui.PickerModal.PickerModal
+    quote: 폭/정렬은 CenterModal 이 담당
+  - unit: components.chat.RoomPickerModal.RoomPickerModal
+    quote: 폭/정렬은 CenterModal 이 담당
+  - unit: components.profile.ProfileAvatarModal
+    quote: '[저장] — 캐러셀 가운데 프리셋으로 확정'
+  - unit: components.profile.ProfileAvatarModal.ProfileAvatarModal
+    quote: 커뮤니티 프로필 모달과 같은 중앙 모달
+  - unit: components.community.CommunityEntryModal.CommunityEntryModal
+    quote: 프로필 수정과 **같은 중앙 모달**
+  - unit: components.community.CommunityProfileEditModal.CommunityProfileEditModal
+    quote: '**중앙 모달**'
+  - unit: components.club.PositionEditModal
+    quote: 회장/가입문의 직책 지정 전용 모달
+  - unit: components.club.PositionEditModal.PositionEditModal
+    quote: 모달 최종 CTA(저장)
+  - unit: components.ui.SheetHandle.SheetHandle
+    quote: 바텀시트 상단 그랩 핸들 바
+  - unit: components.ui.AvatarPresetCarousel
+    quote: 가운데 초점, 양옆 흐릿하고 작게
+  - unit: components.ui.AvatarPresetCarousel.AvatarPresetCarousel
+    quote: 미리보기+선택 줄을 하나로
+  wevolley#sc-modal-three-tier:
+  - unit: components.ui.ConfirmModal.ConfirmModal
+    quote: export function ConfirmModal({
+  - unit: components.ui.ConfirmModal.ConfirmModalProps
+    quote: export interface ConfirmModalProps {
+  - unit: components.ui.PickerModal.PickerOption
+    quote: export interface PickerOption {
+  - unit: lib.hooks.useModalPresence.useModalPresence
+    quote: RN Modal은 visible=false 순간 즉시 사라져
+  wevolley#sc-client-side-image-pipeline:
+  - unit: components.club.AvatarEditModal
+    quote: 갤러리 픽 → 자동 가공 → 업로드
+  - unit: lib.utils.image-upload.ProcessedImage
+    quote: export interface ProcessedImage {
+  - unit: lib.utils.image-upload.ProcessedPostImage
+    quote: export interface ProcessedPostImage extends ProcessedImage {
+  - unit: lib.hooks.profile.useProfileAvatar.useProfileAvatar
+    quote: 셋 다 상호 배타
+  - unit: components.community.CommunityEntryModal.CommunityEntryModal
+    quote: '**스테이징**'
+  - unit: components.community.CommunityEntryModal
+    quote: 스테이징 업로드된 사진
+  wevolley#sc-deterministic-default-avatar:
+  - unit: lib.utils.avatar-assets
+    quote: 프리셋 아바타 16종 정적 레지스트리
+  - unit: lib.utils.avatar-assets.getPresetAvatar
+    quote: 범위 밖이면 1번으로 폴백
+  - unit: lib.utils.avatar-defaults.MALE_PRESETS
+    quote: export const MALE_PRESETS = [1, 2, 3, 4, 5, 6] as const;
+  - unit: lib.utils.avatar-defaults.FEMALE_PRESETS
+    quote: export const FEMALE_PRESETS = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16] as const;
+  - unit: lib.utils.avatar-defaults.ALL_PRESETS
+    quote: export const ALL_PRESETS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] as const;
+  - unit: lib.utils.avatar-defaults.ResolvedAvatar
+    quote: 'export type ResolvedAvatar = { kind: ''remote''; uri: string } | { kind: ''preset''; id: number };'
+  - unit: lib.utils.avatar-defaults.UserAvatarSource
+    quote: export interface UserAvatarSource {
+  - unit: lib.utils.avatar-defaults.resolveUserAvatar
+    quote: 유저 아바타 소스를 우선순위대로 해결
+  - unit: components.ui.Avatar
+    quote: 결정적 성별 기본 프리셋 계산용
+  - unit: components.ui.Avatar.Avatar
+    quote: 하위 호환 별칭
+  - unit: components.community.CommunityAvatar
+    quote: 커뮤니티 프로필 프리셋(1~16)
+  - unit: components.community.CommunityAvatar.CommunityAvatar
+    quote: 기존 이니셜 원형으로 폴백한다
+  - unit: components.club.ClubAvatar
+    quote: 로드 실패 시 아이콘 폴백
+  - unit: components.club.ClubAvatar.ClubAvatar
+    quote: 36~72 모든 사용처 동일 룩
+  - unit: components.club.ClubTile
+    quote: 이니셜 글자 폴백 금지
+  - unit: components.club.ClubTile.ClubTile
+    quote: accentSoft 계열 fallback
+  - unit: lib.utils.club-visuals
+    quote: VOLT 리브랜딩 신규 4종
+  - unit: lib.utils.club-visuals.getClubIcon
+    quote: 'export const getClubIcon = (iconId: number) => CLUB_ICONS[iconId] ?? CLUB_ICONS[1];'
+  - unit: lib.utils.club-visuals.getRandomClubIcon
+    quote: export const getRandomClubIcon = () =>
+  - unit: lib.utils.club-visuals.getRandomClubColor
+    quote: export const getRandomClubColor = () =>
+  - unit: lib.notifications.banner-avatar
+    quote: 이니셜 텍스트 폴백은 없음
+  wevolley#sc-status-single-matrix:
+  - unit: lib.utils.status.StatusVariant
+    quote: export type StatusVariant = 'warning' | 'success' | 'default' | 'error' | 'accent' | 'volt';
+  - unit: lib.utils.status.StatusLabel
+    quote: '게스트 신청 전용: 승인 후 운영진 취소'
+  - unit: lib.utils.status.getRequestStatusLabel
+    quote: StatusChip recruiting 매트릭스와 동일 문법
+  - unit: lib.utils.status.getScrimmageStatusLabel
+    quote: 'export function getScrimmageStatusLabel(status: string): StatusLabel {'
+  - unit: constants.admin.REPORT_STATUS_BADGE
+    quote: 'export const REPORT_STATUS_BADGE: Record<ChatReportStatus, { label: string; variant: ''warning'' | ''info'' | ''suc'
+  - unit: components.ui.Badge.Badge
+    quote: dot 은 잉크(중립 라벨 + 색은 도트가 전담)
+  - unit: components.ui.Badge.ClubNameChip
+    quote: 'export const ClubNameChip = memo(function ClubNameChip({ name }: { name: string }) {'
+  wevolley#sc-server-pagination-keyset-deferred:
+  - unit: lib.api.clubs.CLUBS_PAGE_SIZE
+    quote: export const CLUBS_PAGE_SIZE = 20;
+  - unit: lib.api.community.COMMUNITY_PAGE_SIZE
+    quote: export const COMMUNITY_PAGE_SIZE = 20;
+  - unit: lib.api.notifications.NOTIFICATIONS_PAGE_SIZE
+    quote: export const NOTIFICATIONS_PAGE_SIZE = 30;
+  - unit: lib.api.scrimmages.SCRIMMAGES_PAGE_SIZE
+    quote: export const SCRIMMAGES_PAGE_SIZE = 20;
+  - unit: lib.api.scrimmages.MATCH_HISTORY_PAGE_SIZE
+    quote: export const MATCH_HISTORY_PAGE_SIZE = 20;
+  - unit: lib.api.scrimmages.fetchClubMatchHistoryPage
+    quote: export async function fetchClubMatchHistoryPage(
+  - unit: lib.hooks.useInfiniteList.UseInfiniteListOptions
+    quote: export interface UseInfiniteListOptions<T> {
+  - unit: lib.hooks.useInfiniteList.UseInfiniteListResult
+    quote: export interface UseInfiniteListResult<T> {
+  - unit: lib.api.admin-users.fetchAdminUsers
+    quote: 'export async function fetchAdminUsers(params: FetchAdminUsersParams): Promise<AdminUserRow[]> {'
+  - unit: lib.api.admin-users.FetchAdminUsersParams
+    quote: export interface FetchAdminUsersParams {
+  wevolley#sc-form-hook-mirroring:
+  - unit: components.club.clubForm.types.ClubFieldGroupProps
+    quote: 필드 그룹 컴포넌트(ClubBasicFields 등)가 공통으로 받는 props
+  - unit: components.club.clubForm.types.ClubFormActions
+    quote: export interface ClubFormActions {
+  - unit: components.scrimmage.scrimmageForm.types.ScrimmageFormActions
+    quote: export interface ScrimmageFormActions {
+  - unit: components.club.ClubCreateSteps
+    quote: 데이터 계약은 clubForm.types로 단일화
+  - unit: components.scrimmage.ScrimmageCreateSteps
+    quote: 데이터 계약은 scrimmageForm.types로 단일화
+  - unit: lib.api.clubs.fetchMyMemberClubsFull
+    quote: 화면·useClubForm 공통
+  - unit: lib.api.clubs.createClub
+    quote: 동호회 등록. 아이콘/색상은 랜덤 부여
+  - unit: lib.api.clubs.updateClub
+    quote: 동호회 수정. 아이콘/색상은 기존 값 보존
+  - unit: lib.api.clubs.writeClubRecurrences
+    quote: 등록(기존 없음)
+  - unit: lib.api.clubs.deleteClubById
+    quote: 동호회 삭제 RPC
+  wevolley#sc-validation-single-rule-source:
+  - unit: lib.utils.club-form.DAY_NAME_TO_DOW
+    quote: 등록/수정 공통
+  - unit: lib.utils.club-form.DOW_TO_DAY
+    quote: 수정 로딩 시 역변환
+  - unit: lib.utils.club-form.toClubCorePayload
+    quote: 토글 후 남은 입력 잔여값이 저장되지 않게
+  - unit: lib.utils.club-form.toRecurrenceRows
+    quote: 등록/수정 공통(매핑 동일)
+  - unit: lib.utils.club-form.recurrencesToSchedule
+    quote: 수정 화면 로딩용
+  - unit: lib.utils.club-form.nextAgeRanges
+    quote: '''전연령'' 단독화'
+  - unit: lib.utils.club-form.nextLevels
+    quote: '''all''(무관)은 단독화'
+  - unit: lib.utils.scrimmage-form.buildTimeSlot
+    quote: 종료 있으면
+  - unit: lib.utils.scrimmage-form.toScrimmagePayload
+    quote: write 경로 타입 가드
+  - unit: lib.utils.tournament-form.TournamentFormValues
+    quote: export interface TournamentFormValues {
+  - unit: lib.utils.tournament-form.TOURNAMENT_STEP_FIELDS
+    quote: 위저드 스텝 → 검증 대상 필드 키
+  - unit: lib.utils.tournament-form.validateTournamentForm
+    quote: 전체 검증
+  - unit: lib.utils.tournament-form.validateTournamentStep
+    quote: 특정 스텝 필드만 추려 검증
+  - unit: components.profile.WizardSteps.WizardPageKey
+    quote: export type WizardPageKey = 'basic' | 'volley' | 'activity';
+  - unit: components.profile.WizardSteps.WizardPageMeta
+    quote: export interface WizardPageMeta {
+  - unit: components.profile.WizardSteps.WIZARD_PAGES
+    quote: 'export const WIZARD_PAGES: WizardPageMeta[] = ['
+  - unit: components.profile.WizardSteps.pageIndexForField
+    quote: startField 가 속한 페이지
+  - unit: components.profile.WizardSteps.WizardFieldValues
+    quote: export interface WizardFieldValues {
+  - unit: components.profile.WizardSteps.WizardFieldActions
+    quote: export interface WizardFieldActions {
+  - unit: components.club.ClubBasicFields.ClubBasicFields
+    quote: create step0 / edit 상단
+  - unit: components.club.ClubActivityFields.ClubActivityFields
+    quote: create step1 / edit 중단
+  - unit: components.club.ClubExtraFields.ClubExtraFields
+    quote: create step2 / edit 하단
+  - unit: components.club.RecruitLevelChips
+    quote: 한 곳에서만 지키게 하기 위함
+  - unit: components.club.RecruitLevelChips.RecruitLevelChips
+    quote: 'export function RecruitLevelChips({ levels, onToggle }: Props) {'
+  - unit: lib.utils.contact-channels.sanitizeChannels
+    quote: label 을 enum 으로 정규화
+  - unit: lib.utils.schedule.TimeSlot
+    quote: 'export type TimeSlot = { start: string; end: string };'
+  - unit: lib.utils.schedule.DaySchedule
+    quote: export type DaySchedule = Record<string, TimeSlot[]>;
+  - unit: lib.utils.schedule.buildScheduleText
+    quote: export function buildScheduleText(
+  - unit: lib.utils.schedule.parseSchedule
+    quote: 'export function parseSchedule(text: string | null | undefined): {'
+  - unit: app.(tabs).community.write
+    quote: 00147 CHECK와 정합
+  - unit: lib.hooks.community.useCreatePost
+    quote: 00147 cardinality CHECK
+  - unit: lib.hooks.community.useUpdatePost
+    quote: 00147 cardinality CHECK
+  - unit: app.profile
+    quote: 행 탭 = 해당 필드 위저드 편집
+  wevolley#sc-screen-orchestration-only:
+  - unit: components.club.ClubCreateSteps.ClubCreateSteps
+    quote: 등록 위저드 셸
+  - unit: components.club.ClubEditSections.ClubEditSections
+    quote: 수정 폼 셸
+  - unit: components.scrimmage.ScrimmageCreateSteps.ScrimmageCreateSteps
+    quote: export function ScrimmageCreateSteps({
+  - unit: components.scrimmage.ScrimmageEditSections.ScrimmageEditSections
+    quote: export function ScrimmageEditSections({
+  - unit: app.profile-wizard
+    quote: 여기는 셸
+  - unit: components.profile.WizardSteps
+    quote: 헤더·진행바·CTA·에러는 profile-wizard.tsx(셸)가 담당
+  - unit: components.community.CommunityListContent
+    quote: 글쓰기/상세 진입은 화면(index)이 소유
+  - unit: lib.hooks.club.useClubMemberActions.useClubMemberActions
+    quote: update_member_role RPC 공통 호출
+  - unit: lib.hooks.scrimmage.useScrimmageActions.useScrimmageActions
+    quote: RPC 인자는 DEFAULT NULL
+  - unit: components.ui.KeyboardLayout.KeyboardLayout
+    quote: export function KeyboardLayout({
+  - unit: lib.hooks.useKeyboardVisible.useKeyboardVisible
+    quote: export function useKeyboardVisible() {
+  - unit: components.ui.StepNavFooter.StepNavFooter
+    quote: export function StepNavFooter({
+  - unit: components.ui.StepProgress.StepProgress
+    quote: 스텝 라벨은 화면 쪽 STEP 캡션이 담당
+  wevolley#sc-fix-at-choke-point:
+  - unit: lib.hooks.useRegionFilter.UseRegionFilterResult
+    quote: export interface UseRegionFilterResult {
+  - unit: lib.hooks.club.useClubMapData
+    quote: 바이트 동일하던 부분을 한 곳으로
+  - unit: lib.hooks.club.useClubMapData.useClubMapData
+    quote: export function useClubMapData(
+  - unit: lib.hooks.club.useClubMapData.Bounds
+    quote: export interface Bounds {
+  - unit: lib.hooks.club.useClubMapData.UseClubMapDataResult
+    quote: export interface UseClubMapDataResult {
+  - unit: components.ui.FilterableListShell.FilterableListShellProps
+    quote: export interface FilterableListShellProps {
+  - unit: components.ui.icons.WvVolleyball.AppIconName
+    quote: icon prop 타입은 이걸 쓴다
+  wevolley#sc-guest-request-lifecycle:
+  - unit: lib.hooks.club.useGuestApply.useMyGuestRequestMap
+    quote: 버튼 상태 표시용
+  - unit: lib.hooks.club.useGuestApply.useApplyGuestRequest
+    quote: 'export function useApplyGuestRequest(clubId: string) {'
+  - unit: lib.hooks.club.useGuestApply.useCancelGuestRequest
+    quote: export function useCancelGuestRequest() {
+  - unit: lib.hooks.club.useGuestApply.MyGuestDetail
+    quote: export interface MyGuestDetail {
+  - unit: lib.hooks.club.useGuestApply.useMyGuestRequest
+    quote: detail은 accepted일 때만 참여
+  - unit: lib.hooks.club.useGuestRecruit.GuestRequestStatus
+    quote: export type GuestRequestStatus =
+  - unit: lib.hooks.club.useGuestRecruit.GuestRequestRow
+    quote: export interface GuestRequestRow {
+  - unit: components.club.GuestInquiryModal.GuestInquiryModal
+    quote: export function GuestInquiryModal({
+  wevolley#sc-guest-open-toggle:
+  - unit: lib.hooks.club.useGuestRecruit.useSaveGuestSettings
+    quote: 'export function useSaveGuestSettings(clubId: string) {'
+  wevolley#sc-guest-scope-club-detail-only:
+  - unit: components.club.GuestOpenEventsList
+    quote: 호스트가 시트(CTA 모집 시트) 안에서 이 목록을 렌더할 때 사용
+  wevolley#sc-auth-gate-return-to:
+  - unit: app.(tabs).club.[id].index.ClubDetailScreen
+    quote: '45A: 가입 신청·문의 DM'
+  - unit: app.(tabs).game.[id].index.ScrimmageDetailScreen
+    quote: '45A: 참가 신청·주최자 DM은 로그인 필요'
+  - unit: app.(tabs).community.index.CommunityScreen
+    quote: 드로어는 프로필 수정 포함이라 로그인 게이트
+  - unit: lib.utils.return-to.setReturnTo
+    quote: 'export async function setReturnTo(path: string): Promise<void> {'
+  - unit: lib.utils.return-to.clearReturnTo
+    quote: 'export async function clearReturnTo(): Promise<void> {'
+  - unit: components.ui.LoginPromptSheet
+    quote: 액션 맥락별 안내 문구
+  wevolley#sc-community-profiles:
+  - unit: components.community.CommunityProfileEditModal.CommunityProfileDraft
+    quote: export interface CommunityProfileDraft {
+  - unit: lib.hooks.community.useCommunityProfile.CommunityProfile
+    quote: export interface CommunityProfile {
+  - unit: lib.hooks.community.useCommunityProfile.useCommunityAuthor
+    quote: 키는 내 프로필과 동일 형태
+  - unit: components.community.CommunityMiniProfileSheet
+    quote: 타인일 때만
+  - unit: lib.utils.community-identity.NICKNAME_MAX
+    quote: export const NICKNAME_MAX = 12;
+  - unit: lib.utils.community-identity.CommunityDefaults
+    quote: export interface CommunityDefaults {
+  - unit: lib.api.community.CommunityAuthor
+    quote: export interface CommunityAuthor {
+  wevolley#sc-soft-delete-placeholder:
+  - unit: components.community.CommentItem.CommentItem
+    quote: 삭제된 최상위 댓글
+  - unit: lib.hooks.community.useCommunityComments.CommentNode
+    quote: export interface CommentNode {
+  - unit: lib.api.chat.softDeleteChatRoom
+    quote: 'export async function softDeleteChatRoom(roomId: string): Promise<void> {'
+  wevolley#sc-optimistic-snapshot-rollback:
+  - unit: lib.hooks.community.useCommunityLike
+    quote: UNIQUE로 중복 방지(서버)
+  - unit: lib.hooks.community.useCommunityLike.useToggleCommentLike
+    quote: 댓글 좋아요 옵티미스틱 토글
+  - unit: lib.hooks.chat.useSendMessage.useSendMessage
+    quote: realtime이 newMsg를 먼저 넣었을 수 있어 dedup
+  wevolley#sc-anon-column-scoped-read:
+  - unit: app.(tabs).community.index.CommunityScreen
+    quote: 피드는 게스트 열람 가능
+  - unit: components.community.CommunityListContent
+    quote: 피드는 게스트 열람 가능(anon RLS)
+  - unit: lib.api.community.fetchCommunityPreview
+    quote: anon 가능
+  - unit: lib.api.community.CommunityPreviewItem
+    quote: export interface CommunityPreviewItem {
+  wevolley#sc-preview-shares-real-renderer:
+  - unit: app.share.post.[id].SharePostScreen
+    quote: 자체 미리보기 UI를 그리지 않는다
+  - unit: app.share.scrimmage.[id].ShareScrimmageScreen
+    quote: 자체 미리보기 없이 실제 경기 상세로 replace한다
+  - unit: app.share.tournament.[id].ShareTournamentScreen
+    quote: 자체 미리보기 없이 실제 대회 상세로 replace한다
+  - unit: app.share._layout.ShareLayout
+    quote: export default function ShareLayout() {
+  wevolley#sc-realtime-auth-gate:
+  - unit: lib.prefetch.detail-prefetch.prefetchChatRoomFromPush
+    quote: 세션 복원 전이면 스킵
+  wevolley#sc-realtime-screen-declarative:
+  - unit: app.(tabs).club.[id].index.ClubDetailScreen
+    quote: 비멤버는 인가 불가라 미구독
+  - unit: lib.hooks.chat.useChatRealtime
+    quote: community 는 실명/아바타 없이 가명만
+  - unit: lib.hooks.club.useClubRealtime
+    quote: club:{clubId} 채널이 발행하는 이벤트
+  - unit: app.(tabs).chat.index.ChatListScreen
+    quote: 목록 화면 미마운트여도 갱신
+  - unit: app.(tabs).community.[id]
+    quote: post:{id} 채널이 발행하는 댓글 이벤트
+  wevolley#sc-http-refetch-owns-consistency:
+  - unit: lib.hooks.chat.useSendMessage.useSendMessage
+    quote: realtime inbox 채널이 죽어 있어도
+  - unit: lib.notifications.push-data-sync.PushSyncData
+    quote: refetch 폭주 방지
+  wevolley#sc-refetch-type-tiering:
+  - unit: components.club.EventFormModal.EventFormModal
+    quote: 비활성 화면까지 즉시 refetch
+  - unit: components.club.RecurrenceFormModal.RecurrenceFormModal
+    quote: 정기일정·일정은 홈에서도 노출
+  - unit: lib.hooks.club.useClubMemberActions.useClubMemberActions
+    quote: unmount(교차 화면) → 즉시 refetch
+  - unit: lib.hooks.scrimmage.useScrimmageActions.useScrimmageActions
+    quote: 게임 목록은 상세 화면에서 unmount
+  - unit: lib.hooks.admin.useBotConsole.useBotPersonas
+    quote: 스케줄·대기 뱃지도 무효화
+  - unit: lib.hooks.community.useReportContent.useReportContent
+    quote: RLS 필터로 즉시 사라지므로
+  - unit: lib.hooks.community.useBlockedUsers.useBlockedUsers
+    quote: 해제한 유저의 글/댓글이 다시 보이게
+  - unit: lib.hooks.community.useCreatePost.useCreatePost
+    quote: 성공 시 피드·프리뷰 무효화
+  wevolley#sc-invalidation-audit-with-persistence:
+  - unit: lib.query-keys
+    quote: prefix matching
+  - unit: lib.query-keys.qk
+    quote: export const qk = {
+  wevolley#sc-bot-moderator:
+  - unit: app.admin.bots.moderation
+    quote: 모더레이션 검토 큐
+  - unit: app.admin.bots.moderation.BotModerationScreen
+    quote: export default function BotModerationScreen() {
+  - unit: lib.hooks.admin.useBotConsole.useBotModeration
+    quote: 숨김 = 커뮤니티 표면에서 사라짐
+  - unit: lib.hooks.admin.useBotConsole.BotModerationItem
+    quote: export interface BotModerationItem {
+  wevolley#sc-persona-roster-split:
+  - unit: app.admin.bots.personas
+    quote: 페르소나 관리
+  - unit: app.admin.bots.personas.BotPersonasScreen
+    quote: export default function BotPersonasScreen() {
+  - unit: lib.hooks.admin.useBotConsole.BotPersona
+    quote: export interface BotPersona {
+  - unit: planning/reference/bot-ops-runbook#콘텐츠-채널-3계정-(§2)
+    quote: seed-content-channels.sql
+  wevolley#sc-bot-volume-inverse-to-human:
+  - unit: app.admin.bots.settings
+    quote: 00125 CHECK 제약
+  - unit: app.admin.bots.settings.BotSettingsScreen
+    quote: 성공 시에만 편집 상태 해제
+  - unit: lib.hooks.admin.useBotConsole.BotConfig
+    quote: export interface BotConfig {
+  - unit: supabase.functions._shared.bot-logic.TimeWindow
+    quote: export interface TimeWindow {
+  - unit: supabase.functions._shared.bot-logic.WEEKDAY_WINDOWS
+    quote: 'export const WEEKDAY_WINDOWS: TimeWindow[] = ['
+  - unit: supabase.functions._shared.bot-logic.WEEKEND_WINDOWS
+    quote: 'export const WEEKEND_WINDOWS: TimeWindow[] = ['
+  wevolley#sc-publish-time-by-code-random:
+  - unit: supabase.functions._shared.bot-logic
+    quote: '시각 단위: KST 자정 기준'
+  - unit: supabase.functions._shared.bot-logic.replyMinute
+    quote: ±20% 지터
+  wevolley#sc-approval-gate:
+  - unit: lib.hooks.admin.useBotConsole.BotScheduleItem
+    quote: export interface BotScheduleItem {
+  - unit: app.admin.bots.index.BotDashboardScreen
+    quote: export default function BotDashboardScreen() {
+  - unit: planning/reference/bot-ops-runbook#6-1.-/bot-react-(Claude-Code-스킬)---반응-두뇌
+    quote: awaiting_approval 있으면 승인
+  wevolley#sc-kill-switch:
+  - unit: planning/reference/bot-ops-runbook#6-1.-/bot-react-(Claude-Code-스킬)---반응-두뇌
+    quote: 킬스위치·상한은 전부
+  wevolley#sc-director-manual-scene-injection:
+  - unit: supabase.functions._shared.bot-logic.resolveReplyChain
+    quote: 필터 전 원본 인덱스
+  wevolley#sc-content-v3-format-spec:
+  - unit: lib.utils.content-post.ContentPoint
+    quote: export interface ContentPoint {
+  - unit: lib.utils.content-post.ContentPost
+    quote: export interface ContentPost {
+  - unit: lib.utils.content-post.parseContentPost
+    quote: 'export function parseContentPost(raw: unknown): ContentPost | null {'
+  - unit: lib.utils.content-post.estimateReadMinutes
+    quote: 포인트당 15초 추정
+  - unit: components.community.ContentDeckCarousel.ContentDeckCarousel
+    quote: export const ContentDeckCarousel = memo(ContentDeckCarouselBase);
+  - unit: components.community.ContentDetailBody.ContentDetailBody
+    quote: 아티클 - 포인트 줄글
+  - unit: components.community.ContentPostCard.ContentPostCard
+    quote: export const ContentPostCard = memo(ContentPostCardBase);
+  wevolley#sc-two-admin-lineages:
+  - unit: lib.api.admin-users.AdminUserFilter
+    quote: export type AdminUserFilter = 'all' | 'active' | 'banned' | 'deleted';
+  - unit: lib.api.admin-users.AdminUserRow
+    quote: export interface AdminUserRow {
+  - unit: lib.api.admin-users.fetchAdminUserProfile
+    quote: region 조인 포함 전체 프로필
+  - unit: lib.api.admin-users.AdminUserCounts
+    quote: export interface AdminUserCounts {
+  - unit: lib.api.admin-users.fetchAdminUserCounts
+    quote: 'export async function fetchAdminUserCounts(): Promise<AdminUserCounts> {'
+  - unit: lib.api.admin-users.fetchAdminUserLastActive
+    quote: 'export async function fetchAdminUserLastActive(userId: string): Promise<string | null> {'
+  - unit: app.admin.user-detail.AdminUserDetailScreen
+    quote: export default function AdminUserDetailScreen() {
+  - unit: components.club.MemberCard.MemberCard
+    quote: export function MemberCard({
+  - unit: app.(tabs).club.[id].members
+    quote: 가입 요청 섹션은 운영진에게만
+  - unit: components.club.ClubClaimBanner
+    quote: 운영자 신청(claim) 배너
+  - unit: components.club.ClubClaimBanner.ClubClaimBanner
+    quote: super_admin 처리 대기
+  wevolley#sc-role-split-app-vs-club:
+  - unit: components.club.JoinRequestDetailSheet
+    quote: 성공 시에만 시트를 닫는다
+  - unit: components.club.JoinRequestDetailSheet.JoinRequestDetailSheet
+    quote: 먼저 닫고 이동
+  - unit: lib.api.clubs.fetchClubMembership
+    quote: export async function fetchClubMembership(
+  - unit: lib.api.clubs.ClubMembershipBundle
+    quote: export interface ClubMembershipBundle {
+  - unit: lib.api.clubs.MyClubMembership
+    quote: export interface MyClubMembership {
+  - unit: lib.api.clubs.fetchMyAdminClubs
+    quote: 'export async function fetchMyAdminClubs(userId: string): Promise<Pick<Club, ''id'' | ''name''>[]> {'
+  wevolley#sc-ui-gate-rls-final:
+  - unit: app.user-profile.[userId]
+    quote: 게이트(canSeeDetails)
+  - unit: app.user-profile.[userId].UserProfileScreen
+    quote: 읽기 전용이라 값 없는 행은 생략
+  - unit: lib.api.clubs.acceptAllClubJoinRequests
+    quote: admin 전용(서버 게이트)
+  wevolley#sc-share-og-canonical-split:
+  - unit: api.sitemap
+    quote: 개별 공유 페이지를 발견할 수 있도록
+  - unit: lib.utils.share-url
+    quote: 카톡 공유 등 외부 전파용 URL 생성 유틸
+  - unit: lib.utils.share-url.isAbsoluteShareUrl
+    quote: 공유 링크가 카톡·브라우저에 붙일 수 있는 절대 URL인지
+  - unit: lib.utils.share-url.shareUrl
+    quote: export const shareUrl = {
+  - unit: lib.utils.web-canonical-redirect.maybeRedirectProductionVercelHostToCanonical
+    quote: 주소창을 맞춘다
+  - unit: lib.utils.web-canonical-redirect.setAppSessionCookie
+    quote: share-landing을 건너뛰고
+  - unit: lib.utils.web-canonical-redirect.clearAppSessionCookie
+    quote: 로그아웃 시 wv_app 쿠키를 삭제한다.
+  - unit: components.ui.KakaoShareButton.KakaoShareButton
+    quote: 클립보드 복사로 폴백
+  - unit: components.club.ShareClubSheet.ShareClubSheet
+    quote: 클립보드 폴백
+  wevolley#sc-deep-link-path-normalization:
+  - unit: components.ui.AppOpenBanner
+    quote: 웹(Android UA) 전용 구현
+  - unit: components.ui.AppOpenBanner.AppOpenBanner
+    quote: 'export function AppOpenBanner(): null {'
+  - unit: components.ui.AppOpenBanner.web.AppOpenBanner
+    quote: 현재 경로에서 intent 대상을 재도출한다
+  - unit: lib.utils.route-param.segmentParam
+    quote: 공유 URL·쿼리 키 등 단일 id가 필요할 때
+  wevolley#sc-bundle-diet:
+  - unit: api.landing
+    quote: 외부 이미지 에셋 0개
+  - unit: api.landing.handler
+    quote: 'export default function handler(_req: IncomingMessage, res: ServerResponse): void {'
+  - unit: app.+html
+    quote: TLS 핸드셰이크 선행
+  - unit: app.+html.Root
+    quote: 'export default function Root({ children }: PropsWithChildren) {'
+  wevolley#sc-platform-divergent-decision:
+  - unit: app.auth.callback.AuthCallbackScreen
+    quote: 웹 플랫폼에서 Supabase OAuth 리다이렉트를 처리한다
+  - unit: app.(auth).login.LoginScreen
+    quote: 네이티브 모듈 미포함 빌드 → 브라우저 OAuth 폴백
+  - unit: components.ui.NativeAdCard
+    quote: '''small'' = 목록 피드용'
+  - unit: components.ui.NativeAdCard.NativeAdCard
+    quote: 네이티브 리소스·이벤트 리스너 해제
+  - unit: lib.ad-config.AD_UNIT_IDS
+    quote: 새 env 등록 불필요
+  - unit: components.ui.LoadingScreen.web.LoadingScreen
+    quote: 'export function LoadingScreen({ bg = ''white'' }: LoadingScreenProps) {'
+  - unit: components.ui.LoadingScreen.web.LoadingSpinner
+    quote: 'export function LoadingSpinner({ className }: { className?: string }) {'
+  - unit: components.ui.SkeletonPrimitive.web.Skeleton
+    quote: export function Skeleton({
+  - unit: components.ui.SkeletonPrimitive.web.SkeletonProps
+    quote: export interface SkeletonProps extends ViewProps {
+  wevolley#sc-loading-responsibility:
+  - unit: app.index.Index
+    quote: export default function Index() {
+  - unit: app.(auth).login.LoginScreen
+    quote: 폼 대신 메인 진입 EntryLoading
+  - unit: components.ui.LoadingScreen.LoadingScreen
+    quote: 'export function LoadingScreen({ bg = ''white'' }: LoadingScreenProps) {'
+  - unit: components.ui.LoadingScreen.LoadingSpinner
+    quote: 'export function LoadingSpinner({ className }: { className?: string }) {'
+  wevolley#sc-skeleton-render-contract:
+  - unit: components.ui.Skeleton.CardSkeleton
+    quote: export function CardSkeleton() {
+  - unit: components.ui.Skeleton.ListSkeleton
+    quote: 'export function ListSkeleton({ count = 5 }: { count?: number }) {'
+  - unit: components.ui.Skeleton.DetailSkeleton
+    quote: export function DetailSkeleton() {
+  - unit: components.ui.Skeleton.ProfileSkeleton
+    quote: export function ProfileSkeleton() {
+  - unit: components.ui.SkeletonPrimitive
+    quote: 스켈레톤 펄스 주기
+  - unit: components.ui.SkeletonPrimitive.Skeleton
+    quote: export function Skeleton({
+  - unit: components.ui.SkeletonPrimitive.SkeletonProps
+    quote: export interface SkeletonProps extends ViewProps {
+  - unit: components.chat.ChatSkeleton
+    quote: 메시지 버블 모양
+  - unit: components.chat.ChatSkeleton.ChatSkeleton
+    quote: export function ChatSkeleton() {
+  - unit: components.club.ClubInfoTab
+    quote: true면 일정 행을 '미입력' 대신 스켈레톤으로
+  wevolley#sc-list-cell-render-cost:
+  - unit: lib.utils.chat.getMessageMeta
+    quote: 'export function getMessageMeta(msg: Message): MessageMeta {'
+  - unit: lib.utils.chat.isSameGroup
+    quote: 'export function isSameGroup(a: Message, b: Message): boolean {'
+  - unit: components.chat.ChatMessageItem.ChatMessageItem
+    quote: 셀 재활용 시 타입이 flip 되지 않는다
+  - unit: components.club.ClubMatchTab.ClubMatchTab
+    quote: export const ClubMatchTab = memo(function ClubMatchTab({
+  - unit: components.club.ClubInfoTab.ClubInfoTab
+    quote: export const ClubInfoTab = memo(function ClubInfoTab({
+  - unit: components.ui.SectionHeader.SectionHeader
+    quote: export const SectionHeader = memo(function SectionHeader({
+  - unit: components.community.CommunityPostCard.CommunityPostCard
+    quote: export const CommunityPostCard = memo(CommunityPostCardBase);
+  - unit: lib.hooks.useViewablePrefetch.useViewablePrefetch
+    quote: 세션당 1회만 호출하므로 네트워크 낭비가 없다
+  wevolley#sc-home-state-branching:
+  - unit: components.home.OnboardingHeroCard.getHeroSlot
+    quote: 'export function getHeroSlot(profilePercentage: number): HeroSlot {'
+  - unit: components.home.OnboardingHeroCard.HERO_CONTENT
+    quote: 위저드 직행이 아니라 배구 프로필로
+  - unit: components.home.OnboardingHeroCard.OnboardingHeroCard
+    quote: export function OnboardingHeroCard({
+  - unit: components.home.RecommendedClubsSection.RecommendedClubsSection
+    quote: 추천이 없어도 등록 배너는
+  - unit: lib.utils.profile-completion.IoniconsName
+    quote: export type IoniconsName = ComponentProps<typeof Ionicons>['name'];
+  - unit: lib.utils.profile-completion.ProfileField
+    quote: export interface ProfileField {
+  - unit: lib.utils.profile-completion.BASIC_FIELDS
+    quote: 'export const BASIC_FIELDS: ProfileField[] = ['
+  - unit: lib.utils.profile-completion.PROFILE_FIELDS
+    quote: 'export const PROFILE_FIELDS: ProfileField[] = ['
+  - unit: lib.utils.profile-completion.getProfileCompletion
+    quote: 'export function getProfileCompletion(profile: Profile): {'
+  - unit: components.profile.ExperienceInput
+    quote: ISO date string
+  - unit: components.profile.ExperienceInput.ExperienceInput
+    quote: 미입력(null)과 구별해
+  - unit: components.home.HeroSection
+    quote: 스탯 카드 표시 여부 — 홈에서 계산
+  - unit: components.home.HeroSection.HeroSection
+    quote: 무소속이면 "소속 클럽 0" 결핍 강조를 피해
+  - unit: components.home.MyClubsSection.MyClubsSection
+    quote: 'export function MyClubsSection({ myClubs }: MyClubsSectionProps) {'
+  - unit: components.home.DdayModal.DdayModal
+    quote: export function DdayModal({
+  wevolley#sc-server-side-processing:
+  - unit: lib.hooks.home.useHomeDashboard.useHomeDashboard
+    quote: RPC가 jsonb 반환
+  - unit: lib.hooks.home.useHomeDiscover.useHomeDiscover
+    quote: RPC가 jsonb 반환
+  - unit: lib.hooks.home.useHomeDiscover.MyClubItem
+    quote: export interface MyClubItem {
+  - unit: lib.hooks.home.useHomeDiscover.RecommendedClubItem
+    quote: export interface RecommendedClubItem {
+  - unit: lib.hooks.home.useMyGames.useMyGames
+    quote: 'export function useMyGames(userId: string | undefined) {'
+  - unit: lib.hooks.home.useMyGames.UpcomingGame
+    quote: export interface UpcomingGame {
+  - unit: lib.api.clubs.fetchClubsCount
+    quote: count가 부풀려짐
+  wevolley#sc-freshness-gate-dedupe:
+  - unit: lib.api.clubs.getMyClubIds
+    quote: 중복 네트워크 호출을 방지한다
+  - unit: lib.prefetch.detail-prefetch.prefetchClubDetail
+    quote: getSession은 메모리 캐시되어 있어
+  - unit: lib.prefetch.detail-prefetch.prefetchScrimmageDetail
+    quote: 'export function prefetchScrimmageDetail(id: string) {'
+  - unit: lib.prefetch.detail-prefetch.prefetchTournamentDetail
+    quote: 'export function prefetchTournamentDetail(id: string) {'
+  wevolley#sc-foreground-recovery:
+  - unit: lib.online-manager.setupOnlineManager
+    quote: 네트워크 복귀를 감지하지 못한다
+  wevolley#sc-funnel-retention-visibility:
+  - unit: lib.analytics.resetUser
+    quote: 공유 기기에서 다음 유저 이벤트가 이전 유저에 귀속되지 않게
+  - unit: app.(tabs).community.my-activity.MyActivityScreen
+    quote: '계측: 리더 진입 결정 지점'
+  wevolley#sc-notification-deeplink-cold-start:
+  - unit: lib.utils.notification-route.NotificationRouteData
+    quote: export interface NotificationRouteData {
+  - unit: lib.utils.notification.getNotificationText
+    quote: 레거시 알림 (metadata 없음)
+  - unit: lib.push-notifications.savePushToken
+    quote: 'export async function savePushToken(_userId: string, token: string) {'
+  - unit: lib.push-notifications.clearPushToken
+    quote: 콜드 스타트 회수와 warm 리스너가 같은 응답을 이중 처리하지 않도록 가드
+  - unit: lib.push-notifications.removeNotificationResponseListener
+    quote: export function removeNotificationResponseListener() {
+  wevolley#sc-rebranding-tokens-first:
+  - unit: constants.effects.radius
+    quote: radius 스케일
+  - unit: constants.effects.controlHeight
+    quote: 컨트롤 높이
+  - unit: constants.effects.shadows
+    quote: RN 그림자 프리셋
+  - unit: constants.motion.duration
+    quote: duration (ms)
+  - unit: constants.motion.easing
+    quote: easing
+  - unit: constants.motion.spring
+    quote: withSpring configs
+  - unit: constants.motion.motion
+    quote: export const motion = { duration, easing, spring };
+  - unit: lib.utils.color
+    quote: RN 환경에서는 CSS color-mix 가 없으므로 직접 계산
+  - unit: lib.utils.color.tint
+    quote: 잘못된 hex 가 들어오면 fallback 색을 그대로 반환
+  - unit: lib.utils.color.shade
+    quote: export function shade(
+  - unit: lib.utils.color.withAlpha
+    quote: export function withAlpha(
+  wevolley#sc-reduce-motion-invariant:
+  - unit: components.ui.GlowFrameIcon
+    quote: Reduce Motion 이면 정적 네온 테두리
+  - unit: components.ui.GlowFrameIcon.GlowFrameIcon
+    quote: export function GlowFrameIcon({
+  - unit: components.ui.RollingDday.RollingDday
+    quote: reduce-motion 이면 정적
+  wevolley#sc-card-snapshot-metadata:
+  - unit: components.chat.ClubCardBubble
+    quote: 카드는 내부 터치가 이벤트를 선점하므로
+  - unit: components.chat.ClubCardBubble.ClubCardBubble
+    quote: 값 있는 것만 가운뎃점으로 이어붙인다
+  - unit: lib.utils.profile-snapshot.buildProfileCardMetadata
+    quote: 'export function buildProfileCardMetadata(profile: Profile): ProfileCardMetadata {'
+  wevolley#sc-draft-dm-room:
+  - unit: lib.api.chat.fetchDmDraftPartner
+    quote: 방이 아직 없어 fetchChatRoomPartner 를 못 씀
+  - unit: lib.api.chat.findOrCreateDm
+    quote: export async function findOrCreateDm(
+  wevolley#sc-search-client-gate:
+  - unit: components.ui.SearchInput.SearchInput
+    quote: export function SearchInput({
+  wevolley#sc-community-soft-launch-gate:
+  - unit: constants.community
+    quote: 커뮤니티 카테고리 메타
+  - unit: constants.community.CommunityCategory
+    quote: '''content''(봇 발행 콘텐츠 글, 00146)는 제외'
+  - unit: constants.community.COMMUNITY_CATEGORIES
+    quote: 피드 필터용
+  - unit: constants.community.COMMUNITY_FEED_FILTERS
+    quote: 'export const COMMUNITY_FEED_FILTERS: {'
+  - unit: constants.community.CATEGORY_LABEL
+    quote: 'export const CATEGORY_LABEL: Record<CommunityCategory, string> = {'
+  - unit: constants.community.CATEGORY_BADGE
+    quote: 'export const CATEGORY_BADGE: Record<CommunityCategory, CategoryBadge> = {'
+  - unit: constants.community.CommunitySort
+    quote: export type CommunitySort = 'latest' | 'popular';
+  wevolley#sc-image-original-aspect:
+  - unit: components.community.PostImageGrid
+    quote: 디자인 핸드오프(2A 확정)
+  - unit: components.community.PostImageGrid.PostImageGrid
+    quote: 크기 스타일은 반드시 셀 래퍼에
+  - unit: components.community.ImageViewerModal
+    quote: 열 때 보여줄 인덱스
+  - unit: components.community.ImageViewerModal.ImageViewerModal
+    quote: RN-web의 pagingEnabled 스와이프가 불안정해
+  wevolley#sc-scale-appropriate-design:
+  - unit: planning/backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: 과설계
+  - unit: planning/backlog/view-as-member-v2#3.4-모드-인디케이터-—-위치와-형태
+    quote: 과욕 금지
+  wevolley#sc-volt-ink-over-lime-legibility:
+  - unit: components.ui.Input.Input
+    quote: 얇은 볼트 선은 흰 배경에서 판독 불가
+  - unit: components.ui.Toggle.Toggle
+    quote: on = 잉크 트랙 + 볼트 노브
+  - unit: components.ui.ViewModeTabs.ViewModeTabs
+    quote: 볼트 텍스트는 흰 배경 판독 미달
+  - unit: components.ui.Chip.Chip
+    quote: 볼트 소프트 배경은 선택 상태로 안 읽힘
+  - unit: components.ui.Toast
+    quote: 잉크 다크 표면 토스트
+  - unit: components.ui.Toast.ToastProvider
+    quote: 'export function ToastProvider({ children }: { children: React.ReactNode }) {'
+  - unit: components.ui.Toast.useToast
+    quote: 'export function useToast(): ToastContextValue {'
+  - unit: components.club.ClubMapCardCarousel.ClubMapCardCarousel
+    quote: 볼트 얇은 선은 흰 카드 위에서 판독 불가
+  - unit: app.(tabs).club.[id].match-history.MatchHistoryScreen
+    quote: 볼트 500 텍스트는 흰 배경에서 대비 부족
+  - unit: components.club.ClubAnnouncementTab.ClubAnnouncementTab
+    quote: 볼트소프트 배경 위 텍스트는 같은 hue
+  - unit: components.ui.FilterableListShell.FilterableListShell
+    quote: 필터 버튼 = 잉크 사각 + 볼트 아이콘
+  - unit: app.(tabs)._layout
+    quote: 활성 = 도트 볼트
+  - unit: components.event.AttendanceVote
+    quote: 선택 = 잉크 반전, 빨강 사용 안 함
+  - unit: components.community.ReportSheet.ReportSheet
+    quote: CTA는 잉크(볼트 아님 — 부정 액션)
+  - unit: components.ui.Avatar
+    quote: 볼트 원색 위 흰 글자는 대비 미달
+  - unit: components.home.ActionItemCard.ActionItemCard
+    quote: 볼트 스트라이프
+  wevolley#sc-extract-when-two-places-diverge:
+  - unit: components.club.ClubCard
+    quote: 각자 인라인으로 그리고 있어
+  - unit: components.club.ClubCard.ClubCard
+    quote: export const ClubCard = memo(function ClubCard({
+  - unit: components.ui.EventMarkers
+    quote: 두 곳의 의미·크기·색이 어긋났음
+  - unit: components.ui.EventMarkers.MarkerType
+    quote: export type MarkerType = 'match' | 'training' | 'event' | 'personal';
+  - unit: components.ui.EventMarkers.EventMarkers
+    quote: export const EventMarkers = memo(function EventMarkers({
+  - unit: components.club.RecruitLevelChips
+    quote: 두 곳에서 동일한 칩 그룹을 인라인으로
+  - unit: components.ui.ViewModeTabs.ViewModeOption
+    quote: 왜 추출했나
+  - unit: components.ui.StatCard
+    quote: 반복 패턴을 컴포넌트화
+  - unit: components.ui.StatCard.StatItem
+    quote: export interface StatItem {
+  - unit: components.ui.StatCard.StatChip
+    quote: hero 카드 내부 칩 — accent = 볼트 텍스트(잉크 카드 내부 시그널, 목업 home 갱신판)
+  - unit: components.ui.StatCard.StatCard
+    quote: export function StatCard({
+  - unit: components.club.ClubTile
+    quote: 같은 룩을 공유한다
+  - unit: components.ui.SegmentedControl
+    quote: 임의 구현 탭을 이걸로 수렴
+  - unit: components.ui.SegmentedControl.SegmentedControl
+    quote: export function SegmentedControl<T extends string>({
+  - unit: components.community.FilterPill
+    quote: pill - 테두리 있는 필
+  - unit: components.community.FilterPill.FilterPill
+    quote: 피드 카테고리·내 활동 탭이 공유
+  - unit: components.ui.Checkbox
+    quote: 우측 라벨
+  - unit: components.ui.Checkbox.Checkbox
+    quote: 앱에 전용 체크박스 프리미티브가 없어 신규
+  - unit: components.mypage.MyClubAgeCard
+    quote: 왜 이 카드만 남기나
+  - unit: components.mypage.MyClubAgeCard.MyClubAgeCard
+    quote: export const MyClubAgeCard = memo(function MyClubAgeCard({
+  - unit: components.home.MyClubsSection
+    quote: '디자인 시스템 P0 #4'
+  - unit: components.club.ClubMapCardCarousel
+    quote: 한 곳으로
+  - unit: lib.hooks.useRegionFilter
+    quote: 바이트 동일 중복
+  - unit: components.ui.icons.WvVolleyball.AppIcon
+    quote: 단일 통로
+  - unit: components.ui.icons.WvVolleyball
+    quote: 사용처를 전부 이 글리프로 대체
+  - unit: components.ui.icons.WvVolleyball.WvVolleyball
+    quote: export function WvVolleyball({
+  - unit: components.ui.FieldLabel.FieldLabel
+    quote: 폼 필드 라벨 — Input·Select·Date·Schedule·Tag·ToggleRow 공통
+  - unit: components.ui.FieldLabel
+    quote: 마진 등 레이아웃 조정용
+  - unit: components.ui.ToggleRow.ToggleRow
+    quote: 라벨 있는 토글은 raw Switch 대신 반드시 이걸로
+  - unit: components.ui.ToggleRow
+    quote: 라벨 아래 보조 설명
+  wevolley#sc-micro-motion-p1:
+  - unit: components.ui.AnimatedCheck
+    quote: 마이크로 모션, 출석 체크
+  - unit: components.ui.AnimatedCheck.AnimatedCheck
+    quote: export function AnimatedCheck({
+  - unit: components.ui.AnimatedPressable
+    quote: 마이크로 모션, 카드 press
+  - unit: components.ui.AnimatedPressable.AnimatedPressable
+    quote: export function AnimatedPressable({
+  - unit: components.ui.AnimatedProgressBar
+    quote: 마이크로 모션, 진행률 바 mount
+  - unit: components.ui.AnimatedProgressBar.AnimatedProgressBar
+    quote: export const AnimatedProgressBar = memo(function AnimatedProgressBar({
+  - unit: components.ui.ViewModeTabs.ViewModeOption
+    quote: 마이크로 모션, 탭 전환
+  - unit: components.ui.RollingDday
+    quote: 세션 첫 진입에서만 1회 롤링
+  - unit: components.ui.RollingDday.consumeHomeDdayRoll
+    quote: 세션 최초 호출에서만 true 반환
+  - unit: components.ui.EntranceFade.EntranceFade
+    quote: 'export function EntranceFade({ children, delay = 0, offset = 12, style }: EntranceFadeProps) {'
+  - unit: components.home.HeroSection.HeroSection
+    quote: D+ 롤링 트리거
+  wevolley#sc-map-visual-single-source:
+  - unit: components.club.clubMapConstants.LatLng
+    quote: 'export type LatLng = { latitude: number; longitude: number };'
+  - unit: components.club.clubMapConstants.USER_LOCATION_BLUE
+    quote: 실제 지도 점과 일치
+  - unit: components.club.clubMapConstants.CLUSTER_GRADIENT_STOPS
+    quote: 디스크 색 스톱
+  - unit: components.club.clubMapConstants.CLUSTER_GRADIENT_CSS
+    quote: export const CLUSTER_GRADIENT_CSS = `linear-gradient(155deg, ${CLUSTER_GRADIENT_STOPS[0]}, ${CLUSTER_GRADIENT_
+  - unit: components.club.clubMapConstants.CLUSTER_HALO_COLOR
+    quote: 헤일로(디스크 뒤 투명 링) 색
+  - unit: components.club.clubMapConstants.CLUSTER_SHADOW_CSS
+    quote: 디스크 그림자(잉크)
+  - unit: components.club.clubMapConstants.PIN_SIZE
+    quote: 'export const PIN_SIZE = { width: 34, height: 35 } as const;'
+  - unit: components.club.clubMapConstants.PIN_ACTIVE_SIZE
+    quote: 'export const PIN_ACTIVE_SIZE = { width: 44, height: 45 } as const;'
+  - unit: components.club.clubMapConstants.CLUSTER_SIZE_THRESHOLDS
+    quote: count 경계
+  - unit: components.club.clubMapConstants.CLUSTER_SIZES
+    quote: export const CLUSTER_SIZES = [36, 40, 44, 48] as const;
+  - unit: components.club.clubMapConstants.clusterSizeForCount
+    quote: Kakao MarkerClusterer calculator 경계와 동일
+  - unit: components.club.clubMapConstants.clusterFontSize
+    quote: 클러스터 지름 → 숫자 폰트 크기
+  - unit: components.club.clubMapConstants.CLUSTER_MIN_POINTS
+    quote: export const CLUSTER_MIN_POINTS = 2; // 최소 군집 점 수 = Kakao minClusterSize
+  - unit: components.club.clubMapConstants.CLUSTER_GRID_SIZE
+    quote: export const CLUSTER_GRID_SIZE = 40; // Kakao 격자(px) — radius와 같은 픽셀 척도로 근사
+  - unit: components.club.clubMapConstants.CLUSTER_MIN_LEVEL
+    quote: export const CLUSTER_MIN_LEVEL = 4; // Kakao 이 레벨 이상에서만 군집
+  - unit: components.club.clubMapConstants.buildKakaoClusterStyle
+    quote: native 디스크와 시각 일치
+  - unit: components.club.clubMapConstants.SELECTED_LABEL_Z_INDEX
+    quote: 선택 핀 라벨 z-index
+  - unit: components.club.clubMapConstants.SELECTED_LABEL_OFFSET_Y
+    quote: 라벨을 핀 위로 띄우는 오프셋
+  - unit: components.club.clubMapConstants.escapeHtml
+    quote: 클럽명은 유저 입력이므로 반드시 이스케이프
+  - unit: components.club.clubMapConstants.SELECTED_LABEL_CSS
+    quote: 단일 소스
+  - unit: components.club.clubMapConstants.buildSelectedLabelHtml
+    quote: web·WebView 동일
+  - unit: components.club.clubMapHtml.KakaoClusterConfig
+    quote: export interface KakaoClusterConfig {
+  - unit: components.club.clubMapHtml.KakaoMapHtmlConfig
+    quote: export interface KakaoMapHtmlConfig {
+  - unit: components.club.clubMapHtml.buildKakaoMapHtml
+    quote: CustomOverlay HTML 주입 전 이스케이프
+  - unit: components.club.clubMapMarkerAssets.MARKER_DATA_URI
+    quote: export const MARKER_DATA_URI =
+  - unit: components.club.clubMapMarkerAssets.MARKER_ACTIVE_DATA_URI
+    quote: export const MARKER_ACTIVE_DATA_URI =
+  wevolley#sc-map-initial-view-policy:
+  - unit: components.club.clubMapConstants.DEFAULT_MAP_CENTER
+    quote: 위치 권한 없거나 결과 대기 중일 때
+  - unit: components.club.clubMapConstants.NEARBY_RADIUS_KM
+    quote: '''근처에 동호회가 있나'' 게이트 반경'
+  - unit: components.club.clubMapConstants.INITIAL_FIT_COUNT
+    quote: 가장 가까운 동호회 개수
+  - unit: components.club.clubMapConstants.MAX_FIT_LEVEL
+    quote: 초과 시 setLevel로 끌어올림
+  - unit: components.club.clubMapConstants.InitialViewPolicy
+    quote: export type InitialViewPolicy =
+  - unit: lib.hooks.club.useClubMapData.MAX_VIEWPORT_CARDS
+    quote: 근처 5곳이면 충분
+  wevolley#sc-in-app-foreground-banner:
+  - unit: components.notifications.InAppNotificationProvider
+    quote: 배너 모델로 매핑하고 아바타를 조립해 FIFO 큐로
+  - unit: components.notifications.InAppNotificationProvider.InAppNotificationProvider
+    quote: 배너 표시 여부와 무관하게
+  - unit: components.notifications.InAppNotificationProvider.useInAppNotification
+    quote: 'export function useInAppNotification(): InAppNotificationContextValue {'
+  - unit: components.notifications.InAppNotificationBanner.InAppNotificationBanner
+    quote: export function InAppNotificationBanner({
+  - unit: lib.notifications.in-app-notification
+    quote: 포그라운드 인앱 알림 배너의 순수 매핑 계층
+  - unit: lib.notifications.in-app-notification.InAppNotificationKind
+    quote: 인앱 배너로 띄우는 알림 종류
+  - unit: lib.notifications.in-app-notification.InAppNotification
+    quote: 배너 뷰가 소비하는 표시 모델
+  - unit: lib.notifications.in-app-notification.mapPushToInApp
+    quote: 배너 대상이 아니면 null
+  - unit: lib.notifications.banner-avatar.BannerRoomPartner
+    quote: DM 방 파트너 프로필
+  - unit: lib.notifications.banner-avatar.BannerChatRoom
+    quote: 배너 아바타 결정에 쓰는 채팅방 캐시 형태
+  - unit: lib.notifications.banner-avatar.BannerClubVisual
+    quote: 클럽 시각 정보
+  - unit: lib.notifications.banner-avatar.BannerAvatar
+    quote: export type BannerAvatar =
+  - unit: lib.notifications.banner-avatar.resolveBannerAvatar
+    quote: 소스가 없으면
+  - unit: lib.notifications.resolve-avatar-sources
+    quote: 캐시 우선 → 서버 fetch
+  wevolley#sc-report-block-ugc-safety:
+  - unit: components.community.ReportSheet
+    quote: 라디오 행
+  - unit: components.community.ReportSheet.ReportSheet
+    quote: Google Play UGC 필수
+  - unit: components.chat.ReportModal.ReportModal
+    quote: 'export function ReportModal({ visible, onClose, onSubmit, isPending }: ReportModalProps) {'
+  - unit: lib.hooks.community.useReportContent.CommunityReportReason
+    quote: export type CommunityReportReason = 'spam' | 'harassment' | 'inappropriate' | 'privacy' | 'other';
+  - unit: lib.hooks.community.useReportContent.COMMUNITY_REPORT_REASONS
+    quote: 'export const COMMUNITY_REPORT_REASONS: { value: CommunityReportReason; label: string }[] = ['
+  - unit: lib.hooks.community.useReportContent.useReportContent
+    quote: report_community_content RPC
+  - unit: lib.api.report.REPORT_REASON_LABELS
+    quote: 'export const REPORT_REASON_LABELS: Record<ChatReportReason, string> = {'
+  - unit: lib.api.report.reportChatUser
+    quote: export async function reportChatUser(
+  - unit: lib.api.block.BlockStatus
+    quote: export interface BlockStatus {
+  - unit: lib.api.block.checkBlockStatus
+    quote: 'export async function checkBlockStatus(otherUserId: string): Promise<BlockStatus> {'
+  - unit: lib.api.block.blockUser
+    quote: 'export async function blockUser(blockedId: string): Promise<void> {'
+  - unit: lib.api.block.unblockUser
+    quote: 'export async function unblockUser(blockedId: string): Promise<void> {'
+  - unit: lib.api.block.fetchBlockedUserIds
+    quote: 'export async function fetchBlockedUserIds(): Promise<Set<string>> {'
+  - unit: app.(tabs).community.blocked.BlockedUsersScreen
+    quote: 해제 시 그 유저 글/댓글이 다시 보임
+  - unit: lib.hooks.community.useBlockedUsers.BlockedUser
+    quote: export interface BlockedUser {
+  - unit: lib.hooks.community.useBlockedUsers.useBlockedUsers
+    quote: 커뮤니티에서 차단했으므로 실명 노출 없이 관리
+  - unit: lib.api.admin-reports.fetchAdminReports
+    quote: 'export async function fetchAdminReports(statusFilter?: ChatReportStatus): Promise<ChatReport[]> {'
+  - unit: lib.api.admin-reports.fetchAdminReportDetail
+    quote: 'export async function fetchAdminReportDetail(reportId: string): Promise<ChatReport> {'
+  - unit: lib.api.admin-reports.reviewReport
+    quote: export async function reviewReport(
+  - unit: lib.api.admin-reports.fetchUserReportCount
+    quote: 'export async function fetchUserReportCount(userId: string): Promise<number> {'
+  - unit: app.admin.reports.AdminReportsScreen
+    quote: export default function AdminReportsScreen() {
+  - unit: app.admin.report-detail.AdminReportDetailScreen
+    quote: export default function AdminReportDetailScreen() {
+  - unit: components.profile.UserProfileMenuSheet.UserProfileMenuSheet
+    quote: 'export function UserProfileMenuSheet({ visible, onClose, isBlocked, onMenuAction }: Props) {'
+  wevolley#sc-notice-official-channel:
+  - unit: app.admin.notices
+    quote: RLS(00137)가 최종 강제
+  - unit: app.admin.notices.AdminNoticesScreen
+    quote: export default function AdminNoticesScreen() {
+  - unit: app.(tabs).community.notices.[id]
+    quote: 댓글·좋아요 없음 (운영자 공식 채널)
+  - unit: app.(tabs).community.notices.[id].CommunityNoticeDetailScreen
+    quote: export default function CommunityNoticeDetailScreen() {
+  - unit: app.(tabs).community.notices.index
+    quote: 공지 목록
+  - unit: app.(tabs).community.notices.index.CommunityNoticesScreen
+    quote: export default function CommunityNoticesScreen() {
+  - unit: components.community.NoticeStrip.NoticeStrip
+    quote: 전체 목록은 드로어의 공지 메뉴
+  - unit: lib.hooks.community.useNotices.CommunityNotice
+    quote: export interface CommunityNotice {
+  - unit: lib.hooks.community.useNotices.useLatestNotice
+    quote: 없으면 null (스트립 미표시)
+  - unit: lib.hooks.community.useNotices.useNotices
+    quote: 공지 목록 (공지 메뉴 화면)
+  - unit: lib.hooks.community.useNotices.useNotice
+    quote: 'export function useNotice(id: string) {'
+  - unit: lib.hooks.community.useNotices.useCreateNotice
+    quote: super_admin - RLS가 강제
+  - unit: lib.hooks.community.useNotices.useDeleteNotice
+    quote: 공지 삭제
+  wevolley#sc-read-progress-codec:
+  - unit: lib.utils.read-episodes.ReadProgress
+    quote: 읽음은 boolean이 아니라 진행률 맵
+  - unit: lib.utils.read-episodes.ReadMap
+    quote: export type ReadMap = Record<string, ReadProgress>;
+  - unit: lib.utils.read-episodes.parseReadMap
+    quote: 오염된 엔트리는 개별 탈락
+  - unit: lib.utils.read-episodes.setReadProgress
+    quote: 기존보다 클 때만 갱신(후퇴 방지)
+  - unit: lib.utils.read-episodes.mergeReadMaps
+    quote: 후퇴 방지 규칙이 동일 적용된다
+  - unit: lib.utils.read-episodes.isCompleted
+    quote: 완독 판정
+  - unit: app.(tabs).community.series.SeriesHubScreen
+    quote: 읽음 진행률은 useReadEpisodes
+  - unit: lib.hooks.community.useSeriesEpisodes.SeriesEpisodeRow
+    quote: export interface SeriesEpisodeRow {
+  - unit: lib.hooks.community.useSeriesEpisodes.useSeriesEpisodes
+    quote: 시리즈 식별 = author_id + content
+  wevolley#sc-reader-retired-detail-inline:
+  - unit: app.(tabs).community.my-activity.MyActivityScreen
+    quote: 리더 철거(54 방향 전환)
+  - unit: app.(tabs).community.series.SeriesHubScreen
+    quote: 콘텐츠 글도 일반 상세로
+  - unit: app.share.post.[id].SharePostScreen
+    quote: 리더 철거(54 방향 전환)
+  - unit: app.(tabs).community.my-activity
+    quote: 내 댓글 행
+  wevolley#sc-review-2026-07-05-nav-rollback:
+  - unit: app.(tabs).club.index
+    quote: 헤더 pill(38B D3)은 검수에서 기각
+  - unit: app.(tabs).club.index.ClubScreen
+    quote: export default function ClubScreen() {
+  - unit: app.(tabs).game.index
+    quote: 검수에서 기각(2026-07-05)
+  - unit: app.(tabs).game.index.GameScreen
+    quote: export default function GameScreen() {
+  - unit: app.(tabs).club.create
+    quote: 타입 선택 페이지(ClubTypeSelect)는 폐지(검수 2026-07-05)
+  - unit: app.(tabs).club.[id].requests
+    quote: 회원 관리(members)로 통합 (검수 2026-07-05)
+  - unit: app.(tabs).club.[id].requests.ClubRequestsRedirect
+    quote: export default function ClubRequestsRedirect() {
+  - unit: app.(tabs).club.[id].members
+    quote: 관리 허브 폐지
+  - unit: app.(tabs).mypage.index
+    quote: 활동 메뉴는 해체
+  - unit: app.(tabs).mypage.index.SettingsScreen
+    quote: export default function SettingsScreen() {
+  - unit: components.ui.Fab
+    quote: 단일 액션이면 onPress 만 넘긴다
+  - unit: components.ui.Fab.FabMenu
+    quote: 단일 액션 모드
+  wevolley#sc-ime-slice-trap:
+  - unit: planning/reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: redundant `.slice(0,10)` 제거
+  - unit: components.profile.WizardSteps.WizardPage
+    quote: web 한글 IME 조합을 끊는 함정
+  - unit: components.scrimmage.ScrimmageListContent.GameListScreen
+    quote: 입력은 raw state라 IME 무영향
+  wevolley#sc-invite-flag-not-secret-token:
+  - unit: components.club.InviteLinkSheet.InviteLinkSheet
+    quote: 링크는 비밀 토큰이 아니라
+  - unit: api.share-landing.handler
+    quote: invite 플래그를 상류(share-page)로 전달
+  - unit: lib.api.clubs.submitClubJoinRequest
+    quote: 초대 링크 원탭 신청은 연락처 폼이 없어 null 허용
+  - unit: app.(tabs).club.[id].index.ClubDetailScreen
+    quote: 초대 링크 진입을 퍼널 상단으로 기록
+  wevolley#sc-option-value-single-label-variants:
+  - unit: constants.options.LEVEL_OPTIONS
+    quote: label 만 짧게 정의
+  - unit: constants.options.CLUB_LEVEL_OPTIONS
+    quote: export const CLUB_LEVEL_OPTIONS = [
+  - unit: constants.options.LEVEL_LABEL
+    quote: 'export const LEVEL_LABEL: Record<string, string> = {'
+  - unit: constants.options.TIME_SLOT_LABEL
+    quote: 풀텍스트 그대로 유지
+  - unit: constants.options.TIME_SLOT_TIME
+    quote: 'export const TIME_SLOT_TIME: Record<string, string> = {'
+  - unit: constants.options.TIME_SLOT_OPTIONS
+    quote: export const TIME_SLOT_OPTIONS = [
+  - unit: constants.options.GAME_TYPE_OPTIONS
+    quote: export const GAME_TYPE_OPTIONS = [
+  - unit: constants.options.GAME_TYPE_LABEL
+    quote: 'export const GAME_TYPE_LABEL: Record<string, string> = {'
+  - unit: constants.options.GENDER_OPTIONS
+    quote: export const GENDER_OPTIONS = [
+  - unit: constants.options.GENDER_TYPE_OPTIONS
+    quote: export const GENDER_TYPE_OPTIONS = [
+  - unit: constants.options.GENDER_TYPE_LABEL
+    quote: 'export const GENDER_TYPE_LABEL: Record<string, string> = {'
+  - unit: constants.options.CONTACT_TYPE_OPTIONS
+    quote: export const CONTACT_TYPE_OPTIONS = [
+  - unit: constants.options.CONTACT_TYPE_LABEL
+    quote: 'export const CONTACT_TYPE_LABEL: Record<string, string> = {'
+  - unit: constants.options.REGISTRATION_TYPE_OPTIONS
+    quote: export const REGISTRATION_TYPE_OPTIONS = [
+  - unit: constants.options.REGISTRATION_TYPE_LABEL
+    quote: 'export const REGISTRATION_TYPE_LABEL: Record<string, string> = {'
+  - unit: constants.options.POSITION_OPTIONS
+    quote: export const POSITION_OPTIONS = [
+  - unit: constants.options.DAY_OPTIONS
+    quote: export const DAY_OPTIONS = [
+  - unit: constants.options.AGE_RANGE_OPTIONS
+    quote: export const AGE_RANGE_OPTIONS = [
+  - unit: constants.options.CLUB_ICON_OPTIONS
+    quote: export const CLUB_ICON_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] as co
+  - unit: constants.options.CLUB_COLOR_OPTIONS
+    quote: export const CLUB_COLOR_OPTIONS = [
+  - unit: lib.utils.age-range
+    quote: 레거시·오기 값 → 현행 옵션 매핑
+  - unit: lib.utils.age-range.parseAgeRanges
+    quote: 알 수 없는 값 제거
+  - unit: lib.utils.age-range.formatAgeRange
+    quote: 유효 값이 없으면 null
+  wevolley#sc-club-event-recurrence-model:
+  - unit: lib.api.events
+    quote: ===== 조회 =====
+  - unit: lib.api.events.fetchUpcomingEvents
+    quote: export async function fetchUpcomingEvents(
+  - unit: lib.api.events.fetchClubEvent
+    quote: 'export async function fetchClubEvent(eventId: string): Promise<ClubEvent | null> {'
+  - unit: lib.api.events.fetchTournamentEntries
+    quote: '"출전 선언"한 동호회 이벤트 목록'
+  - unit: lib.api.events.fetchClubRecurrences
+    quote: 'export async function fetchClubRecurrences(clubId: string): Promise<ClubTrainingRecurrence[]> {'
+  - unit: lib.api.events.CreateEventParams
+    quote: export interface CreateEventParams {
+  - unit: lib.api.events.createEvent
+    quote: 'export async function createEvent(params: CreateEventParams): Promise<ClubEvent> {'
+  - unit: lib.api.events.UpdateEventParams
+    quote: export interface UpdateEventParams {
+  - unit: lib.api.events.updateEvent
+    quote: 'export async function updateEvent(eventId: string, params: UpdateEventParams): Promise<ClubEvent> {'
+  - unit: lib.api.events.cancelEvent
+    quote: 'export async function cancelEvent(eventId: string): Promise<void> {'
+  - unit: lib.api.events.deleteEvent
+    quote: 'export async function deleteEvent(eventId: string): Promise<void> {'
+  - unit: lib.api.events.CreateRecurrenceParams
+    quote: export interface CreateRecurrenceParams {
+  - unit: lib.api.events.createRecurrence
+    quote: export async function createRecurrence(
+  - unit: lib.api.events.deactivateRecurrence
+    quote: 'export async function deactivateRecurrence(id: string): Promise<void> {'
+  - unit: lib.api.events.AttendanceStatus
+    quote: export type AttendanceStatus = 'yes' | 'no' | 'maybe';
+  - unit: lib.api.events.AttendanceEntry
+    quote: export interface AttendanceEntry {
+  - unit: lib.api.events.EventAttendanceSummary
+    quote: export interface EventAttendanceSummary {
+  - unit: lib.api.events.fetchEventAttendance
+    quote: export async function fetchEventAttendance(
+  - unit: lib.api.events.voteAttendance
+    quote: 'export async function voteAttendance(eventId: string, status: AttendanceStatus): Promise<void> {'
+  - unit: lib.hooks.club.useClubEvents.UserClubEvent
+    quote: export interface UserClubEvent {
+  - unit: lib.hooks.club.useClubEvents.useClubEvents
+    quote: 캘린더 화면에서 날짜별 이벤트 표시에 사용한다
+  - unit: lib.hooks.club.useClubSchedules.ClubTrainingEvent
+    quote: export interface ClubTrainingEvent {
+  - unit: lib.hooks.club.useClubSchedules.useClubSchedules
+    quote: '데이터 소스: club_training_recurrences'
+  - unit: lib.hooks.club.useClubSchedules.getDayName
+    quote: 'export function getDayName(date: Date): string {'
+  - unit: components.event.AttendanceVote.AttendanceVote
+    quote: 'export function AttendanceVote({ eventId, clubId, isAdmin }: AttendanceVoteProps) {'
+  - unit: components.club.EventFormModal.EventInitialData
+    quote: export interface EventInitialData {
+  - unit: components.club.ClubEventsSection.ClubEventsSection
+    quote: 'export function ClubEventsSection({ events, canManage, onAddPress, onPress }: Props) {'
+  - unit: components.club.RecurringTrainingSection.RecurringTrainingSection
+    quote: export function RecurringTrainingSection({
+  - unit: components.home.EventCalendarGrid
+    quote: Dates that have game events
+  - unit: components.home.EventCalendarGrid.EventCalendarGrid
+    quote: palette.marker.* 토큰으로 통일
+  - unit: components.home.WeeklySchedule
+    quote: 마커 토큰
+  - unit: components.home.WeeklySchedule.WeeklySchedule
+    quote: '''오늘''/''내일'' 칩은 요일 정보가 사라지므로'
+  - unit: app.(tabs).home.calendar
+    quote: 일정 마커 토큰
+  - unit: app.(tabs).home.calendar.ScheduleScreen
+    quote: export default function ScheduleScreen() {
+  wevolley#sc-location-input-stack:
+  - unit: components.form.LocationPicker.PlaceSelectData
+    quote: export interface PlaceSelectData {
+  - unit: components.form.LocationPicker.LocationPicker
+    quote: export function LocationPicker({
+  - unit: components.form.RegionSelector.RegionSelector
+    quote: export function RegionSelector({
+  - unit: components.form.RegionSelectPair.RegionSelectPairProps
+    quote: export interface RegionSelectPairProps {
+  - unit: components.form.RegionSelectPair.RegionSelectPair
+    quote: export function RegionSelectPair({
+  - unit: lib.hooks.usePlaceSearch.usePlaceSearch
+    quote: 'export function usePlaceSearch(query: string, enabled = true) {'
+  - unit: lib.api.places.PlaceResult
+    quote: export interface PlaceResult {
+  - unit: lib.api.places.searchPlaces
+    quote: 'export async function searchPlaces(query: string): Promise<PlaceResult[]> {'
+  - unit: lib.api.places.GeocodeResult
+    quote: export interface GeocodeResult {
+  - unit: lib.api.places.geocodeAddress
+    quote: export async function geocodeAddress(
+  - unit: lib.hooks.useRegions.useRegions
+    quote: export function useRegions() {
+  - unit: lib.hooks.useRegions.useCities
+    quote: 'export function useCities(regions: Region[] | undefined) {'
+  - unit: lib.hooks.useRegions.useDistricts
+    quote: export function useDistricts(
+  - unit: lib.hooks.useUserLocation.UserLocation
+    quote: export interface UserLocation {
+  - unit: lib.hooks.useUserLocation.useUserLocation
+    quote: export function useUserLocation() {
+  - unit: lib.utils.distance.calculateDistanceKm
+    quote: export function calculateDistanceKm(
+  - unit: lib.utils.distance.formatDistance
+    quote: 'export function formatDistance(km: number): string {'
+  - unit: lib.utils.map-link.openExternalMap
+    quote: 카카오 → 네이버 → 구글(OS 기본) 순으로 길찾기 앱 시도
+  wevolley#sc-local-date-string-scattered:
+  - unit: lib.utils.date.DAY_NAMES
+    quote: export const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'] as const;
+  - unit: lib.utils.date.sortDays
+    quote: 'export function sortDays(days: string[]): string[] {'
+  - unit: lib.utils.date.formatDate
+    quote: 3월 15일 (토)
+  - unit: lib.utils.date.formatDatePadded
+    quote: 03월 15일 (토) — 월·일 0-패딩
+  - unit: lib.utils.date.formatDateWithYear
+    quote: 2026년 3월 15일 (토)
+  - unit: lib.utils.date.formatDateCompact
+    quote: 3/15 (토)
+  - unit: lib.utils.date.formatTime
+    quote: '"09:30:00" → "09:30"'
+  - unit: lib.utils.date.toLocalDateStr
+    quote: toISOString()은 UTC 기준이라 KST에서 하루 차이가 날 수 있다
+  - unit: lib.utils.date.formatRelativeTime
+    quote: 커뮤니티 피드·댓글 상대시각
+  - unit: lib.utils.calendar.WEEKDAYS
+    quote: export const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+  - unit: lib.utils.calendar.toDateStr
+    quote: 'export function toDateStr(y: number, m: number, d: number) {'
+  - unit: lib.utils.calendar.isDateDisabled
+    quote: 'export function isDateDisabled(dateStr: string, minDate?: string, maxDate?: string) {'
+  - unit: lib.utils.calendar.isDateToday
+    quote: 'export function isDateToday(year: number, month: number, day: number) {'
+  - unit: lib.utils.calendar.buildCalendarCells
+    quote: 'export function buildCalendarCells(year: number, month: number): (number | null)[] {'
+  - unit: lib.utils.calendar.buildCalendarRows
+    quote: 'export function buildCalendarRows(cells: (number | null)[]): (number | null)[][] {'
+  - unit: lib.utils.home.getDateLabel
+    quote: 'export function getDateLabel(dateStr: string): string {'
+  - unit: lib.utils.home.getDateSub
+    quote: 'export function getDateSub(dateStr: string): string {'
+  - unit: lib.utils.home.toDateStr
+    quote: 'export function toDateStr(d: Date): string {'
+  - unit: lib.utils.home.getUpcomingDates
+    quote: 'export function getUpcomingDates(): string[] {'
+  - unit: lib.utils.experience.todayStr
+    quote: Extracted to avoid pulling native-only DateTimePicker into web builds
+  - unit: lib.utils.experience.toDateStr
+    quote: 'export function toDateStr(d: Date): string {'
+  - unit: lib.utils.experience.computeElapsed
+    quote: 'export function computeElapsed(dateStr: string): {'
+  - unit: lib.utils.experience.subtractDuration
+    quote: 'export function subtractDuration(years: number, months: number): string {'
+  - unit: lib.utils.match.todayStr
+    quote: export function todayStr() {
+  - unit: lib.utils.match.isPastDate
+    quote: 'export function isPastDate(iso: string) {'
+  - unit: lib.utils.match.groupMatchesByDate
+    quote: 'export function groupMatchesByDate(matches: MatchResult[]) {'
+  - unit: lib.utils.chat.formatMsgTime
+    quote: 'export function formatMsgTime(dateStr: string): string {'
+  - unit: lib.utils.chat.formatDateHeader
+    quote: 'export function formatDateHeader(dateStr: string): string {'
+  wevolley#sc-action-notification-inbox:
+  - unit: lib.api.notifications.fetchNotifications
+    quote: CHECK-enum을 DB는 string으로 돌려줌
+  - unit: lib.api.notifications.markNotificationRead
+    quote: 'export async function markNotificationRead(id: string) {'
+  - unit: lib.api.notifications.markAllNotificationsRead
+    quote: 'export async function markAllNotificationsRead(userId: string) {'
+  - unit: lib.api.notifications.fetchActionNotifications
+    quote: 'export async function fetchActionNotifications(userId: string) {'
+  - unit: lib.hooks.home.useActionNotifications.GroupedAction
+    quote: export interface GroupedAction {
+  - unit: lib.hooks.home.useActionNotifications.useActionNotifications
+    quote: export function useActionNotifications() {
+  - unit: components.home.ActionItemCard.ActionItemCard
+    quote: 운영진 처리 액션
+  - unit: app.notifications.NotificationsScreen
+    quote: export default function NotificationsScreen() {
+  - unit: components.home.MyRequestsSection
+    quote: 대기 중(pending) 신청만 최대 3건 노출
+  wevolley#sc-my-activity-three-tabs:
+  - unit: lib.hooks.community.useMyActivity.ActivityMode
+    quote: export type ActivityMode = 'posts' | 'comments' | 'liked';
+  - unit: lib.hooks.community.useMyActivity.MyCommentItem
+    quote: export interface MyCommentItem {
+  - unit: lib.hooks.community.useMyActivity.useMyComments
+    quote: '"댓글 단 글"이 아니라 댓글 자체를 보여준다'
+  - unit: lib.hooks.community.useMyActivity.useMyActivity
+    quote: 내가 쓴 글 / 좋아요한 글
+  - unit: app.(tabs).community.my-activity.MyActivityScreen
+    quote: 필 탭 3종

@@ -1,0 +1,573 @@
+members:
+  wevolley#sc-treasury-ledger:
+  - unit: backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+    quote: '**한 줄 정의**: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부.'
+  - unit: backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+    quote: '- 상태: draft (2026-07-02, 브레인스토밍 세션 결과 구체화)'
+  - unit: backlog/club-treasury#1.-문제
+    quote: 따라서 수입+지출+잔액+리포트까지가 v1 스코프.
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: '**ledger 계보**: club_charges/expenses는 미래 결제(Phase C)의 원장 전신'
+  wevolley#sc-treasury-semi-auto:
+  - unit: backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+    quote: 자동화되는 것은 **청구 생성과 독촉**이고, 입금 확인은 셀프 신고 + 총무 승인의 반자동.
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '앱에서 "냈어요" 셀프 신고 (선택: 이체 스크린샷 첨부)'
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[총무 승인]  확인 대기 인박스 — 은행앱 대조 후 스와이프 승인 / 일괄 처리'
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: confirmed charge 중 셀프 신고(reported) 경유 비율 ≥ 60%
+  wevolley#sc-treasury-pain-three:
+  - unit: backlog/club-treasury#1.-문제
+    quote: '**대조 노동**: 은행 내역과 멤버 명단을 수동 대조 — 입금자명이 제각각, 몰아내기(3개월치)·대납이 섞임.'
+  - unit: backlog/club-treasury#1.-문제
+    quote: '**독촉의 감정 비용**: 미납자에게 개인적으로 돈 얘기를 꺼내는 어색함. 기능이 아니라 관계 문제.'
+  - unit: backlog/club-treasury#1.-문제
+    quote: '**투명성 보고**: 회식비·유니폼·장비비 지출까지 엑셀에 적어 총회 때 공개 — 보고가 연 1~2회 이벤트라 평소엔 블랙박스.'
+  - unit: backlog/club-treasury#1.-문제
+    quote: '근거: 운영자 본인이 1차 사용자(도그푸딩). 엑셀+카톡이 사실상 표준 워크플로.'
+  wevolley#sc-treasury-must-replace-excel:
+  - unit: backlog/club-treasury#1.-문제
+    quote: '**핵심 판단: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다.**'
+  - unit: backlog/club-treasury#1.-문제
+    quote: 지출이 엑셀에 남으면 장부의 진실은 엑셀에 있고 앱은 이중 입력 부담만 추가 → 총무 이탈.
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: '| 총무의 엑셀 대체 | 활성 클럽 중 금고 기능 사용 클럽 수 (첫 목표: 자기 클럽 포함 3개) | charges 발행 클럽 count |'
+  wevolley#sc-treasury-success-metrics:
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: '| 확인 노동 압축 | 월 청구 발행→전원 확정까지 총무 앱 체류 시간 (감각 목표: 월 10분 이내) | 정성 + 이벤트 |'
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: '| 멤버 리텐션 견인 | 금고 사용 클럽 멤버의 WAU vs 미사용 클럽 | 코호트 비교 |'
+  wevolley#sc-open-banking-rejected:
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: '- **은행 계좌 연동 전면**: 마이데이터(허가제, 자본금 5억) 기각. 오픈뱅킹 이용기관은 법인 설립 시 재검토. 스크래핑(직접/대행) 기각 — 신용정보법·신뢰 비용.'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 거래내역 복붙/엑셀 파싱 매칭(셀프 신고 채택률 <40%면 승격), 오픈뱅킹(법인 시), 노쇼 집계, 회비 통계·연체 이력
+  wevolley#sc-no-money-through-app:
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: '- **송금/결제 대행**: 돈은 앱을 거치지 않는다. 앱은 장부·독촉·투명성만. (미래 결제는 planning/32 Phase C — Edge Fn 관문)'
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[멤버 송금]  은행앱에서 이체 — 입금자명을 앱이 지정("김철수0403")'
+  wevolley#sc-tx-paste-parsing-deferred:
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: '- **거래내역 복붙/엑셀 업로드 파싱**: v1 제외, v1.5 후보. 셀프 신고 채택률이 낮을 때의 보강 수단.'
+  - unit: backlog/club-treasury#11.-리스크
+    quote: 40% 미만이면 P2 파싱 승격
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 거래내역 복붙/엑셀 파싱 매칭(셀프 신고 채택률 <40%면 승격)
+  wevolley#sc-expense-record-only:
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: '- **예산/승인 워크플로**(지출 품의 등): 과설계. 지출은 기록만.'
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 지출 입력 | 운영진 | 금액+항목+메모+영수증 사진 — 30초 입력 |'
+  wevolley#sc-noshow-tracking-deferred:
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: '- **출석/노쇼 자동 집계**: 게스트 흐름은 참석 확정까지만. 노쇼 이력은 수요 확인 후.'
+  - unit: backlog/guest-request#3.-비목표
+    quote: '- **출석/노쇼 관리**: DECISIONS 0005에서 스코프 외 확정. 수요 확인 후.'
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '당일:   참석 (추적 없음 — v1)'
+  wevolley#sc-treasury-core-loop:
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[청구 발행]  charge_plan이 매월/분기 자동 발행 (또는 총무 수동 발행)'
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '↓ 알림: 금액·계좌·지정 입금자명 원탭 복사 (+가능 시 송금 딥링크)'
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[장부 갱신]  잔액·리포트 자동 반영.'
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '게스트: 송금 → 셀프 신고 → 총무 승인 → 참석 확정'
+  wevolley#sc-designated-depositor-name:
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[멤버 송금]  은행앱에서 이체 — 입금자명을 앱이 지정("김철수0403")'
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 입금자명 규칙,
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 내 납부 현황 | 본인 | 내 charge 목록, "냈어요" 신고, 계좌·입금자명 복사 |'
+  wevolley#sc-treasury-three-principles:
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '설계 원칙: **입력을 멤버에게 분산**(셀프 신고), **매칭을 상류에서 제거**(지정 입금자명), **독촉을 시스템에 외주**(자동 리마인드). 이 3개가 은행 연동 없이 성립하는 이유.'
+  wevolley#sc-dues-auto-reminder:
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: 미납은 N일차 자동 리마인드 (앱이 독촉, 총무 아님)
+  - unit: backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: dues_reminder(미납 N일차, push 중심)
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 미납 자동 리마인드, 총무 대시보드 한 줄 현황
+  - unit: backlog/club-treasury#11.-리스크
+    quote: 리마인드 알림이 앱 진입 강제, 신고는 2탭, 미신고분은 총무 대리 입력으로 성립.
+  wevolley#sc-club-finance-settings:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: club_finance_settings   클럽당 1행 — 수금 계좌(은행/번호/예금주), 입금자명 규칙,
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 재정 요약 공개 범위 설정. 계좌는 민감 정보 → 별도 테이블 + RLS
+  - unit: backlog/club-treasury#11.-리스크
+    quote: '| 계좌 정보 노출 | 보안 | 별도 테이블+RLS, 멤버 한정 노출 |'
+  wevolley#sc-charge-plans:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: charge_plans            청구 템플릿 — cycle(monthly|quarterly), amount, issue_day, active
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: charge 발행(plan 자동 + 수동)
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '"plan(월 3만, 1일 발행) 설정 시 매월 1일 활성 멤버 전원에게 pending charge 생성 + charge_issued 알림 발송"'
+  wevolley#sc-club-charges:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: club_charges            장부의 원자 단위 —
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 'type: dues | guest_fee | join_fee | other'
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: reported_at, evidence_image, confirmed_by/at,
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 연납 할인 = "33만원 charge 1건"(plan이 아니라 수동 발행), 가입비 = 가입 승인 시 1회 charge 옵션.
+  wevolley#sc-charge-status-enum:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 'status: pending → reported → confirmed | exempt | void'
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: '| 셀프 신고 채택 | confirmed charge 중 셀프 신고(reported) 경유 비율 ≥ 60% | status 전이 로그 |'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '"멤버 신고 시 총무에게 payment_reported, 총무 승인 시 status=confirmed + 멤버에게 확인 알림"'
+  wevolley#sc-club-expenses:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: club_expenses           지출 — amount, category(회식|장비|유니폼|대관|기타), memo,
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: receipt_image, spent_at, created_by
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 지출 입력 | 운영진 | 금액+항목+메모+영수증 사진 — 30초 입력 |'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 지출 기록(사진+태그), 재정 요약 화면, 월간 리포트 + 카톡 공유 이미지
+  wevolley#sc-balance-is-derived:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 잔액                    = Σ confirmed charges − Σ expenses (뷰/집계 쿼리, 컬럼 아님)
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 재정 요약 | 전체 멤버 | 잔액, 이번 달 수입/지출 총계, 최근 지출 목록. 개인 납부 상태는 미노출 |'
+  wevolley#sc-thin-rules-dumb-ledger:
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: '모델링 원칙: **규칙은 얇게, 장부는 멍청하게.**'
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 몰아내기·대납은 총무가 여러 charge를 선택 일괄 승인으로 흡수 — 입금:charge 1:N 매칭을 모델이 아니라 UX로 푼다.
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제)
+  wevolley#sc-guest-requests-table:
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: guest_requests (신설 — 요청 도메인 4번째, 0005)
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: id, club_id, event_id(FK club_events), user_id, message,
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: UNIQUE(event_id, user_id)
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: guest_requests          게스트 신청 (ADR-0005) — club_id, event_id, user_id, message,
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: 요청·승인 도메인의 4번째 인스턴스 → planning/32 Phase B 관문 발동
+  wevolley#sc-guest-request-lifecycle:
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: '- **ADR-0005**: 게스트 신청/승인 도입 — ADR-0004 supersede. 게스트 단위=일정 1회, 라이프사이클=신청→승인→charge→확인→참석.'
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '게스트: 클럽 상세 → 일정(club_event) 선택 → 게스트 신청(메시지)'
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '운영진: 신청 알림 → 승인/거절'
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '게스트: 클럽 상세 → 모집 중 일정 목록 → 일정 선택 → 한마디 작성 → 신청'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: 'status: pending → accepted | rejected | cancelled,'
+  wevolley#sc-guest-dm-coexists:
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '- DM 문의는 **공존** — 신청 전 사전 문의 채널로 유지.'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '클럽 상세 CTA: 현행 "게스트 문의(DM)" 버튼 → "게스트 신청"(모집 일정 있을 때) + DM은 보조 문의로 유지.'
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: '**승인 후 소통 = 기존 DM 재사용.** 추가 개발 없음.'
+  wevolley#sc-guest-fee-charge-on-approval:
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '승인 부수효과: guest_fee charge 자동 생성 → 게스트에게 납부 안내 알림'
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: (금액·계좌·지정 입금자명 — 멤버 회비와 동일 루프)
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 게스트 신청→승인→guest_fee 루프 (§6). ADR-0005 accepted 전환 후 착수
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '금고 연동: 승인 부수효과로 guest_fee charge 자동 생성(33 §6) — guest_requests에 FK 여지만 남김(33의 charge.guest_request_id).'
+  wevolley#sc-notify-single-entry-precondition:
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: '**notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션 전에 선행**'
+  - unit: backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: '**notify() 단일 진입점 마이그레이션을 이 기능 첫 스키마 작업으로 선행**한다(planning/32 P1-1).'
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: '- **P1-1 notify() 선행**: 이 기능 첫 마이그레이션 전 완료 (Phase B 관문 발동).'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '- **notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션으로 선행** — 알림 4종(신청 접수→운영진, 승인/거절→게스트, 일정 취소→승인 게스트)이 첫 소비자.'
+  - unit: backlog/guest-request#9.-단계
+    quote: 선행    notify() 단일 진입점 마이그레이션 (P1-1) — 반나절~1일
+  wevolley#sc-fee-info-text-migration:
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: guest_fee 금액 기본값 = 기존 `clubs.guest_fee_info`(텍스트) → settings의 구조화 금액 필드로 이관 필요.
+  - unit: backlog/club-treasury#12.-오픈-퀘스천
+    quote: '**[이관]** 기존 `clubs.fee_info`/`guest_fee_info` 텍스트 필드 → settings 구조화 필드 이관 시 기존 데이터 처리.'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: ※ 기존 guest_fee_info(공개 텍스트)는 유지 — 목록/상세의 공개 안내용
+  wevolley#sc-finance-summary-visibility:
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: '- 재정 요약(총계·잔액·지출)은 멤버 전체 열람 — 이 기능의 차별 가치(상시 투명성).'
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: '- 개인 납부 상태 열람: **본인 + 운영진** 기본.'
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 재정 요약 | 전체 멤버 | 잔액, 이번 달 수입/지출 총계, 최근 지출 목록. 개인 납부 상태는 미노출 |'
+  - unit: backlog/club-treasury#5.-도메인-모델-(초안)
+    quote: 재정 요약 공개 범위 설정.
+  wevolley#sc-treasury-admin-inbox:
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 총무 대시보드 | 운영진 | "3월 회비 18/22" 한 줄 + 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제) |'
+  - unit: backlog/club-treasury#4.-코어-루프
+    quote: '[총무 승인]  확인 대기 인박스 — 은행앱 대조 후 스와이프 승인 / 일괄 처리'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 총무 인박스(승인/일괄/면제)
+  wevolley#sc-monthly-report-share-image:
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 월간 리포트 | 운영진→전체 | 기간 수입/지출/잔액 요약 → **카톡 공유용 이미지 생성** (카톡 문화에 순응 + 하단 로고 = 자연 홍보) |'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: 월간 리포트 + 카톡 공유 이미지
+  wevolley#sc-treasury-notification-set:
+  - unit: backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: charge_issued(청구 발행), dues_reminder(미납 N일차, push 중심), payment_reported(총무에게), payment_confirmed(멤버에게), guest_request(운영진에게), guest_approved+납부안내(게스트에게).
+  - unit: backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+    quote: 전부 기존 notifications 인프라 재사용하되
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 8 | 알림 4종 + notify() 선행 | §6 구현 노트 |'
+  wevolley#sc-treasury-write-role:
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: '- 회계 쓰기 권한 = `club_members.role = admin` (별도 ''총무'' 역할 신설 안 함 — admin_positions 표시용 활용은 선택).'
+  - unit: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+    quote: '| 지출 입력 | 운영진 | 금액+항목+메모+영수증 사진 — 30초 입력 |'
+  wevolley#sc-account-info-exposure-scope:
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: '- 수금 계좌 정보: 멤버에게는 납부 화면에서만 노출, 비멤버·게스트는 승인 후에만.'
+  - unit: backlog/club-treasury#11.-리스크
+    quote: '| 계좌 정보 노출 | 보안 | 별도 테이블+RLS, 멤버 한정 노출 |'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 5 | 승인 후 안내 | 승인된 게스트에게만 guest_payment_guide+정확한 일정 상세 노출 |'
+  wevolley#sc-sensitive-transition-via-rpc:
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: '- 민감 상태 전이(승인·면제·void)는 RPC 경유 — 기존 컨벤션 유지.'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '승인은 RPC(SECURITY DEFINER): 정원 검사 + status 전이 + 알림을 트랜잭션으로 — 동시 승인 초과 방지.'
+  wevolley#sc-treasury-open-question-visibility:
+  - unit: backlog/club-treasury#12.-오픈-퀘스천
+    quote: '1. **[결정 대기 — 운영자]** 미납 공개 범위 기본값: 본인+운영진(권장) vs 전체 공개. 두 차례 논의 미결.'
+  - unit: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+    quote: 클럽 설정으로 "미납 현황 전체 공개" 옵션(미납자 명단 공개 문화 클럽용) — 기본값은 비공개 권장.
+  wevolley#sc-treasury-phasing:
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '**P0 (없으면 배포 안 함)** — Phase 1'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '**P1** — Phase 2'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '**P1.5** — Phase 3'
+  - unit: backlog/club-treasury#10.-요구사항-우선순위
+    quote: '**P2 (설계만 고려, 빌드 안 함)**'
+  wevolley#sc-self-report-adoption-risk:
+  - unit: backlog/club-treasury#11.-리스크
+    quote: '| 멤버가 셀프 신고를 안 함 (**최대 가정**) | 채택률 60% 미달 시 가치 반감 | 리마인드 알림이 앱 진입 강제, 신고는 2탭, 미신고분은 총무 대리 입력으로 성립. 40% 미만이면 P2 파싱 승격 |'
+  - unit: backlog/club-treasury#2.-목표-/-성공-지표
+    quote: '| 셀프 신고 채택 | confirmed charge 중 셀프 신고(reported) 경유 비율 ≥ 60% | status 전이 로그 |'
+  - unit: backlog/club-treasury#12.-오픈-퀘스천
+    quote: '**[검증]** 다른 클럽 총무 2~3명에게 이 코어 루프 검증 — 셀프 신고 가정의 외부 확인 (본인 클럽만으론 표본 1).'
+  wevolley#sc-dual-entry-transition-risk:
+  - unit: backlog/club-treasury#11.-리스크
+    quote: '| 총무의 이중 입력기(전환기 엑셀 병행) | 초기 이탈 요인 | 첫 달 온보딩: 기존 미납 상태 일괄 입력 도구(멤버별 체크 1회) |'
+  - unit: backlog/club-treasury#1.-문제
+    quote: 지출이 엑셀에 남으면 장부의 진실은 엑셀에 있고 앱은 이중 입력 부담만 추가 → 총무 이탈.
+  wevolley#sc-immutable-ledger:
+  - unit: backlog/club-treasury#11.-리스크
+    quote: '| 금액 분쟁("나 냈는데") | 신뢰 훼손 | evidence_image + 상태 전이 이력 보존, confirmed 취소는 void+재발행(수정 불가 원장) |'
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: 상태 전이를 수정 불가(append-only에 준하게) 설계해 이관 여지 확보.
+  wevolley#sc-ledger-precursor-to-payment:
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: '- **ledger 계보**: club_charges/expenses는 미래 결제(Phase C)의 원장 전신 — 상태 전이를 수정 불가(append-only에 준하게) 설계해 이관 여지 확보.'
+  - unit: backlog/club-treasury#3.-비목표-(명시적-제외)
+    quote: (미래 결제는 planning/32 Phase C — Edge Fn 관문)
+  wevolley#sc-no-retroactive-approval-unification:
+  - unit: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+    quote: '- **승인 부수효과 공통화**: guest 승인 헬퍼를 club_join/scrimmage 승인과 공용화할지는 이번엔 게스트만 — 소급 통합 안 함(ADR-0004 계승).'
+  - unit: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+    quote: 승인 부수효과(charge 생성+알림)는 공통 헬퍼로.
+  wevolley#sc-external-validation-needed:
+  - unit: backlog/club-treasury#12.-오픈-퀘스천
+    quote: '**[검증]** 다른 클럽 총무 2~3명에게 이 코어 루프 검증 — 셀프 신고 가정의 외부 확인 (본인 클럽만으론 표본 1).'
+  - unit: backlog/club-treasury#1.-문제
+    quote: '근거: 운영자 본인이 1차 사용자(도그푸딩).'
+  - unit: backlog/guest-request#9.-단계
+    quote: 검증    자기 클럽에서 도그푸딩 → 3클럽 확보 → P1 피드 판단
+  wevolley#sc-guest-request-event-scoped:
+  - unit: backlog/guest-request#3.-비목표
+    quote: '- **경기(scrimmage) 게스트**: 이번 대상은 클럽 일정(club_events)만. scrimmage 인원 충원은 별개 문제.'
+  - unit: backlog/club-treasury#12.-오픈-퀘스천
+    quote: 2. **[설계]** 게스트 신청을 일정(club_event) 단위로 한정할지, 일정 없는 일반 신청도 허용할지 — 일정 단위 한정 권장(금액·일자 명확).
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: UNIQUE(event_id, user_id)
+  wevolley#sc-guest-independent-release:
+  - unit: backlog/guest-request#34.-게스트-신청→승인-—-기획
+    quote: '- **독립 배포 전제**: 클럽 금고(33) 없이 배포 가능. v1 납부 = 승인 후 안내 텍스트. 금고 출시 시 charge 연동으로 승격(P2).'
+  - unit: backlog/guest-request#3.-비목표
+    quote: '- **결제/장부 연동**: 게스트비 수금 확인은 33(금고)의 일 — v1은 안내 텍스트만. 이유: 독립 배포.'
+  wevolley#sc-guest-payment-guide-table-rls:
+  - unit: backlog/guest-request#34.-게스트-신청→승인-—-기획
+    quote: guest_payment_guide는 clubs 컬럼으로는 은닉 불가(행 단위 RLS)라 별도 테이블+RPC로 변경
+  - unit: backlog/guest-request#34.-게스트-신청→승인-—-기획
+    quote: '**구현: ✅ 완료 [../작업완료/52-guest-request.md](../작업완료/52-guest-request.md) (2026-07-17)** — 45A 이후 드리프트 교정 포함'
+  wevolley#sc-guest-payment-guide-gated:
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: + guest_payment_guide TEXT NULL    -- 승인 후에만 노출 (계좌·금액·규칙)
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 5 | 승인 후 안내 | 승인된 게스트에게만 guest_payment_guide+정확한 일정 상세 노출 |'
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '승인:   게스트에게 알림 + 상세 안내 노출(정확한 장소·시간 + 게스트비·납부 안내 텍스트)'
+  wevolley#sc-guest-dm-roundtrip-pain:
+  - unit: backlog/guest-request#1.-문제
+    quote: 현재 앱의 게스트 흐름은 `guest_allowed` 플래그 + DM 문의가 전부라
+  - unit: backlog/guest-request#1.-문제
+    quote: 게스트 입장에선 어느 클럽이 **언제** 게스트를 받는지 알 방법이 없어 탐색 자체가 막혀 있다.
+  - unit: backlog/guest-request#2.-목표
+    quote: '| DM 왕복이 신청으로 대체  | 신청 건수, 승인율           | 게스트 문의 DM 감소(정성)                |'
+  wevolley#sc-guest-as-personal-user-value:
+  - unit: backlog/guest-request#1.-문제
+    quote: '**전략적 의미**: 클럽에 소속되지 않은 개인 유저에게 이 앱의 현재 가치는 희박하다.'
+  - unit: backlog/guest-request#1.-문제
+    quote: '"이번 주 게스트 뛸 곳 찾기"는 개인 유저의 **첫 번째 명확한 사용 이유**가 되고, 게스트 참여는 클럽 가입의 자연 퍼널이 된다(체험 → 가입 신청). 유저 120명 단계에서 잔존을 견인할 후보.'
+  - unit: backlog/guest-request#2.-목표
+    quote: '| 개인 유저의 사용 이유    | 무소속 유저의 신청 비율     | 게스트 경험 유저의 4주 잔존              |'
+  wevolley#sc-guest-first-validation-target:
+  - unit: backlog/guest-request#2.-목표
+    quote: '첫 검증 목표(출시 4주): 자기 클럽 포함 **3개 클럽이 모집을 켜고, 신청 10건 발생**.'
+  - unit: backlog/guest-request#9.-단계
+    quote: 검증    자기 클럽에서 도그푸딩 → 3클럽 확보 → P1 피드 판단
+  wevolley#sc-guest-login-required:
+  - unit: backlog/guest-request#3.-비목표
+    quote: '- **비로그인 신청**: 신청은 로그인 유저만. 공유 랜딩에서의 노출은 기존 share 인프라 확장으로 별도.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 3 | 신청 (프로필 카드 첨부) | 로그인+비멤버+시작 전+정원 미달일 때만 가능. 중복 시 "이미 신청함" |'
+  wevolley#sc-guest-review-deferred:
+  - unit: backlog/guest-request#3.-비목표
+    quote: '- **게스트 평가/후기**: 신뢰 시스템은 별도 기획감. 지금은 프로필 카드가 신뢰 근거.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: 일정별 게스트비 오버라이드, 노쇼 이력, 게스트 후기.
+  wevolley#sc-guest-open-toggle:
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '운영진: 일정 생성/수정 시 "게스트 모집" 토글 on + 모집 인원(정원) 설정'
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: (기본 off — 자리 남는 날만 여는 게 현실)
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: + guest_open BOOLEAN NOT NULL DEFAULT false
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: + guest_capacity INT NULL          -- null = 무제한
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 1 | 일정별 게스트 모집 토글+정원 | 일정 생성/수정 폼에서 설정, 기본 off |'
+  - unit: backlog/guest-request#34.-게스트-신청→승인-—-기획
+    quote: 훈련 일정은 크론 자동 생성이라 토글 위치는 폼이 아닌 일정 상세.
+  wevolley#sc-guest-profile-card:
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: ※ 신청에 내 프로필 카드(레벨·포지션·구력·성별) 자동 첨부 — 카톡 대비 핵심 우위
+  - unit: backlog/guest-request#5.-유저-스토리-(우선순위순)
+    quote: '- 신청자의 실력·포지션을 보고 우리 수준에 맞는지 판단해서 승인하고 싶다.'
+  - unit: backlog/guest-request#3.-비목표
+    quote: 지금은 프로필 카드가 신뢰 근거.
+  wevolley#sc-guest-reject-reason-required:
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 2. **거절 사유 필수.** 선택지(정원 마감/수준 미스매치/일정 사정/기타+메모) → 게스트 알림에 포함.
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '운영진: 알림 → 신청자 프로필 확인 → 승인 / 거절(사유 선택 필수)'
+  - unit: backlog/guest-request#5.-유저-스토리-(우선순위순)
+    quote: '- 일정이 사라지거나 거절돼도 방치되지 않고 알림으로 알고 싶다.'
+  wevolley#sc-guest-capacity-autoclose:
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: 정원 도달 시 자동 마감(추가 신청 차단)
+  - unit: backlog/guest-request#5.-유저-스토리-(우선순위순)
+    quote: '- 정원이 차면 자동으로 마감되어 추가 신청에 응답할 필요가 없으면 좋겠다.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 6 | 정원 자동 마감 | accepted 수 = 정원 → 신규 신청 차단, 목록에 "마감" 표시 |'
+  wevolley#sc-guest-cancellation:
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '취소:   게스트 취소(시작 전까지), 운영진 취소(사유 선택) — 양쪽 알림'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 7 | 취소 | 게스트 취소(시작 전), 운영진 일정 취소 시 승인 게스트 전원 알림 |'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: 'status: pending → accepted | rejected | cancelled,'
+  wevolley#sc-guest-request-edge-cases:
+  - unit: backlog/guest-request#5.-유저-스토리-(우선순위순)
+    quote: '**엣지**: 이미 멤버인 유저의 신청 차단 / 같은 일정 중복 신청 차단 / 일정 시작 이후 신청 차단 / 승인 후 일정 취소 시 게스트 전원 알림 / 밴 유저 차단(기존 RLS).'
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: UNIQUE(event_id, user_id)
+  - unit: backlog/guest-request#7.-요구사항
+    quote: 로그인+비멤버+시작 전+정원 미달일 때만 가능. 중복 시 "이미 신청함"
+  wevolley#sc-my-requests-guest-section:
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '- `my-requests`(lib/api/account.ts fetchMyRequests)가 3종 union — **게스트가 4번째 섹션으로 추가** 필요.'
+  - unit: backlog/guest-request#5.-유저-스토리-(우선순위순)
+    quote: '- 내 신청 현황(대기/승인/거절)을 마이페이지에서 보고 싶다.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 9 | 내 신청 현황 | my-requests에 게스트 섹션 |'
+  - unit: backlog/guest-request#9.-단계
+    quote: Phase 3 my-requests 통합 + 승인 후 안내 화면                    — P0 9, 5
+  wevolley#sc-guest-approval-rpc:
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '- 승인은 RPC(SECURITY DEFINER): 정원 검사 + status 전이 + 알림을 트랜잭션으로 — 동시 승인 초과 방지.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 4 | 승인/거절 (RPC) | 정원 초과 승인 시도 시 실패+안내.'
+  - unit: backlog/guest-request#9.-단계
+    quote: Phase 1 스키마+RPC+RLS (guest_requests, club_events 확장)      — P0 1~8
+  wevolley#sc-nonmember-event-visibility:
+  - unit: backlog/guest-request#6.-도메인-모델
+    quote: '- **RLS 신규 지점**: 비멤버가 guest_open=true 일정을 조회 가능해야 함. 노출 필드 최소화(제목·일시·장소명·클럽·정원/현황). 정확한 위치 등 상세는 승인 후. 기존 club_events 정책은 멤버 한정일 것 — 별도 SELECT 정책 추가.'
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '| 2 | 모집 일정 노출 | 클럽 상세에서 비멤버에게 모집 중 일정 목록 표시. guest_open=false 일정은 비멤버에게 불가시 |'
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: ※ 비멤버의 개별 club_events 조회 RLS는 여전히 구현 확인 사항(§6).
+  - unit: backlog/guest-request#34.-게스트-신청→승인-—-기획
+    quote: §6의 "기존 club_events 정책은 멤버 한정" 전제는 낡음(00048/00113의 visibility 축 존재)
+  wevolley#sc-guest-recruit-feed:
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '- **게스트 모집 피드**: 게임 탭 또는 홈에 지역 필터 기반 "게스트 모집 중" 목록 — 이 기능의 성장 엔진이지만 코어 루프 검증 후. 클럽 상세 진입만으로 시작.'
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 피드는 P1 유지.
+  - unit: backlog/guest-request#9.-단계
+    quote: 검증    자기 클럽에서 도그푸딩 → 3클럽 확보 → P1 피드 판단
+  wevolley#sc-guest-scope-club-detail-only:
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 1. **공개 범위 = 클럽 상세 진입만.**
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 게스트가 시간대를 파악하는 데 별도 피드 불필요.
+  - unit: backlog/guest-request#4.-코어-플로우
+    quote: '게스트: 클럽 상세 → 모집 중 일정 목록 → 일정 선택 → 한마디 작성 → 신청'
+  wevolley#sc-guest-post-approval-dm:
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 3. **승인 후 소통 = 기존 DM 재사용.** 추가 개발 없음.
+  wevolley#sc-repeat-request-friction-accepted:
+  - unit: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+    quote: 4. **반복 신청은 감수.** 준단골 게스트의 마찰 완화 장치 안 만듦 — 알아서 할 일.
+  wevolley#sc-guest-phasing:
+  - unit: backlog/guest-request#9.-단계
+    quote: Phase 2 화면 (일정 폼 토글, 모집 목록, 신청, 운영진 인박스)      — P0 완성
+  - unit: backlog/guest-request#9.-단계
+    quote: Phase 1 스키마+RPC+RLS (guest_requests, club_events 확장)      — P0 1~8
+  - unit: backlog/guest-request#7.-요구사항
+    quote: '**P1 — 빠른 후속**'
+  wevolley#sc-view-as-member:
+  - unit: backlog/view-as-member-v2#37-—-일반-회원-모드-v2:-클럽-관리자-표면까지-(View-as-Member-v2)
+    quote: '> 범위: **클라이언트 뷰 모드만.** 서버(RLS·RPC) 권한 전환(impersonation)은 하지 않는다.'
+  - unit: backlog/view-as-member-v2#37-—-일반-회원-모드-v2:-클럽-관리자-표면까지-(View-as-Member-v2)
+    quote: v2는 클럽 관리자 표면까지 내리고, 모드 상태를 화면에 상시 표시한다.
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 1. 일반 회원 모드 ON 상태에서 **홈 내 동호회 카드의 운영 액션 행([일정 등록·공지 쓰기·관리])이 사라진다** (실제 club admin이어도).
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 2. ON 상태에서 **자기 클럽 상세가 일반 회원 시점**이 된다
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: '- 운영자(super_admin): 마이페이지 토글 ON → 회원 눈으로 앱 순회 → pill로 복귀.'
+  wevolley#sc-two-admin-lineages:
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: '**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**'
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: 1. **app_role 계통** (v1이 내림) — `useAuth().isSuperAdmin/isAdmin` 소비처 15파일.
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: '2. **club_members role 계통** (v1이 안 내림) — 소비처 실측:'
+  - unit: backlog/view-as-member-v2#37-—-일반-회원-모드-v2:-클럽-관리자-표면까지-(View-as-Member-v2)
+    quote: '한 줄 요약: v1 토글은 app_role 게이트만 내렸는데, 유저가 일상에서 보는 관리자 UI의 대부분은 club_members role(진짜 클럽 관리자)에서 나온다 — 그래서 켜도 아무것도 안 달라져 보였다.'
+  wevolley#sc-view-as-member-v1-assets:
+  - unit: backlog/view-as-member-v2#v1(81)이-이미-만든-것-—-재사용
+    quote: '`viewAsMember` 상태 + AsyncStorage 영속 + `setViewAsMember`'
+  - unit: backlog/view-as-member-v2#v1(81)이-이미-만든-것-—-재사용
+    quote: app_role 파생 오버라이드
+  - unit: backlog/view-as-member-v2#37-—-일반-회원-모드-v2:-클럽-관리자-표면까지-(View-as-Member-v2)
+    quote: 'PR #81(v1 — `viewAsMember` 토글 + auth.tsx 단일 파생 지점)이 인프라.'
+  - unit: backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: '**양성**: ON 상태에서 앱 재시작(새로고침) → 모드·pill 유지 (v1 영속 재확인).'
+  wevolley#sc-toggle-visible-to-real-superadmin:
+  - unit: backlog/view-as-member-v2#v1(81)이-이미-만든-것-—-재사용
+    quote: 완성. `isRealSuperAdmin` 기준 노출이라 일반 모드에서도 복귀 가능
+  - unit: backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: '**음성**: 일반 계정(비 super_admin)에는 토글도 pill도 절대 안 뜬다.'
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: '**보이나/안 보이나**: 일반 유저에겐 완전히 안 보임 (super_admin 전용).'
+  wevolley#sc-club-role-surface-dominates:
+  - unit: backlog/view-as-member-v2#핵심-통찰
+    quote: '- **"일반 회원처럼 보기"의 체감은 app_role이 아니라 club role 표면에서 나온다.** 홈 footer(방금 36에서 추가)와 클럽 상세 관리 UI가 유저 시야의 90%.'
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: 운영자는 평소 자기 클럽만 보므로 이 표면을 거의 안 지나간다.
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: '**실제 운영자(super_admin)는 자기 클럽들의 진짜 club admin이기도 하므로**, 토글을 켜도 홈 footer·클럽 관리 UI가 전부 그대로다. 이게 "달라지는 게 없는데?"의 정체.'
+  wevolley#sc-gate-at-derivation-point:
+  - unit: backlog/view-as-member-v2#3.3-어디서-내리나-—-파생-지점-vs-소비처
+    quote: '`viewAsMember`를 각 소비처에서 체크하면 새 화면마다 잊기 쉽다. **결정: 파생 지점에서 내린다** — v1이 auth.tsx에서 한 것과 동일 원칙:'
+  - unit: backlog/view-as-member-v2#3.3-어디서-내리나-—-파생-지점-vs-소비처
+    quote: '`isPresident`·`isAdmin`·`canEdit`·`isMember`가 연쇄로 내려간다.'
+  - unit: backlog/view-as-member-v2#핵심-통찰
+    quote: v1과 같은 "파생 지점만 고치면 일괄 적용" 구조가 성립한다.
+  - unit: backlog/view-as-member-v2#§4-구현-계획-(단일-PR,-커밋-3개)
+    quote: '1. **club role 게이트 다운그레이드**: `ClubDetailContext.tsx:103`, `MyClubsSection.tsx:138`, `club/[id]/index.tsx:61`에 `!viewAsMember` 반영.'
+  - unit: backlog/view-as-member-v2#§7-리스크-&-완화
+    quote: '`MyClubsSection` 사례처럼 role 게이트는 파생/전달로 받는 관례를 DECISIONS.md에 1줄 기록'
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: '- 개발자: 새 관리자 UI는 `ClubDetailContext.isAdmin`/`isClubAdmin` 파생을 소비하면 모드가 공짜로 적용된다 — 개별 화면에서 `membership.role`을 직접 읽지 말 것.'
+  wevolley#sc-badge-vs-action-gate:
+  - unit: backlog/view-as-member-v2#3.2-정보성-뱃지는-두고-행동-게이트만-내린다-(과표준화-경고)
+    quote: 이건 **거짓 정보**다(실제 role은 admin). 일반 회원 모드의 목적은 "회원이 보는 화면의 문제를 발견"이지 "내 정체를 속이기"가 아니다.
+  - unit: backlog/view-as-member-v2#3.2-정보성-뱃지는-두고-행동-게이트만-내린다-(과표준화-경고)
+    quote: '**결정: 기능/CTA 게이트(footer, 관리 진입, canEdit)만 내리고 정보 표시는 유지.**'
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 5. 정보성 role 뱃지(my-clubs·members 화면의 '관리자' 라벨)는 **바꾸지 않는다** — 행동 게이트만 내린다 (§3.2).
+  - unit: backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: '**음성**: ON 상태에서 my-clubs의 ''관리자'' 뱃지는 **그대로 ''관리자''** (정보 유지 — §3.2).'
+  wevolley#sc-impersonation-rejected:
+  - unit: backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+    quote: '- **C. 서버 impersonation** (RLS까지 회원 권한): JWT claim 조작 또는 별도 세션 필요 — 보안 표면 확대 + 복잡도 폭발. 완전 시뮬레이션은 이미 있는 **테스트 계정**이 정답.'
+  - unit: backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+    quote: '- **결정: B.** C는 과욕 (테스트 계정이 대체재).'
+  - unit: backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: '- **서버 권한 전환(impersonation)** — §3.1 결정 C 탈락. 완전한 일반 회원 시뮬레이션은 테스트 계정으로'
+  wevolley#sc-mode-indicator-pill:
+  - unit: backlog/view-as-member-v2#3.4-모드-인디케이터-—-위치와-형태
+    quote: '- **결정: C (좌하단 pill, "👁 일반 회원 모드 · 끄기").** 탭하면 즉시 OFF.'
+  - unit: backlog/view-as-member-v2#3.4-모드-인디케이터-—-위치와-형태
+    quote: '- **C. 플로팅 pill (하단 탭바 위)**: 삽입점 1곳(탭 레이아웃), SafeArea 간섭 없음, 탭바 바로 위라 시선에 걸림.'
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: 3. **모드 표시 부재** — 켜져 있음을 아는 방법이 마이페이지 토글 행 하나뿐. 다른 탭으로 이동하는 순간 모드 상태가 보이지 않는다.
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 3. ON 상태에서 **모든 화면 상단에 모드 인디케이터**(얇은 배너 "일반 회원 모드로 보는 중 · 끄기")가 떠서, 켜져 있음을 잊거나 "변화 없음"으로 오인하지 않는다.
+  - unit: backlog/view-as-member-v2#§4-구현-계획-(단일-PR,-커밋-3개)
+    quote: '2. **모드 인디케이터 pill**: `app/(tabs)/_layout.tsx`에 `viewAsMember && <ViewAsMemberPill />`'
+  - unit: backlog/view-as-member-v2#§7-리스크-&-완화
+    quote: pill 상시 표시가 바로 이 리스크의 완화책 (§3.4)
+  - unit: backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: '- **스택 화면(탭 밖) pill 커버리지** — admin/·chat/[roomId] 등. 문제 표면이 아니라 잘라냄.'
+  wevolley#sc-client-toggle-server-limit:
+  - unit: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+    quote: 4. (참고) **서버 계통** — migrations에서 `super_admin` 언급 30파일, 정책류(using/check) 12건, `app_role` 체크 RPC 13파일. RLS가 super admin에게 더 반환하는 행은 클라이언트 토글로 못 막는다. v2에서도 범위 밖 (§6).
+  - unit: backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+    quote: B의 한계(서버가 더 주는 데이터)는 §6에 명시하고 배너 문구로도 암시하지 않는다(운영자용 기능이라 과설명 불필요).
+  - unit: backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: (RLS가 super admin에게 더 반환하는 행 — 정책류 12건 — 은 이 모드에서도 보일 수 있음).
+  wevolley#sc-gate-only-no-cache-manipulation:
+  - unit: backlog/view-as-member-v2#3.5-쿼리·캐시
+    quote: 'club role은 서버 데이터 그대로 두고 **게이트에서만** 내리므로 캐시 조작이 필요 없다 (v1의 `enabled: isSuperAdmin` 쿼리들도 자동 disable).'
+  - unit: backlog/view-as-member-v2#3.5-쿼리·캐시
+    quote: 토글 시 invalidate 불필요 — 상태 전파는 React context 리렌더로 즉시.
+  wevolley#sc-mode-toggle-instant-reversible:
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 4. OFF로 되돌리면 1~3이 전부 원상복구된다 (새로고침 불필요).
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: 배너의 "끄기"로 즉시 복귀된다.
+  - unit: backlog/view-as-member-v2#§5-검증-(Verification)
+    quote: ③ 좌하단 pill 표시 → pill 탭 → 전부 복귀.
+  wevolley#sc-ismember-drop-intended:
+  - unit: backlog/view-as-member-v2#§7-리스크-&-완화
+    quote: 실제로는 membership이 있어 서버가 중복 신청 거부 + 이게 바로 "회원이 아닌 시점" 재현이므로 의도된 동작
+  - unit: backlog/view-as-member-v2#3.5-쿼리·캐시
+    quote: 단, `isMember` 하락으로 클럽 상세의 멤버 전용 쿼리가 있다면 disable될 뿐 (오작동 아님).
+  wevolley#sc-guest-mode-deferred:
+  - unit: backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+    quote: '- **비회원(게스트) 모드** — "회원도 아닌 사람"의 시점은 별개 축. 필요성이 확인되면 별도 기획.'
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: '- 후속: 게스트 모드·서버 impersonation이 필요해지면 이 토글의 의미론(§3.1)을 기준선으로 논의.'
+  wevolley#sc-view-as-member-quality-loop:
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: 운영자 QoL + "회원 UX 문제를 운영자가 직접 발견"이라는 품질 루프를 만드는 도구.
+  - unit: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+    quote: '- 운영자가 일반 회원의 실제 화면(빈 상태, CTA, 막힌 진입)을 자기 계정으로 재현 가능 — "평소에 뭐가 안 되는지"를 드디어 본다.'
+  - unit: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+    quote: '정성적으로: 운영자가 일반 회원의 빈 화면/CTA 문제를 재현해 리포트하는 사례 발생.'

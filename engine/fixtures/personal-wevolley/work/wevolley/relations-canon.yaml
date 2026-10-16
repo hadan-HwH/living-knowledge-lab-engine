@@ -1,0 +1,291 @@
+relations:
+- from: sc-adaptive-list-web-flatlist
+  to: sc-platform-divergent-decision
+  canonical: part_of
+  surface: 웹은 AdaptiveList 내부에서 FlatList로 전환
+  quote: 웹은 AdaptiveList 내부에서 FlatList로 전환 — FlashList 재활용 갭 회피.
+- from: sc-approval-gate
+  to: sc-script-orchestrator
+  canonical: constrains
+  surface: 생성된 행은 status='awaiting_approval'로
+  quote: '승인 모드(config.require_approval, 기본 true): 생성된 행은 status=''awaiting_approval''로'
+- from: sc-auth-gate-return-to
+  to: sc-route-guard-default-deny
+  canonical: compares_with
+  surface: RouteGuard가 consumeReturnTo로 원래 화면 replace
+  quote: '복귀 동선: 시트 → 로그인 → RouteGuard가 consumeReturnTo로 원래 화면 replace'
+- from: sc-bot-volume-inverse-to-human
+  to: sc-script-orchestrator
+  canonical: constrains
+  surface: 선클램프 입력 — 프롬프트가 아닌 코드가 강제
+  quote: 지난 7일 사람 글 수 (선클램프 입력 — 프롬프트가 아닌 코드가 강제)
+- from: sc-broadcast-over-postgres-changes
+  to: sc-realtime-hybrid
+  canonical: precedes
+  surface: 이 채널 하나로 유저 단위 실시간이 수렴한다
+  quote: 이 채널 하나로 유저 단위 실시간이 수렴한다. 루트 레이아웃에서 1회 마운트.
+- from: sc-card-snapshot-metadata
+  to: sc-guest-profile-card
+  canonical: compares_with
+  surface: 박제한다(profile-snapshot 미러)
+  quote: 채팅 카드로 공유할 시점의 동호회 값을 metadata에 박제한다(profile-snapshot 미러).
+- from: sc-club-event-recurrence-model
+  to: sc-guest-request-event-scoped
+  canonical: enables
+  surface: 게스트 신청 단위 = 클럽 일정
+  quote: club_events
+- from: sc-community-dm-room-type
+  to: sc-community-profiles
+  canonical: derived_from
+  surface: 방 type이 이 방에서 상대를 뭘로 부르는가를 결정한다
+  quote: DM 상대 정체성 — 방 type이 "이 방에서 상대를 뭘로 부르는가"를 결정한다(45D, DECISIONS 0015).
+- from: sc-community-profiles
+  to: sc-broadcast-payload-privacy
+  canonical: constrains
+  surface: 조인하면 상대 클라이언트로 실명이 와이어에 실려
+  quote: 'community_dm: profiles 조인을 하지 않는다 — 조인하면 상대 클라이언트로 실명이 와이어에 실려'
+- from: sc-content-schedule-no-body-edit
+  to: sc-content-v3-format-spec
+  canonical: derived_from
+  surface: 00139는 body(폴백)만 고쳐 content JSONB와 어긋난다
+  quote: 콘텐츠 글(category='content')은 본문 수정 불가 - 00139는 body(폴백)만 고쳐 content
+- from: sc-deep-link-path-normalization
+  to: sc-share-og-canonical-split
+  canonical: part_of
+  surface: 외부 /s/ 는 Vercel rewrite로 OG 랜딩이지만, 앱은 /share/ 라우트를 가진다
+  quote: (외부 `/s/`는 Vercel rewrite로 OG 랜딩이지만, 앱은 `/share/` 라우트를 가진다 — 이 불일치를 메운다.)
+- from: sc-deterministic-default-avatar
+  to: sc-community-profiles
+  canonical: part_of
+  surface: userId로 결정적 커뮤니티 프로필 기본값
+  quote: userId로 결정적 커뮤니티 프로필 기본값.
+- from: sc-director-manual-scene-injection
+  to: sc-script-orchestrator
+  canonical: part_of
+  surface: 수동 장면 주입(LLM·API 키 불필요)
+  quote: '수동 장면 주입(LLM·API 키 불필요): service_role 또는 super_admin JWT로'
+- from: sc-enforcement-by-gates
+  to: sc-convention-drift-guard
+  canonical: enables
+  surface: 컬럼 rename/삭제 시 literal이 컴파일 에러(write 경로 가드)
+  quote: 반환 타입을 생성 Insert에 고정 — 컬럼 rename/삭제 시 literal이 컴파일 에러(write 경로 가드).
+- from: sc-entry-loading-data-gate
+  to: sc-eliminate-infinite-wait
+  canonical: derived_from
+  surface: 더 기다리지 않고 진입 — 무한 대기 방지
+  quote: 더 기다리지 않고 진입 — 홈이 자체 스피너/에러 UI로 처리. 무한 대기 방지.
+- from: sc-extract-when-two-places-diverge
+  to: sc-no-over-standardization
+  canonical: tension_with
+  surface: 억지로 합치지 않는다
+  quote: 억지로 합치지 않는다
+- from: sc-foreground-recovery
+  to: sc-zombie-channel-force-rebuild
+  canonical: triggers
+  surface: 무조건 소켓을 다시 세우고 등록된 전 채널을 강제 재구독
+  quote: 그래서 무조건 소켓을 다시 세우고 등록된 전 채널을 강제 재구독한다.
+- from: sc-freshness-gate-dedupe
+  to: sc-http-refetch-owns-consistency
+  canonical: constrains
+  surface: 3초 내 신선 데이터는 재요청 생략
+  quote: 3초 내 신선 데이터(pressIn·푸시 탭 프리페치 직후)는 재요청 생략 - 진입 중복 페치
+- from: sc-guest-login-required
+  to: sc-auth-gate-return-to
+  canonical: derived_from
+  surface: 신청 버튼은 useAuthGate로 로그인 유도 → returnTo 복귀
+  quote: 비로그인도 목록을 보고, 신청 버튼은 useAuthGate로 로그인 유도 → returnTo 복귀.
+- from: sc-guest-payment-guide-gated
+  to: sc-guest-request-lifecycle
+  canonical: part_of
+  surface: 승인되면 정확한 일정 정보 + 납부 안내가 열린다
+  quote: 승인되면 정확한 일정 정보 + 납부 안내(get_my_guest_detail RPC)가 열린다.
+- from: sc-guest-profile-card
+  to: sc-guest-request-lifecycle
+  canonical: part_of
+  surface: 신청 RPC가 서버에서 저장하는 원본 필드
+  quote: guest_requests.profile_snapshot — 신청 RPC가 서버에서 저장하는 원본 필드 (00143)
+- from: sc-http-refetch-owns-consistency
+  to: sc-realtime-hybrid
+  canonical: constrains
+  surface: 이벤트는 지연 최적화, 정합성은 refetch 가 소유
+  quote: '선언한다(59 §3-3: 이벤트는 지연 최적화, 정합성은 refetch 가 소유).'
+- from: sc-ime-slice-trap
+  to: sc-validation-single-rule-source
+  canonical: constrains
+  surface: maxLength 가 상한을 네이티브로 강제
+  quote: maxLength 가 상한을 네이티브로 강제
+- from: sc-in-app-foreground-banner
+  to: sc-http-refetch-owns-consistency
+  canonical: triggers
+  surface: 배너 표시 여부와 무관하게 관련 쿼리를 즉시 회수
+  quote: 배너 표시 여부와 무관하게 관련 쿼리를 즉시 회수한다
+- from: sc-in-app-foreground-banner
+  to: sc-notification-deeplink-cold-start
+  canonical: derived_from
+  surface: 라우팅은 기존 getNotificationRoute 를 재사용
+  quote: 라우팅은 기존 getNotificationRoute 를 재사용
+- from: sc-invite-flag-not-secret-token
+  to: sc-share-og-canonical-split
+  canonical: part_of
+  surface: 초대 링크의 invite 플래그를 상류로 전달
+  quote: invite 플래그를 상류(share-page)로 전달
+- from: sc-is-bot-never-exposed
+  to: sc-persist-denylist
+  canonical: constrains
+  surface: 콘솔 뷰를 로컬 스토리지에 남기지 않는다
+  quote: 봇 존재 자체가 민감 정보(45C, DECISIONS 0016) — 콘솔 뷰를 로컬 스토리지에 남기지 않는다.
+- from: sc-kill-switch
+  to: sc-bot-publisher
+  canonical: constrains
+  surface: 발행기도 매 턴 enabled 재확인
+  quote: '이중 방어: 발행기도 매 턴 enabled 재확인'
+- from: sc-korean-error-single-mapping
+  to: sc-error-display-classification
+  canonical: part_of
+  surface: fn이 throw하면 toKoreanMessage로 매핑하여 setError
+  quote: fn이 throw하면 toKoreanMessage로 매핑하여 setError
+- from: sc-local-date-string-scattered
+  to: sc-fix-at-choke-point
+  canonical: tension_with
+  surface: toISOString()은 UTC 기준이라 KST에서 하루 차이
+  quote: toISOString()은 UTC 기준이라 KST에서 하루 차이가 날 수 있다
+- from: sc-location-input-stack
+  to: sc-map-initial-view-policy
+  canonical: enables
+  surface: 위치 결과가 나온 뒤 1회
+  quote: focus 진입 아니고 위치 결과가 나온 뒤 1회
+- from: sc-map-initial-view-policy
+  to: sc-map-visual-single-source
+  canonical: part_of
+  surface: 양쪽이 같은 결정을 쓰도록 순수 함수로 추출
+  quote: 초기 뷰 정책(M1/M2/M3, §3.1) — 양쪽이 같은 결정을 쓰도록 순수 함수로 추출
+- from: sc-map-visual-single-source
+  to: sc-native-map-webview-kakao
+  canonical: part_of
+  surface: web·WebView 공용
+  quote: 선택 라벨 인라인 CSS — web(여기서 직접)·WebView(CONFIG 주입) 단일 소스
+- from: sc-my-activity-three-tabs
+  to: sc-community-profiles
+  canonical: part_of
+  surface: 드로어 진입
+  quote: 드로어 진입
+- from: sc-native-map-webview-kakao
+  to: sc-map-platform-parity
+  canonical: enables
+  surface: 검증된 웹 카카오 로직을 WebView로 호스팅
+  quote: 마커·이벤트가 전무 → 검증된 웹 카카오 로직(ClubMapViewWeb)을 WebView로 호스팅(planning/19).
+- from: sc-nickname-numeric-suffix
+  to: sc-nickname-app-wide-unique
+  canonical: derived_from
+  surface: 조합 풀이 120개뿐이라(닉네임 UNIQUE, 00122)
+  quote: '숫자 접미: 조합 풀이 120개뿐이라(닉네임 UNIQUE, 00122) 접미 없인 수십 명 규모에서 충돌 확실'
+- from: sc-notice-official-channel
+  to: sc-community-soft-launch-gate
+  canonical: part_of
+  surface: 피드 공지 스트립
+  quote: 피드 공지 스트립
+- from: sc-option-value-single-label-variants
+  to: sc-validation-single-rule-source
+  canonical: part_of
+  surface: 값(value) 은 LEVEL_OPTIONS / LEVEL_LABEL 과 호환
+  quote: 값(value) 은 LEVEL_OPTIONS / LEVEL_LABEL 과 호환
+- from: sc-persist-denylist
+  to: sc-early-solution-becomes-debt
+  canonical: triggers
+  surface: persist denylist 반전으로 자동 영속되어 프리페치 훅 제거
+  quote: 탭 리스트 프리페치(세션 1회)는 제거됨 — persist denylist 반전으로 clubs/clubs-map/game-posts가
+- from: sc-persist-denylist
+  to: sc-invalidation-audit-with-persistence
+  canonical: triggers
+  surface: 영속 캐시라 재시작에도 잔존
+  quote: 무효화해야 탈퇴한 클럽 일정이 남지 않는다(영속 캐시라 재시작에도 잔존).
+- from: sc-preview-shares-real-renderer
+  to: sc-approval-gate
+  canonical: enables
+  surface: 승인 전에 피드에 이렇게 나온다를 실물로 확인한다
+  quote: 봇 예약 콘텐츠 미리보기 (00152) - 승인 전에 "피드에 이렇게 나온다"를 실물로 확인한다.
+- from: sc-publish-time-by-code-random
+  to: sc-script-orchestrator
+  canonical: constrains
+  surface: 시각은 LLM이 아니라 코드 난수
+  quote: 시각은 LLM이 아니라 코드 난수(bot-logic) — LLM은 라운드 시각(07:00) 편향(45C §3-4).
+- from: sc-read-progress-codec
+  to: sc-reader-retired-detail-inline
+  canonical: tension_with
+  surface: 리더 철거 후에도 진행률 기록은 남는다
+  quote: 읽음 진행률은 useReadEpisodes(AsyncStorage)
+- from: sc-realtime-hybrid
+  to: sc-resilient-channel
+  canonical: part_of
+  surface: 구독/해제·백오프 재구독·좀비 복구는 useResilientChannel 담당
+  quote: 구독/해제·백오프 재구독·좀비 복구는 useResilientChannel(Phase 10·41)이 담당
+- from: sc-realtime-screen-declarative
+  to: sc-realtime-hybrid
+  canonical: part_of
+  surface: 화면 단위 실시간 표준 훅
+  quote: 화면 단위 실시간 표준 훅. (59 Phase B3)
+- from: sc-reduce-motion-invariant
+  to: sc-micro-motion-p1
+  canonical: constrains
+  surface: reduce motion 시 생략 — 즉시 최종 상태
+  quote: 장식 연출(와이프·슬라이드·타이핑)은 reduce motion 시 생략
+- from: sc-report-block-ugc-safety
+  to: sc-community-profiles
+  canonical: constrains
+  surface: 표시는 커뮤니티 프로필(가명) — 실명 노출 없음
+  quote: 표시는 커뮤니티 프로필(가명) — 실명 노출 없음
+- from: sc-report-block-ugc-safety
+  to: sc-ui-gate-rls-final
+  canonical: part_of
+  surface: 차단 동반 시 RLS 필터로 즉시 사라지므로
+  quote: 차단 동반 시 해당 유저 글/댓글이 RLS 필터로 즉시 사라지므로
+- from: sc-search-client-gate
+  to: sc-trigram-search
+  canonical: derived_from
+  surface: trigram 인덱스가 2글자 이하 패턴을 못 타는 것과 세트
+  quote: '2글자 미만은 검색 미적용(전체 피드): trigram 인덱스가 2글자 이하 패턴을 못 타는 것과 세트 (47 §3-2).'
+- from: sc-sentry-domain-tagging
+  to: sc-error-display-classification
+  canonical: compares_with
+  surface: onError 개별 콜백은 사용자 알림 전용. 보고는 여기 단일 책임
+  quote: onError 개별 콜백은 사용자 알림(toast/Alert) 전용. 보고는 여기 단일 책임.
+- from: sc-soft-delete-placeholder
+  to: sc-author-set-null-on-delete
+  canonical: compares_with
+  surface: 답글이 살아있는 삭제된 최상위 댓글은 플레이스홀더로
+  quote: '삭제 필터를 코드에서 처리(49C): 답글이 살아있는 삭제된 최상위 댓글은 플레이스홀더로'
+- from: sc-status-single-matrix
+  to: sc-rebranding-tokens-first
+  canonical: derived_from
+  surface: 색은 팔레트 토큰에서만 — 하드코딩 금지
+  quote: 색은 팔레트 토큰(Colors.*)에서만 — 하드코딩 금지.
+- from: sc-sync-latency-instrumentation
+  to: sc-measure-first
+  canonical: part_of
+  surface: 개선 주장은 이 수치로만 한다
+  quote: 개선 주장은 이 수치로만 한다(59 §3-6).
+- from: sc-ui-gate-rls-final
+  to: sc-sensitive-transition-via-rpc
+  canonical: derived_from
+  surface: 민감 작업은 전부 SECURITY DEFINER RPC 경유
+  quote: 민감 작업은 전부 SECURITY DEFINER RPC(change_user_role, ban_user, unban_user)
+- from: sc-validation-single-rule-source
+  to: sc-form-hook-mirroring
+  canonical: part_of
+  surface: 검증 규칙은 validateScrimmageForm 한 곳뿐
+  quote: 검증 규칙은 `validateScrimmageForm` 한 곳뿐 — create는 이 매핑으로 현재 step에 해당하는
+- from: sc-volt-ink-over-lime-legibility
+  to: sc-rebranding-tokens-first
+  canonical: derived_from
+  surface: 'VOLT: 선택 = 잉크 반전'
+  quote: 'VOLT: 선택 = 잉크 반전'
+- from: sc-web-layout-animation-landmine
+  to: sc-reduce-motion-invariant
+  canonical: compares_with
+  surface: 스타일 구동(useAnimatedStyle)
+  quote: 스타일 구동(useAnimatedStyle) — 레이아웃 entering 은 웹에서 absolute 잔존 회귀라 금지.
+- from: sc-zombie-channel-force-rebuild
+  to: sc-resilient-channel
+  canonical: triggers
+  surface: 등록된 모든 채널을 강제 재구독
+  quote: 등록된 모든 채널을 강제 재구독. zombie 소켓 복구용(heartbeat·foreground 트리거).

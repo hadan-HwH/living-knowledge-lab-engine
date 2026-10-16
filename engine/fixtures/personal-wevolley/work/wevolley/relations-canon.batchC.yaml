@@ -1,0 +1,251 @@
+relations:
+- from: sc-treasury-core-loop
+  to: sc-treasury-ledger
+  canonical: part_of
+  surface: 코어 루프
+  quote: '[청구 발행]  charge_plan이 매월/분기 자동 발행 (또는 총무 수동 발행)'
+- from: sc-treasury-three-principles
+  to: sc-treasury-ledger
+  canonical: enables
+  surface: 은행 연동 없이 성립하는 이유
+  quote: 이 3개가 은행 연동 없이 성립하는 이유.
+- from: sc-open-banking-rejected
+  to: sc-treasury-ledger
+  canonical: constrains
+  surface: 은행 연동 없이
+  quote: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부.
+- from: sc-designated-depositor-name
+  to: sc-treasury-semi-auto
+  canonical: enables
+  surface: 매칭을 상류에서 제거
+  quote: '**매칭을 상류에서 제거**(지정 입금자명)'
+- from: sc-club-charges
+  to: sc-treasury-ledger
+  canonical: part_of
+  surface: 장부의 원자 단위
+  quote: club_charges           장부의 원자 단위 —
+- from: sc-charge-plans
+  to: sc-club-charges
+  canonical: triggers
+  surface: 매월 1일 … pending charge 생성
+  quote: '"plan(월 3만, 1일 발행) 설정 시 매월 1일 활성 멤버 전원에게 pending charge 생성 + charge_issued 알림 발송"'
+- from: sc-charge-status-enum
+  to: sc-club-charges
+  canonical: constrains
+  surface: status 전이
+  quote: 'status: pending → reported → confirmed | exempt | void'
+- from: sc-immutable-ledger
+  to: sc-charge-status-enum
+  canonical: constrains
+  surface: void+재발행
+  quote: confirmed 취소는 void+재발행(수정 불가 원장)
+- from: sc-balance-is-derived
+  to: sc-club-charges
+  canonical: derived_from
+  surface: Σ confirmed charges
+  quote: 잔액                    = Σ confirmed charges − Σ expenses (뷰/집계 쿼리, 컬럼 아님)
+- from: sc-balance-is-derived
+  to: sc-club-expenses
+  canonical: derived_from
+  surface: − Σ expenses
+  quote: 잔액                    = Σ confirmed charges − Σ expenses (뷰/집계 쿼리, 컬럼 아님)
+- from: sc-club-finance-settings
+  to: sc-account-info-exposure-scope
+  canonical: constrains
+  surface: 계좌는 민감 정보 → 별도 테이블 + RLS
+  quote: 계좌는 민감 정보 → 별도 테이블 + RLS
+- from: sc-treasury-write-role
+  to: sc-treasury-ledger
+  canonical: constrains
+  surface: 회계 쓰기 권한
+  quote: 회계 쓰기 권한 = `club_members.role = admin`
+- from: sc-finance-summary-visibility
+  to: sc-treasury-ledger
+  canonical: part_of
+  surface: 이 기능의 차별 가치
+  quote: 재정 요약(총계·잔액·지출)은 멤버 전체 열람 — 이 기능의 차별 가치(상시 투명성).
+- from: sc-treasury-open-question-visibility
+  to: sc-finance-summary-visibility
+  canonical: tension_with
+  surface: 본인+운영진 vs 전체 공개
+  quote: '미납 공개 범위 기본값: 본인+운영진(권장) vs 전체 공개. 두 차례 논의 미결.'
+- from: sc-self-report-adoption-risk
+  to: sc-tx-paste-parsing-deferred
+  canonical: triggers
+  surface: 40% 미만이면 P2 파싱 승격
+  quote: 40% 미만이면 P2 파싱 승격
+- from: sc-self-report-adoption-risk
+  to: sc-treasury-semi-auto
+  canonical: tension_with
+  surface: 채택률 60% 미달 시 가치 반감
+  quote: 채택률 60% 미달 시 가치 반감
+- from: sc-dues-auto-reminder
+  to: sc-treasury-core-loop
+  canonical: part_of
+  surface: 미납은 N일차 자동 리마인드
+  quote: 미납은 N일차 자동 리마인드 (앱이 독촉, 총무 아님)
+- from: sc-external-validation-needed
+  to: sc-self-report-adoption-risk
+  canonical: tests
+  surface: 셀프 신고 가정의 외부 확인
+  quote: 셀프 신고 가정의 외부 확인 (본인 클럽만으론 표본 1)
+- from: sc-notify-single-entry-precondition
+  to: sc-treasury-notification-set
+  canonical: precedes
+  surface: 첫 스키마 작업으로 선행
+  quote: '**notify() 단일 진입점 마이그레이션을 이 기능 첫 스키마 작업으로 선행**한다(planning/32 P1-1).'
+- from: sc-ledger-precursor-to-payment
+  to: sc-club-charges
+  canonical: derived_from
+  surface: 원장 전신
+  quote: club_charges/expenses는 미래 결제(Phase C)의 원장 전신
+- from: sc-thin-rules-dumb-ledger
+  to: sc-club-charges
+  canonical: constrains
+  surface: 규칙은 얇게, 장부는 멍청하게
+  quote: '모델링 원칙: **규칙은 얇게, 장부는 멍청하게.**'
+- from: sc-guest-requests-table
+  to: sc-guest-request-lifecycle
+  canonical: part_of
+  surface: 요청 도메인 4번째
+  quote: guest_requests (신설 — 요청 도메인 4번째, 0005)
+- from: sc-guest-open-toggle
+  to: sc-guest-request-lifecycle
+  canonical: enables
+  surface: 게스트 모집 토글 on
+  quote: '운영진: 일정 생성/수정 시 "게스트 모집" 토글 on + 모집 인원(정원) 설정'
+- from: sc-guest-capacity-autoclose
+  to: sc-guest-request-lifecycle
+  canonical: constrains
+  surface: 추가 신청 차단
+  quote: 정원 도달 시 자동 마감(추가 신청 차단)
+- from: sc-guest-profile-card
+  to: sc-guest-request-lifecycle
+  canonical: enables
+  surface: 실력·포지션을 보고 … 승인
+  quote: 신청자의 실력·포지션을 보고 우리 수준에 맞는지 판단해서 승인하고 싶다.
+- from: sc-guest-payment-guide-gated
+  to: sc-guest-request-lifecycle
+  canonical: constrains
+  surface: 승인된 게스트에게만
+  quote: 승인된 게스트에게만 guest_payment_guide+정확한 일정 상세 노출
+- from: sc-guest-payment-guide-table-rls
+  to: sc-guest-payment-guide-gated
+  canonical: tension_with
+  surface: clubs 컬럼으로는 은닉 불가
+  quote: guest_payment_guide는 clubs 컬럼으로는 은닉 불가(행 단위 RLS)라 별도 테이블+RPC로 변경
+- from: sc-guest-approval-rpc
+  to: sc-guest-capacity-autoclose
+  canonical: enables
+  surface: 동시 승인 초과 방지
+  quote: '승인은 RPC(SECURITY DEFINER): 정원 검사 + status 전이 + 알림을 트랜잭션으로 — 동시 승인 초과 방지.'
+- from: sc-guest-request-event-scoped
+  to: sc-guest-requests-table
+  canonical: constrains
+  surface: UNIQUE(event_id, user_id)
+  quote: UNIQUE(event_id, user_id)
+- from: sc-guest-independent-release
+  to: sc-guest-fee-charge-on-approval
+  canonical: precedes
+  surface: 금고 출시 시 charge 연동으로 승격(P2)
+  quote: v1 납부 = 승인 후 안내 텍스트. 금고 출시 시 charge 연동으로 승격(P2).
+- from: sc-guest-fee-charge-on-approval
+  to: sc-club-charges
+  canonical: triggers
+  surface: guest_fee charge 자동 생성
+  quote: '승인 부수효과: guest_fee charge 자동 생성 → 게스트에게 납부 안내 알림'
+- from: sc-guest-dm-roundtrip-pain
+  to: sc-guest-request-lifecycle
+  canonical: hypothesizes_gap
+  surface: DM 왕복
+  quote: 실제 성사는 "언제 가면 되나요 / 이번 주 목요일이요 / 몇 명이나요…" 같은 DM 왕복으로 처리되고, 운영진은 같은 질문에 반복 응답한다.
+- from: sc-guest-as-personal-user-value
+  to: sc-guest-request-lifecycle
+  canonical: enables
+  surface: 첫 번째 명확한 사용 이유
+  quote: '"이번 주 게스트 뛸 곳 찾기"는 개인 유저의 **첫 번째 명확한 사용 이유**가 되고'
+- from: sc-guest-recruit-feed
+  to: sc-guest-scope-club-detail-only
+  canonical: tension_with
+  surface: 별도 피드 불필요
+  quote: 게스트가 시간대를 파악하는 데 별도 피드 불필요. 피드는 P1 유지.
+- from: sc-nonmember-event-visibility
+  to: sc-guest-scope-club-detail-only
+  canonical: enables
+  surface: 비멤버에게 모집 중 일정 목록 표시
+  quote: 클럽 상세에서 비멤버에게 모집 중 일정 목록 표시.
+- from: sc-my-requests-guest-section
+  to: sc-guest-request-lifecycle
+  canonical: part_of
+  surface: 게스트가 4번째 섹션으로 추가
+  quote: '`my-requests`(lib/api/account.ts fetchMyRequests)가 3종 union — **게스트가 4번째 섹션으로 추가** 필요.'
+- from: sc-guest-cancellation
+  to: sc-guest-request-lifecycle
+  canonical: part_of
+  surface: 취소
+  quote: '취소:   게스트 취소(시작 전까지), 운영진 취소(사유 선택) — 양쪽 알림'
+- from: sc-guest-reject-reason-required
+  to: sc-guest-request-lifecycle
+  canonical: constrains
+  surface: 거절(사유 선택 필수)
+  quote: '운영진: 알림 → 신청자 프로필 확인 → 승인 / 거절(사유 선택 필수)'
+- from: sc-two-admin-lineages
+  to: sc-view-as-member
+  canonical: constrains
+  surface: 한 계통만 내렸다
+  quote: '**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**'
+- from: sc-club-role-surface-dominates
+  to: sc-two-admin-lineages
+  canonical: derived_from
+  surface: club role 표면에서 나온다
+  quote: '**"일반 회원처럼 보기"의 체감은 app_role이 아니라 club role 표면에서 나온다.**'
+- from: sc-gate-at-derivation-point
+  to: sc-view-as-member
+  canonical: enables
+  surface: 파생 지점에서 내린다
+  quote: '**결정: 파생 지점에서 내린다**'
+- from: sc-badge-vs-action-gate
+  to: sc-view-as-member
+  canonical: constrains
+  surface: 정보 표시는 유지
+  quote: '**결정: 기능/CTA 게이트(footer, 관리 진입, canEdit)만 내리고 정보 표시는 유지.**'
+- from: sc-mode-indicator-pill
+  to: sc-view-as-member
+  canonical: part_of
+  surface: 모드 인디케이터
+  quote: '**결정: C (좌하단 pill, "👁 일반 회원 모드 · 끄기").**'
+- from: sc-impersonation-rejected
+  to: sc-client-toggle-server-limit
+  canonical: tension_with
+  surface: 서버가 더 주는 데이터
+  quote: B의 한계(서버가 더 주는 데이터)는 §6에 명시하고
+- from: sc-view-as-member-v1-assets
+  to: sc-view-as-member
+  canonical: precedes
+  surface: v1 … 인프라
+  quote: 'PR #81(v1 — `viewAsMember` 토글 + auth.tsx 단일 파생 지점)이 인프라.'
+- from: sc-ismember-drop-intended
+  to: sc-gate-at-derivation-point
+  canonical: derived_from
+  surface: 연쇄로 내려간다
+  quote: '`isPresident`·`isAdmin`·`canEdit`·`isMember`가 연쇄로 내려간다.'
+- from: sc-gate-only-no-cache-manipulation
+  to: sc-gate-at-derivation-point
+  canonical: derived_from
+  surface: 게이트에서만
+  quote: club role은 서버 데이터 그대로 두고 **게이트에서만** 내리므로 캐시 조작이 필요 없다
+- from: sc-mode-indicator-pill
+  to: sc-view-as-member-quality-loop
+  canonical: enables
+  surface: 3초 안에 인지
+  quote: 토글 ON 직후 유저가 "달라졌다"를 3초 안에 인지 (배너 + 홈 footer 소멸).
+- from: sc-toggle-visible-to-real-superadmin
+  to: sc-mode-toggle-instant-reversible
+  canonical: enables
+  surface: 일반 모드에서도 복귀 가능
+  quote: '`isRealSuperAdmin` 기준 노출이라 일반 모드에서도 복귀 가능'
+- from: sc-guest-mode-deferred
+  to: sc-view-as-member
+  canonical: compares_with
+  surface: 별개 축
+  quote: '"회원도 아닌 사람"의 시점은 별개 축.'

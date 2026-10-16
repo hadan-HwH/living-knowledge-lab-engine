@@ -1,0 +1,22 @@
+# 관계 어휘 선언 — core_13은 **코퍼스 공통**이고 extensions만 코퍼스별이다.
+# ★2026-08-06 — 이 파일이 없어 어휘 게이트가 3코퍼스 중 2개에서 안 돌고 있었다
+#   (`stats.relation_vocab: {skipped: 어휘 선언 없음}`). 조용히 통과한 게 아니라
+#   사유를 남기고 건너뛴 것이라 규율은 지켜졌지만, 감시가 없던 건 사실이다.
+#   extensions는 비운다 — 이 코퍼스가 실제로 새 어휘를 제안하면 그때 채운다
+#   (미리 채우면 쓰지도 않는 어휘가 등록돼 게이트가 헐거워진다).
+core_13:
+- part_of
+- derived_from
+- computes
+- constrains
+- enables
+- selects
+- compares_with
+- tension_with
+- hypothesizes_gap
+- tests
+- records
+- triggers
+- precedes
+extensions: []
+not_a_relation: []

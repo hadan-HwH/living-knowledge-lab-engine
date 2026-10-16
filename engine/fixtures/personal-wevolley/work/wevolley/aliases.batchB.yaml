@@ -1,0 +1,43 @@
+aliases:
+- anchor: wevolley#sc-resilient-channel
+  surface: useResilientChannel
+  confidence: high
+- anchor: wevolley#sc-realtime-screen-declarative
+  surface: useRealtimeScreen
+  confidence: high
+- anchor: wevolley#sc-zombie-channel-force-rebuild
+  surface: forceReconnectAllChannels
+  confidence: high
+- anchor: wevolley#sc-freshness-gate-dedupe
+  surface: 3초 신선도 게이트
+  confidence: high
+- anchor: wevolley#sc-persist-policy-inversion
+  surface: denylist 반전
+  confidence: high
+- anchor: wevolley#sc-sync-latency-instrumentation
+  surface: sync-latency 로거
+  confidence: high
+- anchor: wevolley#sc-refetch-type-tiering
+  surface: Tier 계층화
+  confidence: medium
+- anchor: wevolley#sc-vault-key-injection
+  surface: push_service_role_key
+  confidence: high
+- anchor: wevolley#sc-legacy-key-anon-coupling
+  surface: Legacy anon, service_role API keys
+  confidence: high
+- anchor: wevolley#sc-array-column-normalization
+  surface: admin_positions
+  confidence: medium
+- anchor: wevolley#sc-picker-hang-watchdog
+  surface: 워치독 래퍼
+  confidence: high
+- anchor: wevolley#sc-placeholder-zero-ms-entry
+  surface: 0ms 진입
+  confidence: high
+- anchor: wevolley#sc-entry-loading-data-gate
+  surface: EntryLoading
+  confidence: medium
+- anchor: wevolley#sc-eliminate-infinite-wait
+  surface: 무한 대기 상태를 시스템에서 제거
+  confidence: high

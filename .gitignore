@@ -1,0 +1,14 @@
+# 데모 코퍼스(engine/fixtures/personal-wevolley)는 저장소에 동봉한다.
+# 그 밖의 코퍼스는 scripts/mount-data.sh 로 심링크 장착 — 실체는 저장소 밖에 둔다.
+# 후행 슬래시를 쓰지 않는다 — 슬래시는 디렉터리만 매치해서 심링크가 안 걸린다.
+engine/fixtures/lab-self
+engine/fixtures/acme-docs
+
+# 세션 대화 원본·전처리 파생물(대화 전문 포함)은 어떤 원격에도 올리지 않는다.
+docs/resources/transcripts/
+engine/fixtures/**/turns.yaml
+engine/fixtures/**/human-turns.yaml
+
+.pytest_cache/
+__pycache__/
+.venv/

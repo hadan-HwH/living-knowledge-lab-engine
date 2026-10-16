@@ -1,0 +1,321 @@
+proposals:
+- sid: wevolley#sc-treasury-ledger
+  target: wevolley#sc-treasury-ledger
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-treasury-semi-auto
+  target: wevolley#sc-treasury-semi-auto
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-treasury-pain-three
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-must-replace-excel
+  target: wevolley#sc-treasury-must-replace-excel
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-treasury-success-metrics
+  target: NEW
+  confidence: medium
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-open-banking-rejected
+  target: wevolley#sc-open-banking-rejected
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-no-money-through-app
+  target: wevolley#sc-no-money-through-app
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-tx-paste-parsing-deferred
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-expense-record-only
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-noshow-tracking-deferred
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-core-loop
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-designated-depositor-name
+  target: wevolley#sc-designated-depositor-name
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-treasury-three-principles
+  target: wevolley#sc-treasury-three-principles
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-dues-auto-reminder
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-club-finance-settings
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-charge-plans
+  target: wevolley#sc-charge-plans
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-club-charges
+  target: wevolley#sc-club-charges
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-charge-status-enum
+  target: wevolley#sc-charge-status-enum
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-club-expenses
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-balance-is-derived
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-thin-rules-dumb-ledger
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-requests-table
+  target: wevolley#sc-guest-requests-table
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-request-lifecycle
+  target: wevolley#sc-guest-request-lifecycle
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-dm-coexists
+  target: wevolley#sc-guest-dm-coexists
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-fee-charge-on-approval
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-notify-single-entry-precondition
+  target: wevolley#sc-notify-single-entry-precondition
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-fee-info-text-migration
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-finance-summary-visibility
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-admin-inbox
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-monthly-report-share-image
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-notification-set
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-write-role
+  target: wevolley#sc-treasury-write-role
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-account-info-exposure-scope
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-sensitive-transition-via-rpc
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-treasury-open-question-visibility
+  target: wevolley#sc-treasury-open-question-visibility
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-treasury-phasing
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-self-report-adoption-risk
+  target: wevolley#sc-self-report-adoption-risk
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-dual-entry-transition-risk
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-immutable-ledger
+  target: wevolley#sc-immutable-ledger
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-ledger-precursor-to-payment
+  target: NEW
+  confidence: medium
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-no-retroactive-approval-unification
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-external-validation-needed
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-request-event-scoped
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-independent-release
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-payment-guide-table-rls
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-payment-guide-gated
+  target: wevolley#sc-guest-payment-guide-gated
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-dm-roundtrip-pain
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-as-personal-user-value
+  target: wevolley#sc-guest-as-personal-user-value
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-first-validation-target
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-login-required
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-review-deferred
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-open-toggle
+  target: wevolley#sc-guest-open-toggle
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-profile-card
+  target: wevolley#sc-guest-profile-card
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-reject-reason-required
+  target: wevolley#sc-guest-reject-reason-required
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-capacity-autoclose
+  target: wevolley#sc-guest-capacity-autoclose
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-guest-cancellation
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-request-edge-cases
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-my-requests-guest-section
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-approval-rpc
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-nonmember-event-visibility
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-recruit-feed
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-scope-club-detail-only
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-post-approval-dm
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-repeat-request-friction-accepted
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-phasing
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-view-as-member
+  target: wevolley#sc-view-as-member
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-two-admin-lineages
+  target: wevolley#sc-two-admin-lineages
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-view-as-member-v1-assets
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-toggle-visible-to-real-superadmin
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-club-role-surface-dominates
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-gate-at-derivation-point
+  target: wevolley#sc-gate-at-derivation-point
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-badge-vs-action-gate
+  target: wevolley#sc-badge-vs-action-gate
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-impersonation-rejected
+  target: wevolley#sc-impersonation-rejected
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-mode-indicator-pill
+  target: wevolley#sc-mode-indicator-pill
+  confidence: high
+  evidence: canon-context tier B에 같은 개념이 이미 있음 — anchor 재사용
+- sid: wevolley#sc-client-toggle-server-limit
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-gate-only-no-cache-manipulation
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-mode-toggle-instant-reversible
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-ismember-drop-intended
+  target: NEW
+  confidence: medium
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-guest-mode-deferred
+  target: NEW
+  confidence: high
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음
+- sid: wevolley#sc-view-as-member-quality-loop
+  target: NEW
+  confidence: medium
+  evidence: canon-context 전량 대조 후에도 대응 개념 없음

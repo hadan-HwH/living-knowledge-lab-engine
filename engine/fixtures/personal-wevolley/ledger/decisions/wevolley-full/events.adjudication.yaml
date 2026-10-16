@@ -1,0 +1,29 @@
+# Owner adjudication overlay for the wevolley DECISIONS.md base (ADJUDICATION.md 3건).
+# 이들은 whole-decision A-transition이 아니라 facet 수준 RELATION이다.
+# 설계 발견: partial/축 supersede = sub-facet 위의 relation. 전체 결정은 active 유지.
+#   (facet의 supersede가 A에 영향을 주려면 sub-target으로 축분해 — query가 요구할 때만.)
+# A-reducer는 이 레코드를 무시한다(DecisionAct 타입 아님). WHY_CHANGED provenance용.
+relations:
+  - relation_id: WV.rel.0009c-0010
+    type: partial_supersede
+    axis: bot_disclosure
+    from_option: o0009            # ③ AI 배지 공개
+    to_option: o0010              # 비공개 운영
+    valid_at: "2026-07-13"
+    note: "0009 ③만 뒤집힘. 0009 ①②(route guard·anon RLS)는 active 유지. 추출기 자동 flag."
+
+  - relation_id: WV.rel.0016-0010
+    type: partial_supersede
+    axis: bot_seeding_style
+    from_option: o0010            # 익명 글 위주
+    to_option: o0016              # 전원 네임드 페르소나
+    reason_type: constraint_change
+    valid_at: "2026-07-15"
+    note: "본문 전용 supersede(제목 마커 없음 → 추출기 미포착). 0010 disclosure·allow_dm는 유지."
+
+  - relation_id: WV.rel.0015-0011
+    type: refinement
+    from_option: o0015
+    to_option: o0011
+    valid_at: "2026-07-14"
+    note: "0011 'DM 한 id=2 프로필' 설계를 확정 구현안으로 구체화. A 변화 없음."

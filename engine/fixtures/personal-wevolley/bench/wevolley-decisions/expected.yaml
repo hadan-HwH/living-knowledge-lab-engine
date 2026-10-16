@@ -1,0 +1,28 @@
+queries:
+  - name: guest_current
+    type: CURRENT_AUTHORITY
+    target: WV.guest_model
+    valid_at: "2026-07-29"
+    known_at: "2026-07-29"
+    expect:
+      current_option: o_apply_approve_pay
+      current_state: active
+      states: {o_msg_based: superseded, o_apply_approve_pay: active}
+
+  - name: bot_current                    # partial supersede(0009③→0010)를 축분해로 흡수
+    type: CURRENT_AUTHORITY
+    target: WV.bot_disclosure
+    valid_at: "2026-07-29"
+    known_at: "2026-07-29"
+    expect:
+      current_option: o_private_ops
+      current_state: active
+      states: {o_public_badge: superseded, o_private_ops: active}
+
+  - name: bot_same_day_order             # 같은 날 뒤집힘 — recorded_at 순서로 0010이 뒤
+    type: HISTORY_RATIONALE
+    target: WV.bot_disclosure
+    known_at: "2026-07-29"
+    expect:
+      current_option: o_private_ops
+      timeline_event_ids: [WV.act.0009c, WV.act.0010]

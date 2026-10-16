@@ -1,0 +1,31 @@
+meta:
+  generator: structure_app.run_promote
+  last_promoted_app: wevolley
+  promoted_total: 297
+  relations_total: 242
+  held_total:
+    candidate: 0
+    ambiguous: 0
+    gap: 0
+  dangling_auto_fold: []
+  source_sha: 5e773ff
+  unresolved_governed_by:
+  - sid: wevolley#sc-community-dm-room-type
+    ref: DECISIONS 0015
+  - sid: wevolley#sc-community-profiles
+    ref: DECISIONS 0011
+  - sid: wevolley#sc-home-state-branching
+    ref: DECISIONS 0006
+  - sid: wevolley#sc-is-bot-never-exposed
+    ref: DECISIONS 0016
+  - sid: wevolley#sc-lib-api-on-demand
+    ref: DECISIONS 0002
+  - sid: wevolley#sc-persist-denylist
+    ref: DECISIONS 0008
+concepts: []
+relations: []
+bodies: {}
+held:
+  candidate: []
+  ambiguous: []
+  gap: []

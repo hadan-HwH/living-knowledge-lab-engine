@@ -1,0 +1,30 @@
+corpus: personal-wevolley
+metrics:
+  concepts: 297
+  unit_multiplicity:
+    none: 8
+    one: 30
+    multi: 259
+    aggregation_rate: 0.8721
+  aggregation_rate: 0.8721
+  relations: 242
+  bodies: 297
+  body_chars: 662489
+  body_chars_unique: 662154
+  tombstoned_fragments: 182
+  history_fragments: 32
+  current_filled: 18
+  nameless: 0
+  scopes: 1
+  anchor_unique: true
+  doc_identity_unique: true
+  unresolved_frozen: 9
+  held_total:
+    candidate: 0
+    ambiguous: 0
+    gap: 0
+  dangling_auto_fold: 0
+  source_sha: 5e773ff
+gate:
+  ok: true
+  regressions: []

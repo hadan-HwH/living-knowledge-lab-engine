@@ -1,0 +1,515 @@
+members:
+  wevolley#sc-improvement-catalog:
+  - unit: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 아래 §0 추적표로 진행 상황을 체크한다.
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: '| G2    | 동호회 활성도 실태 점검 (managed vs shared 56개)'
+  - unit: reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: 이하는 실유저 90명/동호회 56개가 도는 현 단계의 순서다.
+  wevolley#sc-catalog-item-promotion:
+  - unit: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 이 문서는 그 인덱스이자 각 후보의 1차 설계 메모.
+  - unit: reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: 각 항목 착수 시 `/plan-doc <항목>`으로 `22-`+ 상세 문서 생성 → 8섹션(§8 효과·활용 포함)으로 구체화 후 구현.
+  wevolley#sc-live-product-priority:
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: 기술부채(A3·B1·B3·C…)는 동작에 문제 없으니 후순위 배경 트랙.
+  - unit: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 기술부채는 폐기가 아니라 **후순위 배경 트랙**으로 내린다.
+  - unit: reference/improvement-catalog#E.-출시-품질-—-거친-사용자-대면-부분-(신규-·-2026-06-03-·-실유저-직격)
+    quote: 신기능보다 우선 — 라이브 제품에선 폴리시가 곧 리텐션이다.
+  - unit: reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: 초판의 "기술부채 우선"에서 **"실유저 폴리시 → 가시화 → 리텐션 대응 → 기술부채"** 로 재편.
+  wevolley#sc-verify-then-fix:
+  - unit: reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: '**착수 전 코드 전수 확인(2026-06-03) 결과 "4건"이 재판정됨.** 추측이 아니라 실재 기준으로 좁힘'
+  - unit: reference/improvement-catalog#A3.-채팅-화면-스크롤/키보드-분리-→-23-상세-문서(../작업완료/23-chat-screen-scroll-keyboard-extraction.md)-✅
+    quote: '**재조사 정정**: 초판은 "거대 화면 분해'
+  - unit: reference/improvement-catalog#A2.-useQuery-에러-UX-정합화-→-20-상세-문서(../작업완료/20-query-error-ux-coverage.md)-✅
+    quote: '**스코프 정정(실측)**'
+  - unit: reference/improvement-catalog#B1.-데이터-모델-정규화
+    quote: '**마이그레이션 fix류 비율 실측 11.5%(12/104)**'
+  - unit: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 또한 초판 진단의 두 편차를 정정했다
+  wevolley#sc-analytics-blind-spot:
+  - unit: reference/improvement-catalog#D1.-제품-분석-—-퍼널·리텐션-가시화-(재정의·상향-—-2026-06-03)-→-24-상세-문서-§D1(../작업완료/24-scalability-product-infra.md)
+    quote: 즉 **실유저 90명의 행동을 전혀 측정하지 못함** — 의사결정이 깜깜이.
+  - unit: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+    quote: 행동 데이터가 **0**(`analytics` 호출처 0건)이라 의사결정이 깜깜이다.
+  wevolley#sc-funnel-retention-visibility:
+  - unit: reference/improvement-catalog#D1.-제품-분석-—-퍼널·리텐션-가시화-(재정의·상향-—-2026-06-03)-→-24-상세-문서-§D1(../작업완료/24-scalability-product-infra.md)
+    quote: '"90 유저의 activation/retention 가시화"**가 목표'
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: 제품 분석 — 퍼널·리텐션 **가시화**
+  - unit: reference/improvement-catalog#G.-리텐션·활성화-대응-(신규-·-2026-06-03-·-08의-사각지대)
+    quote: D1(측정)이 도구라면, G는 **그 측정 결과에 대응하는 제품 작업**이다.
+  wevolley#sc-posthog-http-capture:
+  - unit: reference/perf-loading-realtime-history#3-3.-Phase-24---계측·확장성-인프라-(2026-06-04)
+    quote: '"분석 SDK가 콜드스타트를 저하시키지 않게" no-op 가드 + lazy init를 DoD에 명시.'
+  wevolley#sc-churn-response-loop:
+  - unit: reference/improvement-catalog#G1.-이탈-지점-대응-루프-(권장순-3)
+    quote: 측정도 대응도 없음. 90 유저가 어디서 멈추는지 모름.
+  - unit: reference/improvement-catalog#G.-리텐션·활성화-대응-(신규-·-2026-06-03-·-08의-사각지대)
+    quote: 핵심 질문은 *"이들이 다시 오는가, 동호회가 살아있는가, 어디서 새는가"*다.
+  - unit: reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+    quote: '**G1 이탈 지점 대응 루프** — D1로 보인 가장 큰 누수 1개부터 수정→재측정.'
+  wevolley#sc-club-activity-survey:
+  - unit: reference/improvement-catalog#G2.-동호회-활성도-실태-점검-(싼-선행-조사-—-권장순-0)
+    quote: prod 동호회는 대부분 `registration_type='shared'`로 추정.
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: '**G2는 싸고 이후 방향을 가르는 선행 조사라 0번.**'
+  wevolley#sc-push-receipt-confirmation:
+  - unit: reference/improvement-catalog#B2.-푸시-Receipt-확인-(Tier-3)
+    quote: 발송 시 ticket 저장 → 별도 cron이 Expo receipt 조회 → 최종 상태 `_push_log` 기록.
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: 푸시 Receipt 확인 (Tier 3)
+  wevolley#sc-rls-full-reaudit:
+  - unit: reference/improvement-catalog#B3.-RLS-정책-전수-재감사
+    quote: 채팅 재귀(00027)·anon 우회(00085)는 사후 발견·수정됨. 다른 자기참조/정책 일관성은 미검증.
+  wevolley#sc-array-column-normalization:
+  - unit: reference/improvement-catalog#B1.-데이터-모델-정규화
+    quote: '`admin_positions TEXT[]` 배열'
+  wevolley#sc-native-e2e-gap:
+  - unit: reference/improvement-catalog#C1.-네이티브-E2E-(Android)
+    quote: Detox 또는 Maestro로 핵심 플로우(로그인·참여·채팅) Android.
+  wevolley#sc-sourcemap-verification:
+  - unit: reference/improvement-catalog#C2.-소스맵-업로드-검증
+    quote: Phase 1에서 설정은 했고 "다음 EAS production 빌드에서 검증" 잔여.
+  wevolley#sc-error-display-classification:
+  - unit: reference/improvement-catalog#A2.-useQuery-에러-UX-정합화-→-20-상세-문서(../작업완료/20-query-error-ux-coverage.md)-✅
+    quote: '진짜 구멍은 두 가지: ① **임베디드 컴포넌트의 에러 삼킴**'
+  - unit: reference/improvement-catalog#A2.-useQuery-에러-UX-정합화-→-20-상세-문서(../작업완료/20-query-error-ux-coverage.md)-✅
+    quote: '"빈 화면이 실패인지 진짜 빈 데이터인지" 구분됨.'
+  wevolley#sc-form-hook-mirroring:
+  - unit: reference/improvement-catalog#A1.-스크리미지-폼-통합-useScrimmageForm-→-09-상세-문서(../작업완료/09-scrimmage-form-unification.md)-✅
+    quote: club과 동일한 "분기 불일치"(검증 drift·state 타입 어긋남)가 그대로.
+  wevolley#sc-no-over-standardization:
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 조건이 다른 걸 억지로 통일하지 않는다는 과표준화 경고
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: Tier C를 "일관성" 명목으로 Tier A에 욱여넣지 말라는 과표준화 경고를 문서에 명시.
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: C3 회원 관리는 refetchOnMount로 충분(과표준화 회피).
+  - unit: reference/improvement-catalog#A1.-스크리미지-폼-통합-useScrimmageForm-→-09-상세-문서(../작업완료/09-scrimmage-form-unification.md)-✅
+    quote: scrimmage와 합치지 않고 **별도**
+  wevolley#sc-screen-orchestration-only:
+  - unit: reference/improvement-catalog#A3.-채팅-화면-스크롤/키보드-분리-→-23-상세-문서(../작업완료/23-chat-screen-scroll-keyboard-extraction.md)-✅
+    quote: 모두 이미 도메인 훅으로 잘 분해돼 화면은 조립 역할.
+  - unit: reference/improvement-catalog#A3.-채팅-화면-스크롤/키보드-분리-→-23-상세-문서(../작업완료/23-chat-screen-scroll-keyboard-extraction.md)-✅
+    quote: 다음 채팅 스크롤/키보드 변경이 화면 아닌 훅에서.
+  wevolley#sc-convention-drift-guard:
+  - unit: reference/improvement-catalog#F2.-컨벤션-유지-(상시)
+    quote: 새 패턴(`useClubForm`/`useScrimmageForm`, `assert_club_admin`, 전역 에러 통로 등)이 생길 때마다 CLAUDE.md·`.cursor/rules/` 갱신.
+  - unit: reference/improvement-catalog#A2.-useQuery-에러-UX-정합화-→-20-상세-문서(../작업완료/20-query-error-ux-coverage.md)-✅
+    quote: 컨벤션 가드로 재발 방지(F2 연동).
+  wevolley#sc-data-loop-alerting:
+  - unit: reference/improvement-catalog#F1.-데이터-루프-—-Sentry-알림-+-푸시-대시보드-(D1과-연계)
+    quote: Sentry 알림 규칙(신규/급증/특정 domain) + `_push_log` 기반 전달률 대시보드.
+  - unit: reference/improvement-catalog#F1.-데이터-루프-—-Sentry-알림-+-푸시-대시보드-(D1과-연계)
+    quote: 모인 데이터가 행동으로 연결.
+  wevolley#sc-dependency-health-policy:
+  - unit: reference/improvement-catalog#D2.-의존성-건강-전략-→-24-상세-문서-§D2(../작업완료/24-scalability-product-infra.md)
+    quote: '`.cursor/rules/dependency-policy.mdc`(변동성 3등급표·patch-package 추적표)'
+  - unit: reference/improvement-catalog#D2.-의존성-건강-전략-→-24-상세-문서-§D2(../작업완료/24-scalability-product-infra.md)
+    quote: 메이저 업그레이드 자체(React 19/RN 0.83/Reanimated 4 조합)는 dependabot 인지 후 별도 계획.
+  wevolley#sc-release-automation:
+  - unit: reference/improvement-catalog#D3.-릴리즈-자동화-→-24-상세-문서-§D3(../작업완료/24-scalability-product-infra.md)
+    quote: 배포 설정 정적 게이트(`scripts/check-deploy-config.sh` → ci.yml fail-fast 스텝)
+  - unit: reference/improvement-catalog#D3.-릴리즈-자동화-→-24-상세-문서-§D3(../작업완료/24-scalability-product-infra.md)
+    quote: '"배포가 무서운" 상태 완화, share-link 회귀가 사람 손 없이 잡힘.'
+  wevolley#sc-wizard-cold-load-prefill:
+  - unit: reference/improvement-catalog#E2.-위저드-콜드-로드-prefill/저장-버그-(🆕-22번-검증-중-발견)
+    quote: 딥링크/리로드로 edit 위저드 진입 시 현재값 prefill 안 됨 + 저장 미반영.
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: 위저드 콜드 로드 prefill/저장 (🆕 22 검증 중 발견)
+  wevolley#sc-diagnostic-code-not-dead-code:
+  - unit: reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: 임시코드 2곳
+  - unit: reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+    quote: '**다음 안드 빌드에서 원인 확정 후 제거.**'
+  wevolley#sc-map-platform-parity:
+  - unit: reference/improvement-catalog#MAP.-지도-검토·개선-→-12-상세-문서(../작업완료/12-map-review.md)-✅
+    quote: web **SSR `window` 미가드(크래시)·리스너 cleanup 없음(누수)**
+  - unit: reference/improvement-catalog#MAP.-지도-검토·개선-→-12-상세-문서(../작업완료/12-map-review.md)-✅
+    quote: native·web **양쪽 검증 필수**.
+  wevolley#sc-chat-realtime-three-symptoms-one-root:
+  - unit: reference/improvement-catalog#BUG.-채팅-실시간·로딩-→-10-상세-문서(../작업완료/10-chat-realtime-bugfix.md)-✅
+    quote: (S1) 인앱 실시간 메시지 미표시, (S2) 푸시 탭 후 스켈레톤 무한, (S3) cold start만 정상.
+  - unit: reference/improvement-catalog#BUG.-채팅-실시간·로딩-→-10-상세-문서(../작업완료/10-chat-realtime-bugfix.md)-✅
+    quote: 라이브 갱신이 realtime `setQueryData` patch **하나에만** 의존 + **실패 시 폴백 refetch·구독 관측 없음**
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: '증상 5종: S1 실시간 미표시(영구 누락) / S2 푸시 탭 후 스켈레톤 무한 / S3 콜드 스타트는 정상'
+  - unit: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+    quote: 채팅 실시간·로딩 버그
+  - unit: reference/perf-loading-realtime-history#2.-시대-②---채팅-실시간성·안정성-(2026-05-23-~-07-19)
+    quote: '"카톡은 즉시 뜨는데 이건 지연이 확연하다"는 유저 체감에서 출발해'
+  wevolley#sc-perf-history-reference:
+  - unit: reference/perf-loading-realtime-history#성능·로딩·실시간성-개선의-전체-역사-(2026-04-~-2026-07)
+    quote: '**성격**: 상시 참조 문서(reference).'
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: '| 2026-04-20 ~ 05-23 | ① 초창기 로딩 개선 (계측 이전)'
+  - unit: reference/perf-loading-realtime-history#1.-시대-①---초창기-로딩-개선-(2026-04-20-~-05-23)
+    quote: planning 문서 체계 이전.
+  wevolley#sc-perf-improvement-cycle:
+  - unit: reference/perf-loading-realtime-history#성능·로딩·실시간성-개선의-전체-역사-(2026-04-~-2026-07)
+    quote: 이 반복이 곧 이 프로젝트의 성능 개선 방법론이다.
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: 실측 baseline → 대안 비교 표 → 트레이드오프 명시 → 기각 사유 기록 → 구현 후 재실측
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: '| 자산                                                 | 태어난 곳'
+  wevolley#sc-measure-first:
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: 시대 ⑦은 계측 자체를 공용 인프라(sync-latency 로거)로 승격했고, "개선 주장은 이 수치로만 한다"를 DoD에 박았다.
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: '**당시 지표 (실측 - 이 프로젝트 최초의 체계적 성능 계측)**'
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: '**계측 우선**: "Phase D 채팅 최적화는 계측 후에만 착수"'
+  wevolley#sc-no-speculative-fix:
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: C7(인증 타이밍)은 **계측으로 반증되어 보류** - "추측 픽스 금지"의 실천.
+  wevolley#sc-realtime-best-effort-refetch-authority:
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: (Phase 10에서 확립, 41·59가 계승)
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: realtime은 best-effort 가속으로 쓰고 정확성은 refetch가 진다.
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: 어느 쪽이든 재구독·focus 시 HTTP refetch가 정합성을 소유 - delta는 지연 최적화이지 정합성 수단이 아니다.
+  wevolley#sc-postgres-changes-structural-limit:
+  - unit: reference/perf-loading-realtime-history#7-1.-당시-지표-(착수-전-실측,-§2)
+    quote: postgres_changes의 구조적 한계(Supabase 소스 확인)
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: postgres_changes 확장(기각 - 선형 RLS·드롭)
+  - unit: reference/perf-loading-realtime-history#7-4.-구현-후-지표-종합
+    quote: '| postgres_changes 구독         | 4                     | 0                        |'
+  wevolley#sc-broadcast-from-database:
+  - unit: reference/perf-loading-realtime-history#7.-시대-⑦---앱-전체-실시간-동기화-아키텍처:-Phase-59-(2026-07-28-~-07-29)
+    quote: 채팅에서 검증한 복구 계층(②) + 캐시 규율(④) + 계측 문화(③⑥)를 **앱 표준 아키텍처**로 승격했다.
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: Edge Function fanout(기각 - 콜드스타트·새 장애점)
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: '`realtime.messages` RLS(user/post/club 채널 인가)'
+  - unit: reference/perf-loading-realtime-history#7-4.-구현-후-지표-종합
+    quote: '| 새 화면에 실시간 붙이는 비용  | 채팅 3파일 분량 복제  | 트리거 1줄 + 훅 선언 1개 |'
+  wevolley#sc-realtime-screen-declarative:
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: '| `useRealtimeScreen` + `emit_domain_event`            | 59 B'
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: '`useRealtimeScreen` 표준 훅(useResilientChannel 위 합성) + 전역 `user:{userId}` 채널.'
+  wevolley#sc-emit-domain-event-swallow:
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: 발행 실패가 원 쓰기를 막지 않게
+  wevolley#sc-migrate-proven-surface-last:
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: 신규 표면(댓글·공지·멤버십)은 처음부터 Broadcast, **검증된 채팅 postgres_changes 4개는 신규 인프라 안정 운영 후 마지막(Phase E)에 이관**
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: '**E (이관 완성)**'
+  wevolley#sc-broadcast-payload-privacy:
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: 차단 필터 RLS 우회 방지
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: payload는 raw row - community_dm 실명 와이어 유출 방지
+  wevolley#sc-realtime-auth-gate:
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: userId 게이트로 수정. 푸시 탭 콜드스타트 "안 보임" 제보의 유력한 실제 원인.
+  - unit: reference/perf-loading-realtime-history#9.-반복해서-밟은-함정-(재발-방지-목록)
+    quote: '**세션 복원 전 realtime 구독** = 익명 claims로 SUBSCRIBED인데 무배달'
+  wevolley#sc-resilient-channel:
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: SUBSCRIBED 시 1회 invalidate, 실패 시 invalidate+백오프 재구독.
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: 백오프 재구독 + onSubscribed invalidate. 59 Broadcast 채널도 이 위에
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: 원시 채널 2곳 `useResilientChannel`로 통일
+  - unit: reference/perf-loading-realtime-history#2.-시대-②---채팅-실시간성·안정성-(2026-05-23-~-07-19)
+    quote: 여기서 만든 복구 계층이 시대 ⑦(59)의 재사용 자산이 된다.
+  wevolley#sc-realtime-topic-lifecycle:
+  - unit: reference/perf-loading-realtime-history#2-1.-룸-채널-churn-제거-(2026-05-23)
+    quote: '**같은 topic을 빠르게 떼고 붙이면 postgres_changes 바인딩이 조용히 끊긴다.**'
+  - unit: reference/perf-loading-realtime-history#2-6.-supabase-js-2.110-채널-재사용-크래시-핫픽스-(2026-07-19)
+    quote: topic에 고유 접미 `#n`을 붙여 dedup을 원천 차단(`uniqueRealtimeTopic`)
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: zombie 전면 재구독 + `uniqueRealtimeTopic`(2.110 핫픽스)
+  wevolley#sc-zombie-channel-force-rebuild:
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: '`CHANNEL_ERROR` 콜백에만 의존해 SUBSCRIBED인 채 조용히 죽으면(zombie) 감지 불가.'
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: '`lib/realtime-reconnect.ts` 신설(`forceReconnectAllChannels` 레지스트리)'
+  - unit: reference/perf-loading-realtime-history#7-4.-구현-후-지표-종합
+    quote: '| 채팅 소켓 좀비 시             | ≤25s (heartbeat 대기) | ≤2s (푸시 신호)          |'
+  wevolley#sc-foreground-recovery:
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: 소켓·inbox 재동기는 앱 레벨, 열린 방 refetch는 화면 focus effect - 이중 안전망.
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: '`useChatForegroundRecovery` 신설(active 복귀 시 `realtime.connect()`'
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: 포그라운드 복귀 회수의 전역 표준
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: '`useChatForegroundRecovery` → `useForegroundRecovery` 승격'
+  wevolley#sc-draft-dm-room:
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: tap 시 화면만 열고 첫 전송 시점에 `findOrCreateDm`.
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: 대안 "빈 DM도 실시간 양쪽 노출"은 제품 요구와 정반대라 폐기.
+  wevolley#sc-list-cell-render-cost:
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: '`extraData={membersReadAt}`이 읽음 UPDATE마다 전 가시 셀 무효화, 셀당 `new Date()` 5~8회'
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: Date 파싱은 모듈 `WeakMap` 메타 캐시.
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: inverted 리스트 전환은 실익 0 + 웹 리스크로 채택 안 함.
+  wevolley#sc-web-layout-animation-landmine:
+  - unit: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+    quote: landmine `fa941c1`(entering 레이아웃 애니가 웹 셀 높이 0 붕괴)
+  - unit: reference/perf-loading-realtime-history#2-5.-Phase-42---알림-딥링크·인앱-배너-(2026-07-09)
+    quote: 애니메이션은 entering 프리셋 금지(웹 absolute 잔존 회귀) → 스타일 구동 `EntranceFade`.
+  - unit: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+    quote: '**스타일 구동 opacity로 구현**(웹 FadeIn/FadeOut absolute 잔존 회귀 회피'
+  wevolley#sc-notification-deeplink-cold-start:
+  - unit: reference/perf-loading-realtime-history#2-5.-Phase-42---알림-딥링크·인앱-배너-(2026-07-09)
+    quote: 포그라운드 수신 리스너 부재, 콜드 스타트 시 알림 응답 이벤트가 리스너 등록 전에 유실 → 목적지 직행 실패.
+  - unit: reference/perf-loading-realtime-history#2-5.-Phase-42---알림-딥링크·인앱-배너-(2026-07-09)
+    quote: OS/인앱 배너 이중 표시는 4종(`BANNERABLE`)만 OS 억제로 방지.
+  wevolley#sc-server-side-processing:
+  - unit: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+    quote: '`profiles` **전 행을 limit 없이 수신** 후 클라이언트에서 검색(`includes`)·필터·카운트'
+  - unit: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+    quote: '"한 화면에 다 그릴 것도 아니면서 전체를 받아 클라에서 후처리"'
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: (16·17·47)
+  wevolley#sc-server-pagination-keyset-deferred:
+  - unit: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+    quote: 칩 카운트는 리스트 쿼리에 합치지 않고 별도 경량 RPC(`admin_user_counts`)로 분리.
+  - unit: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+    quote: 로컬 RPC 런타임 검증(가드/검색/필터/카운트), 게이트 통과. 첫 페이지 20행 고정.
+  wevolley#sc-debounced-search-input:
+  - unit: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+    quote: '`useDebouncedValue` 첫 도입 - Phase 47에서 전수 확산'
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 배구 도메인 핵심어가 2글자("배구","세터")라 **2글자로 결정**
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 디바운스는 쉘 내부가 아니라 **소비처에서 파생 값만**(쉘 내부면 한글 IME 조합이 깨짐)
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: Phase 47에서 리스트 검색 전수 확산
+  wevolley#sc-korean-trigram-over-fts:
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: pg_trgm은 3글자 미만 패턴에 인덱스를 못 쓴다(최소 글자수 정책 = 인덱스 정책)
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: trigram GIN 채택 / FTS 기각(토크나이저 부재)
+  wevolley#sc-gin-fastupdate-trap:
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 인덱스를 `WITH (fastupdate = off)`로 생성해 근본 제거(재실측 0.144ms)
+  - unit: reference/perf-loading-realtime-history#9.-반복해서-밟은-함정-(재발-방지-목록)
+    quote: '**GIN fastupdate pending list** - 벌크 삽입 직후 인덱스 비활용 (Phase 47).'
+  wevolley#sc-limit-as-runaway-cap:
+  - unit: reference/perf-loading-realtime-history#3-2.-Phase-17---지도-데이터-로딩-규모-적정화-(2026-06-01)
+    quote: '`limit(200)` **사일런트 컷** - 200개 초과분이 에러 없이 지도에서 소실'
+  - unit: reference/perf-loading-realtime-history#3-2.-Phase-17---지도-데이터-로딩-규모-적정화-(2026-06-01)
+    quote: '`MAP_FETCH_LIMIT=4000`(천장×2) + 캡 90% 근접 시 dev 경고.'
+  wevolley#sc-scale-appropriate-design:
+  - unit: reference/perf-loading-realtime-history#3-2.-Phase-17---지도-데이터-로딩-규모-적정화-(2026-06-01)
+    quote: '"부동산 앱처럼"이라는 벤치마크 발상을 실규모 데이터로 반박한 첫 사례.'
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 외부 검색엔진 기각(~90명에 과잉, 10만 건+ 시 재논의)
+  - unit: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+    quote: 전용 APM(Date.now 단순 계측으로 충분)
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: '**prod ~90명 규모에서 무시 가능**으로 판단'
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: prod ~90명/56클럽이라는 실규모가 판단 기준
+  wevolley#sc-refetch-type-tiering:
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: '`invalidateQueries` 총 **105곳**, 그중 `refetchType` 명시 **1곳**.'
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: invalidate→refetch는 구조적으로 왕복 후 반영이라 즉시성이 필요한 액션엔 애초에 부적합
+  - unit: reference/perf-loading-realtime-history#4.-시대-④---React-Query-캐시-반영-지연-(2026-07-01-~-07-09)
+    quote: 3개의 축(refetchType / persist 정책 / 무효화 키 누락)으로 분해해 각개격파한 흐름
+  - unit: reference/perf-loading-realtime-history#4-4.-Phase-43---claim-수락-반영-지연:-무효화-키-누락-(2026-07-09)
+    quote: Phase 31이 이미 `useRequestAction`에 `refetchType:'all'`을 넣었으므로
+  wevolley#sc-fix-at-choke-point:
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: 이미 공통 길목(폼 훅·useDeleteEntity·useRequestAction)을 지나므로
+  - unit: reference/perf-loading-realtime-history#4-4.-Phase-43---claim-수락-반영-지연:-무효화-키-누락-(2026-07-09)
+    quote: '**호출부에만**(claim만 registration_type을 바꾸므로 - 가입 수락까지 클럽 상세를 refetch시키는 과잉 방지)'
+  wevolley#sc-persist-policy-inversion:
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: persist 화이트리스트 **10개** vs 실제 `qk.*` 키 계열 **58개**
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: 커버리지 17% → 70%+(41/58)
+  - unit: reference/perf-loading-realtime-history#2-3.-콜드스타트-채팅-콜드로딩-해소-(2026-06-15)
+    quote: 영속 정책을 RN 무의존 `lib/query-persist-policy.ts`로 분리(테스트 가능화)하고 채팅 키를 화이트리스트에 추가.
+  - unit: reference/perf-loading-realtime-history#4-3.-Phase-40의-부작용-마감-2건-(2026-07-06)
+    quote: '`shouldPersistQuery`에 success 조건 복원.'
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: denylist 기본 영속, buster v3, success만 dehydrate
+  wevolley#sc-render-contract-cold-only-skeleton:
+  - unit: reference/perf-loading-realtime-history#1-1.-무한-로딩·멈춤-제거-(2026-04-20-~-05-13)
+    quote: '`isLoading`을 `(!club && clubQuery.isLoading)`으로 - "데이터가 이미 있으면 로딩이 아니다"'
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: '유저 통점: 알림 화면이 새로고침·첫 진입 양쪽 다 스켈레톤(어느 리스트에도 없어서).'
+  wevolley#sc-defaults-over-optin-lists:
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: '**좋은 기본값 + 소수 예외** 로 사람 기억 의존 제거 (40 denylist 반전).'
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: 사람이 항목 추가를 기억해야 하는 구조는 반드시 드리프트한다.
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: '**새 화면 추가 시 캐시 부기 2~3곳 → 0곳.**'
+  wevolley#sc-invalidation-audit-with-persistence:
+  - unit: reference/perf-loading-realtime-history#4-3.-Phase-40의-부작용-마감-2건-(2026-07-06)
+    quote: '**denylist 반전으로 이 키들이 자동 영속되면서 stale이 재시작에도 살아남아** 잠복 버그가 표면화'
+  - unit: reference/perf-loading-realtime-history#4-3.-Phase-40의-부작용-마감-2건-(2026-07-06)
+    quote: 캐시를 더 오래 살리는 개선은 무효화 누락을 증폭시킨다.
+  - unit: reference/perf-loading-realtime-history#4-4.-Phase-43---claim-수락-반영-지연:-무효화-키-누락-(2026-07-09)
+    quote: '`invalidateKeys` 4개에 UI 전체를 게이트하는 `qk.club(id)`가 빠져 있었다.'
+  wevolley#sc-cache-buster-on-policy-change:
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: 옛 정책 캐시와 섞여 비결정적
+  wevolley#sc-entry-loading-data-gate:
+  - unit: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+    quote: '`useWarmHomeData` 신설 - 세션 등장 즉시 홈 3쿼리를 홈과 동일 키로 프리페치'
+  - unit: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+    quote: 스코프는 새 로그인(빈 캐시)만 - 재방문 콜드스타트는 Phase 40 denylist persist가 이미 커버
+  wevolley#sc-loading-responsibility:
+  - unit: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+    quote: 로딩 화면의 책임은 "데이터가 준비될 때까지 끊기지 않게 버티기"뿐이다.
+  - unit: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+    quote: 연출(D+ 롤링)을 위해 만든 로딩 시간이 flicker와 중복을 낳자, 연출을 로딩에서 걷어내고 상주 위치로 옮기는 것으로 해소했다.
+  wevolley#sc-eliminate-infinite-wait:
+  - unit: reference/perf-loading-realtime-history#1-1.-무한-로딩·멈춤-제거-(2026-04-20-~-05-13)
+    quote: '`lib/promise-timeout.ts` 신설 + `lib/auth.tsx`: getSession 20초 / 프로필 fetch 25초 타임아웃'
+  - unit: reference/perf-loading-realtime-history#1-1.-무한-로딩·멈춤-제거-(2026-04-20-~-05-13)
+    quote: 카카오 지도 SDK 스크립트 로딩 실패 시 조용히 무한 대기 (JS 키 미설정 포함).
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: 시대 ①의 "무한 대기를 시스템에서 제거"(타임아웃·재시도) 원칙이 네이티브 모듈 결함까지 확장된 종착점.
+  wevolley#sc-picker-hang-watchdog:
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: Android에서 픽커 도중 액티비티 재생성 시 expo-image-picker 코루틴 미재개 → JS Promise 영구 pending
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: '**권한은 원인이 아님을 소스 레벨로 확인**'
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: 무반응 경로 4곳 → 0곳.
+  wevolley#sc-placeholder-zero-ms-entry:
+  - unit: reference/perf-loading-realtime-history#1-3.-Perceived-speed---"0ms-진입"-(2026-05-20-~-05-23)
+    quote: '`prefetchClubDetail`이 club/membership/positionHolders 3쿼리 모두 워밍.'
+  - unit: reference/perf-loading-realtime-history#1-3.-Perceived-speed---"0ms-진입"-(2026-05-20-~-05-23)
+    quote: 이 placeholderData 패턴은 이후 채팅 프리페치(990cb50, 59 D1)의 참조 모델.
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: 상세 진입 표준, 채팅 프리페치의 참조 모델
+  - unit: reference/perf-loading-realtime-history#1-2.-캐시·prefetch-아키텍처의-태동-(2026-04-21-~-05-13)
+    quote: '`useViewablePrefetch`: 리스트에 보이는 아이템 상세를 세션당 1회 자동 prefetch.'
+  wevolley#sc-bundle-diet:
+  - unit: reference/perf-loading-realtime-history#1-4.-번들·자산-다이어트-1차-(2026-05-15-~-05-21)
+    quote: 'Pretendard 5종→3종(Regular/SemiBold/Bold, `WEIGHT_TO_FAMILY` 매핑 흡수): **-3MB**.'
+  - unit: reference/perf-loading-realtime-history#7-5.-웹-초기-로딩-다이어트-(59-후속,-2026-07-28)
+    quote: 초기 JS **4.7MB → 3.7MB (-21%)**
+  - unit: reference/perf-loading-realtime-history#7-5.-웹-초기-로딩-다이어트-(59-후속,-2026-07-28)
+    quote: '`@expo/vector-icons` 배럴 임포트 101파일이 전 아이콘 패밀리 454KB를 실음'
+  wevolley#sc-platform-divergent-decision:
+  - unit: reference/perf-loading-realtime-history#9.-반복해서-밟은-함정-(재발-방지-목록)
+    quote: '**RN 전용 모듈 최상단 import는 웹을 깬다** (63f797b) - 플랫폼 분기·지연 로드.'
+  - unit: reference/perf-loading-realtime-history#1-2.-캐시·prefetch-아키텍처의-태동-(2026-04-21-~-05-13)
+    quote: 웹(localStorage)/네이티브(MMKV 지연 로드) 분기 핫픽스
+  - unit: reference/perf-loading-realtime-history#1-4.-번들·자산-다이어트-1차-(2026-05-15-~-05-21)
+    quote: '웹: `+html.tsx`에 순수 HTML/CSS 인라인 스피너(JS 로드 전 즉시 표시)'
+  wevolley#sc-sync-latency-instrumentation:
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: sync-latency 계측 삽입.
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: 이후 모든 성능 작업의 공용 계측 자산
+  - unit: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+    quote: DoD로 세운 p50 ≤1s/p95 ≤3s 정량은 skew 보정 계측 후속으로 이월 - 이 부채가 59 A3(sync-latency 로거)에서 청산된다.
+  wevolley#sc-freshness-gate-dedupe:
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: D1 계측이 **pressIn 프리페치 직후 focus refetch가 같은 데이터를 중복 요청**함을 발견
+  - unit: reference/perf-loading-realtime-history#2-3.-콜드스타트-채팅-콜드로딩-해소-(2026-06-15)
+    quote: 진입 refetch 중복 제거는 "realtime 누락 복구 장치라 회귀 위험"으로 **보류**
+  - unit: reference/perf-loading-realtime-history#7-4.-구현-후-지표-종합
+    quote: '| 채팅방 진입                   | 480ms                 | 132ms                    |'
+  wevolley#sc-product-judgment-discards-feature:
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: 완성도가 아니라 제품 판단으로 기능을 버린 기록.
+  wevolley#sc-negative-verification:
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: TDD 유닛 9종(회수 경로 사보타주 음성 검증 포함)
+  - unit: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+    quote: 음성 프로브가 super_admin 비멤버 클럽의 Unauthorized 재시도 폭주를 실측으로 발견
+  - unit: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+    quote: 'DB 성능 검증 표준 (음성 검증: DROP INDEX 회귀 재현)'
+  wevolley#sc-verifier-web-evidence:
+  - unit: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+    quote: verifier-web 양성 2종(정보 수정 → 목록 재진입 즉시 최신 / 승인 → 목록 즉시 노출).
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: '**구현 후 지표 (verifier-web 실측)**'
+  - unit: reference/perf-loading-realtime-history#4-4.-Phase-43---claim-수락-반영-지연:-무효화-키-누락-(2026-07-09)
+    quote: verifier-web에서 하드 리로드 없는 back 복귀로 캐시 반영을 검증(캐시 검증 방법론)
+  - unit: reference/perf-loading-realtime-history#2-3.-콜드스타트-채팅-콜드로딩-해소-(2026-06-15)
+    quote: verifier-web localStorage 영속 확인 + 단위 3종.
+  wevolley#sc-no-app-code-change-perf-win:
+  - unit: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+    quote: 현행 `ilike` 방식 자체가 옳았고 인덱스만 빠진 것이라 **앱 코드 무변경**으로 해결 가능
+  - unit: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+    quote: 호출처 4곳 수정 0(래퍼가 기존 에러 통로로 흐름)
+  - unit: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+    quote: (47 인덱스, 16 RPC)
+  wevolley#sc-early-solution-becomes-debt:
+  - unit: reference/perf-loading-realtime-history#1-2.-캐시·prefetch-아키텍처의-태동-(2026-04-21-~-05-13)
+    quote: 이 훅은 이후 Phase 40에서 "하드코딩 opt-in 리스트"라는 이유로 **삭제**된다
+  - unit: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+    quote: 프리페치 훅은 반전으로 redundant → **삭제(140줄)**.
+  wevolley#sc-library-minor-breaks-assumptions:
+  - unit: reference/perf-loading-realtime-history#2-6.-supabase-js-2.110-채널-재사용-크래시-핫픽스-(2026-07-19)
+    quote: supabase-js 2.99→2.110 회귀로 `client.channel(topic)`이 같은 topic 채널을 재사용(dedup)하는데
+  - unit: reference/perf-loading-realtime-history#2-6.-supabase-js-2.110-채널-재사용-크래시-핫픽스-(2026-07-19)
+    quote: CLAUDE.md의 "학습 컷오프 이후 API 변경 잦음, 의심 시 공식 문서" 원칙의 실제 사례.
+  wevolley#sc-runbook-one-time-manual-op:
+  - unit: reference/prod-key-rotation-runbook#배포-런북-—-service_role-키-회전-+-Vault-주입
+    quote: 코드(마이그레이션 `00095`)는 이미 완료되어 있고, 이 문서는 그 코드를 prod에 적용할 때 함께 해야 하는 **수동 키 작업**만 다룬다.
+  - unit: reference/prod-key-rotation-runbook#배포-런북-—-service_role-키-회전-+-Vault-주입
+    quote: '담당: 배포 권한자(대시보드 접근 필요)'
+  - unit: reference/prod-key-rotation-runbook#1.-선행-조건
+    quote: 대시보드 접근 권한 확인.
+  wevolley#sc-committed-service-role-key-incident:
+  - unit: reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+    quote: '**live 레거시 `service_role` 키**(JWT, `role=service_role`, exp 2088)가 **평문으로 git에 커밋**되어 있었다.'
+  - unit: reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+    quote: '**회전 완료까지 P0는 닫히지 않는다.**'
+  wevolley#sc-vault-key-injection:
+  - unit: reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+    quote: 트리거/크론이 **Supabase Vault**에서 키를 읽도록(`_get_push_service_key()`) 바꿨다.
+  - unit: reference/prod-key-rotation-runbook#3.3-새-service_role-키를-Vault에-주입
+    quote: select vault.create_secret('<새 service_role 키>', 'push_service_role_key');
+  - unit: reference/prod-key-rotation-runbook#3.3-새-service_role-키를-Vault에-주입
+    quote: ⚠️ 이 키 값은 **어디에도 커밋/메모 금지**. Vault에만.
+  - unit: reference/prod-key-rotation-runbook#4.-배포-후-검증
+    quote: select _get_push_service_key() is not null as ok;
+  wevolley#sc-legacy-key-anon-coupling:
+  - unit: reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+    quote: 대시보드의 새 `sb_secret_*` 탭이 아니라 **"Legacy anon, service_role API keys" 탭**에 있다.
+  - unit: reference/prod-key-rotation-runbook#3.1-키-회전-(유출-키-무효화)
+    quote: service_role 키 **Roll/재발급**. ⚠️ anon도 같이 바뀜(§2).
+  - unit: reference/prod-key-rotation-runbook#5.-롤백-/-사고-대응
+    quote: '**클라이언트 접속 불가(401/JWT)**: anon 키 미반영 → 3.2 재배포 확인.'
+  wevolley#sc-rotation-redeploy-single-window:
+  - unit: reference/prod-key-rotation-runbook#1.-선행-조건
+    quote: '**00095 적용과 키 회전을 같은 배포 윈도우에** 둘 것.'
+  - unit: reference/prod-key-rotation-runbook#1.-선행-조건
+    quote: 저트래픽 시간대 권장(회전 중 짧은 푸시/클라이언트 영향 최소화).
+  - unit: reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+    quote: 그냥 "Roll" 버튼만 누르면 운영 장애.
+  - unit: reference/prod-key-rotation-runbook#3.2-클라이언트-재배포-(anon-키-갱신)
+    quote: 새 **anon(publishable) 키**를 클라이언트 환경변수(EAS / Vercel 등 `EXPO_PUBLIC_*` anon 키)에 반영하고 **앱·웹 재배포**.
+  wevolley#sc-rotation-irreversible:
+  - unit: reference/prod-key-rotation-runbook#5.-롤백-/-사고-대응
+    quote: 따라서 §1 선행조건(00095 적용 + 클라이언트 재배포 준비)을 반드시 회전 **전에** 갖출 것.
+  wevolley#sc-post-rotation-verification:
+  - unit: reference/prod-key-rotation-runbook#4.-배포-후-검증
+    quote: 평문 키 부재 확인
+  - unit: reference/prod-key-rotation-runbook#4.-배포-후-검증
+    quote: '구 키 무효 확인(선택): 구 service_role 키로 REST 호출 시 401.'
+  - unit: reference/prod-key-rotation-runbook#5.-롤백-/-사고-대응
+    quote: '`_get_push_service_key()`가 NULL이면 Vault 주입 누락 → 3.3 재실행.'
+  wevolley#sc-new-key-scheme-deferred:
+  - unit: reference/prod-key-rotation-runbook#6.-후속-(이번-범위-밖)
+    quote: send-push의 JWT role 검증 + 게이트웨이 `verify_jwt` 재설계 필요.
+  wevolley#sc-git-history-purge-deferred:
+  - unit: reference/prod-key-rotation-runbook#6.-후속-(이번-범위-밖)
+    quote: 강제 push 위험(`deploy-push-gotchas`)이라 신중히 별도 판단.

@@ -1,0 +1,162 @@
+conflicts: []
+checked_concepts: 297
+note: 개념 297개를 대조했고 층간 값 불일치가 없다
+ungrounded_pairs:
+- a: wevolley#sc-analytics-blind-spot
+  b: wevolley#sc-posthog-http-capture
+  shared_units:
+  - lib.analytics
+- a: wevolley#sc-community-dm-room-type
+  b: wevolley#sc-early-solution-becomes-debt
+  shared_units:
+  - lib.api.chat
+- a: wevolley#sc-community-dm-room-type
+  b: wevolley#sc-placeholder-zero-ms-entry
+  shared_units:
+  - lib.api.chat
+- a: wevolley#sc-community-dm-room-type
+  b: wevolley#sc-platform-divergent-decision
+  shared_units:
+  - lib.api.chat
+- a: wevolley#sc-defaults-over-optin-lists
+  b: wevolley#sc-freshness-gate-dedupe
+  shared_units:
+  - lib.query-persist-policy
+- a: wevolley#sc-defaults-over-optin-lists
+  b: wevolley#sc-persist-denylist
+  shared_units:
+  - lib.query-persist-policy
+- a: wevolley#sc-draft-dm-room
+  b: wevolley#sc-foreground-recovery
+  shared_units:
+  - lib.online-manager
+- a: wevolley#sc-draft-dm-room
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-draft-dm-room
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+  - lib.supabase
+- a: wevolley#sc-eliminate-infinite-wait
+  b: wevolley#sc-skeleton-render-contract
+  shared_units:
+  - lib.promise-timeout
+- a: wevolley#sc-foreground-recovery
+  b: wevolley#sc-list-cell-render-cost
+  shared_units:
+  - lib.online-manager
+- a: wevolley#sc-foreground-recovery
+  b: wevolley#sc-persist-denylist
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-foreground-recovery
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-foreground-recovery
+  b: wevolley#sc-resilient-channel
+  shared_units:
+  - lib.online-manager
+- a: wevolley#sc-foreground-recovery
+  b: wevolley#sc-web-layout-animation-landmine
+  shared_units:
+  - lib.online-manager
+- a: wevolley#sc-freshness-gate-dedupe
+  b: wevolley#sc-is-bot-never-exposed
+  shared_units:
+  - lib.query-persist-policy
+- a: wevolley#sc-freshness-gate-dedupe
+  b: wevolley#sc-persist-denylist
+  shared_units:
+  - lib.query-persist-policy
+- a: wevolley#sc-list-cell-render-cost
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-list-cell-render-cost
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+  - lib.supabase
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-placeholder-zero-ms-entry
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-platform-divergent-decision
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-realtime-screen-declarative
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.query-persister
+  - lib.realtime-reconnect
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-resilient-channel
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-search-client-gate
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-sync-latency-instrumentation
+  shared_units:
+  - lib.query-persister
+- a: wevolley#sc-persist-denylist
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-placeholder-zero-ms-entry
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-placeholder-zero-ms-entry
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-screen-declarative
+  b: wevolley#sc-realtime-topic-lifecycle
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-screen-declarative
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-topic-lifecycle
+  b: wevolley#sc-search-client-gate
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-topic-lifecycle
+  b: wevolley#sc-sync-latency-instrumentation
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-topic-lifecycle
+  b: wevolley#sc-web-layout-animation-landmine
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-realtime-topic-lifecycle
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+  - lib.supabase
+- a: wevolley#sc-search-client-gate
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-sync-latency-instrumentation
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+- a: wevolley#sc-web-layout-animation-landmine
+  b: wevolley#sc-zombie-channel-force-rebuild
+  shared_units:
+  - lib.realtime-reconnect
+  - lib.supabase
+cross_concept_ok: false

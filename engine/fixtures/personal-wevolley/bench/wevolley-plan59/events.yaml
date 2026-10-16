@@ -1,0 +1,68 @@
+# Feature-scope gold — we-volley plan 59 (realtime sync). Parent: DECISIONS 0021.
+# ★ D2 typing = 구현→2계정 검증→기각+git revert = REVOKE (successor 없음 — supersede와 구별).
+#   다른 골드 픽스처엔 없던 유형: 죽은 결정은 current=none (superseded와 달리 대체 option 없음).
+events:
+  - event_id: WV59.act.d2.adopt
+    type: adopt
+    target: WV.T.chat_typing_indicator
+    option: o_typing               # room:{id} ephemeral Broadcast
+    actor: 개발
+    authority_level: product
+    scope: wevolley/chat/59
+    valid_at: "2026-07-28"
+    recorded_at: "2026-07-28"
+    title: "typing indicator 구현 (59 D2)"
+
+  - event_id: WV59.act.d2.revoke
+    type: revoke
+    target: WV.T.chat_typing_indicator
+    option: o_typing
+    actor: 운영자
+    authority_level: product
+    scope: wevolley/chat/59
+    valid_at: "2026-07-28"
+    recorded_at: "2026-07-28"       # 같은 날 — adopt < revoke (event_id 순)
+    reason_type: authority_change    # "입력 중 표시가 제품 방향과 안 맞아" 운영자 결정
+    title: "typing 기각·롤백 (59 D2 기각, 50e3dcc)"
+
+  - event_id: WV59.ev.d2
+    type: EvidenceEvent              # R2 이중기록 — 2계정 검증은 근거이자 현실
+    target: WV.T.chat_typing_indicator
+    subject_ref: o_typing
+    polarity: support                # 기능은 검증대로 동작함 (표시 ~1초, 3초 만료)
+    observed_at: "2026-07-28"
+    recorded_at: "2026-07-28"
+    source: ["2계정 검증 2026-07-28"]
+    independence_group: typing-2account-verify
+    title: "typing indicator 2계정 동작 검증"
+
+  - event_id: WV59.io.d2
+    type: ImplementationObservation  # A-reducer 무시, I축용
+    target: WV.T.chat_typing_indicator
+    option: o_typing
+    actual_behavior: "구현·2계정 검증(표시 ~1초, 3초 만료) 후 git revert(50e3dcc)"
+    delivery_state: abandoned
+    observed_at: "2026-07-28"
+    recorded_at: "2026-07-28"
+
+  - event_id: WV59.act.d3
+    type: adopt
+    target: WV.T.chat_message_delete
+    option: o_soft_delete            # soft delete + RPC + 목록 마스킹
+    actor: 개발
+    authority_level: product
+    scope: wevolley/chat/59
+    valid_at: "2026-07-28"
+    recorded_at: "2026-07-28"
+    title: "메시지 삭제 (59 D3)"
+
+  - event_id: WV59.act.d1
+    type: adopt
+    target: WV.T.chat_entry_latency
+    option: o_freshness_gate         # 3초 신선도 게이트로 중복 refetch 제거
+    actor: 개발
+    authority_level: product
+    scope: wevolley/chat/59
+    valid_at: "2026-07-28"
+    recorded_at: "2026-07-28"
+    title: "진입 지연 480→132ms (59 D1)"

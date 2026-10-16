@@ -1,0 +1,204 @@
+# AUTO-EXTRACTED from ~/Documents/we-volley/planning/DECISIONS.md — 22 decisions, 22 events
+# 제목-마커 full-supersede만 신뢰. 아래 flagged는 owner adjudication 필요:
+#   FLAG: 0009 partial→0010 (커뮤니티+비로그인 로드맵 — 기본거부 허용목록·컬럼 스코프 anon read·공개 페르소나 봇) — 축 분해 adjudication 필요
+events:
+- event_id: WV.act.0001
+  type: adopt
+  target: WV.T.0001
+  option: o0001
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: 화면·컴포넌트에서 supabase 직접 호출 금지
+- event_id: WV.act.0002
+  type: adopt
+  target: WV.T.0002
+  option: o0002
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: lib/api 전면 강제 안 함 — 단일 소비 쿼리는 훅 내 허용
+- event_id: WV.act.0003
+  type: adopt
+  target: WV.T.0003
+  option: o0003
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: query error-UX 가드는 비차단 유지, CI 로그 노출만
+- event_id: WV.act.0004
+  type: adopt
+  target: WV.T.0004
+  option: o0004
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: 게스트는 메시지 기반 유지
+- event_id: WV.act.0005
+  type: supersede
+  target: WV.T.0004
+  option: o0005
+  supersedes: o0004
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: 게스트 신청→승인→납부 흐름 도입
+- event_id: WV.act.0006
+  type: adopt
+  target: WV.T.0006
+  option: o0006
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-02'
+  recorded_at: '2026-07-02'
+  title: 홈은 유저 상태 분기, 전역 CTA·광고 금지
+- event_id: WV.act.0007
+  type: adopt
+  target: WV.T.0007
+  option: o0007
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-05'
+  recorded_at: '2026-07-05'
+  title: 아바타 이미지 = 클라 가공 + Supabase Storage, 유저 폴백은 성별 기본 아바타
+- event_id: WV.act.0008
+  type: adopt
+  target: WV.T.0008
+  option: o0008
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-05'
+  recorded_at: '2026-07-05'
+  title: 쿼리 persist는 denylist 기본, 프리페치 하드코딩 리스트 폐지
+- event_id: WV.act.0009
+  type: adopt
+  target: WV.T.0009
+  option: o0009
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-13'
+  recorded_at: '2026-07-13'
+  title: 커뮤니티+비로그인 로드맵 — 기본거부 허용목록·컬럼 스코프 anon read·공개 페르소나 봇
+- event_id: WV.act.0010
+  type: adopt
+  target: WV.T.0010
+  option: o0010
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-13'
+  recorded_at: '2026-07-13'
+  title: 시딩 봇은 비공개 운영 — 익명 글 위주 + DM 수신 설정으로 흡수
+- event_id: WV.act.0011
+  type: adopt
+  target: WV.T.0011
+  option: o0011
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-13'
+  recorded_at: '2026-07-13'
+  title: 커뮤니티는 별도 가명 프로필, is_anonymous 드롭
+- event_id: WV.act.0012
+  type: adopt
+  target: WV.T.0012
+  option: o0012
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-13'
+  recorded_at: '2026-07-13'
+  title: 커뮤니티 검색은 trigram GIN, FTS 기각 — 한국어 토크나이저 부재
+- event_id: WV.act.0013
+  type: adopt
+  target: WV.T.0013
+  option: o0013
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-14'
+  recorded_at: '2026-07-14'
+  title: 계정 삭제 후 커뮤니티 글/댓글 보존 — author_id SET NULL
+- event_id: WV.act.0014
+  type: adopt
+  target: WV.T.0014
+  option: o0014
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-14'
+  recorded_at: '2026-07-14'
+  title: 닉네임은 앱 전체 유일 — 커뮤니티 UNIQUE 즉시, 배구 DB 승격은 후속
+- event_id: WV.act.0015
+  type: adopt
+  target: WV.T.0015
+  option: o0015
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-14'
+  recorded_at: '2026-07-14'
+  title: 커뮤니티 DM은 chat_rooms.type='community_dm' — 방 단위 정체성 스위칭
+- event_id: WV.act.0016
+  type: adopt
+  target: WV.T.0016
+  option: o0016
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-15'
+  recorded_at: '2026-07-15'
+  title: 봇 시딩은 대본 오케스트레이터 + 전원 네임드 페르소나 — 익명 글 전제 붕괴 대체
+- event_id: WV.act.0017
+  type: adopt
+  target: WV.T.0017
+  option: o0017
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-16'
+  recorded_at: '2026-07-16'
+  title: 픽커 유실 복구는 JS 워치독 래퍼 — 네이티브 패치 기각
+- event_id: WV.act.0018
+  type: adopt
+  target: WV.T.0018
+  option: o0018
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-20'
+  recorded_at: '2026-07-20'
+  title: 봇 스킬은 발행 형태 1개 = 스킬 1개 + 콘텐츠는 리서치·비평 파이프라인
+- event_id: WV.act.0019
+  type: adopt
+  target: WV.T.0019
+  option: o0019
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-21'
+  recorded_at: '2026-07-21'
+  title: 공유 링크는 랜딩 없이 원본 직행 — OG 엔트리(/s/)와 canonical(/type/) 분리
+- event_id: WV.act.0020
+  type: adopt
+  target: WV.T.0020
+  option: o0020
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-22'
+  recorded_at: '2026-07-22'
+  title: 카드뉴스·아티클 커버는 레포 템플릿에서 굽는다 — 인스타는 추출 단계
+- event_id: WV.act.0021
+  type: adopt
+  target: WV.T.0021
+  option: o0021
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-28'
+  recorded_at: '2026-07-28'
+  title: 실시간 동기화는 하이브리드 - 전역 최소 구독 + 화면 단위 Broadcast 도메인 이벤트, 폴링 금지
+- event_id: WV.act.0022
+  type: adopt
+  target: WV.T.0022
+  option: o0022
+  authority_level: product
+  scope: wevolley
+  valid_at: '2026-07-28'
+  recorded_at: '2026-07-28'
+  title: 모달은 전부 화면 중앙 - 하단 시트 전면 폐지
+

@@ -1,0 +1,3172 @@
+# 기계 생성 초안(run_ingest) — verbatim, 검토 후 사용
+# parse_markdown_sections 어댑터 원문 그대로. 정본 편입 전 검토 필요.
+sections:
+- anchor: bot-skill-split-quality#57-—-봇-스킬-4+1-재편과-콘텐츠-품질-파이프라인-(Bot-Skill-Split-&-Content-Quality-Pipeline)
+  doc: 57-bot-skill-split-quality.md
+  text: '# 57 — 봇 스킬 4+1 재편과 콘텐츠 품질 파이프라인 (Bot Skill Split & Content Quality Pipeline)
+
+
+    > 작성일: 2026-07-20
+
+    > 상위 문서: [작업완료/54-content-channel-design.md](./작업완료/54-content-channel-design.md)
+    · [reference/49-bot-ops-runbook.md](./reference/49-bot-ops-runbook.md)
+
+    > 선행/연계: 55(콘텐츠 채널 구현)·56(Phase 1.5 format/highlight)이 만든 v3 규격·발행 경로를 그대로 사용.
+    DB·Edge Function·앱 코드는 건드리지 않는다.
+
+    > 범위: **Claude Code 스킬·bot/ 문서·scripts/bot-auto.sh만.** 앱/DB/함수 변경 없음.
+
+    > 한 줄 요약: 역할이 섞인 봇 스킬 2개를 발행 형태 기준 4개로 쪼개고, 카드뉴스·아티클에 리서치·비평 서브에이전트 파이프라인을 넣어
+    "피상적 요약 카드" 수준을 벗어난다.'
+- anchor: bot-skill-split-quality#§1-최종-목표-(Definition-of-Done)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §1 최종 목표 (Definition of Done)
+
+
+    1. 스킬이 발행 형태 기준 4개로 분리된다: `/bot-react`(댓글·대댓글 반응 + 좋아요 점검), `/bot-chat`(잡담 글),
+    `/bot-cards`(카드뉴스), `/bot-article`(아티클). `/bot-daily`(장면 주입)는 그대로 유지된다.
+
+    2. `bot-tick`·`bot-content` 스킬 디렉토리는 삭제되고, 저장소 내 참조(런북·bot/README·bot-auto.sh·liker
+    주석)가 새 이름으로 갱신된다 (잔존 참조 grep 0건).
+
+    3. `/bot-cards`·`/bot-article`은 기본 실행이 3단 파이프라인이다: 리서치 서브에이전트(팩트팩) → 본체 집필 → 비평
+    서브에이전트(팩트 대조·무정보 리젝·규격 검증) → 퇴고 → 예약.
+
+    4. `deep` 인자를 주면 Workflow 오케스트레이션(리서치 3앵글 팬아웃 → 초안 2개 경쟁 → 심사 → 합성 → 비평)으로 승격된다.
+
+    5. article 규격이 확장된다: 포인트 4~~6개, 포인트당 body 150~~300자(기존 90자 권장 폐지), 전체 800~1500자.
+    title ≤24자·summary 15자 내외·cards 하드 상한(head ≤17자·body ≤90자)은 유지된다.
+
+    6. 비평 단계가 리젝 기준을 명문화해 적용한다: 팩트팩에 근거 없는 사실 주장 금지, "연습은 짧게 자주" 류 무정보 포인트 리젝, highlight
+    부분문자열·ep 연속성·태그 1~3개 기계 검증.
+
+    7. `bot/README.md`의 운영 루틴·표가 새 스킬 체계로 갱신된다.
+
+    8. launchd 자동화(`scripts/bot-auto.sh`)가 `/bot-react`를 호출하도록 수정되고, 기존 plist 사용자는
+    `bot-auto.sh on` 재실행으로 갈아탈 수 있음이 README에 명시된다.
+
+
+    **성공 측정**: 콘텐츠 1건당 리서치 근거(수치·사례) 포인트 비율(현행 0 - 리서치 단계 자체가 없음 → 포인트 과반), 운영자 재집필
+    요청 빈도(현행: EP.01을 cards→article로 재발행 1건, content-log.md:13-14), 스킬 1개당 역할 1개(현행
+    bot-tick은 반응+잡담 2역할).'
+- anchor: bot-skill-split-quality#§2-현재-상황-분석-(실측)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §2 현재 상황 분석 (실측)'
+- anchor: bot-skill-split-quality#이미-갖춰진-것-—-재사용
+  doc: 57-bot-skill-split-quality.md
+  text: '### 이미 갖춰진 것 — 재사용
+
+
+    | 자산                                              | 위치                                          |
+    상태                                   |
+
+    | ------------------------------------------------- | ---------------------------------------------
+    | -------------------------------------- |
+
+    | v3 포인트 정형 파서 (points 1~8, 길이 무검증)     | `lib/utils/content-post.ts:28`                |
+    그대로 사용 - article 확장을 이미 수용 |
+
+    | article 상세 렌더러 (클램프 없는 줄글)            | `app/(tabs)/community/[id].tsx:393-415`       |
+    그대로 - body 장문 안전                |
+
+    | article 피드 카드 (커버+제목만, 포인트 미노출)    | `components/community/ContentPostCard.tsx:96`
+    | 그대로 - 피드 오버플로 없음            |
+
+    | 예약 INSERT·승인 게이트·심야 조정·ep 교차확인 SQL | `bot-content/SKILL.md` §4~5                   |
+    새 스킬 2개에 이식                     |
+
+    | 반응 확률표·enqueue RPC·이벤트 드레인             | `bot-tick/SKILL.md` §2~4·§6                   |
+    `/bot-react`로 이식                    |
+
+    | 잡담 집필 절차 (소재 풀·태그·예약)                | `bot-tick/SKILL.md` §5-1                      |
+    `/bot-chat`으로 이식                   |
+
+    | 소재·발행 대장                                    | `bot/topics.md` · `bot/content-log.md`        |
+    형식 유지, 소비 주체만 변경            |
+
+    | liker 크론 (좋아요 자동)                          | `supabase/functions/community-bot-liker`      |
+    로직 이관 안 함 - 점검만               |'
+- anchor: bot-skill-split-quality#구멍-—-이번에-닫는다
+  doc: 57-bot-skill-split-quality.md
+  text: '### 구멍 — 이번에 닫는다
+
+
+    - **역할 혼재**: `bot-tick/SKILL.md` 172줄에 반응(§3~4)과 잡담 집필(§5-1)이 한 스킬. `bot-content/SKILL.md`
+    172줄에 cards·article이 format 필드 하나로 동거 (§4: "애매하면 article").
+
+    - **품질 파이프라인 부재**: `bot-content/SKILL.md`에 리서치·검수 단계가 없다 - §4 집필 규격 → §5 예약으로
+    직행. 초안 = 최종안. 운영자 진단(2026-07-20): 깊이 부족·포맷 제약·무검수 3중.
+
+    - **article이 cards 제약에 갇힘**: §4 "body는 2~4문장 최대 90자 (cards는 하드 상한, article은 권장)"
+    - 렌더러 실측상 article은 이 제약이 불필요한데 규격이 눌러놓아 "요약 카드 같은 아티클"이 나옴.
+
+    - **개명 파급점 3곳**: `scripts/bot-auto.sh:23` launchd plist에 `claude -p "/bot-tick"`
+    하드코딩, `reference/49-bot-ops-runbook.md` /bot-tick·/bot-content 참조 20여 곳(§6-1·6-1b
+    포함), `community-bot-liker/index.ts:8,28` 주석.'
+- anchor: bot-skill-split-quality#핵심-통찰
+  doc: 57-bot-skill-split-quality.md
+  text: '### 핵심 통찰
+
+
+    1. **article 확장은 공짜다.** 파서(길이 무검증)·상세(무클램프)·피드(포인트 미노출) 모두 실측 확인 - 스킬 텍스트만 고치면
+    되고 EAS 빌드·마이그레이션이 없다.
+
+    2. **품질 문제의 구조적 원인은 "한 패스 집필"이다.** 소재(topics.md)가 넓은 제목뿐이고, 리서치 없이 학습 지식만으로 90자
+    안에 쓰니 피상적 일반론만 남는다. 팩트팩 → 집필 → 비평의 분업이 최소 해법.'
+- anchor: bot-skill-split-quality#§3-설계-고려사항
+  doc: 57-bot-skill-split-quality.md
+  text: '## §3 설계 고려사항'
+- anchor: bot-skill-split-quality#3-1.-분리-기준:-포맷-우선,-채널-자유-(가장-중요한-결정)
+  doc: 57-bot-skill-split-quality.md
+  text: '### 3-1. 분리 기준: 포맷 우선, 채널 자유 (가장 중요한 결정)
+
+
+    - A안 채널별 스킬(오늘의배구/배구연구소/장비창고): 슬롯과 1:1이지만 채널 추가마다 스킬 증식, format 판단 문제는 그대로.
+
+    - **B안(채택) 포맷별 스킬 + 채널 자유**: `/bot-cards`·`/bot-article` 모두 어느 채널이든 집필. 인자 없으면
+    오늘 슬롯 채널 기본값, "소재 성격에 맞는 포맷 고르기"는 운영자 몫으로 명시 이동 (2026-07-20 사용자 결정). "애매하면 article"
+    같은 자동 판단 규칙은 폐기.'
+- anchor: bot-skill-split-quality#3-2.-파이프라인-무게:-기본-경량,-deep-인자-(사용자-결정)
+  doc: 57-bot-skill-split-quality.md
+  text: '### 3-2. 파이프라인 무게: 기본 경량, deep 인자 (사용자 결정)
+
+
+    기본 = 서브에이전트 2회(리서치 1 + 비평 1), 본체가 집필·퇴고. `deep` = Workflow 오케스트레이션 승격. 항상-deep은
+    주 3회 발행이라도 비용·시간 부담이 커서 기각 (2026-07-20 사용자 결정: "기본=경량, deep 인자"). deep의 Workflow
+    호출은 스킬 지시문에 명시 - 스킬 경유 실행이 곧 opt-in.'
+- anchor: bot-skill-split-quality#3-3.-좋아요:-크론-유지,-스킬은-점검만
+  doc: 57-bot-skill-split-quality.md
+  text: '### 3-3. 좋아요: 크론 유지, 스킬은 점검만
+
+
+    liker는 LLM 무호출 서버 크론(하루 3회)으로 이미 완결. 로직을 스킬로 옮기면 딸깍 누락 = 좋아요 정지가 되므로 기각. `/bot-react`
+    리포트에 오늘 liker 동작 여부(`community_post_likes` 최근 봇 좋아요 시각)와 분포만 표시.'
+- anchor: bot-skill-split-quality#3-4.-공통-블록-복제-vs-공유-문서
+  doc: 57-bot-skill-split-quality.md
+  text: '### 3-4. 공통 블록 복제 vs 공유 문서
+
+
+    cards·article 스킬은 예약 SQL·ep 확인·대장 갱신·승인 안내가 동일하다. 공유 문서로 빼면 스킬 자립성이 깨지고(스킬 단독
+    로드 시 맥락 유실), 복제하면 드리프트 위험. **복제를 택하되** 두 파일 헤더에 "예약·대장 절차는 bot-cards/bot-article
+    동일 - 한쪽 수정 시 다른 쪽도" 상호 주석을 남긴다. 과표준화 경고: 리서치 지시문은 채널·포맷마다 달라야 하므로 억지로 합치지 않는다.'
+- anchor: bot-skill-split-quality#3-5.-개명-파급:-launchd-plist는-재생성-필요
+  doc: 57-bot-skill-split-quality.md
+  text: '### 3-5. 개명 파급: launchd plist는 재생성 필요
+
+
+    plist는 `bot-auto.sh on` 시점의 문자열이 박제되므로 스크립트만 고치면 기존 가동분은 계속 `/bot-tick`을 부른다(스킬
+    삭제 후엔 헤드리스 실패). README·리포트에 "재실행 필요" 명시 + 구현 직후 `bot-auto.sh status`로 가동 여부 확인.'
+- anchor: bot-skill-split-quality#§4-구현-계획-(단계별)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §4 구현 계획 (단계별)
+
+
+    - [ ] **Step 1 — `/bot-react` 신설**: `bot-tick/SKILL.md`에서 §5-1(잡담)·§5-2(콘텐츠 안내)를
+    들어내고 `.claude/skills/bot-react/SKILL.md`로 이동. 좋아요 점검 항목·콘텐츠 슬롯 리마인드(두 스킬명으로) 추가.
+    리포트 형식 갱신.
+
+    - [ ] **Step 2 — `/bot-chat` 신설**: §5-1 잡담 절차를 `.claude/skills/bot-chat/SKILL.md`로
+    독립 (접속 대상·게이트·소재 풀·태그·예약·심야 조정 포함. "하루 첫 틱" 게이트 → "오늘 잡담 예약 0건" 게이트로 치환).
+
+    - [ ] **Step 3 — `/bot-article` 신설**: bot-content 골격 + format=''article'' 고정 +
+    §1-5 확장 규격 + 3단 파이프라인(리서치 팩트팩 스키마, 비평 리젝 기준, 퇴고 루프 1회) + `deep` 인자 Workflow 정의.
+
+    - [ ] **Step 4 — `/bot-cards` 신설**: article과 동일 파이프라인, cards 하드 상한 유지 + "한 장 =
+    한 액션 + 구체 디테일 1개 의무" 원칙.
+
+    - [ ] **Step 5 — 구 스킬 삭제**: `.claude/skills/bot-tick/`·`.claude/skills/bot-content/`
+    제거.
+
+    - [ ] **Step 6 — 참조 일괄 갱신** (전체 범위 한 번에): `scripts/bot-auto.sh`(LABEL·로그명·호출 스킬),
+    `bot/README.md`(§2 표·§3 루틴·§4 방법·§8 링크), `reference/49-bot-ops-runbook.md`(§6-1·6-1b
+    등 20여 곳), `community-bot-liker/index.ts` 주석 2곳, `bot/topics.md`·`content-log.md`
+    헤더의 "틱이" 표현.
+
+    - [ ] **Step 7 — 검증(§5) 후 커밋**: 스킬·문서·스크립트 한 커밋 (동작 코드 변경 없음 - 앱/DB 무관).'
+- anchor: bot-skill-split-quality#§5-검증-(Verification)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §5 검증 (Verification)
+
+
+    - [ ] 양성: `grep -rn "bot-tick\|bot-content" --include="*.md" --include="*.sh"
+    --include="*.ts"` (node_modules·작업완료 제외) → 히스토리 문서 외 0건.
+
+    - [ ] 양성: 4개 SKILL.md frontmatter의 name·description이 유효하고 역할이 1개씩인지 육안 확인.
+
+    - [ ] 양성: 로컬 DB에서 `/bot-article` 리허설 1회 - 리서치 팩트팩 산출 → 비평 리포트 산출 → 예약 행 생성(`content`
+    JSONB의 points 4~~6·body 150~~300자)까지 관찰. `/bot-cards`도 동일 1회.
+
+    - [ ] 양성: 리허설 산출물 detail 화면 렌더 확인 (verifier-web) - 장문 article이 상세에서 정상 줄글 렌더.
+
+    - [ ] 음성: 비평 단계에 무정보 포인트("꾸준히 하면 늘어요" 류)를 의도적으로 넣은 초안을 주면 리젝하는지 1회 확인.
+
+    - [ ] 음성: highlight가 head의 부분문자열이 아닌 초안 → 비평이 잡아내는지 확인 (파서 null 처리 예방).
+
+    - [ ] `bot-auto.sh status`로 launchd 가동 여부 확인 - 가동 중이면 off→on 재생성 안내 수행.'
+- anchor: bot-skill-split-quality#§6-이번-범위-밖-(후속/별도)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §6 이번 범위 밖 (후속/별도)
+
+
+    - **앱·DB·Edge Function 변경 없음**: 파서 확장(길이 검증 추가 등), cards 슬라이드 UI 변경, 이미지 소싱(image_url)
+    - 필요해지면 별도 문서.
+
+    - **liker 크론 로직 변경 없음**: 확률·시간대 조정은 별도.
+
+    - **`/bot-daily` 개편 없음**: 장면 주입은 현행 유지.
+
+    - **기존 발행물 소급 수정 없음**: EP.01 article 재발행분은 그대로.
+
+    - **topics.md 백로그 소재 리라이팅 없음**: 넓은 소재를 앵글로 좁히는 건 리서치 단계 책임으로 이관 - 대장 자체는 그대로.
+
+    - **prod 딸깍 자동화 고도화(원격 크론 등)**: backlog 후보.'
+- anchor: bot-skill-split-quality#§7-리스크-&-완화
+  doc: 57-bot-skill-split-quality.md
+  text: '## §7 리스크 & 완화
+
+
+    | 리스크                                     | 영향                                 |
+    완화                                                                                                       |
+
+    | ------------------------------------------ | ------------------------------------
+    | ----------------------------------------------------------------------------------------------------------
+    |
+
+    | launchd plist가 구 `/bot-tick` 호출 지속   | 헤드리스 틱 조용히 실패, 반응봇 정지 | bot-auto.sh 수정
+    + README에 `on` 재실행 명시 + 구현 직후 status 확인 (§5)                                  |
+
+    | 리서치 서브에이전트의 할루시네이션 팩트    | 틀린 수치·규칙이 콘텐츠로 발행       | 팩트팩에 출처 URL 필수, 비평 단계가
+    팩트팩 밖 주장 리젝, 승인 게이트(운영자 최종 검수) 유지                |
+
+    | article 장문화로 폴백 body(구버전 앱) 비대 | 구버전 피드에 긴 텍스트 노출         | 폴백은 기존대로 title+head
+    위주 압축 유지 (본문 전문을 넣지 않는다고 규격에 명시)                          |
+
+    | cards·article 공통 블록 드리프트           | 한쪽만 규격 갱신돼 어긋남            | 상호 주석(§3-4)
+    + 리뷰 시 두 파일 동시 확인 습관                                                           |
+
+    | deep 워크플로우 비용 폭주                  | 토큰 과소비                          | 기본 경량,
+    deep은 명시 인자일 때만 + 스킬에 대략 비용 고지 문구                                            |
+
+    | 스킬 5개로 운영 딸깍 부담 증가             | 루틴 이탈                            | README §3
+    루틴을 "매일 1개(/bot-react) + 주 3회 콘텐츠 택1"로 단순 명시, /bot-react 리포트가 슬롯 리마인드 |'
+- anchor: bot-skill-split-quality#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+  doc: 57-bot-skill-split-quality.md
+  text: '## §8 구현 후 — 무엇이 달라지나 & 어떻게 활용하나 (기대)
+
+
+    - **Before → After (운영)**: "bot-tick이 반응·잡담을 한꺼번에, bot-content가 포맷을 자동 판단" → 발행
+    형태 1개 = 스킬 1개. 운영자가 소재를 보고 `/bot-cards`냐 `/bot-article`이냐를 직접 고르고, 잡담은 원할 때만 `/bot-chat`.
+
+    - **Before → After (품질)**: 리서치 0·검수 0의 한 패스 집필 → 팩트팩 근거 집필 + 비평 리젝 통과분만 예약. article은
+    90자 요약 카드에서 800~1500자 읽을거리로.
+
+    - **개선 지표**: §1 성공 측정 참조 - 근거 있는 포인트 비율, 재집필 요청 빈도, 스킬당 역할 수. 구현 후 실측으로 갱신.
+
+    - **누가 어떻게 쓰나**: 운영자는 매일 `/bot-react` 딸깍(자동화 시 launchd), 화·목·토엔 topics.md를 보고
+    포맷 스킬 택1 (공들일 소재면 `deep` 붙이기). 개발자 관점에선 새 발행 형태(예: 투표형)가 생기면 스킬 1개 추가로 끝 - 기존
+    스킬 무수정.
+
+    - **유저 관점**: 커뮤니티 콘텐츠의 깊이·읽는 맛 개선 (수치·사례가 있는 아티클). 앱 UI 변화는 없음.
+
+    - **보이나/안 보이나**: 스킬 재편 자체는 안 보이는 운영 인프라지만, 콘텐츠 품질 상승은 유저에게 직접 보인다 - prod 90명 유저
+    리텐션(메모리: prod-scale-live)에 복무.'
+- anchor: backlog/club-treasury#33.-클럽-금고-(동호회-회계)-—-기획
+  doc: backlog/33-club-treasury.md
+  text: '# 33. 클럽 금고 (동호회 회계) — 기획
+
+
+    - 상태: draft (2026-07-02, 브레인스토밍 세션 결과 구체화)
+
+    - 관련: ADR-0005(게스트 신청 도입), planning/32 P1-1(notify 단일 진입점), ADR-0004(supersede
+    대상)
+
+
+    **한 줄 정의**: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부. 자동화되는 것은 **청구 생성과 독촉**이고,
+    입금 확인은 셀프 신고 + 총무 승인의 반자동.
+
+
+    ---'
+- anchor: backlog/club-treasury#1.-문제
+  doc: backlog/33-club-treasury.md
+  text: '## 1. 문제
+
+
+    동호회 총무는 회비(월 3만원 안팎, 월/분기 주기, 연납 할인·가입비 변형)를 은행 계좌로 받아 엑셀로 관리하고 카톡으로 공지·독촉한다.
+    페인 3개:
+
+
+    1. **대조 노동**: 은행 내역과 멤버 명단을 수동 대조 — 입금자명이 제각각, 몰아내기(3개월치)·대납이 섞임.
+
+    2. **독촉의 감정 비용**: 미납자에게 개인적으로 돈 얘기를 꺼내는 어색함. 기능이 아니라 관계 문제.
+
+    3. **투명성 보고**: 회식비·유니폼·장비비 지출까지 엑셀에 적어 총회 때 공개 — 보고가 연 1~2회 이벤트라 평소엔 블랙박스.
+
+
+    근거: 운영자 본인이 1차 사용자(도그푸딩). 엑셀+카톡이 사실상 표준 워크플로.
+
+
+    **핵심 판단: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다.** 지출이 엑셀에 남으면 장부의 진실은 엑셀에 있고 앱은 이중 입력
+    부담만 추가 → 총무 이탈. 따라서 수입+지출+잔액+리포트까지가 v1 스코프.'
+- anchor: backlog/club-treasury#2.-목표-/-성공-지표
+  doc: backlog/33-club-treasury.md
+  text: '## 2. 목표 / 성공 지표
+
+
+    | 목표 | 지표 | 측정 |
+
+    |---|---|---|
+
+    | 총무의 엑셀 대체 | 활성 클럽 중 금고 기능 사용 클럽 수 (첫 목표: 자기 클럽 포함 3개) | charges 발행 클럽 count
+    |
+
+    | 확인 노동 압축 | 월 청구 발행→전원 확정까지 총무 앱 체류 시간 (감각 목표: 월 10분 이내) | 정성 + 이벤트 |
+
+    | 셀프 신고 채택 | confirmed charge 중 셀프 신고(reported) 경유 비율 ≥ 60% | status 전이 로그 |
+
+    | 멤버 리텐션 견인 | 금고 사용 클럽 멤버의 WAU vs 미사용 클럽 | 코호트 비교 |'
+- anchor: backlog/club-treasury#3.-비목표-(명시적-제외)
+  doc: backlog/33-club-treasury.md
+  text: '## 3. 비목표 (명시적 제외)
+
+
+    - **은행 계좌 연동 전면**: 마이데이터(허가제, 자본금 5억) 기각. 오픈뱅킹 이용기관은 법인 설립 시 재검토. 스크래핑(직접/대행)
+    기각 — 신용정보법·신뢰 비용.
+
+    - **송금/결제 대행**: 돈은 앱을 거치지 않는다. 앱은 장부·독촉·투명성만. (미래 결제는 planning/32 Phase C — Edge
+    Fn 관문)
+
+    - **거래내역 복붙/엑셀 업로드 파싱**: v1 제외, v1.5 후보. 셀프 신고 채택률이 낮을 때의 보강 수단.
+
+    - **출석/노쇼 자동 집계**: 게스트 흐름은 참석 확정까지만. 노쇼 이력은 수요 확인 후.
+
+    - **예산/승인 워크플로**(지출 품의 등): 과설계. 지출은 기록만.'
+- anchor: backlog/club-treasury#4.-코어-루프
+  doc: backlog/33-club-treasury.md
+  text: "## 4. 코어 루프\n\n```\n[청구 발행]  charge_plan이 매월/분기 자동 발행 (또는 총무 수동 발행)\n   \
+    \ ↓ 알림: 금액·계좌·지정 입금자명 원탭 복사 (+가능 시 송금 딥링크)\n[멤버 송금]  은행앱에서 이체 — 입금자명을 앱이 지정(\"\
+    김철수0403\")\n    ↓ 앱에서 \"냈어요\" 셀프 신고 (선택: 이체 스크린샷 첨부)\n[총무 승인]  확인 대기 인박스 — 은행앱\
+    \ 대조 후 스와이프 승인 / 일괄 처리\n    ↓\n[장부 갱신]  잔액·리포트 자동 반영. 미납은 N일차 자동 리마인드 (앱이 독촉,\
+    \ 총무 아님)\n```\n\n설계 원칙: **입력을 멤버에게 분산**(셀프 신고), **매칭을 상류에서 제거**(지정 입금자명), **독촉을\
+    \ 시스템에 외주**(자동 리마인드). 이 3개가 은행 연동 없이 성립하는 이유."
+- anchor: backlog/club-treasury#5.-도메인-모델-(초안)
+  doc: backlog/33-club-treasury.md
+  text: "## 5. 도메인 모델 (초안)\n\n```\nclub_finance_settings   클럽당 1행 — 수금 계좌(은행/번호/예금주),\
+    \ 입금자명 규칙,\n                        재정 요약 공개 범위 설정. 계좌는 민감 정보 → 별도 테이블 + RLS\n\
+    charge_plans            청구 템플릿 — cycle(monthly|quarterly), amount, issue_day,\
+    \ active\nclub_charges            장부의 원자 단위 —\n                        type: dues\
+    \ | guest_fee | join_fee | other\n                        amount, title, due_date\n\
+    \                        status: pending → reported → confirmed | exempt | void\n\
+    \                        reported_at, evidence_image, confirmed_by/at,\n     \
+    \                   source_plan_id?, guest_request_id?\nclub_expenses        \
+    \   지출 — amount, category(회식|장비|유니폼|대관|기타), memo,\n                        receipt_image,\
+    \ spent_at, created_by\nguest_requests          게스트 신청 (ADR-0005) — club_id, event_id,\
+    \ user_id, message,\n                        status: pending → accepted | rejected\
+    \ | cancelled\n잔액                    = Σ confirmed charges − Σ expenses (뷰/집계\
+    \ 쿼리, 컬럼 아님)\n```\n\n모델링 원칙: **규칙은 얇게, 장부는 멍청하게.** 연납 할인 = \"33만원 charge 1건\"\
+    (plan이 아니라 수동 발행), 가입비 = 가입 승인 시 1회 charge 옵션. 몰아내기·대납은 총무가 여러 charge를 선택 일괄 승인으로\
+    \ 흡수 — 입금:charge 1:N 매칭을 모델이 아니라 UX로 푼다."
+- anchor: backlog/club-treasury#6.-게스트-흐름-변경-(기능-변경-—-ADR-0005)
+  doc: backlog/33-club-treasury.md
+  text: "## 6. 게스트 흐름 변경 (기능 변경 — ADR-0005)\n\n현행: 클럽 상세 → \"게스트 문의\" → DM. 변경:\n\n\
+    ```\n게스트: 클럽 상세 → 일정(club_event) 선택 → 게스트 신청(메시지)\n운영진: 신청 알림 → 승인/거절\n승인 부수효과:\
+    \ guest_fee charge 자동 생성 → 게스트에게 납부 안내 알림\n              (금액·계좌·지정 입금자명 — 멤버 회비와\
+    \ 동일 루프)\n게스트: 송금 → 셀프 신고 → 총무 승인 → 참석 확정\n```\n\n- DM 문의는 **공존** — 신청 전 사전 문의\
+    \ 채널로 유지.\n- guest_fee 금액 기본값 = 기존 `clubs.guest_fee_info`(텍스트) → settings의 구조화\
+    \ 금액 필드로 이관 필요.\n- 요청·승인 도메인의 4번째 인스턴스 → planning/32 Phase B 관문 발동: **notify()\
+    \ 단일 진입점(P1-1)을 이 기능 첫 마이그레이션 전에 선행**, 승인 부수효과(charge 생성+알림)는 공통 헬퍼로."
+- anchor: backlog/club-treasury#7.-화면-(클럽-상세-내-'회계'-진입)
+  doc: backlog/33-club-treasury.md
+  text: '## 7. 화면 (클럽 상세 내 ''회계'' 진입)
+
+
+    | 화면 | 사용자 | 내용 |
+
+    |---|---|---|
+
+    | 재정 요약 | 전체 멤버 | 잔액, 이번 달 수입/지출 총계, 최근 지출 목록. 개인 납부 상태는 미노출 |
+
+    | 내 납부 현황 | 본인 | 내 charge 목록, "냈어요" 신고, 계좌·입금자명 복사 |
+
+    | 총무 대시보드 | 운영진 | "3월 회비 18/22" 한 줄 + 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제) |
+
+    | 지출 입력 | 운영진 | 금액+항목+메모+영수증 사진 — 30초 입력 |
+
+    | 월간 리포트 | 운영진→전체 | 기간 수입/지출/잔액 요약 → **카톡 공유용 이미지 생성** (카톡 문화에 순응 + 하단 로고 = 자연
+    홍보) |
+
+    | 게스트 신청/관리 | 게스트/운영진 | §6 흐름 |'
+- anchor: backlog/club-treasury#8.-알림-(신규-6종-—-P1-1-선행-조건)
+  doc: backlog/33-club-treasury.md
+  text: '## 8. 알림 (신규 6종 — P1-1 선행 조건)
+
+
+    charge_issued(청구 발행), dues_reminder(미납 N일차, push 중심), payment_reported(총무에게),
+    payment_confirmed(멤버에게), guest_request(운영진에게), guest_approved+납부안내(게스트에게). 전부
+    기존 notifications 인프라 재사용하되, **notify() 단일 진입점 마이그레이션을 이 기능 첫 스키마 작업으로 선행**한다(planning/32
+    P1-1).'
+- anchor: backlog/club-treasury#9.-권한-/-프라이버시-/-RLS
+  doc: backlog/33-club-treasury.md
+  text: '## 9. 권한 / 프라이버시 / RLS
+
+
+    - 회계 쓰기 권한 = `club_members.role = admin` (별도 ''총무'' 역할 신설 안 함 — admin_positions
+    표시용 활용은 선택).
+
+    - 개인 납부 상태 열람: **본인 + 운영진** 기본. 클럽 설정으로 "미납 현황 전체 공개" 옵션(미납자 명단 공개 문화 클럽용) — 기본값은
+    비공개 권장.
+
+    - 재정 요약(총계·잔액·지출)은 멤버 전체 열람 — 이 기능의 차별 가치(상시 투명성).
+
+    - 수금 계좌 정보: 멤버에게는 납부 화면에서만 노출, 비멤버·게스트는 승인 후에만.
+
+    - 민감 상태 전이(승인·면제·void)는 RPC 경유 — 기존 컨벤션 유지.'
+- anchor: backlog/club-treasury#10.-요구사항-우선순위
+  doc: backlog/33-club-treasury.md
+  text: '## 10. 요구사항 우선순위
+
+
+    **P0 (없으면 배포 안 함)** — Phase 1
+
+    - charge 발행(plan 자동 + 수동), 멤버 납부 화면(복사+셀프 신고), 총무 인박스(승인/일괄/면제), 미납 자동 리마인드, 총무
+    대시보드 한 줄 현황
+
+    - 수락 기준 예: "plan(월 3만, 1일 발행) 설정 시 매월 1일 활성 멤버 전원에게 pending charge 생성 + charge_issued
+    알림 발송" / "멤버 신고 시 총무에게 payment_reported, 총무 승인 시 status=confirmed + 멤버에게 확인 알림"
+
+
+    **P1** — Phase 2
+
+    - 지출 기록(사진+태그), 재정 요약 화면, 월간 리포트 + 카톡 공유 이미지
+
+
+    **P1.5** — Phase 3
+
+    - 게스트 신청→승인→guest_fee 루프 (§6). ADR-0005 accepted 전환 후 착수
+
+
+    **P2 (설계만 고려, 빌드 안 함)**
+
+    - 거래내역 복붙/엑셀 파싱 매칭(셀프 신고 채택률 <40%면 승격), 오픈뱅킹(법인 시), 노쇼 집계, 회비 통계·연체 이력'
+- anchor: backlog/club-treasury#11.-리스크
+  doc: backlog/33-club-treasury.md
+  text: '## 11. 리스크
+
+
+    | 리스크 | 판정 | 방어 |
+
+    |---|---|---|
+
+    | 멤버가 셀프 신고를 안 함 (**최대 가정**) | 채택률 60% 미달 시 가치 반감 | 리마인드 알림이 앱 진입 강제, 신고는 2탭,
+    미신고분은 총무 대리 입력으로 성립. 40% 미만이면 P2 파싱 승격 |
+
+    | 총무의 이중 입력기(전환기 엑셀 병행) | 초기 이탈 요인 | 첫 달 온보딩: 기존 미납 상태 일괄 입력 도구(멤버별 체크 1회) |
+
+    | 금액 분쟁("나 냈는데") | 신뢰 훼손 | evidence_image + 상태 전이 이력 보존, confirmed 취소는 void+재발행(수정
+    불가 원장) |
+
+    | 계좌 정보 노출 | 보안 | 별도 테이블+RLS, 멤버 한정 노출 |'
+- anchor: backlog/club-treasury#12.-오픈-퀘스천
+  doc: backlog/33-club-treasury.md
+  text: '## 12. 오픈 퀘스천
+
+
+    1. **[결정 대기 — 운영자]** 미납 공개 범위 기본값: 본인+운영진(권장) vs 전체 공개. 두 차례 논의 미결.
+
+    2. **[설계]** 게스트 신청을 일정(club_event) 단위로 한정할지, 일정 없는 일반 신청도 허용할지 — 일정 단위 한정 권장(금액·일자
+    명확).
+
+    3. **[이관]** 기존 `clubs.fee_info`/`guest_fee_info` 텍스트 필드 → settings 구조화 필드 이관 시
+    기존 데이터 처리.
+
+    4. **[검증]** 다른 클럽 총무 2~3명에게 이 코어 루프 검증 — 셀프 신고 가정의 외부 확인 (본인 클럽만으론 표본 1).'
+- anchor: backlog/club-treasury#13.-아키텍처-연결-(planning/32-정합)
+  doc: backlog/33-club-treasury.md
+  text: '## 13. 아키텍처 연결 (planning/32 정합)
+
+
+    - **ADR-0005**: 게스트 신청/승인 도입 — ADR-0004 supersede. 게스트 단위=일정 1회, 라이프사이클=신청→승인→charge→확인→참석.
+
+    - **P1-1 notify() 선행**: 이 기능 첫 마이그레이션 전 완료 (Phase B 관문 발동).
+
+    - **ledger 계보**: club_charges/expenses는 미래 결제(Phase C)의 원장 전신 — 상태 전이를 수정 불가(append-only에
+    준하게) 설계해 이관 여지 확보.
+
+    - **승인 부수효과 공통화**: guest 승인 헬퍼를 club_join/scrimmage 승인과 공용화할지는 이번엔 게스트만 — 소급 통합
+    안 함(ADR-0004 계승).'
+- anchor: backlog/guest-request#34.-게스트-신청→승인-—-기획
+  doc: backlog/34-guest-request.md
+  text: '# 34. 게스트 신청→승인 — 기획
+
+
+    - 상태: ready (2026-07-02 — 오픈 퀘스천 4건 전부 결정, 구현 착수 가능)
+
+    - **구현: ✅ 완료 [../작업완료/52-guest-request.md](../작업완료/52-guest-request.md) (2026-07-17)**
+    — 45A 이후 드리프트 교정 포함: §6의 "기존 club_events 정책은 멤버 한정" 전제는 낡음(00048/00113의 visibility
+    축 존재), guest_payment_guide는 clubs 컬럼으로는 은닉 불가(행 단위 RLS)라 별도 테이블+RPC로 변경, 훈련 일정은
+    크론 자동 생성이라 토글 위치는 폼이 아닌 일정 상세.
+
+    - 관련: DECISIONS.md 0005(구체화 대상), backlog/33 §6(금고 연동은 거기서), planning/32 P1-1(notify
+    선행)
+
+    - **독립 배포 전제**: 클럽 금고(33) 없이 배포 가능. v1 납부 = 승인 후 안내 텍스트. 금고 출시 시 charge 연동으로 승격(P2).'
+- anchor: backlog/guest-request#1.-문제
+  doc: backlog/34-guest-request.md
+  text: '## 1. 문제
+
+
+    배구 동호회는 코트 인원이 모자란 날 게스트를 받는다. 현재 앱의 게스트 흐름은 `guest_allowed` 플래그 + DM 문의가 전부라,
+    실제 성사는 "언제 가면 되나요 / 이번 주 목요일이요 / 몇 명이나요…" 같은 DM 왕복으로 처리되고, 운영진은 같은 질문에 반복 응답한다.
+    게스트 입장에선 어느 클럽이 **언제** 게스트를 받는지 알 방법이 없어 탐색 자체가 막혀 있다.
+
+
+    **전략적 의미**: 클럽에 소속되지 않은 개인 유저에게 이 앱의 현재 가치는 희박하다. "이번 주 게스트 뛸 곳 찾기"는 개인 유저의 **첫
+    번째 명확한 사용 이유**가 되고, 게스트 참여는 클럽 가입의 자연 퍼널이 된다(체험 → 가입 신청). 유저 120명 단계에서 잔존을 견인할
+    후보.'
+- anchor: backlog/guest-request#2.-목표
+  doc: backlog/34-guest-request.md
+  text: '## 2. 목표
+
+
+    | 목표                     | 지표 (선행)                 | 지표 (지행)                              |
+
+    | ------------------------ | --------------------------- | ----------------------------------------
+    |
+
+    | 게스트 모집이 구조화된다 | 게스트 모집 켠 일정 수 / 주 | —                                        |
+
+    | DM 왕복이 신청으로 대체  | 신청 건수, 승인율           | 게스트 문의 DM 감소(정성)                |
+
+    | 개인 유저의 사용 이유    | 무소속 유저의 신청 비율     | 게스트 경험 유저의 4주 잔존              |
+
+    | 가입 퍼널                | —                           | 게스트 참여 → 해당 클럽 가입 신청 전환율
+    |
+
+
+    첫 검증 목표(출시 4주): 자기 클럽 포함 **3개 클럽이 모집을 켜고, 신청 10건 발생**.'
+- anchor: backlog/guest-request#3.-비목표
+  doc: backlog/34-guest-request.md
+  text: '## 3. 비목표
+
+
+    - **결제/장부 연동**: 게스트비 수금 확인은 33(금고)의 일 — v1은 안내 텍스트만. 이유: 독립 배포.
+
+    - **출석/노쇼 관리**: DECISIONS 0005에서 스코프 외 확정. 수요 확인 후.
+
+    - **게스트 평가/후기**: 신뢰 시스템은 별도 기획감. 지금은 프로필 카드가 신뢰 근거.
+
+    - **비로그인 신청**: 신청은 로그인 유저만. 공유 랜딩에서의 노출은 기존 share 인프라 확장으로 별도.
+
+    - **경기(scrimmage) 게스트**: 이번 대상은 클럽 일정(club_events)만. scrimmage 인원 충원은 별개 문제.'
+- anchor: backlog/guest-request#4.-코어-플로우
+  doc: backlog/34-guest-request.md
+  text: "## 4. 코어 플로우\n\n```\n운영진: 일정 생성/수정 시 \"게스트 모집\" 토글 on + 모집 인원(정원) 설정\n  \
+    \      (기본 off — 자리 남는 날만 여는 게 현실)\n게스트: 클럽 상세 → 모집 중 일정 목록 → 일정 선택 → 한마디 작성 →\
+    \ 신청\n        ※ 신청에 내 프로필 카드(레벨·포지션·구력·성별) 자동 첨부 — 카톡 대비 핵심 우위\n운영진: 알림 → 신청자\
+    \ 프로필 확인 → 승인 / 거절(사유 선택 필수)\n승인:   게스트에게 알림 + 상세 안내 노출(정확한 장소·시간 + 게스트비·납부 안내\
+    \ 텍스트)\n        정원 도달 시 자동 마감(추가 신청 차단)\n당일:   참석 (추적 없음 — v1)\n취소:   게스트 취소(시작\
+    \ 전까지), 운영진 취소(사유 선택) — 양쪽 알림\n```"
+- anchor: backlog/guest-request#5.-유저-스토리-(우선순위순)
+  doc: backlog/34-guest-request.md
+  text: '## 5. 유저 스토리 (우선순위순)
+
+
+    **게스트(무소속/타클럽 유저)**
+
+
+    - 게스트를 받는 클럽의 일정을 보고, 내 실력 정보와 함께 신청해서 DM 왕복 없이 참여를 확정받고 싶다.
+
+    - 승인되면 정확한 장소·시간·게스트비·입금 방법을 한 화면에서 보고 싶다.
+
+    - 일정이 사라지거나 거절돼도 방치되지 않고 알림으로 알고 싶다.
+
+    - 내 신청 현황(대기/승인/거절)을 마이페이지에서 보고 싶다.
+
+
+    **운영진**
+
+
+    - 자리가 남는 일정에만 게스트 모집을 열고 인원을 제한하고 싶다.
+
+    - 신청자의 실력·포지션을 보고 우리 수준에 맞는지 판단해서 승인하고 싶다.
+
+    - 정원이 차면 자동으로 마감되어 추가 신청에 응답할 필요가 없으면 좋겠다.
+
+
+    **기존 멤버**
+
+
+    - 이번 훈련에 게스트가 몇 명 오는지 일정 상세에서 알고 싶다.
+
+
+    **엣지**: 이미 멤버인 유저의 신청 차단 / 같은 일정 중복 신청 차단 / 일정 시작 이후 신청 차단 / 승인 후 일정 취소 시 게스트
+    전원 알림 / 밴 유저 차단(기존 RLS).'
+- anchor: backlog/guest-request#6.-도메인-모델
+  doc: backlog/34-guest-request.md
+  text: "## 6. 도메인 모델\n\n```\nguest_requests (신설 — 요청 도메인 4번째, 0005)\n  id, club_id,\
+    \ event_id(FK club_events), user_id, message,\n  status: pending → accepted |\
+    \ rejected | cancelled,\n  responded_at, responded_by, created_at\n  UNIQUE(event_id,\
+    \ user_id)\n\nclub_events (확장)\n  + guest_open BOOLEAN NOT NULL DEFAULT false\n\
+    \  + guest_capacity INT NULL          -- null = 무제한\n\nclubs (확장)\n  + guest_payment_guide\
+    \ TEXT NULL    -- 승인 후에만 노출 (계좌·금액·규칙)\n  ※ 기존 guest_fee_info(공개 텍스트)는 유지 — 목록/상세의\
+    \ 공개 안내용\n```\n\n구현 노트:\n\n- **notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션으로 선행** — 알림\
+    \ 4종(신청 접수→운영진, 승인/거절→게스트, 일정 취소→승인 게스트)이 첫 소비자.\n- 승인은 RPC(SECURITY DEFINER):\
+    \ 정원 검사 + status 전이 + 알림을 트랜잭션으로 — 동시 승인 초과 방지.\n- **RLS 신규 지점**: 비멤버가 guest_open=true\
+    \ 일정을 조회 가능해야 함. 노출 필드 최소화(제목·일시·장소명·클럽·정원/현황). 정확한 위치 등 상세는 승인 후. 기존 club_events\
+    \ 정책은 멤버 한정일 것 — 별도 SELECT 정책 추가.\n- `my-requests`(lib/api/account.ts fetchMyRequests)가\
+    \ 3종 union — **게스트가 4번째 섹션으로 추가** 필요.\n- 클럽 상세 CTA: 현행 \"게스트 문의(DM)\" 버튼 → \"\
+    게스트 신청\"(모집 일정 있을 때) + DM은 보조 문의로 유지."
+- anchor: backlog/guest-request#7.-요구사항
+  doc: backlog/34-guest-request.md
+  text: '## 7. 요구사항
+
+
+    **P0 — 이것 없이 배포 안 함**
+
+    | # | 요구사항 | 수락 기준(요약) |
+
+    |---|---|---|
+
+    | 1 | 일정별 게스트 모집 토글+정원 | 일정 생성/수정 폼에서 설정, 기본 off |
+
+    | 2 | 모집 일정 노출 | 클럽 상세에서 비멤버에게 모집 중 일정 목록 표시. guest_open=false 일정은 비멤버에게 불가시 |
+
+    | 3 | 신청 (프로필 카드 첨부) | 로그인+비멤버+시작 전+정원 미달일 때만 가능. 중복 시 "이미 신청함" |
+
+    | 4 | 승인/거절 (RPC) | 정원 초과 승인 시도 시 실패+안내. **거절은 사유 선택 필수**(정원 마감/수준 미스매치/일정 사정/기타+메모)
+    — 게스트 알림에 사유 포함. 응답 시 게스트에게 알림 |
+
+    | 5 | 승인 후 안내 | 승인된 게스트에게만 guest_payment_guide+정확한 일정 상세 노출 |
+
+    | 6 | 정원 자동 마감 | accepted 수 = 정원 → 신규 신청 차단, 목록에 "마감" 표시 |
+
+    | 7 | 취소 | 게스트 취소(시작 전), 운영진 일정 취소 시 승인 게스트 전원 알림 |
+
+    | 8 | 알림 4종 + notify() 선행 | §6 구현 노트 |
+
+    | 9 | 내 신청 현황 | my-requests에 게스트 섹션 |
+
+
+    **P1 — 빠른 후속**
+
+
+    - **게스트 모집 피드**: 게임 탭 또는 홈에 지역 필터 기반 "게스트 모집 중" 목록 — 이 기능의 성장 엔진이지만 코어 루프 검증 후.
+    클럽 상세 진입만으로 시작.
+
+    - 일정 상세에 게스트 참석자 표시(멤버용).
+
+    - 신청 시 운영진에게 신청자 수 뱃지.
+
+
+    **P2 — 설계만 고려**
+
+
+    - 금고 연동: 승인 부수효과로 guest_fee charge 자동 생성(33 §6) — guest_requests에 FK 여지만 남김(33의
+    charge.guest_request_id).
+
+    - 일정별 게스트비 오버라이드, 노쇼 이력, 게스트 후기.'
+- anchor: backlog/guest-request#8.-확정-결정-(2026-07-02,-운영자-답변)
+  doc: backlog/34-guest-request.md
+  text: '## 8. 확정 결정 (2026-07-02, 운영자 답변)
+
+
+    1. **공개 범위 = 클럽 상세 진입만.** 클럽의 정기 운동 시간은 이미 공개 정보(clubs.regular\_\*)라 게스트가 시간대를
+    파악하는 데 별도 피드 불필요. 피드는 P1 유지. ※ 비멤버의 개별 club_events 조회 RLS는 여전히 구현 확인 사항(§6).
+
+    2. **거절 사유 필수.** 선택지(정원 마감/수준 미스매치/일정 사정/기타+메모) → 게스트 알림에 포함.
+
+    3. **승인 후 소통 = 기존 DM 재사용.** 추가 개발 없음.
+
+    4. **반복 신청은 감수.** 준단골 게스트의 마찰 완화 장치 안 만듦 — 알아서 할 일.'
+- anchor: backlog/guest-request#9.-단계
+  doc: backlog/34-guest-request.md
+  text: '## 9. 단계
+
+
+    ```
+
+    선행    notify() 단일 진입점 마이그레이션 (P1-1) — 반나절~1일
+
+    Phase 1 스키마+RPC+RLS (guest_requests, club_events 확장)      — P0 1~8
+
+    Phase 2 화면 (일정 폼 토글, 모집 목록, 신청, 운영진 인박스)      — P0 완성
+
+    Phase 3 my-requests 통합 + 승인 후 안내 화면                    — P0 9, 5
+
+    검증    자기 클럽에서 도그푸딩 → 3클럽 확보 → P1 피드 판단
+
+    ```'
+- anchor: backlog/view-as-member-v2#37-—-일반-회원-모드-v2:-클럽-관리자-표면까지-(View-as-Member-v2)
+  doc: backlog/37-view-as-member-v2.md
+  text: '# 37 — 일반 회원 모드 v2: 클럽 관리자 표면까지 (View-as-Member v2)
+
+
+    > 작성일: 2026-07-02
+
+    > 선행/연계: PR #81(v1 — `viewAsMember` 토글 + auth.tsx 단일 파생 지점)이 인프라. 이 문서는 v1의 **체감
+    0 문제 진단 + 표면 확장**.
+
+    > 범위: **클라이언트 뷰 모드만.** 서버(RLS·RPC) 권한 전환(impersonation)은 하지 않는다.
+
+    > 한 줄 요약: v1 토글은 app_role 게이트만 내렸는데, 유저가 일상에서 보는 관리자 UI의 대부분은 club_members role(진짜
+    클럽 관리자)에서 나온다 — 그래서 켜도 아무것도 안 달라져 보였다. v2는 클럽 관리자 표면까지 내리고, 모드 상태를 화면에 상시 표시한다.
+
+
+    ---'
+- anchor: backlog/view-as-member-v2#§1-최종-목표-(Definition-of-Done)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §1 최종 목표 (Definition of Done)
+
+
+    1. 일반 회원 모드 ON 상태에서 **홈 내 동호회 카드의 운영 액션 행([일정 등록·공지 쓰기·관리])이 사라진다** (실제 club admin이어도).
+
+    2. ON 상태에서 **자기 클럽 상세가 일반 회원 시점**이 된다: 관리 탭/버튼·회원 승인·수정 진입이 숨고, 회원용 CTA만 남는다 (`ClubDetailContext.isClubAdmin`
+    게이트 일괄).
+
+    3. ON 상태에서 **모든 화면 상단에 모드 인디케이터**(얇은 배너 "일반 회원 모드로 보는 중 · 끄기")가 떠서, 켜져 있음을 잊거나
+    "변화 없음"으로 오인하지 않는다. 배너의 "끄기"로 즉시 복귀된다.
+
+    4. OFF로 되돌리면 1~3이 전부 원상복구된다 (새로고침 불필요).
+
+    5. 정보성 role 뱃지(my-clubs·members 화면의 ''관리자'' 라벨)는 **바꾸지 않는다** — 행동 게이트만 내린다 (§3.2).
+
+    6. web에서 1~5가 성립한다 (native는 다음 EAS 빌드에서 확인 — planning/35·36 잔여와 함께).
+
+
+    **성공 측정**: 토글 ON 직후 유저가 "달라졌다"를 3초 안에 인지 (배너 + 홈 footer 소멸). 정성적으로: 운영자가 일반 회원의
+    빈 화면/CTA 문제를 재현해 리포트하는 사례 발생.'
+- anchor: backlog/view-as-member-v2#§2-현재-상황-분석-(실측)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §2 현재 상황 분석 (실측)'
+- anchor: backlog/view-as-member-v2#v1(81)이-이미-만든-것-—-재사용
+  doc: backlog/37-view-as-member-v2.md
+  text: '### v1(#81)이 이미 만든 것 — 재사용
+
+
+    | 자산                                                        | 위치                                                    |
+    상태                                                             |
+
+    | ----------------------------------------------------------- | -------------------------------------------------------
+    | ---------------------------------------------------------------- |
+
+    | `viewAsMember` 상태 + AsyncStorage 영속 + `setViewAsMember` | `lib/auth.tsx`                                          |
+    완성. context로 전역 노출                                        |
+
+    | app_role 파생 오버라이드                                    | `lib/auth.tsx` — `isSuperAdmin
+    = real && !viewAsMember` | 완성. 소비처 15파일 일괄 적용                                    |
+
+    | 토글 UI (`MenuToggle`)                                      | `app/(tabs)/mypage/index.tsx`                           |
+    완성. `isRealSuperAdmin` 기준 노출이라 일반 모드에서도 복귀 가능 |'
+- anchor: backlog/view-as-member-v2#구멍-—-왜-체감이-0인가-(근본-원인)
+  doc: backlog/37-view-as-member-v2.md
+  text: "### 구멍 — 왜 체감이 0인가 (근본 원인)\n\n**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**\n\n1. **app_role\
+    \ 계통** (v1이 내림) — `useAuth().isSuperAdmin/isAdmin` 소비처 15파일. 그런데 이 게이트가 가리는 표면은\
+    \ 마이페이지 메뉴 2~3줄, admin 화면(`app/admin/*`), claims, **남의** 클럽/대회에서의 승격뿐. 운영자는 평소\
+    \ 자기 클럽만 보므로 이 표면을 거의 안 지나간다.\n2. **club_members role 계통** (v1이 안 내림) — 소비처 실측:\n\
+    \   - `components/home/MyClubsSection.tsx:138` `const isAdmin = item.role ===\
+    \ 'admin'` → **홈 관리자 카드 footer** (36에서 방금 추가한, 홈에서 가장 눈에 띄는 관리자 UI)\n   - `lib/contexts/ClubDetailContext.tsx:103`\
+    \ `isClubAdmin = membership?.role === 'admin'` → 클럽 상세의 관리 UI 전부 (`isAdmin`:105,\
+    \ `isPresident`:104, `canEdit`:109가 여기서 파생)\n   - `app/(tabs)/club/[id]/index.tsx:61`\
+    \ 인라인 `isClubAdmin` (알려진 부채 화면 — CLAUDE.md의 인라인 read 4곳 중 하나) → `ClubDetailHeader`의\
+    \ 게스트 문의 분기(:163)\n   - 정보성 뱃지: `my-clubs.tsx:81`, `MemberCard.tsx:42,53` (행동\
+    \ 아님 — §3.2)\n\n   **실제 운영자(super_admin)는 자기 클럽들의 진짜 club admin이기도 하므로**, 토글을\
+    \ 켜도 홈 footer·클럽 관리 UI가 전부 그대로다. 이게 \"달라지는 게 없는데?\"의 정체.\n\n3. **모드 표시 부재** —\
+    \ 켜져 있음을 아는 방법이 마이페이지 토글 행 하나뿐. 다른 탭으로 이동하는 순간 모드 상태가 보이지 않는다.\n4. (참고) **서버 계통**\
+    \ — migrations에서 `super_admin` 언급 30파일, 정책류(using/check) 12건, `app_role` 체크 RPC\
+    \ 13파일. RLS가 super admin에게 더 반환하는 행은 클라이언트 토글로 못 막는다. v2에서도 범위 밖 (§6)."
+- anchor: backlog/view-as-member-v2#핵심-통찰
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 핵심 통찰
+
+
+    - **"일반 회원처럼 보기"의 체감은 app_role이 아니라 club role 표면에서 나온다.** 홈 footer(방금 36에서 추가)와
+    클럽 상세 관리 UI가 유저 시야의 90%.
+
+    - club role 게이트도 사실상 두 곳(`MyClubsSection:138`, `ClubDetailContext:103` + 부채 인라인
+    1곳)에 모여 있어 v2 변경도 좁다 — v1과 같은 "파생 지점만 고치면 일괄 적용" 구조가 성립한다.'
+- anchor: backlog/view-as-member-v2#§3-설계-고려사항
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §3 설계 고려사항'
+- anchor: backlog/view-as-member-v2#3.1-토글의-의미론-—-어디까지-내리나-(가장-중요한-결정)
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 3.1 토글의 의미론 — 어디까지 내리나 (가장 중요한 결정)
+
+
+    - **A. app_role만 (v1 현행)**: 이미 배포. 체감 0 — 실패로 판명.
+
+    - **B. A + club admin 클라이언트 표면 다운그레이드**: `isClubAdmin` 파생에 `&& !viewAsMember`.
+    유저가 기대한 "일반 회원 눈" 충족. 변경 3곳.
+
+    - **C. 서버 impersonation** (RLS까지 회원 권한): JWT claim 조작 또는 별도 세션 필요 — 보안 표면 확대 +
+    복잡도 폭발. 완전 시뮬레이션은 이미 있는 **테스트 계정**이 정답.
+
+    - **결정: B.** C는 과욕 (테스트 계정이 대체재). B의 한계(서버가 더 주는 데이터)는 §6에 명시하고 배너 문구로도 암시하지 않는다(운영자용
+    기능이라 과설명 불필요).'
+- anchor: backlog/view-as-member-v2#3.2-정보성-뱃지는-두고-행동-게이트만-내린다-(과표준화-경고)
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 3.2 정보성 뱃지는 두고 행동 게이트만 내린다 (과표준화 경고)
+
+
+    `item.role === ''admin''` 소비처를 전부 바꾸면 my-clubs·members의 ''관리자'' 뱃지도 ''회원''으로 표시된다.
+    이건 **거짓 정보**다(실제 role은 admin). 일반 회원 모드의 목적은 "회원이 보는 화면의 문제를 발견"이지 "내 정체를 속이기"가
+    아니다. **결정: 기능/CTA 게이트(footer, 관리 진입, canEdit)만 내리고 정보 표시는 유지.** 전수 소비처 중 대상: `MyClubsSection:138`,
+    `ClubDetailContext:103`(+파생), `club/[id]/index.tsx:61`. 비대상: `my-clubs.tsx:81-82`,
+    `MemberCard.tsx:42,53` 뱃지.'
+- anchor: backlog/view-as-member-v2#3.3-어디서-내리나-—-파생-지점-vs-소비처
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 3.3 어디서 내리나 — 파생 지점 vs 소비처
+
+
+    `viewAsMember`를 각 소비처에서 체크하면 새 화면마다 잊기 쉽다. **결정: 파생 지점에서 내린다** — v1이 auth.tsx에서
+    한 것과 동일 원칙:
+
+
+    - `ClubDetailContext.tsx:103`: `const isClubAdmin = membership?.role === ''admin''
+    && !viewAsMember;` (useAuth를 :72에서 이미 호출 중 — viewAsMember만 추가로 꺼냄). `isPresident`·`isAdmin`·`canEdit`·`isMember`가
+    연쇄로 내려간다.
+
+    - `MyClubsSection.tsx:138`: 컴포넌트가 `useAuth()` 미사용 → `viewAsMember`를 꺼내 `item.role
+    === ''admin'' && !viewAsMember`.
+
+    - `club/[id]/index.tsx:61` 인라인: 동일 패치. (이 화면의 인라인 read 정리는 알려진 부채 — 이번엔 게이트만 고치고
+    리팩토링 금지 원칙 준수.)'
+- anchor: backlog/view-as-member-v2#3.4-모드-인디케이터-—-위치와-형태
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 3.4 모드 인디케이터 — 위치와 형태
+
+
+    - **A. 탭 레이아웃 상단 스트립**: `app/(tabs)/_layout.tsx`에서 `Tabs` 위에 조건부 밴드 — 탭 화면 전체
+    커버, 삽입점 1곳. 단 헤더 없는 화면(SafeArea 직접 처리하는 club 등)과 겹침 계산 필요.
+
+    - **B. 각 화면 헤더에 뱃지**: 커버리지 구멍(화면마다 삽입) — 탈락.
+
+    - **C. 플로팅 pill (하단 탭바 위)**: 삽입점 1곳(탭 레이아웃), SafeArea 간섭 없음, 탭바 바로 위라 시선에 걸림.
+    FabMenu와 좌우 분리 필요(우하단은 FAB 자리 — 메모리: fabmenu-web-tap-intercept, 좌하단 배치).
+
+    - **결정: C (좌하단 pill, "👁 일반 회원 모드 · 끄기").** 탭하면 즉시 OFF. 스택 화면(chat/[roomId], admin
+    등)은 탭 밖이라 안 뜨지만, 문제가 되는 표면(홈·클럽)이 전부 탭 안이므로 충분. 과욕 금지 — 전역 오버레이 시스템을 만들지 않는다.'
+- anchor: backlog/view-as-member-v2#3.5-쿼리·캐시
+  doc: backlog/37-view-as-member-v2.md
+  text: '### 3.5 쿼리·캐시
+
+
+    club role은 서버 데이터 그대로 두고 **게이트에서만** 내리므로 캐시 조작이 필요 없다 (v1의 `enabled: isSuperAdmin`
+    쿼리들도 자동 disable). 토글 시 invalidate 불필요 — 상태 전파는 React context 리렌더로 즉시. 단, `isMember`
+    하락으로 클럽 상세의 멤버 전용 쿼리가 있다면 disable될 뿐 (오작동 아님).'
+- anchor: backlog/view-as-member-v2#§4-구현-계획-(단일-PR,-커밋-3개)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §4 구현 계획 (단일 PR, 커밋 3개)
+
+
+    - [ ] 1. **club role 게이트 다운그레이드**: `ClubDetailContext.tsx:103`, `MyClubsSection.tsx:138`,
+    `club/[id]/index.tsx:61`에 `!viewAsMember` 반영. 검증: tsc + 기존 테스트.
+
+    - [ ] 2. **모드 인디케이터 pill**: `app/(tabs)/_layout.tsx`에 `viewAsMember && <ViewAsMemberPill
+    />` (좌하단 absolute, 탭바 위, 탭하면 `setViewAsMember(false)`). 컴포넌트는 `components/ui/`가
+    아닌 로컬 정의로 시작 (단일 소비처).
+
+    - [ ] 3. **마이페이지 토글 부제 갱신**: "관리자 UI를 숨기고…" → 클럽 관리 UI 포함을 반영한 문구.
+
+    - [ ] 각 커밋 후 `npx tsc --noEmit`, 마지막에 `npm run lint`(≤77)·`npm test`.'
+- anchor: backlog/view-as-member-v2#§5-검증-(Verification)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §5 검증 (Verification)
+
+
+    - [ ] **양성 (web, verifier-web)**: test-a(강남 스파이크 club admin + super_admin)로 토글
+    ON → ① 홈 내 동호회 카드 footer 소멸 ② 강남 스파이크 상세에서 관리 UI 소멸 + 회원 시점 CTA ③ 좌하단 pill 표시
+    → pill 탭 → 전부 복귀.
+
+    - [ ] **양성**: ON 상태에서 앱 재시작(새로고침) → 모드·pill 유지 (v1 영속 재확인).
+
+    - [ ] **음성**: 일반 계정(비 super_admin)에는 토글도 pill도 절대 안 뜬다.
+
+    - [ ] **음성**: ON 상태에서 my-clubs의 ''관리자'' 뱃지는 **그대로 ''관리자''** (정보 유지 — §3.2).
+
+    - [ ] **음성**: pill이 FabMenu(우하단)와 겹치지 않는다 — 동호회 탭(지도 기본)에서 확인.
+
+    - [ ] native: 다음 EAS 빌드에서 35·36 잔여와 함께 일괄 확인.'
+- anchor: backlog/view-as-member-v2#§6-이번-범위-밖-(후속/별도)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §6 이번 범위 밖 (후속/별도)
+
+
+    - **서버 권한 전환(impersonation)** — §3.1 결정 C 탈락. 완전한 일반 회원 시뮬레이션은 테스트 계정으로 (RLS가
+    super admin에게 더 반환하는 행 — 정책류 12건 — 은 이 모드에서도 보일 수 있음).
+
+    - **비회원(게스트) 모드** — "회원도 아닌 사람"의 시점은 별개 축. 필요성이 확인되면 별도 기획.
+
+    - **스택 화면(탭 밖) pill 커버리지** — admin/·chat/[roomId] 등. 문제 표면이 아니라 잘라냄.
+
+    - `club/[id]/index.tsx` 인라인 read 정리 — 기존 부채 트래킹대로 해당 화면 리팩토링 시.'
+- anchor: backlog/view-as-member-v2#§7-리스크-&-완화
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §7 리스크 & 완화
+
+
+    | 리스크                                                                        |
+    영향                                  | 완화                                                                                                                       |
+
+    | -----------------------------------------------------------------------------
+    | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------
+    |
+
+    | `isMember` 하락(ClubDetailContext:106)으로 자기 클럽에서 "가입 신청" CTA가 뜸 | 운영자가 실수로 자기
+    클럽에 가입 신청 | 실제로는 membership이 있어 서버가 중복 신청 거부 + 이게 바로 "회원이 아닌 시점" 재현이므로 의도된 동작.
+    §5에서 눈으로 확인 |
+
+    | pill이 콘텐츠/FAB 가림                                                        | 시각
+    간섭                             | 좌하단 배치 + 탭바 위 오프셋, 동호회 탭(FAB 존재)에서 검증 (§5)                                                            |
+
+    | 파생 지점 밖의 새 club-role 게이트가 미래에 추가돼 모드를 무시                | 커버리지 침식                         |
+    `MyClubsSection` 사례처럼 role 게이트는 파생/전달로 받는 관례를 DECISIONS.md에 1줄 기록                                    |
+
+    | viewAsMember ON을 잊고 "버그다" 오인                                          | 헛디버깅                              |
+    pill 상시 표시가 바로 이 리스크의 완화책 (§3.4)                                                                            |'
+- anchor: backlog/view-as-member-v2#§8-구현-후-—-무엇이-달라지나-&-어떻게-활용하나-(기대)
+  doc: backlog/37-view-as-member-v2.md
+  text: '## §8 구현 후 — 무엇이 달라지나 & 어떻게 활용하나 (기대)
+
+
+    **Before → After**
+
+
+    - v1: 토글 ON → 마이페이지 메뉴 몇 줄만 사라짐, 홈·클럽은 그대로 → "달라지는 게 없는데?" / v2: ON 즉시 **홈 footer
+    소멸 + 자기 클럽이 회원 시점 + 좌하단 pill** — 모드가 켜졌음이 3초 안에 보인다.
+
+    - 운영자가 일반 회원의 실제 화면(빈 상태, CTA, 막힌 진입)을 자기 계정으로 재현 가능 — "평소에 뭐가 안 되는지"를 드디어 본다.
+
+
+    **개선 지표**: §1 성공 측정. 정성: 일반 모드로 발견한 회원 UX 이슈 리포트 수.
+
+
+    **누가 어떻게 쓰나**
+
+
+    - 운영자(super_admin): 마이페이지 토글 ON → 회원 눈으로 앱 순회 → pill로 복귀. 완전한 권한 시뮬이 필요하면 테스트
+    계정(§6 한계).
+
+    - 개발자: 새 관리자 UI는 `ClubDetailContext.isAdmin`/`isClubAdmin` 파생을 소비하면 모드가 공짜로 적용된다
+    — 개별 화면에서 `membership.role`을 직접 읽지 말 것.
+
+    - 후속: 게스트 모드·서버 impersonation이 필요해지면 이 토글의 의미론(§3.1)을 기준선으로 논의.
+
+
+    **보이나/안 보이나**: 일반 유저에겐 완전히 안 보임 (super_admin 전용). 운영자 QoL + "회원 UX 문제를 운영자가 직접
+    발견"이라는 품질 루프를 만드는 도구.'
+- anchor: reference/improvement-catalog#Phase-8+-—-개선-후보-통합-카탈로그-&-추적-(Improvement-Catalog)
+  doc: reference/08-improvement-catalog.md
+  text: '# Phase 8+ — 개선 후보 통합 카탈로그 & 추적 (Improvement Catalog)
+
+
+    > 작성일: 2026-05-31 · **개정: 2026-06-03 (실유저 90명 / 동호회 56개 — 라이브 단계 반영)**
+
+    > 상위 문서: [00-architecture-stabilization-plan.md](../작업완료/00-architecture-stabilization-plan.md)
+
+    > 성격: **0~7(기초 공사)이 끝나고 실유저가 도는 라이브 제품에서, 다음에 손볼 것의 통합 카탈로그 + 추적표.**
+
+    > 사용법: 아래 §0 추적표로 진행 상황을 체크한다. 착수할 항목은 `/plan-doc <항목>`으로 **개별 상세 문서(`22-` …)로
+    승격**시킨 뒤 구현한다. 이 문서는 그 인덱스이자 각 후보의 1차 설계 메모.
+
+    > 한 줄 요약: "유저 90명·동호회 56개가 도는 지금, 무엇을 고치고 무엇을 측정해야 이들이 머무는가"의 답을, 근거와 함께 늘어놓고
+    하나씩 지워나간다.
+
+
+    > **개정 배경 (2026-06-03)**: 초판은 "기초 공사 이후 기술부채 정리"에 초점을 뒀고 우선순위도 기술부채 기준이었다. 그러나
+    코드 전수 재조사 + 운영 데이터로 세 가지가 드러났다 — (1) 이미 **실유저 90명 / 동호회 56개**가 도는 **라이브 제품**이다(출시
+    전 아님). (2) **실유저가 매일 부딪치는 거친 버그가 카탈로그 밖에 남아있다**(아래 E). (3) 행동 데이터가 **0**(`analytics`
+    호출처 0건)이라 의사결정이 깜깜이다. 이에 우선순위를 **① 실유저 폴리시(E) → ② 가시화·분석(D1) → ③ 리텐션 대응(G) → ④
+    기술부채(A3·B·C…)** 로 재편한다. 기술부채는 폐기가 아니라 **후순위 배경 트랙**으로 내린다. 또한 초판 진단의 두 편차를 정정했다:
+    **A3 "거대 화면 혼재"는 과장**(이미 훅으로 분해됨 → 범위 축소), **B1 fix비율 18%→실측 11.5%**.
+
+
+    ---'
+- anchor: reference/improvement-catalog#0.-추적표-(하나씩-체크)
+  doc: reference/08-improvement-catalog.md
+  text: '## 0. 추적표 (하나씩 체크)
+
+
+    | ID    | 후보                                                                                                               |
+    그룹       | 효과 보임?     | 비용     | 권장순        | 상태          |
+
+    | ----- | ------------------------------------------------------------------------------------------------------------------
+    | ---------- | -------------- | -------- | ------------- | ------------- |
+
+    | 🐞BUG | 채팅 실시간·로딩 버그 → [10](../작업완료/10-chat-realtime-bugfix.md)                                                |
+    버그       | 유저(명확)     | 중       | —             | ✅ 완료       |
+
+    | 🗺️MAP | 지도 검토·개선 → [12](../작업완료/12-map-review.md)                                                                 |
+    버그·UX    | 유저(명확)     | 중       | —             | ✅ 완료       |
+
+    | A1    | 스크리미지 폼 통합 → [09](../작업완료/09-scrimmage-form-unification.md)                                             |
+    중복정리   | 개발+유저      | 중       | —             | ✅ 완료       |
+
+    | A2    | useQuery 에러 UX 정합화 → [20](../작업완료/20-query-error-ux-coverage.md)                                           |
+    중복정리   | 유저           | 중       | —             | ✅ 완료       |
+
+    | G2    | 동호회 활성도 실태 점검 (managed vs shared 56개)                                                                   |
+    성장(조사) | 개발(의사결정) | 소       | **0(선행)**   | ☐             |
+
+    | E1    | 출시 폴리시 → [22](../작업완료/22-launch-polish-ime-foreground-push.md) (web
+    한글입력 ✅ / 안드 포그라운드 푸시 ⏳) | 폴리시     | **유저**       | 소~중    | **1(최우선)** | ◧ A완료·B대기
+    |
+
+    | E2    | 위저드 콜드 로드 prefill/저장 (🆕 22 검증 중 발견) → [22 §6](../작업완료/22-launch-polish-ime-foreground-push.md)   |
+    폴리시     | 유저(제한적)   | 소       | 낮음          | ☐             |
+
+    | D1    | 제품 분석 — 퍼널·리텐션 **가시화** (재정의·상향) → [24 §D1](../작업완료/24-scalability-product-infra.md)            |
+    가시화     | 개발(의사결정) | 중       | **2**         | ◧ A5 대기     |
+
+    | G1    | 이탈 지점 대응 루프 (측정→수정→재측정)                                                                             |
+    성장       | **유저**       | 중~대    | **3**         | ☐             |
+
+    | B2    | 푸시 Receipt 확인 (Tier 3)                                                                                         |
+    백엔드     | 유저(리텐션)   | 중       | **4**         | ☐             |
+
+    | A3    | 채팅 스크롤/키보드 분리 → [23](../작업완료/23-chat-screen-scroll-keyboard-extraction.md)                            |
+    중복정리   | 개발           | —        | —             | ✅ 완료       |
+
+    | B1    | 데이터 모델 정규화 (`admin_positions` 등)                                                                          |
+    백엔드     | 개발           | 중~대    | 6             | ☐             |
+
+    | B3    | RLS 정책 전수 재감사                                                                                               |
+    백엔드     | 안 보임(보안)  | 중       | 7             | ☐             |
+
+    | C1    | 네이티브 E2E (Android)                                                                                             |
+    안전망     | 안 보임        | 대       | 8             | ☐             |
+
+    | C2    | 소스맵 업로드 검증                                                                                                 |
+    안전망     | 안 보임        | 소       | 9             | ☐             |
+
+    | D2    | 의존성 건강 전략 → [24 §D2](../작업완료/24-scalability-product-infra.md)                                            |
+    확장성     | 안 보임        | 소(정책) | —             | ✅ 완료       |
+
+    | D3    | 릴리즈 자동화 → [24 §D3](../작업완료/24-scalability-product-infra.md)                                               |
+    확장성     | 개발           | 중       | —             | ✅ 완료       |
+
+    | F1    | 데이터 루프 (Sentry 알림 + 푸시 대시보드)                                                                          |
+    운영       | 개발           | 소       | (옵션·D1연계) | ☐             |
+
+    | F2    | 컨벤션 유지 (CLAUDE.md/rules 갱신)                                                                                 |
+    운영       | 안 보임        | 상시     | (상시)        | ☐             |
+
+
+    > 권장순은 **라이브 제품 기준 = 실유저 영향 × 즉시성**. ① 실유저가 매일 부딪치는 폴리시(E1)가 최우선, ② 90 유저 행동을
+    깜깜이로 두지 않는 가시화(D1), ③ 그 측정 위에서 리텐션 대응(G1). 기술부채(A3·B1·B3·C…)는 동작에 문제 없으니 후순위 배경
+    트랙. **G2는 싸고 이후 방향을 가르는 선행 조사라 0번.**
+
+
+    ---'
+- anchor: reference/improvement-catalog#🐞-버그-(완료-—-사용자-보고)
+  doc: reference/08-improvement-catalog.md
+  text: '## 🐞 버그 (완료 — 사용자 보고)'
+- anchor: reference/improvement-catalog#BUG.-채팅-실시간·로딩-→-10-상세-문서(../작업완료/10-chat-realtime-bugfix.md)-✅
+  doc: reference/08-improvement-catalog.md
+  text: '### BUG. 채팅 실시간·로딩 → [10 상세 문서](../작업완료/10-chat-realtime-bugfix.md) ✅
+
+
+    - **증상**: (S1) 인앱 실시간 메시지 미표시, (S2) 푸시 탭 후 스켈레톤 무한, (S3) cold start만 정상.
+
+    - **근본 원인(전수 조사)**: 라이브 갱신이 realtime `setQueryData` patch **하나에만** 의존 + **실패 시
+    폴백 refetch·구독 관측 없음**(`useChatRealtime.ts:100-104`), warm은 staleTime 5분+미영속으로
+    stale 서빙(`query-client.ts:45,50`/`query-persister.ts`), focus refetch가 staleTime에
+    묶임(`[roomId].tsx:120-128`). 세 증상 = 한 뿌리.
+
+    - **추가(C6, UI)**: 채팅방 로딩이 리스트용 `ListSkeleton`을 써서 **메시지 버블이 아닌 리스트 카드 모양** → 같은
+    로딩 지점이라 `ChatSkeleton` 신설로 함께 처리.
+
+    - **접근/검증/효과**: → [10 문서](../작업완료/10-chat-realtime-bugfix.md). **버그 수정**(화면 분해
+    A3와 분리). 네이티브 검증 필수(푸시는 web 불가).'
+- anchor: reference/improvement-catalog#MAP.-지도-검토·개선-→-12-상세-문서(../작업완료/12-map-review.md)-✅
+  doc: reference/08-improvement-catalog.md
+  text: '### MAP. 지도 검토·개선 → [12 상세 문서](../작업완료/12-map-review.md) ✅
+
+
+    - **증상/발견**: (가장 눈에 띔) **내 위치로 안 열리고 서울 고정**(`ClubMapView.tsx:227-233,478`/web
+    고정줌), **앱↔웹 다르게 보임**(클러스터 SuperCluster vs Kakao·마커 PNG/SVG·초기뷰), web **SSR `window`
+    미가드(크래시)·리스너 cleanup 없음(누수)**, 드래그마다 클러스터 재계산, 권한 진입 즉시 요청, 좌표 없는 동호회 지도 누락.
+
+    - **접근/검증/효과**: → [12 문서](../작업완료/12-map-review.md). **행동(버그·UX·성능·플랫폼 편차)** 픽스.
+    구조 dedup은 **Phase 6**(겹침 방지). native·web **양쪽 검증 필수**.
+
+
+    ---'
+- anchor: reference/improvement-catalog#E.-출시-품질-—-거친-사용자-대면-부분-(신규-·-2026-06-03-·-실유저-직격)
+  doc: reference/08-improvement-catalog.md
+  text: '## E. 출시 품질 — 거친 사용자 대면 부분 (신규 · 2026-06-03 · 실유저 직격)
+
+
+    > 초판엔 없던 그룹. 코드 전수 재조사에서 발견된, **실유저 90명이 지금 매일 부딪치는 거친 부분들.** 신기능보다 우선 — 라이브 제품에선
+    폴리시가 곧 리텐션이다. 싸고 효과 즉각적.'
+- anchor: reference/improvement-catalog#E1.-거친-버그·미완-→-22-상세-문서(../작업완료/22-launch-polish-ime-foreground-push.md)-(실측-정정:-4건→실작업-2건)
+  doc: reference/08-improvement-catalog.md
+  text: '### E1. 거친 버그·미완 → [22 상세 문서](../작업완료/22-launch-polish-ime-foreground-push.md)
+    (실측 정정: 4건→실작업 2건)
+
+
+    > **착수 전 코드 전수 확인(2026-06-03) 결과 "4건"이 재판정됨.** 추측이 아니라 실재 기준으로 좁힘:
+
+
+    1. ~~**대회 등록 후 네비게이션 락**~~ — **이미 해결.** `game/[id]/index.tsx`가 아니라 `tournament-create.tsx:74-81`이
+    등록 성공 후 추적필드를 비워 `usePreventRemove` 가드를 해제(game/create·club/create 동일 패턴, [11
+    문서](../작업완료/11-tournament-create-navfix.md)). → 드롭.
+
+    2. ✅ **프로필 web 한글 입력 — 완료(2026-06-03).** `WizardSteps.tsx` 닉네임 `onChangeText`의
+    redundant `.slice(0,10)` 제거(maxLength={10}가 상한 보장). verifier-web로 한글 입력 정확성·10자
+    상한·숫자필드 회귀 0 확인, tsc/lint/단위 136/L3 07-profile e2e 통과. (22 §4-A)
+
+    3. ⏳ **안드 포그라운드 푸시 + 임시코드 — 미착수(네이티브 빌드 대기).** 임시코드 2곳(`mypage/index.tsx:218-232`
+    + `push-notifications.ts:106-126`)은 **안드 포그라운드 푸시 미표시**라는 미해결 버그의 진단기구(주석 "원인
+    확정 후 제거", 메모리 `push-foreground-display-pending`). 단순 제거 ≠ 해결. **다음 안드 빌드에서 원인
+    확정 후 제거.** (22 §4-B)
+
+    4. ~~**채팅 복구 flaky**~~ — **버그 아님.** `useChatForegroundRecovery.ts`는 완결·정상. "flake"는
+    `e2e/05` realtime Tier2의 관리되는 타이밍 이슈(README: CI retries 흡수). → 드롭.
+
+
+    - **상태**: A 트랙(#2 web) ✅ 완료, B 트랙(#3 네이티브) ⏳ 빌드 대기. **권장순 1.**
+
+    - **접근(verify-then-fix)**: 실재 확인(web 런타임 / 네이티브 빌드) → 확인된 것만 최소 수정. 각각 독립 PR.
+    → [22 문서](../작업완료/22-launch-polish-ime-foreground-push.md).
+
+    - **개선 효과(§8)**: 헛수정/이미 끝난 일에 시간 안 씀 + 확인된 통점만 안전하게 정리.'
+- anchor: reference/improvement-catalog#E2.-위저드-콜드-로드-prefill/저장-버그-(🆕-22번-검증-중-발견)
+  doc: reference/08-improvement-catalog.md
+  text: '### E2. 위저드 콜드 로드 prefill/저장 버그 (🆕 22번 검증 중 발견)
+
+
+    - **현재(증거)**: 딥링크/리로드로 edit 위저드 진입 시 현재값 prefill 안 됨 + 저장 미반영. 원인 추정 `profile-wizard.tsx:77`
+    `useState(profile?.nickname ?? '''')`가 첫 렌더 profile에서 초기화 → 콜드 로드 시 profile async
+    미도착으로 ''''로 굳음(전 필드 공통). 웜 인앱 흐름(`my-profile` client-side push)은 정상(성별 male→female
+    DB 영속 확인).
+
+    - **실유저 영향**: 제한적(콜드 로드/딥링크 한정 + 닉네임 edit은 인앱 진입점 없음). **권장순: 낮음(E1 이후 여력 시).**
+
+    - **접근**: 위저드 필드 state를 profile 로드에 동기화(`useEffect` 초기화) 또는 profile 준비 전 렌더 가드
+    강화. 22 §6.
+
+
+    ---'
+- anchor: reference/improvement-catalog#A.-남은-중복·구조-정리-(Phase-5·6의-연장)
+  doc: reference/08-improvement-catalog.md
+  text: '## A. 남은 중복·구조 정리 (Phase 5·6의 연장)'
+- anchor: reference/improvement-catalog#A1.-스크리미지-폼-통합-useScrimmageForm-→-09-상세-문서(../작업완료/09-scrimmage-form-unification.md)-✅
+  doc: reference/08-improvement-catalog.md
+  text: '### A1. 스크리미지 폼 통합 `useScrimmageForm` → [09 상세 문서](../작업완료/09-scrimmage-form-unification.md)
+    ✅
+
+
+    - **현재(증거)**: `game/create.tsx`(203) · `game/[id]/edit.tsx`(197) — `ScrimmageFormValues`는
+    `ScrimmageCreateSteps.tsx:26`에 이미 있으나 edit는 플랫 prop. `useScrimmageForm` **없음**.
+    club과 동일한 "분기 불일치"(검증 drift·state 타입 어긋남)가 그대로.
+
+    - **스코프 정정**: `game/tournament/[id]/edit.tsx`(290)는 **다른 엔티티**(`tournaments` 테이블,
+    필드·create 화면 다름) → scrimmage와 합치지 않고 **별도**(`useTournamentForm` 후속). 09 §6 참고.
+    → ✅ **완료: [21 대회 장소·폼 통합](../작업완료/21-tournament-location-form-unification.md)**
+    (장소 좌표/주소 영속 + `useTournamentForm` + level drift 해소).
+
+    - **접근/검증/효과**: → [09 문서](../작업완료/09-scrimmage-form-unification.md) 참조. Phase
+    5의 `useClubForm` 패턴을 **미러링**(제네릭 추상화 아님).'
+- anchor: reference/improvement-catalog#A2.-useQuery-에러-UX-정합화-→-20-상세-문서(../작업완료/20-query-error-ux-coverage.md)-✅
+  doc: reference/08-improvement-catalog.md
+  text: '### A2. useQuery 에러 UX 정합화 → [20 상세 문서](../작업완료/20-query-error-ux-coverage.md)
+    ✅
+
+
+    - **스코프 정정(실측)**: 초기 "처리율 ~49%, 절반이 빈 화면"은 **파일단위 grep 착시**였다. 전수 감사하니 **1차(주)
+    쿼리는 이미 ErrorRetry로 처리됨**(user-profile·game/[id]·chat/[roomId]·club/[id] 등). 진짜
+    구멍은 두 가지: ① **임베디드 컴포넌트의 에러 삼킴**(`CompleteMatchModal`·`ClubAnnouncementTab`·`ClubListContent`
+    totalCount), ② **다중쿼리 훅의 보조쿼리 무음 저하**(`useChatRoom`·`useUserProfileData`·`useScrimmageDetail`).
+
+    - **접근**: 전수 ErrorRetry 강제가 아니라 **"표시 필수 / 무음 저하 허용" 분류** 후 필수만 닫고 허용은 주석으로 명시.
+    로딩은 이미 양호(스켈레톤) → **에러 UX만**. → [20 문서](../작업완료/20-query-error-ux-coverage.md).
+
+    - **개선 효과(§8)**: "빈 화면이 실패인지 진짜 빈 데이터인지" 구분됨. 표시-필수 에러 누락 3~5건 → 0. 컨벤션 가드로 재발
+    방지(F2 연동).'
+- anchor: reference/improvement-catalog#A3.-채팅-화면-스크롤/키보드-분리-→-23-상세-문서(../작업완료/23-chat-screen-scroll-keyboard-extraction.md)-✅
+  doc: reference/08-improvement-catalog.md
+  text: '### A3. 채팅 화면 스크롤/키보드 분리 → [23 상세 문서](../작업완료/23-chat-screen-scroll-keyboard-extraction.md)
+    ✅
+
+
+    - **재조사 정정**: 초판은 "거대 화면 분해(home 390줄·chat 413줄, 오케스트레이션+로직 혼재, CLAUDE.md 위반)"라
+    했으나 **과장이었다.** 전수 확인 결과 `home/index.tsx`(390)·`chat/[roomId].tsx`(410) 모두 이미 도메인
+    훅으로 잘 분해돼 화면은 조립 역할. "오케스트레이션만" 위반 아님 → 범위를 chat 스크롤/키보드로 축소.
+
+    - **완료(2026-06-03)**: `chat/[roomId].tsx`의 스크롤·키보드 인라인 로직을 `useChatScroll`(63줄)·`useChatKeyboard`(37줄)로
+    추출. 화면 **410→373줄**. 라인 추정은 카탈로그 메모(149-169, 207-250)가 아니라 실측(스크롤 149-173 + 키보드
+    53-57·302-311; 207-250은 헤더라 제외)으로 잡음.
+
+    - **검증**: 순수 리팩토링·동작 불변. tsc 0 / lint 78≤88 / 단위 136 / L3 `05-chat` 2/2 통과. native
+    키보드 분기 코드 보존. → [23 문서](../작업완료/23-chat-screen-scroll-keyboard-extraction.md).
+
+    - **개선 효과(§8)**: 08 §A 섹션(A1·A2·A3) **전부 완료**. 다음 채팅 스크롤/키보드 변경이 화면 아닌 훅에서.
+
+
+    ---'
+- anchor: reference/improvement-catalog#B.-백엔드·데이터-모델
+  doc: reference/08-improvement-catalog.md
+  text: '## B. 백엔드·데이터 모델'
+- anchor: reference/improvement-catalog#B1.-데이터-모델-정규화
+  doc: reference/08-improvement-catalog.md
+  text: '### B1. 데이터 모델 정규화
+
+
+    - **현재(증거)**: `admin_positions TEXT[]` 배열(마이그레이션 00066/67/68, `lib/api/clubs.ts`·`ClubDetailContext`·`useClubMemberActions`에서
+    사용, 사용처 18곳). `clubs.level/positions`도 배열. jsonb(`notifications.metadata` 등) 스키마
+    검증 없음. **마이그레이션 fix류 비율 실측 11.5%(12/104)** — 스키마 아직 흔들림(초판 "18%"는 과대였음).
+
+    - **접근**: 배열→enum/정규화 테이블(예: `club_admin_positions`), 유니크 제약. jsonb는 경계 zod(Phase
+    7과 연계). **마이그레이션 전진만(00105+)**, 점진.
+
+    - **검증**: 마이그레이션 후 `db:types:local` drift 0, L2 통합 테스트(권한·직책).
+
+    - **개선 효과(§8)**: 직책/레벨 쿼리·제약이 타입·DB 레벨로 보장. 배열 인덱스 성능 위험 제거.
+
+    - **착수 시**: Phase 4(권한)·7(타입)과 묶어 판단. 영향 크니 신중히. **단 동작엔 문제 없으므로 E·D1·G 뒤.**'
+- anchor: reference/improvement-catalog#B2.-푸시-Receipt-확인-(Tier-3)
+  doc: reference/08-improvement-catalog.md
+  text: '### B2. 푸시 Receipt 확인 (Tier 3)
+
+
+    - **현재(검증)**: Phase 4가 Tier 1(로그)·2(재시도)까지. `send-push/index.ts:249-256`은 Expo
+    응답의 `ticket_id`만 저장 → **receipt(실제 단말 도달) 미확인**.
+
+    - **접근**: 발송 시 ticket 저장 → 별도 cron이 Expo receipt 조회 → 최종 상태 `_push_log` 기록.
+
+    - **검증**: 발송→receipt 폴링→상태 기록 확인.
+
+    - **개선 효과(§8)**: 전달률을 "서버가 보냄"에서 "단말이 받음"으로. **실유저 90명 리텐션에 직접** — 알림이 안 가면 안
+    돌아옴. 그래서 백엔드 중 가장 상위(권장순 4).'
+- anchor: reference/improvement-catalog#B3.-RLS-정책-전수-재감사
+  doc: reference/08-improvement-catalog.md
+  text: '### B3. RLS 정책 전수 재감사
+
+
+    - **현재**: 채팅 재귀(00027)·anon 우회(00085)는 사후 발견·수정됨. 다른 자기참조/정책 일관성은 미검증.
+
+    - **접근**: 자기참조 정책이 모두 SECURITY DEFINER 헬퍼 경유하는지, 정책 네이밍·banned 적용 일관성 점검. L2로
+    음성 테스트.
+
+    - **개선 효과(§8)**: "사후 발견" 보안 결함을 사전 차단. 안 보이지만 사고 예방.
+
+
+    ---'
+- anchor: reference/improvement-catalog#C.-안전망-확장
+  doc: reference/08-improvement-catalog.md
+  text: '## C. 안전망 확장'
+- anchor: reference/improvement-catalog#C1.-네이티브-E2E-(Android)
+  doc: reference/08-improvement-catalog.md
+  text: '### C1. 네이티브 E2E (Android)
+
+
+    - **현재**: Phase 3은 **web-only**(Playwright). 네이티브 회귀는 자동 안 잡힘.
+
+    - **접근**: Detox 또는 Maestro로 핵심 플로우(로그인·참여·채팅) Android. 시드/로컬 supabase 재사용.
+
+    - **개선 효과(§8)**: 앱 본체(네이티브) 회귀 차단. web만 잡던 안전망을 양 플랫폼으로.
+
+    - **비용 큼** — 여력 보고 결정.'
+- anchor: reference/improvement-catalog#C2.-소스맵-업로드-검증
+  doc: reference/08-improvement-catalog.md
+  text: '### C2. 소스맵 업로드 검증
+
+
+    - **현재**: Phase 1에서 설정은 했고 "다음 EAS production 빌드에서 검증" 잔여.
+
+    - **접근**: production 빌드 후 Sentry에서 minify 아닌 원본 스택 확인.
+
+    - **개선 효과(§8)**: 프로덕션 에러 스택이 읽힘 → 디버깅 속도. 소(작은) 마무리.
+
+
+    ---'
+- anchor: reference/improvement-catalog#D.-확장성-/-제품
+  doc: reference/08-improvement-catalog.md
+  text: '## D. 확장성 / 제품'
+- anchor: reference/improvement-catalog#D1.-제품-분석-—-퍼널·리텐션-가시화-(재정의·상향-—-2026-06-03)-→-24-상세-문서-§D1(../작업완료/24-scalability-product-infra.md)
+  doc: reference/08-improvement-catalog.md
+  text: '### D1. 제품 분석 — 퍼널·리텐션 가시화 (재정의·상향 — 2026-06-03) → [24 상세 문서 §D1](../작업완료/24-scalability-product-infra.md)
+
+
+    - **현재(검증)**: `lib/analytics.ts`의 `trackEvent`/`identifyUser`가 **`console.log`
+    스텁이고 호출처 0건**(전수 확인). 즉 **실유저 90명의 행동을 전혀 측정하지 못함** — 의사결정이 깜깜이.
+
+    - **재정의**: 초판의 "분석 활성화(스텁 채우기)"가 아니라 **"90 유저의 activation/retention 가시화"**가 목표.
+    단순 이벤트 송신이 아니라 **퍼널(가입→프로필완성→동호회참여→경기신청→재방문)과 7/30일 리텐션**을 본다.
+
+    - **접근**: 백엔드 연결(PostHog/Amplitude) + 핵심 이벤트 정의 + PII 스크럽(Phase 1 패턴 재사용) + 퍼널/리텐션
+    대시보드. Sentry 알림은 F1과, 푸시 도달은 B2와 연계.
+
+    - **검증**: 이벤트가 대시보드에 도달, PII 스크럽 확인.
+
+    - **개선 효과(§8)**: "어디서 새는지"가 보임 → 다음 작업(G. 리텐션 대응)의 **유일한 근거**. 데이터 없이 기능 늘리던 바이브
+    코딩의 반대.
+
+    - **권장순 2(상향)** — 실유저가 이미 있으니 늦었음. E(폴리시) 바로 다음. **측정이 없으면 G도 못 함.**'
+- anchor: reference/improvement-catalog#D2.-의존성-건강-전략-→-24-상세-문서-§D2(../작업완료/24-scalability-product-infra.md)
+  doc: reference/08-improvement-catalog.md
+  text: '### D2. 의존성 건강 전략 → [24 상세 문서 §D2](../작업완료/24-scalability-product-infra.md)
+
+
+    - **✅ 완료(2026-06-04)**: RN `^0.83.4`→exact 고정(위험 caret 1→0), `.cursor/rules/dependency-policy.mdc`(변동성
+    3등급표·patch-package 추적표), `.github/dependabot.yml`(weekly·그룹 6개·major ignore·PR
+    한도 5).
+
+    - **개선 효과(§8)**: 다음 메이저에서 안 헤맴. 안 보이지만 유지보수 비용↓. 메이저 업그레이드 자체(React 19/RN 0.83/Reanimated
+    4 조합)는 dependabot 인지 후 별도 계획.'
+- anchor: reference/improvement-catalog#D3.-릴리즈-자동화-→-24-상세-문서-§D3(../작업완료/24-scalability-product-infra.md)
+  doc: reference/08-improvement-catalog.md
+  text: '### D3. 릴리즈 자동화 → [24 상세 문서 §D3](../작업완료/24-scalability-product-infra.md)
+
+
+    - **✅ 완료(2026-06-04)**: share-link 헬스체크(`deploy-healthcheck.yml` + `scripts/check-share-links.sh`),
+    배포 설정 정적 게이트(`scripts/check-deploy-config.sh` → ci.yml fail-fast 스텝), 릴리즈 체크리스트(`.cursor/rules/release-checklist.mdc`
+    — DB·엣지 함수 수동 단계 포함).
+
+    - **개선 효과(§8)**: "배포가 무서운" 상태 완화, share-link 회귀가 사람 손 없이 잡힘. EAS 빌드 자동 트리거·단계적
+    롤아웃은 범위 밖 잔여(24 §6).
+
+
+    ---'
+- anchor: reference/improvement-catalog#G.-리텐션·활성화-대응-(신규-·-2026-06-03-·-08의-사각지대)
+  doc: reference/08-improvement-catalog.md
+  text: '## G. 리텐션·활성화 대응 (신규 · 2026-06-03 · 08의 사각지대)
+
+
+    > 초판은 13개 항목 전부 **내부 기술부채**였고 사용자 가치·성장·리텐션은 스코프 0이었다. 그러나 유저 90명·동호회 56개가 도는
+    지금, 핵심 질문은 *"이들이 다시 오는가, 동호회가 살아있는가, 어디서 새는가"*다. D1(측정)이 도구라면, G는 **그 측정 결과에 대응하는
+    제품 작업**이다. **D1 선행 필요.**'
+- anchor: reference/improvement-catalog#G2.-동호회-활성도-실태-점검-(싼-선행-조사-—-권장순-0)
+  doc: reference/08-improvement-catalog.md
+  text: '### G2. 동호회 활성도 실태 점검 (싼 선행 조사 — 권장순 0)
+
+
+    - **현재(가설)**: prod 동호회는 대부분 `registration_type=''shared''`로 추정. 56개 중 **실제 멤버십·활동이
+    도는 managed가 몇 개인지** 미확인.
+
+    - **왜 중요**: 56이 다 활성이면 콘텐츠 충분, 대부분 정보성 shared면 "동호회는 많은데 참여 동선은 비어있는" 다른 그림 →
+    G1·D1 이벤트 정의 방향이 갈림.
+
+    - **접근**: DB 집계 한 방(`registration_type`·멤버수·최근 활동 분포)이면 나옴. **비용 소, 레버리지 큼** →
+    G1·D1·E보다 먼저 슬쩍.
+
+    - **권장순 0**: 이후 방향을 가르는 사전 확인.'
+- anchor: reference/improvement-catalog#G1.-이탈-지점-대응-루프-(권장순-3)
+  doc: reference/08-improvement-catalog.md
+  text: '### G1. 이탈 지점 대응 루프 (권장순 3)
+
+
+    - **현재**: 측정도 대응도 없음. 90 유저가 어디서 멈추는지 모름.
+
+    - **접근**: D1 퍼널이 깔린 뒤, 가장 큰 이탈 구간 1개를 골라 개선 → 재측정(예: 프로필 완성 이탈, 첫 동호회 참여 이탈, 경기
+    신청 전환). 한 번에 하나, 측정 기반.
+
+    - **개선 효과(§8)**: 신기능 추가가 아니라 **이미 온 유저를 머물게** — 초기 단계 ROI가 가장 높은 트랙.
+
+
+    ---'
+- anchor: reference/improvement-catalog#F.-운영-(상시/옵션)
+  doc: reference/08-improvement-catalog.md
+  text: '## F. 운영 (상시/옵션)'
+- anchor: reference/improvement-catalog#F1.-데이터-루프-—-Sentry-알림-+-푸시-대시보드-(D1과-연계)
+  doc: reference/08-improvement-catalog.md
+  text: '### F1. 데이터 루프 — Sentry 알림 + 푸시 대시보드 (D1과 연계)
+
+
+    - **현재**: Phase 1/4로 데이터는 **모이지만** 자동으로 사람에게 안 옴.
+
+    - **접근**: Sentry 알림 규칙(신규/급증/특정 domain) + `_push_log` 기반 전달률 대시보드.
+
+    - **개선 효과(§8)**: 모인 데이터가 행동으로 연결. **D1(제품 분석) 착수 시 함께 깔면 시너지** — 에러·전달률·제품 퍼널을
+    한 데이터 루프로.'
+- anchor: reference/improvement-catalog#F2.-컨벤션-유지-(상시)
+  doc: reference/08-improvement-catalog.md
+  text: '### F2. 컨벤션 유지 (상시)
+
+
+    - 새 패턴(`useClubForm`/`useScrimmageForm`, `assert_club_admin`, 전역 에러 통로 등)이 생길
+    때마다 CLAUDE.md·`.cursor/rules/` 갱신. 안 하면 "정리했는데 또 흩어지는" 사이클로 회귀.
+
+
+    ---'
+- anchor: reference/improvement-catalog#권장-흐름-(개정-2026-06-03-·-라이브-제품-기준)
+  doc: reference/08-improvement-catalog.md
+  text: '## 권장 흐름 (개정 2026-06-03 · 라이브 제품 기준)
+
+
+    > A1·A2는 완료(✅). 이하는 실유저 90명/동호회 56개가 도는 현 단계의 순서다. 초판의 "기술부채 우선"에서 **"실유저 폴리시
+    → 가시화 → 리텐션 대응 → 기술부채"** 로 재편.
+
+
+    0. **G2 동호회 활성도 실태 점검** — DB 한 방. 싸고 이후 방향을 가르는 선행 조사.
+
+    1. **E1 거친 버그 4건** — 실유저가 매일 부딪침. 싸고 효과 즉각적. 라이브 제품 최우선.
+
+    2. **D1 퍼널·리텐션 가시화** — 90 유저 행동이 깜깜이. 측정 없이는 다음을 못 정함(이미 늦음). F1을 함께 깔면 시너지.
+
+    3. **G1 이탈 지점 대응 루프** — D1로 보인 가장 큰 누수 1개부터 수정→재측정.
+
+    4. **B2 푸시 receipt** — 리텐션 직결 신뢰성. 그다음 A3·B1·B3·C·D2·D3는 여력 보고. F2는 상시.
+
+
+    > 각 항목 착수 시 `/plan-doc <항목>`으로 `22-`+ 상세 문서 생성 → 8섹션(§8 효과·활용 포함)으로 구체화 후 구현.'
+- anchor: reference/prod-key-rotation-runbook#배포-런북-—-service_role-키-회전-+-Vault-주입
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '# 배포 런북 — service_role 키 회전 + Vault 주입
+
+
+    > 작성일: 2026-05-31
+
+    > 상위/연계: [04-phase4-backend-durability.md](../작업완료/04-phase4-backend-durability.md)
+    §0(P0) · Step 0
+
+    > 성격: **prod 배포 시점에 1회 실행하는 운영 작업**(대시보드/SQL Editor). 코드(마이그레이션 `00095`)는 이미 완료되어
+    있고, 이 문서는 그 코드를 prod에 적용할 때 함께 해야 하는 **수동 키 작업**만 다룬다.
+
+    > 담당: 배포 권한자(대시보드 접근 필요)
+
+
+    ---'
+- anchor: reference/prod-key-rotation-runbook#0.-왜-필요한가-(배경)
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 0. 왜 필요한가 (배경)
+
+
+    `supabase/migrations/00076_push_config_table.sql:16`에 **live 레거시 `service_role`
+    키**(JWT, `role=service_role`, exp 2088)가 **평문으로 git에 커밋**되어 있었다. service_role
+    키는 **RLS를 전부 우회하는 마스터 키**라, 커밋 히스토리에 박제된 것 자체가 사고(P0)다.
+
+
+    - `00095_push_secret_to_vault.sql`가 **평문 키를 `_push_config`에서 제거**하고, 트리거/크론이 **Supabase
+    Vault**에서 키를 읽도록(`_get_push_service_key()`) 바꿨다. (코드 완료)
+
+    - **그러나** 유출된 키는 **회전(재발급) 전까지 계속 유효**하다. 그리고 Vault에 새 키를 넣기 전까지는 푸시가 나가지 않는다.
+    → 이 두 가지가 이 런북의 작업.
+
+
+    > 메모: repo는 private(`deploy-push-gotchas`)이라 노출 위험은 제한적이지만, **회전 완료까지 P0는 닫히지
+    않는다.**
+
+
+    ---'
+- anchor: reference/prod-key-rotation-runbook#1.-선행-조건
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 1. 선행 조건
+
+
+    - [ ] `00095_push_secret_to_vault.sql` 포함 마이그레이션이 **prod에 적용**될 배포여야 한다(또는 이미
+    적용됨). 적용 전이라면 트리거가 아직 `_push_config`의 평문 키를 참조하므로, 회전하면 푸시가 즉시 끊긴다 → **00095 적용과
+    키 회전을 같은 배포 윈도우에** 둘 것.
+
+    - [ ] 저트래픽 시간대 권장(회전 중 짧은 푸시/클라이언트 영향 최소화).
+
+    - [ ] 대시보드 접근 권한 확인.
+
+
+    ---'
+- anchor: reference/prod-key-rotation-runbook#2.-⚠️-핵심-함정-—-레거시-키는-anon과-묶여-있다
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 2. ⚠️ 핵심 함정 — 레거시 키는 anon과 묶여 있다
+
+
+    유출된 키는 **레거시 service_role JWT**(`eyJ...`)다. 대시보드의 새 `sb_secret_*` 탭이 아니라 **"Legacy
+    anon, service_role API keys" 탭**에 있다.
+
+
+    **레거시 키는 anon 키와 같은 JWT secret으로 서명**된다 → 레거시를 회전하면 **anon 키도 함께 바뀐다.** anon 키는
+    **배포된 앱·웹 클라이언트가 쓰는 키**라서, 회전하는 순간 **재배포 전까지 클라이언트가 접속 불가**가 된다.
+
+
+    > 따라서 **레거시 키 회전 + 클라이언트(앱/웹) 새 anon 키로 재배포**를 반드시 **한 배포에 묶어야** 한다. 그냥 "Roll"
+    버튼만 누르면 운영 장애.
+
+
+    대안(새 `sb_secret_*` 체계로 전환)은 send-push의 JWT role 디코드 검증과 게이트웨이 `verify_jwt` 동작을
+    다시 설계해야 하므로 **이번 범위 밖**(04 문서 §6). 이번엔 레거시 JWT를 유지·회전한다.
+
+
+    ---'
+- anchor: reference/prod-key-rotation-runbook#3.-실행-순서
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 3. 실행 순서'
+- anchor: reference/prod-key-rotation-runbook#3.1-키-회전-(유출-키-무효화)
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '### 3.1 키 회전 (유출 키 무효화)
+
+
+    1. 대시보드 → **Settings → API → "Legacy anon, service_role API keys" 탭**.
+
+    2. service_role 키 **Roll/재발급**. ⚠️ anon도 같이 바뀜(§2).
+
+    3. **새 service_role 키와 새 anon 키를 모두 복사**해 둔다.'
+- anchor: reference/prod-key-rotation-runbook#3.2-클라이언트-재배포-(anon-키-갱신)
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '### 3.2 클라이언트 재배포 (anon 키 갱신)
+
+
+    4. 새 **anon(publishable) 키**를 클라이언트 환경변수(EAS / Vercel 등 `EXPO_PUBLIC_*` anon 키)에
+    반영하고 **앱·웹 재배포**. (회전과 같은 윈도우에)'
+- anchor: reference/prod-key-rotation-runbook#3.3-새-service_role-키를-Vault에-주입
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: "### 3.3 새 service_role 키를 Vault에 주입\n\n5. 대시보드 → **SQL Editor**에서 실행(`<새\
+    \ service_role 키>` 교체):\n   ```sql\n   select vault.create_secret('<새 service_role\
+    \ 키>', 'push_service_role_key');\n   ```\n\n   - 시크릿 이름은 반드시 `push_service_role_key`\
+    \ (코드가 이 이름으로 조회).\n   - 이미 같은 이름이 있으면 `vault.update_secret`로 갱신:\n     ```sql\n\
+    \     select vault.update_secret(\n       (select id from vault.secrets where\
+    \ name = 'push_service_role_key'),\n       '<새 service_role 키>'\n     );\n   \
+    \  ```\n   - ⚠️ 이 키 값은 **어디에도 커밋/메모 금지**. Vault에만.\n\n---"
+- anchor: reference/prod-key-rotation-runbook#4.-배포-후-검증
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: "## 4. 배포 후 검증\n\n- [ ] Vault 주입 확인:\n  ```sql\n  select _get_push_service_key()\
+    \ is not null as ok;  -- true 기대\n  ```\n- [ ] 평문 키 부재 확인:\n  ```sql\n  select\
+    \ 1 from _push_config where key = 'service_role_key';  -- 0 rows 기대\n  ```\n-\
+    \ [ ] **푸시 실발송 1건**: 테스트 알림 trigger(예: 본인에게 알림 발생) → 단말 수신 확인. 또는 `_push_log`에서\
+    \ 최근 `status='sent'` 행 확인:\n  ```sql\n  select status, error_code, sent_at from\
+    \ _push_log order by id desc limit 5;\n  ```\n- [ ] 클라이언트(앱/웹) **로그인·데이터 조회 정상**(새\
+    \ anon 키 반영 확인).\n- [ ] 구 키 무효 확인(선택): 구 service_role 키로 REST 호출 시 401.\n\n---"
+- anchor: reference/prod-key-rotation-runbook#5.-롤백-/-사고-대응
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 5. 롤백 / 사고 대응
+
+
+    - **푸시가 안 나감**: `_get_push_service_key()`가 NULL이면 Vault 주입 누락 → 3.3 재실행. 키 값 오타
+    가능 → `vault.update_secret`로 재주입.
+
+    - **클라이언트 접속 불가(401/JWT)**: anon 키 미반영 → 3.2 재배포 확인. 환경변수에 구 anon 키가 남아있는지 점검.
+
+    - **회전을 되돌릴 수는 없다**(구 키는 영구 무효). 따라서 §1 선행조건(00095 적용 + 클라이언트 재배포 준비)을 반드시 회전
+    **전에** 갖출 것.
+
+
+    ---'
+- anchor: reference/prod-key-rotation-runbook#6.-후속-(이번-범위-밖)
+  doc: reference/13-prod-key-rotation-runbook.md
+  text: '## 6. 후속 (이번 범위 밖)
+
+
+    - **git history purge**: 회전으로 유출 키가 무효화되면 긴급도 낮음. 강제 push 위험(`deploy-push-gotchas`)이라
+    신중히 별도 판단.
+
+    - **새 `sb_secret_*` 키 체계 전환**: send-push의 JWT role 검증 + 게이트웨이 `verify_jwt` 재설계
+    필요. 레거시 키 의존 제거를 원하면 별도 작업으로(04 문서 §6).'
+- anchor: reference/bot-ops-runbook#49---봇-운영-통합-매뉴얼-(터미널-중심)
+  doc: reference/49-bot-ops-runbook.md
+  text: '# 49 - 봇 운영 통합 매뉴얼 (터미널 중심)
+
+
+    > 작성일: 2026-07-15 · 통합 개정: 2026-07-18 (54 §6) · 스킬 4+1 재편: 2026-07-20 (planning/57)
+    - bot-tick·bot-content를 /bot-react·/bot-chat·/bot-cards·/bot-article로 분해.
+
+    > 대상: **어드민 콘솔 없이 Claude Code 터미널로 봇을 운영하는 super_admin(운영자 본인).**
+
+    > prod 현황: 대화 페르소나 11명 가동 중(2026-07-17 개시, `enabled=true`·`auto_react_enabled=true`·`require_approval=true`).
+
+    > 콘텐츠 채널(planning/작업완료/54)은 2026-07-19 prod 가동 개시.'
+- anchor: reference/bot-ops-runbook#§0-봇-시스템-지도
+  doc: reference/49-bot-ops-runbook.md
+  text: "## §0 봇 시스템 지도\n\n| 컴포넌트                          | 실행                  \
+    \                   | 하는 일                                                   \
+    \                                                                            \
+    \                    | Claude API 키        |\n| ---------------------------------\
+    \ | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------\
+    \ | -------------------- |\n| `/bot-react` (Claude Code 스킬)   | 수동 딸깍 또는 launchd\
+    \ 45분(옵션)        | 이벤트 큐(00141) 소비 → 반응 댓글 판단·집필 → 예약 + liker 건강 점검. **글은 집필 안\
+    \ 함**(잡담 /bot-chat·콘텐츠 /bot-cards·/bot-article, planning/57)     | 불필요(구독)   \
+    \      |\n| `/bot-chat` (Claude Code 스킬)    | 수동 딸깍 (원할 때)                   \
+    \   | 대화 페르소나 잡담 글 1건 집필·예약 (소재 풀 + WebSearch 뉴스, 태그 0~2)                    \
+    \                                                              | 불필요(구독)     \
+    \    |\n| `/bot-cards` (Claude Code 스킬)   | 수동 딸깍 (화·목·토 슬롯 또는 지정 시)   | 카드뉴스\
+    \ 1건 - 리서치→집필→비평 파이프라인, `deep` 인자로 워크플로우 승격 (bot/topics.md 소재 대장 연동)         \
+    \                                         | 불필요(구독)         |\n| `/bot-article`\
+    \ (Claude Code 스킬) | 수동 딸깍 (화·목·토 슬롯 또는 지정 시)   | 아티클 1건 - 동일 파이프라인, 확장 규격(포인트\
+    \ 4~~6개·800~~1500자, planning/57)                                             \
+    \                              | 불필요(구독)         |\n| `/bot-cards insta` (스킬 모드)\
+    \    | 수동 딸깍 (인스타에 올릴 때)             | 콘텐츠를 VOLT 템플릿 PNG(1080×1350)로. **DB 읽기\
+    \ 전용**, 업로드는 운영자 수동 (§6-1d)                                                  \
+    \                   | 불필요(구독)         |\n| `community-bot-publisher`         |\
+    \ 5분 크론(00145)                          | 시각 도달한 예약을 실제 글/댓글로. 콘텐츠 채널의 content\
+    \ JSONB는 패스스루(00146)                                                         \
+    \                 | 불필요               |\n| `community-bot-liker`             |\
+    \ 크론 3회/일 KST 09:10·14:10·20:50(00140) | 사람 글 0.8·봇 글(콘텐츠 포함) 0.4 확률로 좋아요(글당 페르소나\
+    \ 1명씩 누적, 자기 글 금지)·즉시 반영                                                     \
+    \   | 불필요               |\n| `community-bot-moderator`         | 크론 2회/일 KST 13:10·21:10(00136)\
+    \       | 신규·수정 글/댓글을 규칙과 대조. **킬스위치와 무관하게 돈다**(사람 글도 대상). 하드 룰은 키 없이 동작, LLM\
+    \ 판정만 키 있을 때                              | 하드 룰은 불필요     |\n| `community-bot-director`\
+    \          | POST 수동 호출(§3)                       | 수동 장면 주입: body에 `scenes`가\
+    \ 있으면 LLM 호출 없이 검증·시각 배정·승인 흐름만. 크론(00126, KST 06:30)은 남아 있으나 prod에 키가 없어 자동 집필\
+    \ 미사용 | 수동 주입이면 불필요 |\n| `community-bot-events-retention`  | 크론 매일 KST 04:05(00145)\
+    \               | 이벤트 큐 정리: done/skipped 14일·pending 30일 경과분 삭제 (/bot-react 마무리\
+    \ 정리의 백스톱)                                                              | 불필요\
+    \               |\n\nreactor는 00145에서 폐기됐다 - 사람 글 반응은 /bot-react(구독 기반, 키 0)가\
+    \ 대체. 상세는 planning/작업완료/51·53.\n컴포넌트별 상세 매뉴얼은 **§6**, 소재·발행 대장은 **`bot/` 폴더**(topics.md·content-log.md).\n\
+    \n파이프라인 흐름:\n\n```\n사람/봇 글·댓글 INSERT --트리거(00141)--> community_bot_events (큐,\
+    \ http 호출 없음)\n                                            |\n               \
+    \           /bot-react (딸깍)이 소비: 반응 판단·집필\n                                  \
+    \          |  댓글 = bot_enqueue_reaction RPC (하드 가드)\n                        \
+    \                    |  글 = /bot-chat·/bot-cards·/bot-article이 직접 INSERT (승인 게이트)\n\
+    \                                            v\n                          community_bot_schedule\
+    \ (pending | awaiting_approval)\n                                            |\
+    \  글 승인: require_approval / 댓글: auto_react_enabled\n                         \
+    \                   v\n                          publisher (5분 크론) --발행--> community_posts\
+    \ / community_comments\n                                            |\n      \
+    \                                      +--> 발행분도 다시 이벤트 큐로 (봇끼리 창발 루프)\n\n병행:\
+    \ liker (3회/일, 사람 글 좋아요 즉시) · moderator (2회/일, 킬스위치 무관)\n```\n\n**API 키는 앱에 없는\
+    \ 게 정상이다.** prod에 `ANTHROPIC_API_KEY`를 넣지 않는다(사용자 확정) - LLM 두뇌는 전부 Claude Code\
+    \ 구독(봇 스킬 4종)이고, 키가 필요한 경로는 모더레이터의 LLM 판정 보강뿐이다(없으면 하드 룰만 동작). 클라이언트 앱은 키를 절대\
+    \ 갖지 않는다(번들 노출).\n\n**킬스위치**: `community_bot_config.enabled=false`면 봇 스킬 4종·publisher·liker·director(실주입)\
+    \ 전부 skip - dry 미리보기와 moderator만 예외."
+- anchor: reference/bot-ops-runbook#§1-일상-운영-(딸깍-사이클)
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §1 일상 운영 (딸깍 사이클)
+
+
+    하루 2~~3회 `/bot-react`면 충분하다 - 한 번의 틱이 "지금의 반응"이 아니라 앞으로 몇 시간치 반응을 랜덤 지연(10분~~3시간)으로
+    예약하고, publisher가 5분마다 알아서 발행한다. 연속 실행 안전(멱등 - 이벤트 status와 DB 하드 가드가 중복을 막는다).
+    콘텐츠(화·목·토)는 `/bot-cards`·`/bot-article`, 잡담은 `/bot-chat` - 별도 딸깍.
+
+
+    ```bash'
+- anchor: reference/bot-ops-runbook#로컬(기본):-그냥-실행---127.0.0.1:54322-대상
+  doc: reference/49-bot-ops-runbook.md
+  text: '# 로컬(기본): 그냥 실행 - 127.0.0.1:54322 대상
+
+    /bot-react'
+- anchor: reference/bot-ops-runbook#prod:-DB-URL을-export한-세션에서만.-스킬이-"prod에-반응-틱을-돌립니다"-고지-후-진행
+  doc: reference/49-bot-ops-runbook.md
+  text: '# prod: DB URL을 export한 세션에서만. 스킬이 "prod에 반응 틱을 돌립니다" 고지 후 진행
+
+    export WEVOLLEY_BOT_DB_URL="<prod DB 연결 문자열>"
+
+    /bot-react
+
+    ```
+
+
+    - **자동화(옵션)**: `scripts/bot-auto.sh on|off|status` - launchd가 45분마다 `claude -p
+    "/bot-react"` 헤드리스 실행. prod 자동화는 `WEVOLLEY_BOT_DB_URL`을 export한 셸에서 `on`을 실행해야
+    plist에 박힌다. 2026-07-20 개명(bot-tick→bot-react) 전부터 켜져 있었다면 off→on으로 plist 재생성 필요(구
+    plist는 삭제된 /bot-tick 호출).
+
+    - **승인**: 글 예약(`require_approval=true`)은 `awaiting_approval`로 들어온다. prod 승인은 **콘솔
+    UI가 정도(正道)** - 터미널 승인(§3-3 시프트+승인 psql)은 로컬용이고, prod DB psql 직결은 시프트 실수 시 도배로
+    직결되므로 지양. 터미널만 쓰려면 super_admin JWT로 RPC 호출이 안전: `curl <PROD_URL>/rest/v1/rpc/admin_approve_bot_run
+    -H "Authorization: Bearer <JWT>" -H "apikey: <ANON_KEY>" -d ''{"p_run_id":"..."}''`.
+
+    - 댓글은 `auto_react_enabled=true`라 승인 없이 pending → 자동 발행 (단계 1: 댓글 자율·글 승인, 51 §4).
+
+    - **긴급 정지**: `UPDATE community_bot_config SET enabled = false;` 한 방 (§0 킬스위치).'
+- anchor: reference/bot-ops-runbook#§2-콘텐츠-채널-운영-(54)
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §2 콘텐츠 채널 운영 (54)
+
+
+    3채널 = `community_bot_personas` 중 concept이 `[콘텐츠채널]`로 시작하는 계정. /bot-react·/bot-chat이
+    이 계정들을 반응 댓글·잡담 집필 페르소나에서 제외하고 콘텐츠 집필 전담으로 쓴다.
+
+
+    | 채널       | 슬롯(KST) | 소재                                                                       |
+
+    | ---------- | --------- | --------------------------------------------------------------------------
+    |
+
+    | 오늘의배구 | 화        | 프로 배구 뉴스(WebSearch 소화). **공개 보도 사실에 한해 실명·구단명 허용** |
+
+    | 배구연구소 | 목        | 꿀팁·훈련법(community_bot_topics 소재 풀)                                  |
+
+    | 장비창고   | 토        | 배구화·유니폼·보호대·공 등 장비 잡지식                                     |
+
+
+    - 집필·예약은 **/bot-cards·/bot-article 딸깍**이 담당 (2026-07-20 포맷별 분리, planning/57 -
+    슬롯 요일에 실행하거나 채널·주제를 지정. 포맷은 운영자가 소재를 보고 스킬로 선택 - 자동 판단 폐기): 리서치→집필→비평 파이프라인으로
+    v3 포인트 정형을 쓰고, `body`는 구버전 앱용 폴백 텍스트. 슬롯 요일을 놓치면 따라잡지 않는다(다음 슬롯 정상 발행 - 주간 리듬
+    유지). 규격: cards 포인트 3~~5개·head ≤17자·body ≤90자(하드), article 포인트 4~~6개·body 150~~300자·전체
+    800~~1500자, title ≤24자·`highlight`(head의 부분 문자열만 유효)·태그 1~~3개 필수 공통. 잡담 글(/bot-chat)은
+    태그 0~~2개.
+
+    - 승인·발행·킬스위치는 일반 글과 동일(§1). 발행된 콘텐츠 글도 bot_post 이벤트로 적재돼 대화 페르소나가 기존 확률로 댓글을 단다.
+
+    - **콘텐츠 예약 수정 금지**: `awaiting_approval` 콘텐츠를 `admin_update_bot_schedule`(00139)로
+    고치지 않는다 - 그 RPC는 body(폴백)만 수정해 content JSONB와 어긋난다. 고칠 게 있으면 취소(`admin_cancel_bot_schedule`)
+    후 재집필.
+
+    - 채널 시드: `scripts/seed-content-channels.sql` (멱등, ON_ERROR_STOP. **prod는 사용자 승인
+    후에만** - 실사용자 노출 신규 계정).
+
+    - 상세 집필 규칙은 `.claude/skills/bot-cards/SKILL.md`·`.claude/skills/bot-article/SKILL.md`,
+    설계·E2E 결과는 planning/작업완료/54, 파이프라인 설계는 planning/57.'
+- anchor: reference/bot-ops-runbook#§3-수동-장면-주입-(director,-키-없이)
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §3 수동 장면 주입 (director, 키 없이)
+
+
+    대본을 사람/Claude Code가 쓰고 디렉터에 주입하는 경로. body에 `scenes`가 있으면 LLM을 아예 호출하지 않으며, 검증·상한·시각
+    배정·승인 흐름은 LLM 경로와 100% 동일하다.'
+- anchor: reference/bot-ops-runbook#3-1.-대본-형식-(v1-스키마)
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 3-1. 대본 형식 (v1 스키마)\n\n```json\n{\n  \"scenes\": [\n    {\n      \"post\"\
+    : {\n        \"persona\": \"활성 페르소나 닉네임\",\n        \"category\": \"free\",\n\
+    \        \"body\": \"글 본문 (10~2000자)\"\n      },\n      \"replies\": [\n     \
+    \   { \"persona\": \"다른 페르소나 닉네임\", \"body\": \"답글 (5~500자)\", \"offset_minutes\"\
+    : 60 }\n      ]\n    }\n  ]\n}\n```\n\n규칙(디렉터 검증이 강제 - 위반 행은 조용히 드롭): `persona`는\
+    \ 활성 페르소나 닉네임과 **정확히** 일치, 자기 글에 자기 답글 금지, `category` ∈ free·info·question, 답글\
+    \ 최대 3개/글, 일일 상한(config) 재강제. 발행 시각은 코드가 배정한다(아침/점심/저녁 윈도우 난수, 지난 시각이면 자동 +1일)."
+- anchor: reference/bot-ops-runbook#3-2.-dry-미리보기-→-실주입
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 3-2. dry 미리보기 → 실주입
+
+
+    ```bash
+
+    SRK=$(supabase status -o env | grep ''^SERVICE_ROLE_KEY'' | cut -d= -f2 | tr -d
+    ''"'')'
+- anchor: reference/bot-ops-runbook#dry:-INSERT-없이-시각-배정·검증-결과-확인-(enabled=false여도-동작)
+  doc: reference/49-bot-ops-runbook.md
+  text: "# dry: INSERT 없이 시각 배정·검증 결과 확인 (enabled=false여도 동작)\ncurl -sS -X POST \"\
+    http://127.0.0.1:54321/functions/v1/community-bot-director?dry=1\" \\\n  -H \"\
+    Authorization: Bearer $SRK\" -H \"Content-Type: application/json\" \\\n  -d @/tmp/scenes.json\
+    \ | jq ."
+- anchor: reference/bot-ops-runbook#실주입:-?dry=1-제거-(enabled=true-필요-·-승인-모드면-awaiting_approval로-들어감)
+  doc: reference/49-bot-ops-runbook.md
+  text: '# 실주입: ?dry=1 제거 (enabled=true 필요 · 승인 모드면 awaiting_approval로 들어감)'
+- anchor: reference/bot-ops-runbook#응답의-runId를-기록해-둘-것
+  doc: reference/49-bot-ops-runbook.md
+  text: '# 응답의 runId를 기록해 둘 것
+
+    ```
+
+
+    prod에 쏠 땐 URL을 `https://<PROD_REF>.supabase.co/functions/v1/...`로, 키를 prod service_role로
+    교체. 디렉터는 service_role 또는 super_admin JWT 둘 다 받고, publisher는 service_role 전용. **prod
+    배포는 수동이다(머지 ≠ 배포)** - 작업 전 `supabase migration list`·`supabase functions list`로
+    실제 반영 상태부터 확인.'
+- anchor: reference/bot-ops-runbook#3-3.-터미널-승인-(psql,-로컬용---시프트-문장-필수)
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 3-3. 터미널 승인 (psql, 로컬용 - 시프트 문장 필수)\n\n승인 RPC(`admin_approve_bot_run`)는\
+    \ `auth.uid()` 기반 super_admin 가드라 psql superuser로는 호출 불가. 직접 UPDATE로 승인하되, **RPC와\
+    \ 동일한 시프트 문장을 반드시 먼저** 실행한다 - 빼먹으면 지난 시각 예약이 다음 발행기 틱에 한꺼번에 발행돼 도배된다(00128 로직\
+    \ 복제):\n\n```sql\n-- psql \"postgresql://postgres:postgres@127.0.0.1:54322/postgres\"\
+    \nBEGIN;\nUPDATE community_bot_schedule SET scheduled_at = scheduled_at + interval\
+    \ '1 day'\n WHERE status = 'awaiting_approval' AND run_id = '<RUN_ID>'\n   AND\
+    \ scheduled_at <= now() + interval '5 minutes';\nUPDATE community_bot_schedule\
+    \ SET status = 'pending'\n WHERE status = 'awaiting_approval' AND run_id = '<RUN_ID>';\n\
+    COMMIT;\n```\n\n취소는 `SET status='cancelled'` (pending·awaiting_approval 대상만)."
+- anchor: reference/bot-ops-runbook#3-4.-발행기-강제-틱
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 3-4. 발행기 강제 틱\n\n로컬에선 크론에 기대지 말고 직접 틱을 돌린다:\n\n```bash\ncurl -sS -X POST\
+    \ \"http://127.0.0.1:54321/functions/v1/community-bot-publisher\" \\\n  -H \"\
+    Authorization: Bearer $SRK\" | jq .\n```"
+- anchor: reference/bot-ops-runbook#§4-로컬-리허설·시드
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §4 로컬 리허설·시드'
+- anchor: reference/bot-ops-runbook#4-1.-스택-기동
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 4-1. 스택 기동
+
+
+    ```bash
+
+    supabase start                                  # 로컬 DB(:54322) + API 게이트웨이(:54321)
+
+    supabase functions serve                        # 엣지 함수 로컬 서빙
+
+    SRK=$(supabase status -o env | grep ''^SERVICE_ROLE_KEY'' | cut -d= -f2 | tr -d
+    ''"'')
+
+    ```'
+- anchor: reference/bot-ops-runbook#4-2.-db-reset-후-필수:-_push_config-로컬-리다이렉트
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 4-2. db reset 후 필수: `_push_config` 로컬 리다이렉트
+
+
+    **로컬 `_push_config`에 prod service key가 시딩돼 있다**(00076). 로컬에서 봇 댓글을 발행하면 알림 트리거(00116)의
+    `net.http_post`가 **prod send-push를 실제로 때릴 수 있고**, 로컬 pg_cron의 `invoke_bot_function`도
+    같은 값을 읽어 **prod 봇 함수를 호출할 수 있다**. `supabase db reset`이 prod 값으로 되돌리므로 **리셋 후마다**
+    재실행:
+
+
+    ```sql
+
+    UPDATE _push_config SET value = ''http://127.0.0.1:54321'' WHERE key = ''supabase_url'';
+
+    UPDATE _push_config SET value = ''<로컬 SERVICE_ROLE_KEY>'' WHERE key = ''service_role_key'';
+
+    ```
+
+
+    (value 컬럼이 NOT NULL이라 NULL 세팅은 불가 - 리다이렉트가 유일한 무력화 방법, E2E 실측.)'
+- anchor: reference/bot-ops-runbook#4-3.-페르소나-시드
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 4-3. 페르소나 시드
+
+
+    ```bash'
+- anchor: reference/bot-ops-runbook#대화-페르소나-11명-(멱등)
+  doc: reference/49-bot-ops-runbook.md
+  text: "# 대화 페르소나 11명 (멱등)\nSUPABASE_SERVICE_ROLE_KEY=$SRK EXPO_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321\
+    \ \\\n  node scripts/seed-bot-personas.mjs"
+- anchor: reference/bot-ops-runbook#prod는---prod-플래그-필수-(없으면-비로컬-대상에서-즉시-종료---오발사-방지-설계)
+  doc: reference/49-bot-ops-runbook.md
+  text: '# prod는 --prod 플래그 필수 (없으면 비로컬 대상에서 즉시 종료 - 오발사 방지 설계)'
+- anchor: reference/bot-ops-runbook#콘텐츠-채널-3계정-(§2)
+  doc: reference/49-bot-ops-runbook.md
+  text: '# 콘텐츠 채널 3계정 (§2)
+
+    docker exec -i supabase_db_we-volley psql -U postgres -d postgres < scripts/seed-content-channels.sql
+
+    ```
+
+
+    로컬 GoTrue ES256 이슈로 mjs의 auth user 생성이 403이 날 수 있다 - 그 경우 `auth.users` 직접 INSERT로
+    시드한다(seed-content-channels.sql의 DO 블록 패턴 재사용, 봇은 로그인하지 않으므로 identities 없어도 무해).'
+- anchor: reference/bot-ops-runbook#4-4.-상태-확인-치트시트
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 4-4. 상태 확인 치트시트\n\n```sql\nSELECT kind, status, count(*) FROM community_bot_schedule\
+    \ GROUP BY 1,2 ORDER BY 1,2;\nSELECT status, count(*) FROM community_bot_events\
+    \ GROUP BY 1;\nSELECT s.status, s.kind, s.category, s.scheduled_at, left(s.body,40)\
+    \ AS body, cp.nickname\n  FROM community_bot_schedule s JOIN community_profiles\
+    \ cp ON cp.user_id = s.persona_user_id\n WHERE s.run_id = '<RUN_ID>' ORDER BY\
+    \ s.scheduled_at;\n```\n\nUI 확인은 verifier-web 스킬(시드 계정 로그인 → 커뮤니티 탭 스크린샷)."
+- anchor: reference/bot-ops-runbook#§5-트러블슈팅
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §5 트러블슈팅
+
+
+    1. **`SERVICE_ROLE_KEY`는 반드시 JWT 형태**(role=service_role 클레임) - `SECRET_KEY` 아님(시드
+    스크립트 헤더 주석 실측). 401이 나면 이것부터 의심.
+
+    2. **로컬 크론이 prod를 호출한다** - 로컬 스택이 떠 있는 동안 5분마다 `invoke_bot_function`이 `_push_config`의
+    prod 값으로 prod publisher를 때릴 수 있다. §4-2 리다이렉트를 기동 습관으로.
+
+    3. **승인 시프트 도배** - psql 승인 시 §3-3 시프트 문장을 빼먹으면 지난 시각 예약이 한 틱에 몰려 발행된다. prod에서는
+    psql 승인 자체를 지양(§1).
+
+    4. **GoTrue 시드 버그** - 로컬 CLI GoTrue ES256 이슈로 Admin API 유저 생성이 403. `auth.users`
+    직접 INSERT로 우회(§4-3).
+
+    5. **콘텐츠 예약을 body만 고치면 깨진다** - `admin_update_bot_schedule`은 content JSONB를 안 건드린다.
+    취소 후 재집필이 정답(§2).
+
+    6. **publisher 재배포 순서** - 새 컬럼을 쓰는 publisher를 마이그레이션보다 먼저 배포하면 없는 컬럼 SELECT로 5분마다
+    500. 항상 `supabase db push` 먼저, `functions deploy` 나중.
+
+    7. **디렉터 `no active personas`** - 페르소나 미시드 상태. §4-3 최초 1회 시드.
+
+    8. `.env`(리포 루트)는 prod 자격증명을 담고 있다 - service_role은 항상 쉘에서 명시적으로 넘기고, 어느 URL을 향해
+    쏘는지 커맨드마다 확인. API 키를 리포 파일에 커밋하지 말 것(로컬은 gitignore된 `supabase/functions/.env`,
+    prod는 secrets만).'
+- anchor: reference/bot-ops-runbook#§6-봇별-매뉴얼
+  doc: reference/49-bot-ops-runbook.md
+  text: '## §6 봇별 매뉴얼
+
+
+    §0 지도의 컴포넌트별 상세. 각 항목 = 역할 / 트리거 / 조작 손잡이 / 자주 하는 작업 / 이상 징후.'
+- anchor: reference/bot-ops-runbook#6-1.-/bot-react-(Claude-Code-스킬)---반응-두뇌
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-1. /bot-react (Claude Code 스킬) - 반응 두뇌\n\n- **역할**: 이벤트 큐 소비 → 반응 댓글\
+    \ 판단·집필(확률표, 한두 줄 상한) + liker 건강 점검.\n  **글은 집필하지 않는다** - 잡담·콘텐츠 리마인드만 리포트에 띄운다\
+    \ (planning/57).\n- **트리거**: 수동 딸깍(하루 2~3회 권장) 또는 `scripts/bot-auto.sh on`(launchd\
+    \ 45분).\n- **조작**: 대상 DB는 `WEVOLLEY_BOT_DB_URL` export 여부(없으면 로컬). 킬스위치·상한은 전부\n\
+    \  `community_bot_config` (enabled, max_posts_per_day, require_approval, auto_react_enabled).\n\
+    - **자주 하는 작업**: 틱 실행 → 리포트 확인 → awaiting_approval 있으면 승인(§1).\n- **이상 징후**: 리포트에\
+    \ skipped 사유가 반복되면 §5 트러블슈팅. RPC 에러(캡 도달 등)는\n  정상 방어 동작 - 우회 금지. \"liker 오늘 무활동\"\
+    \ 경고는 크론·킬스위치 확인."
+- anchor: reference/bot-ops-runbook#6-1b.-/bot-chat-(Claude-Code-스킬)---잡담-두뇌
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-1b. /bot-chat (Claude Code 스킬) - 잡담 두뇌\n\n- **역할**: 대화 페르소나 잡담 글 1건\
+    \ 집필·예약. 소재는 DB 풀(community_bot_topics) +\n  WebSearch 뉴스, 태그 0~2개. 콘텐츠채널 페르소나는\
+    \ 제외.\n- **트리거**: 수동 딸깍 - 원할 때 (매일 강제 아님, 하루 1건 이하 리듬).\n- **조작**: 킬스위치·승인 게이트·글\
+    \ 예산(max_posts_per_day)은 콘텐츠와 공유.\n- **이상 징후**: \"오늘 잡담 이미 있음\" = 정상 게이트 (더 쓸지\
+    \ 사용자 확인)."
+- anchor: reference/bot-ops-runbook#6-1c.-/bot-cards·/bot-article-(Claude-Code-스킬)---콘텐츠-두뇌
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-1c. /bot-cards·/bot-article (Claude Code 스킬) - 콘텐츠 두뇌\n\n- **역할**:\
+    \ 콘텐츠 채널 글 1건 집필·예약 - /bot-cards는 스텝형 카드뉴스(하드 상한),\n  /bot-article은 줄글 아티클(확장\
+    \ 규격). **포맷은 운영자가 스킬 선택으로 결정** - 자동\n  판단 없음. 채널은 요일 슬롯(화 뉴스·목 꿀팁·토 장비) 기본값 +\
+    \ 어느 채널이든 지정 가능.\n  소재는 `bot/topics.md` 백로그 소비, 발행 기록은 `bot/content-log.md`.\n\
+    - **파이프라인**: 리서치 서브에이전트(팩트팩·앵글) → 집필 → 비평 서브에이전트(팩트 대조·\n  무정보 리젝·규격 검증) → 퇴고\
+    \ → 예약. `deep` 인자로 Workflow 승격(리서치 팬아웃 3 +\n  초안 경쟁 2 + 심사 - 비용 수 배, 공들일 소재에만).\n\
+    - **트리거**: 수동 딸깍 - 슬롯 요일에, 또는 \"이 주제로 카드뉴스 써줘\" 같은 지정 실행.\n- **조작**: /bot-react와\
+    \ 같은 킬스위치·승인 게이트·글 예산(max_posts_per_day) 공유.\n- **이상 징후**: \"오늘 콘텐츠 이미 집필됨\" =\
+    \ 정상 게이트(카드뉴스·아티클 합산 하루 1건,\n  재집필은 기존 예약 취소 후). 잘못 쓴 콘텐츠는 body만 고치지 말고 취소 후 재집필(§2)."
+- anchor: reference/bot-ops-runbook#6-1d.-/bot-cards-insta---인스타-추출-(집필과-별개)
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-1d. /bot-cards insta - 인스타 추출 (집필과 별개)\n\n- **역할**: 이미 쓴 콘텐츠(또는 새 원고)를\
+    \ VOLT 템플릿 PNG 묶음(1080×1350)으로 굽는다.\n  업로드는 운영자 수동 - 자동 게시 경로는 없다.\n- **DB 읽기\
+    \ 전용**: 예약·발행 SQL을 타지 않는다. 글 예산·승인 게이트와 무관.\n- **앱과의 관계**: 앱 카드뉴스는 계속 텍스트 v3 JSON을\
+    \ `ContentDeckCarousel`이 그린다.\n  PNG는 앱 파이프라인에 끼지 않는다 (planning/58, DECISIONS\
+    \ 0020).\n- **아티클 커버**: /bot-article이 같은 템플릿(5a~5d)에서 구워 `image_url`에 넣는다.\n-\
+    \ **이상 징후**: \"폰트 로드 실패\" = 네트워크(CDN 미도달). 오프라인에서는 굽지 않는다 -\n  대체 폰트로 렌더된 PNG를\
+    \ 만드느니 죽도록 설계돼 있다. \"슬롯이 비었습니다\"는 스펙\n  누락, \"카드 크기가 어긋납니다\"는 글자 초과 - 우회하지 말고\
+    \ 원문을 줄인다.\n- **산출물**: `bot/cardnews/out/<이름>/` (gitignore). 템플릿·규칙은 `bot/cardnews/README.md`."
+- anchor: reference/bot-ops-runbook#6-2.-community-bot-publisher---손
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-2. community-bot-publisher - 손\n\n- **역할**: 시각 도달한 `community_bot_schedule`\
+    \ 예약을 실제 글/댓글로 INSERT. content JSONB\n  패스스루(00146). 발행분을 다시 이벤트 큐에 적재(봇끼리 창발\
+    \ 루프).\n- **트리거**: 5분 크론(00145). 로컬은 크론 대신 §3-4 수동 틱.\n- **조작**: 킬스위치 종속. CAS\
+    \ 클레임이라 중복 발행 없음.\n- **이상 징후**: 5분마다 500 → 마이그레이션보다 함수를 먼저 배포한 경우(§5-6). 발행이 안\
+    \ 되면\n  status·scheduled_at 확인(§4-4 치트시트)."
+- anchor: reference/bot-ops-runbook#6-3.-community-bot-liker---좋아요
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-3. community-bot-liker - 좋아요\n\n- **역할**: 최근 48h 글에 페르소나 좋아요. **사람\
+    \ 글 0.8 · 봇 글(콘텐츠 포함) 0.4** 확률\n  (2026-07-18 확장), 자기 글 금지, 글당 페르소나 1명씩 누적. 틱당\
+    \ 0~3개 랜덤(조용한 틱 있음),\n  일일 상한 `max_likes_per_day`.\n- **트리거**: 크론 3회/일 KST 09:10·14:10·20:50(00140).\n\
+    - **조작**: 킬스위치 종속. 확률·틱당 개수는 함수 상수(HUMAN_POST_P/BOT_POST_P/PER_RUN_MAX) -\n  수정\
+    \ 시 `supabase functions deploy community-bot-liker` 수동 배포.\n- **이상 징후**: 좋아요가\
+    \ 안 찍히면 enabled·일일 상한·활성 페르소나 수 확인. LLM 무관이라\n  키 이슈는 없다."
+- anchor: reference/bot-ops-runbook#6-4.-community-bot-moderator---감시
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-4. community-bot-moderator - 감시\n\n- **역할**: 신규·수정 글/댓글을 하드 룰과 대조해\
+    \ 자동 숨김 + 검토 큐 적재. **사람 글도 대상,\n  킬스위치와 무관하게 돈다**(안전장치는 봇 정지와 독립).\n- **트리거**:\
+    \ 크론 2회/일 KST 13:10·21:10(00136).\n- **조작**: 하드 룰은 키 없이 동작. LLM 판정 보강은 ANTHROPIC\
+    \ 키가 있을 때만(prod엔 없음 = 하드 룰 온리).\n- **이상 징후**: 오탐 숨김은 검토 큐에서 복원. 규칙 변경은 마이그레이션으로."
+- anchor: reference/bot-ops-runbook#6-5.-community-bot-director---수동-주입-(레거시-경로)
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-5. community-bot-director - 수동 주입 (레거시 경로)\n\n- **역할**: 대본(scenes JSON)\
+    \ 수동 주입 - LLM 무호출, 검증·시각 배정·승인 흐름만(§3).\n  일상 운영은 /bot-react가 대체했고, 특정 장면을 정확히\
+    \ 심고 싶을 때만 쓴다(/bot-daily 스킬 경유 권장).\n- **트리거**: POST 수동 호출. 크론(00126)은 남아 있으나\
+    \ prod에 키가 없어 자동 집필은 안 돈다.\n- **이상 징후**: `no active personas` → §4-3 시드. 검증 위반\
+    \ 행은 조용히 드롭되니 dry=1로 먼저."
+- anchor: reference/bot-ops-runbook#6-6.-community-bot-events-retention---청소
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 6-6. community-bot-events-retention - 청소
+
+
+    - **역할**: 이벤트 큐 정리(done/skipped 14일·pending 30일 경과분 삭제). 틱 마무리 정리의 백스톱.
+
+    - **트리거**: 크론 매일 KST 04:05(00145). 조작할 일 없음.'
+- anchor: reference/bot-ops-runbook#6-7.-scripts/bot-auto.sh---자동-딸깍-(옵션)
+  doc: reference/49-bot-ops-runbook.md
+  text: "### 6-7. scripts/bot-auto.sh - 자동 딸깍 (옵션)\n\n- **역할**: launchd가 45분마다 `claude\
+    \ -p \"/bot-react\"` 헤드리스 실행.\n- **조작**: `bot-auto.sh on|off|status`. prod 자동화는\
+    \ `WEVOLLEY_BOT_DB_URL` export한 셸에서\n  `on` 실행(plist에 박힘). 맥이 꺼져 있으면 안 돈다 - 수동\
+    \ 딸깍과 병행 전제.\n  스킬명이 plist에 박제되므로 2026-07-20 개명 이전 plist는 off→on 재생성."
+- anchor: reference/bot-ops-runbook#6-8.-운영-대장-(bot/-폴더)
+  doc: reference/49-bot-ops-runbook.md
+  text: '### 6-8. 운영 대장 (bot/ 폴더)
+
+
+    `bot/topics.md`(소재 대장)·`bot/content-log.md`(발행 대장) - 콘텐츠 딸깍·/bot-chat이 갱신,
+
+    커밋은 운영자. 규칙과 진실의 원천 구분은 `bot/README.md`.'
+- anchor: reference/linkedin-100days-series#링크드인-연재:-100일간의-1인-풀스택-개발-(위볼리)
+  doc: reference/linkedin-100days-series.md
+  text: '# 링크드인 연재: 100일간의 1인 풀스택 개발 (위볼리)
+
+
+    > 작성일: 2026-07-18 (개정 1: 포지셔닝·관통 서사 반영). 편별 초안의 원자재 문서. 모든 수치는 repo 실측 (git log,
+    PR 목록, planning/ 문서).
+
+    > 원칙: 잘한 것 자랑이 아니라 "실패 장면 -> 선택과 근거(기각한 대안 포함) -> 실측 결과 -> 업무에 가져간 것" 4단 고정 스켈레톤.
+    수치는 사실만, 프레이밍은 메시지 중심으로.'
+- anchor: reference/linkedin-100days-series#0-A.-포지셔닝-(시리즈-전체의-정체성)
+  doc: reference/linkedin-100days-series.md
+  text: "## 0-A. 포지셔닝 (시리즈 전체의 정체성)\n\n**저자 페르소나**: \"코딩 못하는데 AI로 성공\" 서사가 아님. 그 장르는\
+    \ 이미 포화. 저자는\n\n- 전공자이자, 개발에 깊게 관여해온 PM/기획자\n- 앱 개발 지식 + 인프라 지식 보유. 특히 **DB 구조를\
+    \ 중심으로 사고**하는 사람\n- 그래서 바이브코딩이지만, 아키텍처의 중심을 잡고 확장성을 전제한 상태에서 시작\n\n**관통 메시지 (모든\
+    \ 편의 저류)**:\n\n> \"AI가 실행을 맡는 시대에 사람의 일은 두 가지로 수렴한다. 아키텍처를 잡는 일과, 요구사항을 발견하는 일.\
+    \ 바이브코딩의 상한은 프롬프트 실력이 아니라 설계 역량이 정한다.\"\n\n이 포지셔닝의 실측 근거 (반박 대비): 출시 한 달 뒤 자체\
+    \ 감사(planning/00)의 진단이 정확히 \"구조(아키텍처 선언)는 좋다. 강제와 관측성이 없다\"였음. 즉 설계는 버텼고, 무너진\
+    \ 건 규율. \"설계를 머리에 넣고 시작했다\"는 주장이 사후 감사 문서로 증명되는 구조.\n\n**시작 동기 (두 층 구조, 1편 오프닝,\
+    \ 5편 수미상관)**:\n\n개인 동기 (진짜 동기, 1편의 축):\n\n- \"모든 것을 나 혼자 해보자. 혼자 한다면 어디까지 갈까?\"\
+    라는 오래된 궁금증.\n- 수번의 창업을 거치며 기획/프론트/백엔드/디자인/사업/마케팅을 조금씩 다 만졌지만, 지식이 흩어져 있었다. 분야\
+    \ 사이의 뚜렷한 경계선에 대한 막연한 두려움.\n- 흩어진 실무 지식을 하나로 연결해서 **파이프라인화 + 최적화**하고 싶었다. 이건 사업이\
+    \ 아니라 **나의 공부**다.\n- AI 동기: AI를 어디까지 활용할 수 있는지, 최신 기술을 직접 적용하며 배우고 싶었다. \"잘\"\
+    \ 쓴다는 게 뭔지는 끝까지 써본 사람만 아니까.\n\n제품 비전 (명분이자 소재 선택 이유):\n\n> \"운영자가 갈려 나가지 않는 동호회.\
+    \ 총무 없이, 공지 담당 없이, 완전 자동화와 탈중앙화로 돌아가는 커뮤니티. 멋지지 않나?\"\n\n두 층의 관계: 공부가 목적이므로 소재는\
+    \ 제일 잘 아는 도메인(배구 동호회)을 골랐고, \"완전 자동화\"라는 제품 목표가 공부 범위(운영/자동화까지)를 끝까지 밀어붙이는 장치가\
+    \ 됐다. 1편에서 두 층을 다 깔고, 5편에서 제품 비전은 크론 테이블과 봇 파이프라인으로, 개인 동기는 회사 적용으로 각각 회수된다.\n\
+    \n**관통 서사 2: 요구사항은 발견되는 것** (매 편에 한 장면씩 심기):\n\n- 요구사항의 1차 원천 = 저자 본인이 실사용자 (배구\
+    \ 동호회 활동). 기획서가 아니라 코트에서 나온 백로그.\n- 출시 후 원천 이동 = 유저 90명의 실사용. 실기기 피드백이 당일 PR로\
+    \ (#90, #91).\n- 기획이 기획을 낳는 순간들 = 클럽 금고를 기획하다 게스트비 수금 요구를 발견, 같은 날 게스트 도메인 결정이\
+    \ 뒤집힘 (DECISIONS 0004 -> 0005, 번복 기록 보존).\n- 메시지: \"요구사항은 문서에서 안 나온다. 운영에서 나온다.\
+    \ 그래서 결정 로그는 append-only여야 한다.\"\n\n**관통 서사 3: 성장 아크 (두려움 -> 사이클 완성 -> 회사 적용)**\
+    \ (1편에서 심고 5편에서 회수):\n\n- 시작점의 고백: 수번의 창업으로 여러 분야를 만져봤지만 지식이 흩어져 있었고, 분야 사이의 **뚜렷한\
+    \ 경계선에 대한 막연한 두려움**이 있었다. 특히 풀스택 엔지니어링(백엔드, 인프라, 배포)은 \"개발자의 땅\"이라고 선을 그어 왔다.\n\
+    - 100일의 결과: 요구사항 -> 기획 -> 아키텍처/DB 설계 -> 프론트 -> 백엔드 -> 구현/배포까지 **한 사이클을 혼자 완주**.\
+    \ 흩어져 있던 지식이 하나의 파이프라인으로 연결됨. 두려움의 정체는 능력 부족이 아니라 사이클을 끝까지 돌아본 경험의 부재였다.\n- 회사\
+    \ 적용 (5편 마무리의 실체, 시리즈의 최종 답):\n  - 백엔드를 이해하게 되면서 회사의 audit, builder 앱 **프론트 개발을\
+    \ 직접 맡아** 바로 적용. API 경계와 데이터 구조를 아는 프론트 개발은 협업 비용 자체가 다르다.\n  - 기획/정책 문서도 이 사이클을\
+    \ 담은 형식으로 전환 (요구사항의 출처 -> 데이터 모델 영향 -> 검증 방법까지 한 문서에).\n  - 도구까지 바꿈: **노션과 피그마를\
+    \ 버리고, 기획 문서를 전부 GitHub에서 하자고 회사에 제안**. 이 프로젝트의 planning/ + DECISIONS.md 체제(코드와\
+    \ 문서가 같은 repo, 같은 PR, 같은 리뷰)를 그대로 이식한 것. 문서가 코드 옆에 있어야 AI도 사람도 같은 컨텍스트로 일한다.\n\
+    - 메시지: \"사이드 프로젝트의 가치는 포트폴리오가 아니라, 본업에서 맡을 수 있는 일의 범위가 넓어지는 것.\""
+- anchor: reference/linkedin-100days-series#0-B.-링크드인-문법-(초안-렌더링-규칙,-개요와-별개)
+  doc: reference/linkedin-100days-series.md
+  text: '## 0-B. 링크드인 문법 (초안 렌더링 규칙, 개요와 별개)
+
+
+    이 문서의 편별 섹션은 소재 맵이지 글의 구조가 아님. 초안으로 옮길 때 아래 규칙 적용. (1편 초안 1차본이 "블로그 같다"는 피드백에서
+    도출)
+
+
+    1. **한 포스트 = 한 메시지.** 편별 서사 항목을 전부 넣지 않는다. 그 편의 핵심 문장 하나를 정하고, 나머지 소재는 그 문장을 미는
+    데 쓰거나 버린다. 버린 소재는 댓글, 다음 편, 번외로.
+
+    2. **분량 1,000~1,500자.** 3,000자 한도를 채우지 않는다. 길이가 남으면 정보를 더 넣지 말고 문장을 벼린다.
+
+    3. **훅 2줄 승부.** 접힘(더보기) 전에 보이는 1~2문장이 전부라고 생각하고 쓴다. 배경 설명으로 시작 금지.
+
+    4. **문장 단위 줄바꿈, 문단은 1~3문장.** 소제목, 번호 리스트, 표 금지 (숫자 나열이 꼭 필요하면 3줄 이내).
+
+    5. **숫자는 편당 3개만.** 나머지 수치는 캡처 이미지가 말하게 한다.
+
+    6. **정보 밀도는 앞에 몰고 뒤는 가볍게.** 기승전결 완결형(블로그)이 아니라, 훅 -> 전개 -> 여운 구조.
+
+    7. **각 편은 독립적으로 성립.** "지난 편에서 말했듯"으로 시작하지 않는다. 시리즈 연결은 마지막 1~2줄로만.
+
+    8. **말 걸며 끝내기.** 다음 편 예고보다, 독자가 반응할 수 있는 문장(질문 또는 여운)으로 마무리. 예고는 그 뒤 한 줄.
+
+    9. 긴 버전(기승전결 완결형)은 버리지 말고 브런치/블로그 크로스포스팅용으로 보관. 링크드인 본문 마지막이나 첫 댓글에서 블로그로 유도하는
+    구조도 가능.'
+- anchor: reference/linkedin-100days-series#0-C.-타임라인-앵커-(검증된-숫자만)
+  doc: reference/linkedin-100days-series.md
+  text: '## 0-C. 타임라인 앵커 (검증된 숫자만)
+
+
+    | 앵커                                     | 날짜                              | 근거                                                              |
+
+    | ---------------------------------------- | ---------------------------------
+    | ----------------------------------------------------------------- |
+
+    | 레포 시작 (전체 코드 첫 커밋)            | 2026-03-14                        | `git log
+    --reverse`                                               |
+
+    | Play 스토어 제출 (개인정보처리방침 커밋) | 2026-03-18                        | 커밋 "docs: 개인정보처리방침
+    웹 페이지 추가 (Play 스토어 제출용)" |
+
+    | 테스터 모집·심사 대기 공백               | 4/8~4/18 (10일) + 4/21~4/27 (6일) | 커밋 공백 실측.
+    Google Play 비공개 테스트 의무 14일과 겹침        |
+
+    | 스토어 정식 출시                         | 2026-04-28                        | `api/landing.ts:25`
+    D+ 카운터 기준일 (코드가 증언)                |
+
+    | 코드 프리즈 목표                         | 2026-07-24 = D+87                 | 이번 주
+    마감                                                      |
+
+    | D+100                                    | 2026-08-06                        |
+    마지막 편 발행일. 랜딩 D+ 카운터가 그날 100 표시 (독자 검증 가능) |
+
+
+    핵심 스탯 (연재 전체에서 재사용):
+
+
+    - 총 기간 126일(3/14~7/17 기준), 커밋 활동일 56일, 커밋 639개, 머지 PR 142개
+
+    - 마이그레이션 146개, 테이블 21개 전부 RLS ON
+
+    - 라이브 서비스: 유저 약 90명, 동호회 56개 (프리런치 아님, 실사용 중)
+
+    - 1인, 풀스택 (Expo RN 멀티플랫폼 + Supabase + Vercel), 실행은 AI (Claude Code)
+
+
+    발행 캘린더 (주 2회, D+100 피날레 역산):
+
+
+    | 편  | 발행일    | 비고                                                |
+
+    | --- | --------- | --------------------------------------------------- |
+
+    | 1편 | 7/23 (목) |                                                     |
+
+    | 2편 | 7/27 (월) |                                                     |
+
+    | 3편 | 7/30 (목) |                                                     |
+
+    | 4편 | 8/3 (월)  |                                                     |
+
+    | 5편 | 8/6 (목)  | D+100 당일. 랜딩 카운터 스크린샷은 당일 아침에 캡처 |
+
+
+    연재 전 결정 필요 (4편 발행 전까지):
+
+
+    - [ ] 봇 비공개 운영(DECISIONS 0010) 상태에서 봇 운영기를 공개하는 문제. 옵션 (a) 연재 전 서비스 내 봇 존재 공지,
+    (b) 판별 가능한 디테일(페르소나 수, 발행 시간대 분포, 말투 규칙) 삭제 후 발행. 글감보다 서비스 신뢰가 우선.
+
+    - [ ] 스크린샷에 실유저 닉네임/프로필 노출 여부 전수 확인 (블러 처리)
+
+
+    ---'
+- anchor: reference/linkedin-100days-series#1편.-"운영자-없는-동호회"라는-낭만,-그리고-5일-만의-스토어-제출
+  doc: reference/linkedin-100days-series.md
+  text: '## 1편. "운영자 없는 동호회"라는 낭만, 그리고 5일 만의 스토어 제출
+
+
+    개요 편 아님. 비전 + 저자 정체성 + 방법론 선언을 한 편에. 속도 수치는 자랑이 아니라 "설계가 머리에 있으면 실행은 이만큼 빨라진다"의
+    증거로 쓴다.
+
+
+    **훅 문장 후보**
+
+
+    - "혼자서 전부 하면, 어디까지 갈 수 있을까. 늘 궁금했다."
+
+    - "몇 번의 창업을 거치며 기획도 개발도 마케팅도 조금씩 다 만져봤다. 문제는 그 지식이 전부 흩어져 있었다는 것이다."
+
+    - "이건 사업이 아니라 공부였다. 흩어진 지식을 하나의 파이프라인으로 연결하는 100일짜리 공부."
+
+
+    **서사 (동기 -> 소재 -> 방법 -> 증거 -> 단서)**
+
+
+    1. 개인 동기 (진짜 이유): "혼자 한다면 어디까지?"라는 궁금증 + 수번의 창업으로 흩어진 분야별 지식 + 그 사이 경계선에 대한 막연한
+    두려움. 이걸 한 파이프라인으로 연결하고 최적화하는 것이 목표. 이건 사업이 아니라 나의 공부.
+
+    2. AI 동기 (같은 결): AI를 어디까지 활용할 수 있는지도 직접 확인하고 싶었다. "잘" 쓴다는 게 뭔지는 끝까지 써본 사람만 안다.
+    그래서 타이핑은 AI(Claude Code)에게, 설계와 결정은 나에게로 역할을 갈랐다.
+
+    3. 소재 선택: 공부가 목적이니 도메인 리스크는 0으로. 제일 잘 아는 배구 동호회. 실제로 다니며 본 문제(운영의 짐이 소수에게 몰리고,
+    총무가 지치면 모임이 죽는다)에 "운영자 없이 자동으로 돌아가는 동호회, 멋지지 않나?"라는 비전을 걸었다. 이 비전이 공부 범위를 운영/자동화까지
+    밀어붙이는 장치.
+
+    4. 방법론 선언 (이 시리즈의 차별점): **시작 전에 DB부터 그렸다.** 동호회, 멤버, 경기, 요청이라는 도메인 모델과 권한 구조(앱
+    역할 vs 동호회 역할 분리, 모든 테이블 RLS)를 머리에 넣고 시작. 화면은 바뀌어도 데이터 구조는 안 바꾸는 것이 목표. 실제로 100일간
+    21개 테이블의 골격은 유지됨 (마이그레이션 146개는 대부분 추가와 정책이지 구조 재설계가 아님).
+
+    5. 증거로서의 속도: 3/14 레포 시작, 3/18 스토어 제출 (5일), 4/28 정식 출시 (45일). 3월에만 커밋 45개로 인증·지도·장소검색·밴/탈퇴까지.
+    속도의 원인 분해: 도메인을 앎(실사용자) + 검증된 스택 고정(Expo+Supabase) + 설계 선행으로 재작업 최소화.
+
+    6. 요구사항 장면 #1: 초기 백로그는 기획서가 아니라 코트에서 나옴. "이건 내가 매주 겪는 불편"이라는 확신이 스펙 논쟁을 대체.
+
+    7. 클리프행어: "그래도 청구서는 왔다. 다만 내가 예상한 곳(아키텍처)이 아니라 다른 곳(규율)으로 왔다. 다음 편."
+
+
+    **인용 수치**: 5일(제출), 45일(출시), 3월 커밋 45개, 테이블 21개 전부 RLS, 마이그레이션 146개(현재), 유저 ~90명/동호회
+    56개(현재)
+
+
+    **소스**: initial commit f5db6af, 3/18 privacy 커밋, PR #1~#2, `api/landing.ts:25`,
+    CLAUDE.md의 역할 구조(app_role vs club_members.role)
+
+
+    **캡처 목록**
+
+
+    - [ ] DB 스키마/ERD 다이어그램 (Supabase Studio 스키마 뷰 또는 직접 그린 도메인 모델. "DB부터 그렸다"의 실물)
+
+    - [ ] `git log --reverse --oneline | head` 터미널 (3/14 첫 커밋)
+
+    - [ ] Play Console 앱 등록일 화면
+
+    - [ ] 현재 앱 홈 화면 (최종 모습을 미리: before/after의 after)
+
+    - [ ] 랜딩 페이지 D+ 카운터
+
+
+    **업무 적용 교훈**: AI 시대 PM의 병목은 실행이 아니라 결정. 데이터 모델과 권한 구조를 먼저 고정하면, 나머지 결정의 절반은 자동으로
+    내려진다.
+
+
+    ---'
+- anchor: reference/linkedin-100days-series#2편.-아키텍처는-버텼다,-무너진-건-규율이었다-(3번의-리팩토링)
+  doc: reference/linkedin-100days-series.md
+  text: "## 2편. 아키텍처는 버텼다, 무너진 건 규율이었다 (3번의 리팩토링)\n\n시리즈의 논지를 증명하는 편. \"설계를 잡고 시작했다\"\
+    는 1편의 주장을 사후 감사 문서가 검증한다. 동시에 설계만으로 안 되는 것(강제, 관측성)을 정직하게 보여준다.\n\n**훅 문장 후보**\n\
+    \n- \"출시 한 달 뒤, 내 코드를 감사했다. 아키텍처는 멀쩡했다. 대신 테스트 커버리지 1.1%, API 경계에 any 67개, 마이그레이션의\
+    \ 18%가 fix. 무너진 건 구조가 아니라 규율이었다.\"\n- \"AI는 컨벤션을 '이해'한다. 그리고 바쁘면 어긴다. 사람 주니어와\
+    \ 똑같다. 차이는, AI에게는 게이트가 통한다는 것.\"\n\n**서사**\n\n1. 실패 장면: 5/30 자체 감사. 기능은 도는데 회귀가\
+    \ 반복되고 같은 버그가 다른 화면에서 재발.\n2. 진단의 반전 (이 편의 축): 감사 문서의 실제 문장이 \"구조(아키텍처 선언)는 좋다.\
+    \ 강제(enforcement)와 관측성이 없다. 큰 재설계 불필요.\" 쿼리 키 팩토리 하드코딩 0, 라우팅 as any 0. 즉 1편의\
+    \ 설계 선행이 실제로 버팀. 문제는 선언과 강제의 간극.\n3. 3번의 리팩토링 물결 (PR 번호로 실증):\n   - 1차 5/18 (#5~#12):\
+    \ 안정화 + 모달/테마 공용화. 증상 대응.\n   - 2차 5/30~6/2 (#26~#54): Phase 1~7 체계전. 전역 에러 통로(#27)\
+    \ -> CI 타입/lint 강제 게이트(#32) -> E2E 안전망+백엔드 하드닝(#33) -> 폼 통합(#41, #53) -> 리스트/맵\
+    \ 공통 추출(#43, #44).\n   - 3차 7/2 (#77): 캐시 반영지연 + 아키텍처 정리. 이때부터 DECISIONS.md 체제.\n\
+    4. 최종 작업 방식 (부제 \"기획과 아키텍처 설계를 동시에\"의 실체): 모든 작업은 계획 문서 선행. 실측 -> Definition of\
+    \ Done -> 설계 트레이드오프와 기각한 대안 -> 검증 방법. 완료 문서 55개. 결정은 DECISIONS.md에 append-only\
+    \ (결정/왜/기각 대안 5줄, 뒤집으면 지우지 않고 \"NNNN로 대체\" 표시). PM의 기획 문서와 개발자의 설계 문서가 한 문서인 것이\
+    \ 1인 개발의 이점이 아니라 **방법론**임을 강조.\n5. 요구사항 장면 #2: DECISIONS 0004 -> 0005. 게스트를 메시지\
+    \ 기반으로 유지하기로 결정한 그날, 클럽 금고를 기획하다 게스트비 수금 요구를 발견하고 결정을 뒤집음. 번복을 지우지 않고 로그로 남긴 것이\
+    \ 이후 결정 속도를 올림.\n6. 배움: AI에게 컨벤션을 말로 시키면 안 지켜진다. pre-commit 타입체크 + CI + lint 경고\
+    \ 총량 동결(88개, ratchet로 감소만 허용)처럼 기계가 거부하게 만들어야 지켜진다. 규율은 사람이 아니라 게이트가 지킨다.\n\n\
+    **인용 수치**: 커버리지 1.1% (35,794줄 중 403줄), `: any` 51 + `as any` 16, 마이그레이션 18%가 fix류,\
+    \ Sentry 캡처 5곳뿐, SECURITY DEFINER 134개 권한 체크 제각각, lint 경고 88 동결, 완료 계획 문서 55개\n\
+    \n**소스**: planning/작업완료/00-architecture-stabilization-plan.md, 02-phase2-enforcement-gates.md,\
+    \ DECISIONS.md (0004/0005 포함), `.husky/pre-commit`, `package.json`의 `--max-warnings\
+    \ 88`\n\n**캡처 목록**\n\n- [ ] 00 문서의 진단 섹션 (\"구조는 좋다, 강제가 없다\" 문장 + 구조적 구멍 5개)\n\
+    - [ ] DECISIONS.md 0004 -> 0005 번복 기록 (요구사항 발견 서사와 겸용)\n- [ ] pre-commit에 커밋이\
+    \ 거부되는 터미널 장면 (타입 에러 하나 일부러 만들어 재현)\n- [ ] planning/작업완료/ 폴더 파일 목록 (55개)\n\n**업무\
+    \ 적용 교훈**: 이 문서 체계(계획 문서 + append-only 결정 로그 + ratchet 게이트)는 회사 조직에 그대로 이식 가능.\
+    \ AI 협업의 핵심은 프롬프트가 아니라 거부 장치.\n\n---"
+- anchor: reference/linkedin-100days-series#3편.-3번의-리브랜딩-(토큰-없이-시작한-대가,-시스템으로-갚다)
+  doc: reference/linkedin-100days-series.md
+  text: "## 3편. 3번의 리브랜딩 (토큰 없이 시작한 대가, 시스템으로 갚다)\n\n\"예쁘게 3번 바꿈\"이 아니라 \"1, 2차는 하드코딩\
+    \ 색을 손으로 바꿨고, 3차 전에 토큰을 깔았더니 리브랜딩이 값 교체가 됐다\"는 서사. 2편(코드 규율)의 디자인 버전임을 명시해 시리즈\
+    \ 논지를 반복.\n\n**훅 문장 후보**\n\n- \"같은 앱의 색을 세 번 갈아엎었다. 첫 두 번은 고행이었고 세 번째는 반나절이었다.\
+    \ 차이는 디자인 실력이 아니라 아키텍처였다.\"\n\n**서사**\n\n1. v1 (5/18, #6~#11): 디자인 시스템이라 부르던 것.\
+    \ Pretendard 도입(#9), 색 팔레트 정리(#8). 하지만 화면 곳곳에 하드코딩 색상 잔존.\n2. v2 (5/31, #38):\
+    \ 토큰/시맨틱 불일치 6건 해소. 여전히 토큰과 실제 화면이 따로 노는 상태의 땜질.\n3. VOLT (7/2~7/6, #82~#98):\
+    \ 순서를 뒤집음. 리브랜딩 전에 primitives 토큰 치환(#82)부터. 그 다음 본편(#83). 결과: 전역 하드코딩 색상 0 (검증\
+    \ 경로 26개), 이후 색 변경은 토큰 값 교체.\n   - 디테일 소재: \"3D 배구공 로고 폐기\" 커밋(76df7c4), 실기기 피드백\
+    \ 즉일 반영(#90, #91), 로그인 네온 별똥별(#88)\n4. 요구사항 장면 #3: 실기기에서 본 유저 피드백(아이콘 여백, 뱃지 정렬)이\
+    \ 당일 PR로. 출시 후 요구사항의 원천이 \"내 경험\"에서 \"유저 90명의 실사용\"으로 이동.\n5. 양념 인시던트 (6/4): 카카오맵\
+    \ prod 키 누락으로 프로덕션 빌드 지도 먹통. EXPO_PUBLIC 환경변수는 빌드 시점에 인라인된다는 것을 사고로 배움 -> 빌드 가드\
+    \ + OTA 경계 분리로 재발 방지 (planning/25).\n6. 배움: 브랜드는 바뀐다는 전제로 시스템을 먼저. \"디자인 시스템\"\
+    은 Figma가 아니라 코드에서 하드코딩이 0일 때 존재한다.\n\n**인용 수치**: 리브랜딩 3회 (5/18, 5/31, 7/5), 하드코딩\
+    \ 0 / 검증 경로 26개, VOLT 스윕 QA (유닛 168 + e2e 20 통과)\n\n**소스**: planning/작업완료/14,\
+    \ 36, 38(+38A~E 플레이북 5분할), 25(카카오 사고), PR #6~#11, #38, #82~#98\n\n**캡처 목록**\n\n\
+    - [ ] 홈 화면 3버전 비교 (v1/v2/VOLT). 구버전은 git checkout으로 재현하거나 당시 스토어 스크린샷 사용\n- [\
+    \ ] 폐기된 3D 배구공 로고 vs 최종 VOLT 로고\n- [ ] 토큰 파일 diff (색 값 몇 줄 교체로 전체가 바뀌는 장면)\n-\
+    \ [ ] 카카오맵 먹통 화면 (재현 가능하면)\n\n**업무 적용 교훈**: 리팩토링과 같은 결론의 디자인 버전. 반복될 변경은 시스템으로\
+    \ 흡수하고, 1회성 변경만 손으로.\n\n---"
+- anchor: reference/linkedin-100days-series#4편.-90명뿐인-커뮤니티에-봇을-풀었다-(페르소나에서-콘텐츠로)
+  doc: reference/linkedin-100days-series.md
+  text: '## 4편. 90명뿐인 커뮤니티에 봇을 풀었다 (페르소나에서 콘텐츠로)
+
+
+    7/13~7/17 닷새에 PR 25개가 몰린 구간. 피벗이 PR 타이틀 순서로 재현됨. 1편의 "탈중앙화 비전"이 처음으로 제품 형태를 갖추는
+    편이기도 함 (운영자 역할을 봇이 흡수하기 시작).
+
+
+    **훅 문장 후보**
+
+
+    - "유저 90명. 커뮤니티를 열면 빈 게시판이 된다. 빈 게시판은 없느니만 못하다."
+
+    - "봇에게 인격을 줬다. 그런데 사람들이 원한 건 인격이 아니라 콘텐츠였다."
+
+
+    **서사**
+
+
+    1. 문제 정의: 콜드스타트. 약 90명 규모에서 커뮤니티 오픈 = 빈 게시판 = 역효과 (45C 문서 첫 줄의 실제 진단). 그리고 이것은
+    비전의 시험대: 운영자 없이 돌아가려면 "초기 활성화"라는 운영 업무부터 자동화되어야 한다.
+
+    2. 1차 결정과 번복 (정직 포인트): 처음엔 "공개 페르소나 (AI 배지 명시)"로 결정(DECISIONS 0009). 같은 주에 비공개
+    가명 운영으로 뒤집음(0010). 번복을 지우지 않고 로그로 남긴 것 자체가 소재.
+
+    3. 1차 구현 (7/15, #117~#124): 대본형 봇. 디렉터 LLM이 하루치 "대화 장면"을 한 호출로 통째로 집필 (글 3~5개
+    + 답글 0~3개), 발행 시각은 LLM이 아니라 코드 난수가 결정 (매일 같은 시각 발행 = 봇 티 방지). 페르소나 8~12명.
+
+    4. 피벗 (7/16, #131): 대본은 살아있지 않다. "사람이 모여야 하는 커뮤니티인데 사람이 쓸까?"라는 질문을 계속 굴린 끝에, 사람들이
+    쓰게 만드는 건 결국 양질의 콘텐츠라는 결론 -> 콘텐츠봇 (배구 뉴스/꿀팁을 페르소나가 자기 관점으로 소화). 동시에 모더레이션 (#132,
+    하드 룰 자동 숨김 + 검토 큐).
+
+    5. 2차 피벗 (7/17, #141): 살아있는 페르소나. 대본 예약이 아니라 이벤트 큐 (사람 글/댓글 INSERT -> 큐 적재 ->
+    봇이 맥락 읽고 반응). 봇끼리의 대화도 창발.
+
+    6. 안전장치 소재 (설계 역량의 증거): 킬 스위치 1개로 전체 정지, 글당 봇 댓글 최대 1개, 사람 재답글에 봇 재응답 금지, 사람 활동량에
+    반비례해 봇 발화량 자동 감소. "봇이 사람을 밀어내지 않게 하는 상한"을 스키마 레벨에서 강제.
+
+    7. 배움: "사람이 모일까"라는 질문의 답은 기술(페르소나 정교화)이 아니라 가치(콘텐츠 퀄리티)였다.
+
+
+    **인용 수치**: 유저 ~90명, 닷새간 PR 25개(#113~#141), 페르소나 8~12명, 글당 봇 댓글 상한 1개
+
+
+    **소스**: planning/작업완료/45B, 45C, planning/49(운영 런북), 51, 53, DECISIONS 0009/0010,
+    PR #113, #117~#124, #131, #132, #141
+
+
+    **캡처 목록** (비공개 운영 결정에 따라 범위 조정. 상단 체크리스트 참조)
+
+
+    - [ ] 커뮤니티 피드 (실유저 닉네임 블러)
+
+    - [ ] 봇 콘솔 (타임라인/킬 스위치)
+
+    - [ ] DECISIONS 0009 -> 0010 번복 기록
+
+    - [ ] 디렉터가 집필한 장면 하나 (글 + 답글이 실제로 응답하는 예)
+
+
+    **업무 적용 교훈**: 결정 번복은 비용이 아니라 데이터. 번복 기록을 남기면 다음 결정이 빨라진다.
+
+
+    ---'
+- anchor: reference/linkedin-100days-series#5편.-D+100,-낭만이-크론-테이블이-됐다-(발행일-8/6)
+  doc: reference/linkedin-100days-series.md
+  text: "## 5편. D+100, 낭만이 크론 테이블이 됐다 (발행일 8/6)\n\nD+100 당일 발행. 1편 오프닝 문장을 그대로 다시\
+    \ 불러와 회수하는 수미상관 구조. \"코드는 D+87에 멈췄다. 오늘은 D+100인데 서비스는 돌고 있다.\"\n\n**훅 문장 후보**\n\
+    \n- \"100일 전, '운영자 없이 돌아가는 동호회'는 낭만이었다. 오늘 그것은 크론 테이블 몇 줄과 이벤트 큐 하나다.\"\n- \"\
+    13일 전에 마지막 커밋을 했다. 그 뒤로 서비스는 혼자 돌았다. 오늘이 100일째다.\"\n- \"이 프로젝트에서 내가 얻은 가장 큰 것은\
+    \ 앱이 아니다. 두려워서 선을 그어 뒀던 풀스택 한 사이클을 완주한 경험, 그리고 그걸 다음 주 월요일 회사 업무에 바로 쓸 수 있었다는\
+    \ 것이다.\"\n\n**서사**\n\n1. 비전 회수: 1편의 문장 재인용. 자동화/탈중앙화는 기능이 아니라 시작할 때부터의 설계 목표였고,\
+    \ 그래서 아키텍처가 그 방향으로 수렴할 수 있었다 (초대 링크로 셀프 가입, 승인 생명주기, 봇이 흡수한 운영 업무, 알림 파이프라인).\n\
+    2. 목표 재정의: 완전 자동화 = 사람이 0이 아니라, 사람 없이도 안 죽고 + 사람이 있으면 더 좋아지는 구조. 내 일과는 하루 한 번\
+    \ 딸깍, 혹은 그 이하.\n3. 킬러 아키텍처, 키 0: prod에 LLM API 키가 없다. DB 파이프라인(트리거 -> 이벤트 큐 ->\
+    \ 크론 발행)은 키 없이 완전 자율. LLM 두뇌만 로컬 Claude Code 구독(/bot-tick)이 하루 1회 소비. LLM 운영비\
+    \ 0원 (구독료 안에서). DB 중심 사고의 종착점: 지능은 갈아끼울 수 있게 바깥에, 상태와 안전장치는 전부 스키마에.\n4. 자동화 목록:\
+    \ 발행 크론(5분), 좋아요 봇, 릴리즈 헬스체크(#62, share-link 자동 검증), dependabot, CI 게이트.\n5. 정직\
+    \ 포인트, 자동화의 경계: 일부러 수동으로 남긴 것들. prod DB 마이그레이션과 Edge Function 배포는 손으로 (사고 반경 때문),\
+    \ EAS 빌드도 사람이 누름. \"전부 자동화\"가 아니라 \"무엇을 수동으로 남길지 결정\"이 진짜 설계.\n6. 양념 인시던트: 푸시\
+    \ 채널 롤아웃 순서 사고 (#127, #128). 서버를 먼저 바꾸면 구버전 클라이언트의 푸시가 조용히 드롭. 클라 선배포 후 서버 전환으로\
+    \ 교정. 자동화는 순서가 전부라는 교훈.\n7. 성장 아크 회수 (시리즈의 진짜 결말): 1편의 고백(\"풀스택이 두려웠다\")을 다시 불러온다.\
+    \ 100일간 요구사항 -> 기획 -> 아키텍처/DB 설계 -> 프론트 -> 백엔드 -> 구현/배포의 **한 사이클을 혼자 완주**했고, 두려움의\
+    \ 정체는 능력이 아니라 사이클을 끝까지 돌아본 경험의 부재였음을 확인.\n8. 그리고 회사로 (독자가 가져갈 실용 결론):\n   - 백엔드를\
+    \ 이해하게 된 상태로 회사의 audit, builder 앱 프론트 개발을 맡아 즉시 적용. 데이터 구조를 아는 사람의 프론트 개발은 API\
+    \ 협의 왕복이 줄어든다.\n   - 기획/정책 문서를 이 사이클(요구사항 출처 -> 데이터 모델 영향 -> 검증 방법)이 담긴 형식으로 전환.\n\
+    \   - 노션과 피그마를 버리고 기획 문서를 전부 GitHub으로 옮기자고 제안. 위볼리의 planning/ + DECISIONS.md 체제를\
+    \ 회사에 이식. 문서와 코드가 같은 repo에 있어야 리뷰도, AI 협업도 같은 컨텍스트에서 돈다.\n9. 마무리: 100일 회고 총계 (커밋\
+    \ 639+, PR 142+, 마이그레이션 146+, 활동일 56일) + 관통 메시지 회수. \"바이브코딩으로 어디까지? 설계를 아는 사람이라면,\
+    \ 라이브 서비스와 그것을 혼자 유지할 수 있는 구조까지. 그리고 사이드 프로젝트의 진짜 보상은 서비스가 아니라, 본업에서 맡을 수 있는 일의\
+    \ 범위가 넓어진 나였다.\"\n\n**인용 수치**: 코드 프리즈 D+87 (7/24), 발행일 D+100 (8/6), 무인 기간 13일,\
+    \ LLM API 비용 0원, 발행 크론 5분 간격\n\n**소스**: PR #141 (이벤트 큐 + /bot-tick, 키 0), #62\
+    \ (릴리즈 자동화), #127/#128 (푸시 채널 사고), planning/49 런북, planning/51 §1 아키텍처 다이어그램\n\
+    \n**캡처 목록**\n\n- [ ] 8/6 당일 랜딩 D+ 카운터 100 (아침에 캡처)\n- [ ] git log 마지막 커밋 날짜가 7/24인\
+    \ 터미널\n- [ ] /bot-tick 실행 리포트 한 장면\n- [ ] planning/51의 아키텍처 다이어그램 (키 0 구조)\n\n\
+    **업무 적용 교훈**: 자동화 설계의 질문은 \"얼마나 자동화했나\"가 아니라 \"무엇을 왜 수동으로 남겼나\".\n\n---"
+- anchor: reference/linkedin-100days-series#부록.-편별로-안-쓴-예비-소재
+  doc: reference/linkedin-100days-series.md
+  text: '## 부록. 편별로 안 쓴 예비 소재
+
+
+    - 채팅 실시간 유령 구독 사고 3부작 (#22 룸 채널 churn, #39 포그라운드 회복, #99 zombie 복원력): 실시간 기능의
+    난이도 소재. 2편이나 별도 번외 편.
+
+    - FlashList 웹 갭 버그 연쇄 (#18, #20~#23): RN 멀티플랫폼의 함정 소재.
+
+    - 이미지 픽커 행 복구 (#139, planning/50): OS 레벨 버그를 워치독으로 우회한 이야기.
+
+    - 게스트 신청 플로우 (#142): 마지막 기능. "출시 후에도 도메인 결정은 계속 뒤집힌다"(DECISIONS 0004 -> 0005)
+    소재. 2편에서 요구사항 장면으로 쓰면 여기선 생략.
+
+    - 연재 반응 좋으면 번외: "AI와 일하는 방식" 편 (CLAUDE.md, 스킬, 서브에이전트, plan-doc 워크플로 공개). 포지셔닝상
+    본편보다 이 번외가 더 터질 가능성도 있음.'
+- anchor: reference/linkedin-ep1-draft#1편-초안-(발행-목표-7/23)
+  doc: reference/linkedin-ep1-draft.md
+  text: '# 1편 초안 (발행 목표 7/23)
+
+
+    > 원자재: linkedin-100days-series.md 1편 섹션. 렌더링 규칙: 같은 문서 0-B.
+
+    > 1편의 한 메시지: "이건 사업이 아니라 공부였다. 흩어진 지식을 하나의 파이프라인으로 연결하는 실험."
+
+    > 캡처 첨부 순서 제안: ① DB 스키마/ERD ② 현재 홈 화면 ③ 랜딩 D+ 카운터
+
+
+    ---'
+- anchor: reference/linkedin-ep1-draft#링크드인-버전-(본문,-약-1,400자)
+  doc: reference/linkedin-ep1-draft.md
+  text: '## 링크드인 버전 (본문, 약 1,400자)
+
+
+    혼자서 전부 하면, 어디까지 갈 수 있을까.
+
+
+    늘 궁금했습니다.
+
+
+    몇 번의 창업을 거치며 기획, 개발, 디자인, 사업, 마케팅을 조금씩 다 만져봤습니다. 문제는 그 지식이 전부 흩어져 있었다는 겁니다. 분야마다
+    뚜렷한 경계선이 있었고, 저는 그 선을 넘는 것이 늘 막연히 두려웠습니다.
+
+
+    그래서 실험을 하나 설계했습니다.
+
+
+    100일 동안 서비스 하나를 처음부터 끝까지 혼자. 요구사항 발굴, 기획, 아키텍처와 DB 설계, 프론트, 백엔드, 배포, 운영까지. 흩어진
+    지식을 하나의 파이프라인으로 연결해 보자. 이건 사업이 아니라 공부다.
+
+
+    AI를 쓴 것도 같은 이유였습니다. AI를 "잘" 쓴다는 게 뭔지는 결국 끝까지 써본 사람만 압니다. 그래서 타이핑은 AI(Claude Code)에게
+    맡기고, 저는 설계와 결정만 붙잡기로 역할을 갈랐습니다.
+
+
+    소재는 제일 잘 아는 것으로 골랐습니다. 매주 뛰는 배구 동호회. 운영의 짐이 소수에게 몰리고, 총무가 지치면 모임이 죽는 걸 계속 봐 왔거든요.
+    "운영자 없이 자동으로 돌아가는 동호회, 멋지지 않나?" 이 비전이 공부의 범위를 운영과 자동화까지 끌고 가는 장치가 됐습니다.
+
+
+    시작은 코드가 아니라 DB였습니다. 도메인 모델과 권한 구조를 먼저 고정하고, 화면은 언제든 갈아엎을 수 있는 소모품으로 취급했습니다.
+
+
+    그렇게 레포 만들고 5일째에 스토어 제출, 45일째에 정식 출시. 지금은 유저 90명이 실제로 쓰는 라이브 서비스가 됐습니다.
+
+
+    이 100일에서 확인한 것 하나. AI 덕분에 만들기는 정말 빨라졌습니다. 그런데 빨라질수록 병목이 선명해집니다. 무엇을 만들지, 어떤 구조
+    위에 만들지 정하는 일. 그건 끝까지 제 몫이었습니다.
+
+
+    물론 청구서도 왔습니다. 출시 한 달 뒤 코드를 감사해 보니 테스트 커버리지 1.1%. 아키텍처는 버텼는데, 규율이 무너져 있었습니다. 그
+    빚을 갚은 3번의 리팩토링이 다음 글입니다.
+
+
+    100일의 기록을 5편으로 씁니다. 성공담이 아니라 실패한 것, 그래서 선택한 것, 그리고 회사 업무로 가져간 것 위주로요.
+
+
+    미리 결론 하나만 말씀드리면, 그 경계선은 생각보다 얇았습니다. 여러분이 긋고 있는 선은 어디인가요.
+
+
+    #바이브코딩 #1인개발 #풀스택 #사이드프로젝트 #ClaudeCode #PM
+
+
+    ---'
+- anchor: reference/linkedin-ep1-draft#발행-전-체크
+  doc: reference/linkedin-ep1-draft.md
+  text: '## 발행 전 체크
+
+
+    - [ ] 접힘 전 2줄이 "혼자서 전부 하면, 어디까지 갈 수 있을까. / 늘 궁금했습니다."로 보이는지 모바일에서 확인
+
+    - [ ] ERD 캡처: Supabase Studio 스키마 뷰에서 민감 테이블명(봇 관련) 노출 여부 확인
+
+    - [ ] "유저 90명" 수치는 발행일 기준으로 갱신
+
+    - [ ] 서비스 링크(랜딩)는 첫 댓글에 (본문 외부링크 도달 패널티 통설)
+
+    - [ ] 마지막 질문이 어색하면 여운형("그 경계선은 생각보다 얇았습니다.")에서 끊기
+
+
+    ---'
+- anchor: reference/linkedin-ep1-draft#긴-버전-(브런치/블로그-크로스포스팅용-보관)
+  doc: reference/linkedin-ep1-draft.md
+  text: '## 긴 버전 (브런치/블로그 크로스포스팅용 보관)
+
+
+    > 주의: 아래는 동기 개편(공부/파이프라인/경계선) 반영 전의 1차본. 크로스포스팅 시 도입부를 위 링크드인 버전의 동기 구조로 맞춘 뒤
+    사용.
+
+
+    **[100일간의 1인 풀스택 개발 ①] 운영자 없는 동호회라는 낭만**
+
+
+    "운영자가 갈려 나가지 않는 동호회. 총무 없이, 공지 담당 없이, 자동으로 돌아가는 커뮤니티. 멋지지 않나?"
+
+
+    이 문장 하나로 시작했습니다. 그리고 100일을 썼습니다.
+
+
+    배구 동호회를 다니면서 계속 같은 장면을 봤습니다. 운영의 짐은 소수에게 몰리고, 그 사람이 지치면 모임이 죽습니다. 회비 정산, 게스트 모집,
+    경기 공지. 좋아서 시작한 사람이 행정 때문에 떠나는 구조. 이걸 앱으로, 그것도 "완전 자동화"를 목표로 풀어보고 싶었습니다.
+
+
+    먼저 고백부터 하겠습니다.
+
+
+    저는 전공자이고, 개발에 깊게 관여해온 PM입니다. 데이터 구조를 중심으로 사고하고, 인프라 이야기에 낄 수 있을 만큼은 압니다. 그런데도
+    풀스택은 두려웠습니다. 기획과 프론트 언저리까지가 제 땅이고, 백엔드와 배포는 남의 땅이라고 선을 그어 왔습니다.
+
+
+    이 프로젝트는 그 선을 지우는 실험이기도 했습니다. AI가 타이핑을 맡아준다면, 내 설계 역량은 어디까지 갈 수 있을까.
+
+
+    그래서 제 바이브코딩은 프롬프트가 아니라 설계에서 시작했습니다.
+
+
+    코드를 한 줄도 만들기 전에 DB부터 그렸습니다. 동호회, 멤버, 경기, 요청이라는 도메인 모델. 앱 전체 역할과 동호회 내 역할을 분리한
+    권한 구조. 모든 테이블에 행 단위 보안(RLS). 화면은 언제든 갈아엎어도 데이터 구조는 안 건드리는 것이 목표였습니다.
+
+
+    결과는 속도로 나타났습니다.
+
+
+    - 레포 생성 5일째, Play 스토어 제출
+
+    - 45일째, 정식 출시
+
+    - 오늘, 유저 약 90명과 동호회 56개가 실제로 쓰는 라이브 서비스
+
+
+    100일간 마이그레이션은 146개까지 쌓였지만, 21개 테이블의 골격은 첫 설계에서 거의 그대로입니다. 추가는 많았고 재설계는 없었습니다.
+
+
+    속도의 원인을 분해하면 세 가지였습니다.
+
+
+    1. 도메인을 알았다. 요구사항이 기획서가 아니라 매주 뛰는 코트에서 나왔다.
+
+    2. 스택을 고민하지 않았다. 검증된 조합(Expo, Supabase, Vercel) 하나로 고정.
+
+    3. 설계를 먼저 고정했다. 데이터 모델이 서 있으면 나머지 결정의 절반은 자동으로 내려진다.
+
+
+    AI 시대에 만들기는 정말 빨라졌습니다. 그런데 그럴수록 병목은 명확해집니다. 무엇을 만들지, 어떤 구조 위에 만들지 결정하는 일. 그건 AI가
+    대신해주지 않았습니다.
+
+
+    물론, 청구서는 왔습니다.
+
+
+    다만 제가 예상한 곳(아키텍처)이 아니라 전혀 다른 곳으로 왔습니다. 출시 한 달 뒤에 제 코드를 감사했더니, 테스트 커버리지 1.1%, API
+    경계에 any가 67개. 다음 편에서 그 빚을 갚는 이야기, "아키텍처는 버텼다, 무너진 건 규율이었다"로 이어가겠습니다.
+
+
+    앞으로 5편, 실패한 것과 그래서 선택한 것, 그리고 회사 업무에 가져간 것을 기준으로 씁니다. 잘된 것만 보여주는 회고는 쓰지 않으려 합니다.'
+- anchor: reference/perf-loading-realtime-history#성능·로딩·실시간성-개선의-전체-역사-(2026-04-~-2026-07)
+  doc: reference/perf-loading-realtime-history.md
+  text: '# 성능·로딩·실시간성 개선의 전체 역사 (2026-04 ~ 2026-07)
+
+
+    > **성격**: 상시 참조 문서(reference). 위볼리 앱의 로딩 속도·반영 지연·실시간성·번들 크기 개선이 어떤 순서로, 어떤 근거로,
+    어떤 의사결정을 거쳐 진행됐는지의 종합 기록.
+
+    > **작성일**: 2026-07-30
+
+    > **근거 자료**: planning/작업완료/ 문서 15개+, DECISIONS.md(0002·0008·0012·0021), git 커밋
+    메시지·diff 실측. 각 사이클마다 "참고 자료" 항목에 원본 경로를 명시했다.
+
+    > **읽는 법**: 각 사이클은 `참고 자료 → 당시 지표 → 문제점 → 개선 방법 고안(대안 비교) → 의사결정 → 구현 → 구현 후 지표`의
+    반복 구조다. 이 반복이 곧 이 프로젝트의 성능 개선 방법론이다.
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#0.-전체-조감---7개-흐름,-하나의-방법론
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 0. 전체 조감 - 7개 흐름, 하나의 방법론
+
+
+    | 시기               | 흐름                                  | 대표 산출물                                                                 |
+    핵심 지표 변화                                                                               |
+
+    | ------------------ | ------------------------------------- | ---------------------------------------------------------------------------
+    | --------------------------------------------------------------------------------------------
+    |
+
+    | 2026-04-20 ~ 05-23 | ① 초창기 로딩 개선 (계측 이전)        | query-persister, prefetch,
+    placeholderData, 번들 다이어트                   | 네이티브 번들 ≈ -4MB, 상세 진입 "0ms 표시"                                                   |
+
+    | 2026-05-23 ~ 07-19 | ② 채팅 실시간성·안정성                | useResilientChannel, realtime-reconnect,
+    드래프트 DM                        | 실시간 미수신 영구 누락 → 백오프 복구, 셀당 Date 파싱 8→0                                    |
+
+    | 2026-06-01 ~ 06-04 | ③ 개별 화면 데이터 로딩 적정화        | admin RPC 페이지네이션, 지도 payload
+    다이어트, PostHog 계측                 | 전량 로드 → 페이지당 20행, 지도 limit 200→4000 안전밸브                                      |
+
+    | 2026-07-01 ~ 07-09 | ④ 캐시 반영 지연 (React Query)        | refetchType 계층화, persist
+    denylist 반전, 낙관적 업데이트                  | claim 반영 최대 5분 → ~0초, persist 커버리지 17%→70%+                                        |
+
+    | 2026-07-05 ~ 07-06 | ⑤ 부팅·로그인 로딩 흐름               | EntryLoading, useWarmHomeData,
+    Crossfade                                    | 2단 로딩 → 1단, 고정 타이머 → 데이터 게이트(MIN
+    2.4s/MAX 8s)                                 |
+
+    | 2026-07-13 ~ 07-16 | ⑥ 검색 성능 + 응답성 hang             | trigram GIN 인덱스, 디바운스
+    300ms, 픽커 워치독                             | 검색 ×232, 인기 정렬 ×170, 무반응 경로 4곳→0곳                                               |
+
+    | 2026-07-28 ~ 07-29 | ⑦ 앱 전체 실시간 동기화 아키텍처 (59) | Broadcast 도메인 이벤트, useRealtimeScreen,
+    sync-latency 계측, 웹 번들 분할 | 타 유저 변경 반영 ∞→100~400ms, 방 진입 480→132ms, postgres_changes
+    4→0, 웹 초기 JS 4.7→3.7MB |
+
+
+    **방법론의 진화가 이 문서의 진짜 주제다**:
+
+
+    - 시대 ①은 커밋 메시지가 "로딩 개선" 한 줄이고 수치가 없다. 감으로 고쳤다.
+
+    - 시대 ②(Phase 10)부터 **"계측 먼저, 수정은 계측이 가리키는 곳만"** 원칙이 확립됐다. 진단 스크립트(`diag-chat-send.sh`)로
+    재현 → 원인 표(C0~C7) → 반증된 가설(C7)은 손대지 않음.
+
+    - 시대 ③~⑥은 planning 문서 체계 안에서 **실측 baseline → 대안 비교 표 → 트레이드오프 명시 → 기각 사유 기록 →
+    구현 후 재실측**이 표준이 됐다.
+
+    - 시대 ⑦은 계측 자체를 공용 인프라(sync-latency 로거)로 승격했고, "개선 주장은 이 수치로만 한다"를 DoD에 박았다.
+
+
+    관통 원칙 (여러 Phase에서 반복 확인된 것):
+
+
+    1. **realtime은 best-effort 가속, 정확성은 refetch/invalidate가 보장한다** (Phase 10에서 확립,
+    41·59가 계승).
+
+    2. **"전체 받아 클라에서 후처리"를 "필요한 만큼만 서버가 처리"로** (16·17·47).
+
+    3. **규모 적정화 - 과설계의 명시적 기각** (17 부동산식 viewport, 47 외부 검색엔진, 59 APM·폴링. prod ~90명/56클럽이라는
+    실규모가 판단 기준).
+
+    4. **좋은 기본값 + 소수 예외** 로 사람 기억 의존 제거 (40 denylist 반전).
+
+    5. **로딩은 연출보다 응답성·비끊김·무한대기 방지가 우선** (부팅 6커밋의 수렴).
+
+    6. **동작 불변·앱 코드 무변경으로 성능만 개선할 수 있으면 그 길을 먼저** (47 인덱스, 16 RPC).
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#1.-시대-①---초창기-로딩-개선-(2026-04-20-~-05-23)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 1. 시대 ① - 초창기 로딩 개선 (2026-04-20 ~ 05-23)
+
+
+    planning 문서 체계 이전. 커밋 메시지가 "로딩 개선"/"성능개선" 한 줄이라 당시 지표 기록이 없고, 문제와 해법은 diff에서 복원했다.
+    그러나 이 시기에 이후 모든 캐시 전략의 뼈대(query-persister, prefetch, placeholderData)가 만들어졌다.'
+- anchor: reference/perf-loading-realtime-history#1-1.-무한-로딩·멈춤-제거-(2026-04-20-~-05-13)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 1-1. 무한 로딩·멈춤 제거 (2026-04-20 ~ 05-13)\n\n- **참고 자료**: 커밋 `d37ad47`(성능개선),\
+    \ `9196868`(로딩문제), `b7f82e9`(로딩 개선), `b490946`(카카오 SDK 에러 핸들링)\n- **당시 지표**: 없음(계측\
+    \ 이전).\n- **문제점**:\n  - 동호회 상세가 캐시에 데이터가 있어도 진입마다 로딩 스피너를 깜빡임 (`isLoading` 조건이\
+    \ 데이터 유무를 안 봄).\n  - 홈에서 프로필 로드 실패 시에도 무한 스피너 (실패와 로딩의 미구분).\n  - `supabase.auth.getSession()`·프로필\
+    \ fetch가 무응답이면 초기화 무한 대기.\n  - 카카오 지도 SDK 스크립트 로딩 실패 시 조용히 무한 대기 (JS 키 미설정 포함).\n\
+    - **의사결정·구현**:\n  - `ClubDetailContext.tsx`: `isLoading`을 `(!club && clubQuery.isLoading)`으로\
+    \ - \"데이터가 이미 있으면 로딩이 아니다\". context value `useMemo`화.\n  - `app/(tabs)/home/index.tsx`:\
+    \ `!profile`을 authLoading이면 스피너, 아니면 `ErrorRetry`로 분기.\n  - `lib/promise-timeout.ts`\
+    \ 신설 + `lib/auth.tsx`: getSession 20초 / 프로필 fetch 25초 타임아웃, 타임아웃 시 Sentry breadcrumb.\n\
+    \  - `ClubMapViewWeb.tsx`: SDK 타임아웃 10초 + `failAll` + `ErrorRetry` 재시도 경로.\n \
+    \ - `web-canonical-redirect.ts` + `vercel.json` 301: `.vercel.app` 진입을 커스텀 도메인으로\
+    \ 정규화 (클라+서버 이중 안전장치).\n- **구현 후 지표**: 없음. 다만 \"무한 대기 상태를 시스템에서 제거한다(타임아웃·재시도·에러\
+    \ UI)\"는 원칙이 여기서 시작돼 Phase 50(픽커 hang)까지 이어진다."
+- anchor: reference/perf-loading-realtime-history#1-2.-캐시·prefetch-아키텍처의-태동-(2026-04-21-~-05-13)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 1-2. 캐시·prefetch 아키텍처의 태동 (2026-04-21 ~ 05-13)\n\n- **참고 자료**: 커밋 `b7f82e9`,\
+    \ `aa688d1`, `e09ac9c` + `63f797b`(3분 뒤 핫픽스)\n- **문제점**:\n  - 홈 → 찾기/채팅 탭 첫 진입마다\
+    \ 네트워크 로딩.\n  - 홈의 여러 훅이 \"내 소속 클럽 ID\"를 각자 `club_members`에 중복 쿼리.\n  - 리스트가 `select('*')`로\
+    \ 전 컬럼 수신.\n  - 채팅방 목록이 방 메타 → DM 프로필 → 아이콘 → 멤버 수 → 마지막 메시지를 순차(waterfall) 조회.\n\
+    \  - **앱 재시작마다 캐시 전멸** - TanStack Query 캐시가 메모리뿐이라 콜드 스타트마다 빈 화면+스켈레톤.\n- **의사결정·구현**:\n\
+    \  - `usePrefetchTabListsOnHome`(신설, 116줄): 홈에서 세션당 1회 club→game→chat 순차 prefetch.\
+    \ ※ 이 훅은 이후 Phase 40에서 \"하드코딩 opt-in 리스트\"라는 이유로 **삭제**된다 - 초기 해법이 나중에 부채로 재분류된\
+    \ 대표 사례.\n  - `getMyClubIds()`: `queryClient.fetchQuery` 캐시 기반으로 중복 네트워크 제거. `select('*')`\
+    \ → 명시 컬럼.\n  - `lib/api/chat.ts`: waterfall → 2단 `Promise.all` 병렬화.\n  - **`lib/query-persister.ts`\
+    \ 신설(e09ac9c)**: MMKV 기반 디스크 영속 + `PersistQueryClientProvider`. 화이트리스트 방식(실시간성\
+    \ 키 제외), maxAge 24h, throttle 2s. 3분 뒤 `63f797b`로 웹(localStorage)/네이티브(MMKV 지연\
+    \ 로드) 분기 핫픽스 - RN 전용 모듈 최상단 import가 웹을 깨는 멀티플랫폼 함정의 첫 기록.\n  - `useViewablePrefetch`:\
+    \ 리스트에 보이는 아이템 상세를 세션당 1회 자동 prefetch.\n- **구현 후 지표**: 없음. 오프라인 재진입 stale-first\
+    \ 체계의 시작점."
+- anchor: reference/perf-loading-realtime-history#1-3.-Perceived-speed---"0ms-진입"-(2026-05-20-~-05-23)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 1-3. Perceived speed - \"0ms 진입\" (2026-05-20 ~ 05-23)\n\n- **참고 자료**:\
+    \ 커밋 `b81d276`(perf(club): 상세 진입 perceived speed), `27087c8`(일정 즉시 표시)\n- **문제점**:\
+    \ 상세 진입 시 club은 prefetch돼도 membership/positionHolders는 새로 로딩 → CTA 버튼·회장 칩 깜빡임.\
+    \ 리스트 헤더 count가 로드된 페이지 기준이라 \"20+\"로 부정확. 웹 첫 쿼리마다 TLS 핸드셰이크 비용.\n- **의사결정·구현**:\n\
+    \  - 리스트 캐시를 `placeholderData`로 재사용해 상세 **0ms 진입** (ClubDetailContext). 일정(recurrences)도\
+    \ 목록 select에 컬럼을 추가해 같은 메커니즘으로 0ms 표시, 콜드 진입(딥링크)은 '미입력' 오표시 대신 스켈레톤.\n  - `prefetchClubDetail`이\
+    \ club/membership/positionHolders 3쿼리 모두 워밍. persister 화이트리스트에 club 계열 추가.\n \
+    \ - `fetchClubsCount()` 별도 count 쿼리로 헤더 총합 정확화.\n  - `gcTime` 1h → 24h (persister\
+    \ maxAge와 정렬).\n  - `app/+html.tsx`에 Supabase `<link rel=\"preconnect\">` - 첫\
+    \ 데이터 쿼리 **100~200ms 단축**(주석 기록).\n- **구현 후 지표**: \"0ms 진입/표시\"(캐시 히트 시), preconnect\
+    \ 100~200ms. 이 placeholderData 패턴은 이후 채팅 프리페치(990cb50, 59 D1)의 참조 모델."
+- anchor: reference/perf-loading-realtime-history#1-4.-번들·자산-다이어트-1차-(2026-05-15-~-05-21)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 1-4. 번들·자산 다이어트 1차 (2026-05-15 ~ 05-21)\n\n- **참고 자료**: 커밋 `fcae76e`(웹\
+    \ 스플래시+정적 캐시), `2b2cc7e`(perf(bundle))\n- **당시 지표**: icon.png 838KB, Pretendard\
+    \ otf 5종, 웹 JS 로드 전 빈 흰 화면.\n- **문제점**: 네이티브 번들에 폰트 5종·미사용 폰트·미압축 PNG. RN 기본 `<Image>`의\
+    \ 약한 디스크 캐시. 콜드 스타트 첫 페인트가 인앱 업데이트 체크 네트워크와 경쟁. AsyncStorage 캐시 읽기와 세션 조회가 직렬.\n\
+    - **의사결정·구현**:\n  - Pretendard 5종→3종(Regular/SemiBold/Bold, `WEIGHT_TO_FAMILY`\
+    \ 매핑 흡수): **-3MB**. SpaceMono 삭제: -91KB. pngquant 70-90 일괄(icon 838→234KB): **-1MB**.\
+    \ 합계 **네이티브 번들 ≈ -4MB**.\n  - 아바타·히어로 `<Image>` → `expo-image`(memory-disk 캐시).\n\
+    \  - `useForceUpdate`를 `InteractionManager.runAfterInteractions`로 지연 - 첫 페인트와\
+    \ 네트워크 경쟁 제거.\n  - AuthProvider: AsyncStorage read와 `getSession()` 병렬화.\n  - 웹:\
+    \ `+html.tsx`에 순수 HTML/CSS 인라인 스피너(JS 로드 전 즉시 표시), `vercel.json`에 `/_expo/static/*`·`/assets/*`\
+    \ `max-age=31536000, immutable`.\n- **구현 후 지표**: -4MB(커밋 메시지 실측). 이 트랙은 2026-07-28\
+    \ 웹 번들 다이어트(§7-3)로 이어진다.\n\n---"
+- anchor: reference/perf-loading-realtime-history#2.-시대-②---채팅-실시간성·안정성-(2026-05-23-~-07-19)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 2. 시대 ② - 채팅 실시간성·안정성 (2026-05-23 ~ 07-19)
+
+
+    "카톡은 즉시 뜨는데 이건 지연이 확연하다"는 유저 체감에서 출발해, realtime 채널의 수명주기 전체(구독·끊김·zombie·포그라운드
+    복귀·렌더 비용)를 단계적으로 정복한 흐름. 여기서 만든 복구 계층이 시대 ⑦(59)의 재사용 자산이 된다.'
+- anchor: reference/perf-loading-realtime-history#2-1.-룸-채널-churn-제거-(2026-05-23)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 2-1. 룸 채널 churn 제거 (2026-05-23)
+
+
+    - **참고 자료**: 커밋 `e9a2860` (전용 planning 문서 없음)
+
+    - **문제점**: 채팅방에서 상대 메시지가 실시간으로 안 뜨고 staleTime(5분) 만료 후에야 보임.
+
+    - **원인**: ① `useChatRealtime` effect deps에 `myProfile`/`partner`/`isGroup`이 들어
+    있어 DM 진입 시 async 값이 채워질 때마다 채널 unsubscribe→resubscribe. **같은 topic을 빠르게 떼고 붙이면
+    postgres_changes 바인딩이 조용히 끊긴다.** ② `messages` INSERT를 안읽음 채널과 목록 채널이 각각 무필터로 중복
+    구독.
+
+    - **의사결정·구현**: deps `[roomId]` 고정 + 패칭 값은 `ctxRef`로 읽어 방당 1회 구독. 중복 채널을 `useChatRealtimeSync`
+    단일 채널로 통합하고 **상시 마운트되는 탭 레이아웃**에 배치. 구독 상태 로깅(`CHANNEL_ERROR` 등) 추가 - 이것이 Phase
+    10 계측의 기반.
+
+    - **구현 후**: 두 기기 DM 실시간 수신 확인.'
+- anchor: reference/perf-loading-realtime-history#2-2.-Phase-10---끊김-복구·포그라운드-회복-(2026-05-31)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 2-2. Phase 10 - 끊김 복구·포그라운드 회복 (2026-05-31)\n\n- **참고 자료**: `planning/작업완료/10-chat-realtime-bugfix.md`,\
+    \ 커밋 `117a7a5` (PR #39)\n- **당시 지표 (실측 - 이 프로젝트 최초의 체계적 성능 계측)**:\n  - 계측 방법:\
+    \ Android 에뮬레이터 1대 + 로컬 Postgres 직접 INSERT로 상대 역할(`scripts/diag-chat-send.sh`),\
+    \ `[DIAG P10]` 로그 수집.\n  - 결과: 포그라운드 수신은 빠름(음수 latency는 에뮬레이터 시계 skew). **백그라운드\
+    \ 중 도착분은 realtime이 통째로 누락**(3건 INSERT → 수신 0건). 서버 재시작 시 전 채널 `CHANNEL_ERROR`\
+    \ 수십 회 → `CLOSED` 방치, **재구독·refetch 0**. `AppState→active` 스냅샷은 항상 `connected:true`\
+    \ - **죽는 것은 소켓이 아니라 채널**.\n  - 증상 5종: S1 실시간 미표시(영구 누락) / S2 푸시 탭 후 스켈레톤 무한 /\
+    \ S3 콜드 스타트는 정상 / S4 확연한 지연(느린 회복) / S5 뱃지 미갱신(~5분 뒤).\n- **문제점(구조 결함 표 C0~C7)**:\
+    \ 핵심은 C1(채널 실패 시 복구 없음 - subscribe 콜백이 `logger.warn`만)과 C3(warm=stale 서빙). C7(인증\
+    \ 타이밍)은 **계측으로 반증되어 보류** - \"추측 픽스 금지\"의 실천.\n- **개선 방법 고안·의사결정**:\n  - **결정 ①\
+    \ \"patch + 폴백 refetch\" 이중화**: realtime은 best-effort 가속으로 쓰고 정확성은 refetch가 진다.\
+    \ SUBSCRIBED 시 1회 invalidate, 실패 시 invalidate+백오프 재구독. 이 원칙이 이후 모든 실시간 작업의 헌법이\
+    \ 된다.\n  - **결정 ② AppState 포그라운드 재연결은 앱 레벨 단일 핸들러**: 소켓·inbox 재동기는 앱 레벨, 열린 방\
+    \ refetch는 화면 focus effect - 이중 안전망. \"매 전이마다 소켓 강제 재접속\" 과욕은 경고로 기각.\n  - 채팅\
+    \ 신선도: 짧은 staleTime(전역 오염) 대신 **진입/포커스 시 무조건 refetch**(국소 해결) 채택.\n- **구현**: `useResilientChannel`\
+    \ 신설(지수 백오프 1s→30s 재구독 + onSubscribed invalidate + Sentry 집계), `useChatForegroundRecovery`\
+    \ 신설(active 복귀 시 `realtime.connect()` + 목록·뱃지·홈 invalidate), ChatSkeleton(메시지\
+    \ 버블형).\n- **구현 후 지표**: S1·S4 재현 시나리오 통과(이전엔 콜드 스타트 전까지 영구 누락). DoD로 세운 p50 ≤1s/p95\
+    \ ≤3s 정량은 skew 보정 계측 후속으로 이월 - 이 부채가 59 A3(sync-latency 로거)에서 청산된다."
+- anchor: reference/perf-loading-realtime-history#2-3.-콜드스타트-채팅-콜드로딩-해소-(2026-06-15)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 2-3. 콜드스타트 채팅 콜드로딩 해소 (2026-06-15)
+
+
+    - **참고 자료**: 커밋 `990cb50`
+
+    - **문제점**: `chat-rooms`/`chat-messages`가 persister 화이트리스트에 없어 앱 재시작마다 스켈레톤. `prefetchChatRoom`이
+    메타만 데우고 메시지 본문은 안 데움.
+
+    - **의사결정·구현**: 영속 정책을 RN 무의존 `lib/query-persist-policy.ts`로 분리(테스트 가능화)하고 채팅 키를
+    화이트리스트에 추가. `prefetchInfiniteQuery`로 메시지 본문 prefetch. 진입 refetch 중복 제거는 "realtime
+    누락 복구 장치라 회귀 위험"으로 **보류** - 이 중복은 59 D1에서 계측과 함께 제거된다.
+
+    - **구현 후**: verifier-web localStorage 영속 확인 + 단위 3종.'
+- anchor: reference/perf-loading-realtime-history#2-4.-Phase-41---총체적-안정화-3축-(2026-07-08)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 2-4. Phase 41 - 총체적 안정화 3축 (2026-07-08)\n\n- **참고 자료**: `planning/작업완료/41-chat-overhaul-stability-perf.md`,\
+    \ 커밋 `3e8991c` (PR #99)\n- **당시 지표(성공 측정으로 세운 것)**: \"새 방 안 보임\" 재현율 0 / 백그라운드\
+    \ 복귀 후 누락 0 / 읽음 이벤트 1건당 재렌더 = 변경 셀만(당시 전 가시 셀) / 셀당 Date 파싱 8→0.\n- **문제점 3축**:\n\
+    \  - **A. 방 생성이 목록 캐시 신호가 못 됨**: 빈 DM이 상대 목록에 노출, 그룹방 생성 놓침(`chat_room_members`\
+    \ INSERT 미구독), 정렬 하드코딩 버그.\n  - **B. 소켓 zombie 시 채널 영구 정지**: `CHANNEL_ERROR` 콜백에만\
+    \ 의존해 SUBSCRIBED인 채 조용히 죽으면(zombie) 감지 불가. `isConnected()`가 zombie에 true. 원시 채널\
+    \ 2개는 죽으면 영구 freeze. `refetchOnReconnect`가 NetInfo 미연결로 사문.\n  - **C. 렌더 고정비용**:\
+    \ `extraData={membersReadAt}`이 읽음 UPDATE마다 전 가시 셀 무효화, 셀당 `new Date()` 5~8회, 전\
+    \ 셀 reanimated worklet 4종 무조건 장착, landmine `fa941c1`(entering 레이아웃 애니가 웹 셀 높이\
+    \ 0 붕괴).\n- **개선 방법 고안·의사결정**:\n  - **A(가장 중요): DM은 방을 미리 안 만든다 - 드래프트 흐름**. tap\
+    \ 시 화면만 열고 첫 전송 시점에 `findOrCreateDm`. 대안 \"빈 DM도 실시간 양쪽 노출\"은 제품 요구와 정반대라 폐기.\n\
+    \  - **B: zombie 감지는 전면 force-rebuild(방식 A)** - 채널별 last-received 가드(방식 B)보다 4~5개\
+    \ 채널 전면 재구독이 저렴·즉시. heartbeat 콜백으로 트리거. `refetchOnReconnect`는 `'always'`가 아닌 `true`(refetch\
+    \ 스톰 방지)로 NetInfo 연결, 독립 PR로 격리(단독 revert 가능).\n  - **C: extraData 제거는 셀 내부 select\
+    \ 구독(방식 A)** - 숫자가 바뀐 tail 셀만 재렌더. Date 파싱은 모듈 `WeakMap` 메타 캐시. 애니메이션은 순수 `MessageRow`\
+    \ + 조건부 `MessageEnter`(스타일 구동만 - 레이아웃 애니 금지 유지). inverted 리스트 전환은 실익 0 + 웹 리스크로\
+    \ 채택 안 함.\n- **구현**: PR 7개. `lib/realtime-reconnect.ts` 신설(`forceReconnectAllChannels`\
+    \ 레지스트리), `lib/supabase.ts` heartbeat 콜백, `lib/online-manager.ts`, 원시 채널 2곳 `useResilientChannel`로\
+    \ 통일, `getMessageMeta` WeakMap, 셀별 `useMessageUnreadCount` select 구독.\n- **구현\
+    \ 후 지표**: 드래프트 흐름·즉시 노출 verifier-web 확인, 읽음 연타 시 변경 셀만 갱신, 셀 붕괴 회귀(fa941c1) 게이트\
+    \ 통과. `forceReconnectAllChannels`가 이후 모든 realtime 기능의 복원력 기반이 됨."
+- anchor: reference/perf-loading-realtime-history#2-5.-Phase-42---알림-딥링크·인앱-배너-(2026-07-09)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 2-5. Phase 42 - 알림 딥링크·인앱 배너 (2026-07-09)
+
+
+    - **참고 자료**: `planning/작업완료/42-chat-notification-deeplink-active-room-suppression.md`
+
+    - **문제점**: 포그라운드 수신 리스너 부재, 콜드 스타트 시 알림 응답 이벤트가 리스너 등록 전에 유실 → 목적지 직행 실패.
+
+    - **의사결정**: OS/인앱 배너 이중 표시는 4종(`BANNERABLE`)만 OS 억제로 방지. 아바타는 payload 적재(서버 수정)
+    기각, 클라 캐시 우선 조립 채택. 애니메이션은 entering 프리셋 금지(웹 absolute 잔존 회귀) → 스타일 구동 `EntranceFade`.
+    콜드 스타트는 `getLastNotificationResponseAsync` + identifier dedupe.
+
+    - **구현 후 지표(목표)**: 콜드 스타트 목적지 직행 0→~100%, 서버 diff 0줄. 실기기 검증 항목.'
+- anchor: reference/perf-loading-realtime-history#2-6.-supabase-js-2.110-채널-재사용-크래시-핫픽스-(2026-07-19)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 2-6. supabase-js 2.110 채널 재사용 크래시 핫픽스 (2026-07-19)
+
+
+    - **참고 자료**: 커밋 `a06a6a5` (PR #148)
+
+    - **문제점**: 설정 화면 재진입 반복 시 크래시. supabase-js 2.99→2.110 회귀로 `client.channel(topic)`이
+    같은 topic 채널을 재사용(dedup)하는데, 이미 subscribe된 채널에 `.on(''postgres_changes'')`를 추가하면
+    throw. `removeChannel`이 async라 재구독·리마운트가 겹치는 순간 옛 채널을 집음.
+
+    - **의사결정·구현**: topic에 고유 접미 `#n`을 붙여 dedup을 원천 차단(`uniqueRealtimeTopic`). 옛 채널은
+    `useResilientChannel`이 remove하므로 누수 없음. 채널 4곳 적용.
+
+    - **교훈**: 라이브러리 마이너 업데이트가 realtime 수명주기 가정을 깰 수 있다 - CLAUDE.md의 "학습 컷오프 이후 API
+    변경 잦음, 의심 시 공식 문서" 원칙의 실제 사례.
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#3.-시대-③---개별-화면-데이터-로딩-적정화-+-계측-인프라-(2026-06-01-~-06-04)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 3. 시대 ③ - 개별 화면 데이터 로딩 적정화 + 계측 인프라 (2026-06-01 ~ 06-04)'
+- anchor: reference/perf-loading-realtime-history#3-1.-Phase-16---유저-관리-리스트-(2026-06-01)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 3-1. Phase 16 - 유저 관리 리스트 (2026-06-01)\n\n- **참고 자료**: `planning/작업완료/16-admin-user-list-performance.md`,\
+    \ 마이그레이션 `00102_admin_user_list_rpc.sql`\n- **당시 지표·문제점**: `profiles` **전 행을 limit\
+    \ 없이 수신** 후 클라이언트에서 검색(`includes`)·필터·카운트 - 유저 수에 선형으로 느려짐. 근본 원인: \"한 화면에 다 그릴\
+    \ 것도 아니면서 전체를 받아 클라에서 후처리\".\n- **의사결정**:\n  - 서버 `.range()` 오프셋 페이징(페이지당 20)\
+    \ + `useInfiniteQuery`. keyset은 수만 행 이상에서 후속 전환으로 리스크 표에 기록.\n  - 검색은 `ilike`\
+    \ 서버 처리 + **디바운스 300ms**(`useDebouncedValue` 첫 도입 - Phase 47에서 전수 확산).\n  - 칩\
+    \ 카운트는 리스트 쿼리에 합치지 않고 별도 경량 RPC(`admin_user_counts`)로 분리.\n  - 최근 활동일은 `auth.users.last_sign_in_at`을\
+    \ SECURITY DEFINER RPC로 노출(PII라 super_admin 전용). 상세는 캐시 의존 대신 단건 RPC(딥링크 직진입에도\
+    \ 동작).\n  - `pg_trgm`을 `WITH SCHEMA extensions`로 설치 - Phase 47이 재사용하는 선례.\n- **구현\
+    \ 후**: 로컬 RPC 런타임 검증(가드/검색/필터/카운트), 게이트 통과. 첫 페이지 20행 고정."
+- anchor: reference/perf-loading-realtime-history#3-2.-Phase-17---지도-데이터-로딩-규모-적정화-(2026-06-01)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 3-2. Phase 17 - 지도 데이터 로딩 규모 적정화 (2026-06-01)\n\n- **참고 자료**: `planning/작업완료/17-map-data-loading.md`\
+    \ (PR #47)\n- **당시 지표**: 클럽 현재 ~50개, 계획 천장 ~2000개. `fetchClubsForMap`이 무거운 select\
+    \ + `.limit(200)`.\n- **문제점**: ① `limit(200)` **사일런트 컷** - 200개 초과분이 에러 없이 지도에서\
+    \ 소실(천장 가정 시 최대 1800개 누락). 성능 이전에 정확성 버그. ② 마커에 과한 select(description·recurrences·age_range).\
+    \ ③ viewport 카드 10개는 과다.\n- **개선 방법 고안 (대안 비교 표)**:\n\n  | 전략                \
+    \               | 적합 규모 | 판정                                                 \
+    \       |\n  | ---------------------------------- | --------- | -----------------------------------------------------------\
+    \ |\n  | 전체 로드 + 클라 클러스터링 (현행) | ~수천     | ✅ 유지. 1쿼리·패닝 재요청 0·오프라인 stale-first\
+    \           |\n  | viewport bbox 로드 (부동산식)      | 수천~수만 | ❌ 과설계. 패닝마다 왕복(현재 0회)\
+    \ → 체감 악화, 캐시 파편화 |\n  | 줌별 서버 집계                     | 수만~     | ❌ RPC+PostGIS\
+    \ 복잡도 대비 효용 0                           |\n\n- **의사결정**: **방향 전환 없음, 세 곳만 수선**.\
+    \ limit은 \"예상치에 맞추는 값이 아니라 정상이면 절대 안 닿는 폭주 방어 캡\"으로 개념 재정의 → `MAP_FETCH_LIMIT=4000`(천장×2)\
+    \ + 캡 90% 근접 시 dev 경고. 재검토 트리거(실수 3000 상시 초과 시 viewport 승격)를 코드 주석에 명문화. select에서\
+    \ 미사용 필드 제거, 카드 10→5.\n- **교훈**: \"부동산 앱처럼\"이라는 벤치마크 발상을 실규모 데이터로 반박한 첫 사례. 이후\
+    \ 47(외부 검색엔진 기각)·59(APM 기각)에서 같은 논법이 반복된다."
+- anchor: reference/perf-loading-realtime-history#3-3.-Phase-24---계측·확장성-인프라-(2026-06-04)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 3-3. Phase 24 - 계측·확장성 인프라 (2026-06-04)
+
+
+    - **참고 자료**: `planning/작업완료/24-scalability-product-infra.md` (PR #59)
+
+    - **성능 역사에서의 위치**: 화면 개선이 아니라 **성능을 측정·보호하는 기반**. PostHog 분석은 RN SDK 대신 capture
+    HTTP API(fetch 직접 전송) 채택 - 의존성 0·플랫폼 분기 0, "분석 SDK가 콜드스타트를 저하시키지 않게" no-op 가드
+    + lazy init를 DoD에 명시. RN 버전 exact 고정, 배포 게이트 CI 승격, 공유 링크 헬스체크(본문 마커 검사).
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#4.-시대-④---React-Query-캐시-반영-지연-(2026-07-01-~-07-09)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 4. 시대 ④ - React Query 캐시 반영 지연 (2026-07-01 ~ 07-09)
+
+
+    "앱이 느리게 반영돼요"라는 체감의 정체를 밝히고 3개의 축(refetchType / persist 정책 / 무효화 키 누락)으로 분해해 각개격파한
+    흐름. **빌드나 네트워크가 아니라 캐시 정책이 범인이었다.**'
+- anchor: reference/perf-loading-realtime-history#4-1.-Phase-31---교차-화면-반영-지연:-refetchType-계층화-(2026-07-01-~-07-02)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 4-1. Phase 31 - 교차 화면 반영 지연: refetchType 계층화 (2026-07-01 ~ 07-02)\n\n\
+    - **참고 자료**: `planning/작업완료/31-cache-invalidation-reflection.md`, 커밋 `6943f72`(PR\
+    \ A) `f622203`(PR B) `346384c`(PR C), DECISIONS 문맥\n- **당시 지표 (grep 실측)**:\n \
+    \ - `invalidateQueries` 총 **105곳**, 그중 `refetchType` 명시 **1곳**.\n  - 105곳 중 **62%(65곳)가\
+    \ 교차 화면** 무효화인데 전부 기본값 `refetchType:'active'`.\n  - 목표: 미표기 교차 화면 호출 64 → 0 (길목\
+    \ 커버 기준).\n- **문제점**: \"내가 방금 한 행동이 다른 화면에 바로 안 뜬다\". 폼 제출 시점에 unmount 상태인 다른\
+    \ 화면 목록은 `'active'` 기본값 때문에 stale 표시만 되고, 진입할 때 **옛 캐시가 먼저 뜨고 왕복 뒤 \"뿅\" 갱신**된다.\n\
+    - **핵심 통찰**: 근본 원인은 무효화 방식이 아니라 **\"내 쓰기를 반영하는 도구 선택\"**. invalidate→refetch는\
+    \ 구조적으로 왕복 후 반영이라 즉시성이 필요한 액션엔 애초에 부적합. 그리고 통점 대부분이 폼→목록 흐름이며 이미 공통 길목(폼 훅·useDeleteEntity·useRequestAction)을\
+    \ 지나므로 65곳이 아니라 **길목 ~8곳** 수정으로 8할이 해결된다.\n- **개선 방법 고안 (Tier 계층화 - 이 시대의 가장 중요한\
+    \ 결정)**:\n\n  | 계층   | 대상                                     | 도구           \
+    \            | 근거                                                            \
+    \                 |\n  | ------ | ---------------------------------------- | --------------------------\
+    \ | --------------------------------------------------------------------------------\
+    \ |\n  | Tier A | 폼 제출/액션 → 다른 화면 목록            | `refetchType:'all'`        |\
+    \ 이동하는 동안 미리 당겨 \"거의 즉시\". 폼에 낙관적은 오버킬(서버 id·파생필드 모름) |\n  | Tier B | 즉시성 토글(승인·투표·좋아요)\
+    \            | 낙관적 setQueryData + 롤백 | \"누르자마자 뜬다\"                          \
+    \                                      |\n  | Tier C | 같은 화면·상시 마운트 뱃지·realtime\
+    \ 구동 | 기본값 유지                | 이미 즉시. 손대면 낭비 refetch                         \
+    \                          |\n\n  기각: 전역 defaultOptions 변경·staleTime 인하(오프라인 이점\
+    \ 파괴 + refetch storm + CLAUDE.md 규약 충돌), invalidate 래퍼 전면 마이그레이션(105곳 비용, 후속으로).\n\
+    \n- **의사결정 디테일**: `refetchType:'all'`의 네트워크 비용 증가는 **prod ~90명 규모에서 무시 가능**으로\
+    \ 판단. Tier C를 \"일관성\" 명목으로 Tier A에 욱여넣지 말라는 과표준화 경고를 문서에 명시.\n- **구현**: PR A(제네릭\
+    \ 길목 2훅) → PR B(폼/액션 훅 10파일 - 교차 화면 키만 'all', 같은 화면 키는 유지) → PR C(회원 승인 낙관적 파일럿:\
+    \ `handleAction`을 `Promise<boolean>`으로 바꿔 롤백 판단, 임시 멤버 즉시 삽입 + 실패 시 스냅샷 복원).\n\
+    - **구현 후 지표**: `refetchType:'all'` 41곳. verifier-web 양성 2종(정보 수정 → 목록 재진입 즉시 최신\
+    \ / 승인 → 목록 즉시 노출). 전역 설정 변경 0줄. 게이트 전부 통과(166 tests)."
+- anchor: reference/perf-loading-realtime-history#4-2.-Phase-40---persist-정책-반전:-allowlist-→-denylist-(2026-07-05)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 4-2. Phase 40 - persist 정책 반전: allowlist → denylist (2026-07-05)\n\n\
+    - **참고 자료**: `planning/작업완료/40-query-cache-policy-simplification.md`, 커밋 `599aa5c`\
+    \ (PR #86), **DECISIONS 0008**\n- **당시 지표 (grep 전수)**:\n  - persist 화이트리스트 **10개**\
+    \ vs 실제 `qk.*` 키 계열 **58개** → **48개 계열이 새로고침 시 무캐시 → 스켈레톤**. 커버리지 **17%**.\n \
+    \ - 프리페치 훅(1-2에서 만든 `usePrefetchTabListsOnHome`) 140줄이 하드코딩 4키를 데우는데, 그중 3키는 persist\
+    \ 화이트리스트에 없어 **두 캐시 메커니즘이 서로 다른 키 집합을 커버하는 불일치**.\n  - 유저 통점: 알림 화면이 새로고침·첫 진입\
+    \ 양쪽 다 스켈레톤(어느 리스트에도 없어서).\n- **핵심 통찰**: \"끝없이 고치는 원인은 캐싱이 아니라 **예외가 기본값인 3중 opt-in\
+    \ 리스트**(persist 화이트리스트·프리페치 하드코딩·화면별 staleTime)다. 사람이 항목 추가를 기억해야 하는 구조는 반드시 드리프트한다.\"\
+    \n- **의사결정**: 극성 반전 - 기본 영속 + **명확한 사유 3범주만 제외**: ① 초휘발성 카운터(unread-* 등 - stale\
+    \ 표시가 거짓정보) ② 프라이버시 민감(admin-* - 타 유저 데이터를 localStorage 평문에 안 남김) ③ 의도적 staleTime\
+    \ 0(share-*). 프리페치 훅은 반전으로 redundant → **삭제(140줄)**. 렌더 계약 성문화: 스켈레톤은 콜드(`!data\
+    \ && isLoading`)에만, 백그라운드 fetch엔 이전 데이터 유지. buster `v2-whitelist`→`v3-denylist`(안\
+    \ 바꾸면 옛 정책 캐시와 섞여 비결정적). 기각: 화이트리스트 유지(근본 원인 미해결), 전부 무조건 영속(3범주가 실제 위험).\n- **구현\
+    \ 후 지표 (verifier-web 실측)**: 전체 브라우징 후 직렬화 **35.1KB**(localStorage 5MB 한계 대비 무시\
+    \ 가능 - infinite 쿼리 우려를 추측이 아닌 실측으로 해소). denylist 누수 0. 알림 영속 확인. 커버리지 17% → 70%+(41/58).\
+    \ **새 화면 추가 시 캐시 부기 2~3곳 → 0곳.**"
+- anchor: reference/perf-loading-realtime-history#4-3.-Phase-40의-부작용-마감-2건-(2026-07-06)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 4-3. Phase 40의 부작용 마감 2건 (2026-07-06)
+
+
+    - **참고 자료**: 커밋 `3afe027`, `8cda98f`
+
+    - **후속 A - pending dehydrate 경고**: denylist 오버라이드가 RQ 기본의 `status===''success''`
+    검사를 삼켜 진행 중 쿼리까지 영속 → fetch 취소 시 "dehydrated as pending ended up rejecting" 경고.
+    `shouldPersistQuery`에 success 조건 복원.
+
+    - **후속 B - 탈퇴·삭제한 동호회 일정이 개인 캘린더에 잔존**: 탈퇴/삭제 흐름이 `myClubIds`·`clubSchedules`·`upcomingEventsForUser`를
+    무효화하지 않았는데, **denylist 반전으로 이 키들이 자동 영속되면서 stale이 재시작에도 살아남아** 잠복 버그가 표면화. 두 성공
+    핸들러에 순서 있는 무효화(`myClubIds` 먼저) 추가.
+
+    - **교훈**: 캐시를 더 오래 살리는 개선은 무효화 누락을 증폭시킨다. 영속 범위를 넓힐 때 무효화 감사(audit)가 세트다.'
+- anchor: reference/perf-loading-realtime-history#4-4.-Phase-43---claim-수락-반영-지연:-무효화-키-누락-(2026-07-09)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 4-4. Phase 43 - claim 수락 반영 지연: 무효화 키 누락 (2026-07-09)
+
+
+    - **참고 자료**: `planning/작업완료/43-club-claim-accept-latency-my-club-banner.md`, 커밋
+    `10ff925`
+
+    - **당시 지표**: 운영자 claim 수락 후 클럽이 shared→managed로 바뀌는 데 **최대 5분**(staleTime) 또는
+    재시작 전까지. pending 행 제거는 2연속 왕복 뒤.
+
+    - **원인 (진단이 핵심)**: Phase 31이 이미 `useRequestAction`에 `refetchType:''all''`을 넣었으므로
+    **이번엔 refetchType 문제가 아니라 무효화 대상 키 누락** - `invalidateKeys` 4개에 UI 전체를 게이트하는 `qk.club(id)`가
+    빠져 있었다. 서버 RPC는 정상(서버 diff 0줄).
+
+    - **의사결정**: 방식 A(키 1줄 추가 - "한참"은 제거되나 2 RTT) vs 방식 B(A + 낙관적 반영). **B를 점진 안전판으로**:
+    최소 지점(A)을 먼저 커밋하고 낙관적을 얹음. `qk.club(id)`를 공용 `useRequestAction`에 넣지 않고 **호출부에만**(claim만
+    registration_type을 바꾸므로 - 가입 수락까지 클럽 상세를 refetch시키는 과잉 방지).
+
+    - **구현 후 지표**: managed 반영 **최대 5분 → ~0초**, pending 행 제거 왕복 2→1(낙관 시 체감 0). verifier-web에서
+    하드 리로드 없는 back 복귀로 캐시 반영을 검증(캐시 검증 방법론).
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#5.-시대-⑤---부팅·로그인-로딩-흐름-(2026-07-05-~-07-06)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 5. 시대 ⑤ - 부팅·로그인 로딩 흐름 (2026-07-05 ~ 07-06)
+
+
+    이틀간 6커밋의 연속 서사. 문서보다 커밋 메시지에 근거가 담겨 있다. **"화려한 로딩 연출 < 빠르고 안 끊기는 진입"으로 우선순위가 수렴한
+    과정** 자체가 기록 가치.
+
+
+    - **참고 자료**: 커밋 `07588ef` → `b9c4d63` → `5bf5dc6` → `1bdfbb8` → `d1eb432` → `31779cb`
+
+
+    | 단계                  | 문제                                                                                                        |
+    결정·구현                                                                                                                                                                                                            |
+
+    | --------------------- | -----------------------------------------------------------------------------------------------------------
+    | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |
+
+    | `07588ef` (7/5 00:30) | 스플래시에서 D+ 구력 연출을 하려던 계획이 부적절                                                            |
+    D+를 인앱 로딩으로 이동. `EntryLoading` 신설(D+ 롤링 variant A / ''시작해볼까요?'' variant B), 스플래시는
+    인디터미네이트 바로 단순화                                                                                   |
+
+    | `b9c4d63` (7/5 01:39) | EntryLoading이 auth/callback에만 있어 실제 로그인 경로(웹 카카오·이메일)에선
+    **로그인 화면에 머문 채 로딩** | 세션 생성/OAuth 복귀 시 폼 대신 EntryLoading. 코드 교환 10s grace 초과 시
+    폼+에러 폴백(로딩 갇힘 방지). `MIN_ENTRY_MS(2400)` 홀드로 연출이 플래시로 잘리지 않게                                                      |
+
+    | `5bf5dc6` (7/5 03:05) | 부팅 화면 전환이 하드컷으로 툭 끊김                                                                         |
+    `Crossfade` 신설 - **스타일 구동 opacity로 구현**(웹 FadeIn/FadeOut absolute 잔존 회귀 회피, Phase
+    41·42와 같은 landmine 대응). Reduce Motion 시 즉시 교체                                                           |
+
+    | `1bdfbb8` (7/5 21:09) | ① In-App Update Immediate 모드가 매 콜드 스타트마다 전체화면 차단 ② "EntryLoading
+    → 홈 스피너" 2단 로딩     | ① Immediate→**Flexible**(백그라운드 다운로드) ② `useWarmHomeData`
+    신설 - 세션 등장 즉시 홈 3쿼리를 홈과 동일 키로 프리페치, EntryLoading 동안 캐시를 데워 **2단→1단**                                                |
+
+    | `d1eb432` (7/5 21:35) | 고정 2.4초 타이머는 데이터 준비와 무관                                                                      |
+    **데이터 기반 게이트**: 3쿼리 settled까지 EntryLoading 유지, 하한 MIN 2.4s(연출 완주)·상한 MAX 8s(오프라인
+    무한대기 방지). 스코프는 새 로그인(빈 캐시)만 - 재방문 콜드스타트는 Phase 40 denylist persist가 이미 커버 |
+
+    | `31779cb` (7/6 08:55) | 로딩의 D+ 연출이 ① 홈 스탯 카드와 중복 ② 프로필 로딩 전 ''B→A'' 리마운트 **flicker의
+    원인**                   | D+ 롤링을 홈 스탯 카드로 이관(`RollingDday`, 세션 1회 롤업), EntryLoading은
+    variant B 단일화 → **flicker 원천 소멸**                                                                                                 |
+
+
+    **교훈**: 연출(D+ 롤링)을 위해 만든 로딩 시간이 flicker와 중복을 낳자, 연출을 로딩에서 걷어내고 상주 위치로 옮기는 것으로
+    해소했다. 로딩 화면의 책임은 "데이터가 준비될 때까지 끊기지 않게 버티기"뿐이다.
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#6.-시대-⑥---검색-성능과-응답성-hang-(2026-07-13-~-07-16)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 6. 시대 ⑥ - 검색 성능과 응답성 hang (2026-07-13 ~ 07-16)'
+- anchor: reference/perf-loading-realtime-history#6-1.-Phase-47---커뮤니티-검색·인기-정렬-최적화-(2026-07-13)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 6-1. Phase 47 - 커뮤니티 검색·인기 정렬 최적화 (2026-07-13)\n\n- **참고 자료**: `planning/작업완료/47-community-search-optimization.md`,\
+    \ 커밋 `8f961ae`, 마이그레이션 `00119_community_search_indexes.sql`, **DECISIONS 0012**\n\
+    - **당시 지표 (로컬 합성 5만 건, EXPLAIN ANALYZE, 트랜잭션 내 실험 후 ROLLBACK)**:\n\n  | 쿼리   \
+    \                     | 인덱스 전                      | 인덱스 후                | 배율\
+    \     |\n  | --------------------------- | ------------------------------ | ------------------------\
+    \ | -------- |\n  | `ILIKE '%리베로%'` (3글자+) | 28.3ms Seq Scan(49,951행 버림) | 0.12ms\
+    \ Bitmap Index Scan | **×232** |\n  | `ILIKE '%수비%'` (2글자)    | 27.4ms       \
+    \                  | 27.4ms (인덱스 못 탐)    | ×1       |\n  | 인기 정렬 LIMIT 20    \
+    \      | 6.8ms Seq Scan+sort            | 0.04ms Index Scan        | **×170**\
+    \ |\n\n  추가: 디바운스 0 + 최소 글자수 0이라 타이핑 글자 수만큼 풀스캔 쿼리 발화(같은 패턴이 클럽·스크리미지 포함 `ilike`\
+    \ 7곳).\n\n- **핵심 통찰**: ① pg_trgm은 3글자 미만 패턴에 인덱스를 못 쓴다(최소 글자수 정책 = 인덱스 정책). ②\
+    \ **한국어엔 trigram이 FTS보다 정답** - Postgres tsvector는 한국어 형태소 분석기 부재(\"배구를\"≠\"배구\"\
+    ), trigram은 문자 단위라 조사가 붙어도 부분일치. 현행 `ilike` 방식 자체가 옳았고 인덱스만 빠진 것이라 **앱 코드 무변경**으로\
+    \ 해결 가능.\n- **의사결정**: trigram GIN 채택 / FTS 기각(토크나이저 부재) / 외부 검색엔진 기각(~90명에 과잉,\
+    \ 10만 건+ 시 재논의). 최소 글자수는 3이 인덱스에 좋으나 배구 도메인 핵심어가 2글자(\"배구\",\"세터\")라 **2글자로 결정**하고\
+    \ 2글자 Seq Scan(27ms@5만)은 수용. 디바운스는 쉘 내부가 아니라 **소비처에서 파생 값만**(쉘 내부면 한글 IME 조합이\
+    \ 깨짐). 게이트·인덱스는 **커뮤니티만**(무한 증가 UGC), 클럽·스크리미지는 상한 있는 운영 데이터라 디바운스만 - 조건이 다른 걸\
+    \ 억지로 통일하지 않는다는 과표준화 경고.\n- **구현 중 발견한 함정**: 벌크 INSERT 직후 GIN fastupdate pending\
+    \ list 때문에 플래너가 인덱스를 안 탐(실측) → 인덱스를 `WITH (fastupdate = off)`로 생성해 근본 제거(재실측 0.144ms).\n\
+    - **구현 후 지표**: 검색 ×232·인기 ×170(음성 검증: 트랜잭션 내 DROP INDEX로 28ms 회귀 재현 - 인덱스가 실제\
+    \ 원인임을 증명). 타이핑당 서버 요청 4~5건 → 1건. \"지금 규모엔 체감 없는, 성장 시 장애를 선제 제거하는 보이지 않는 개선\"\
+    으로 성격을 문서에 명시."
+- anchor: reference/perf-loading-realtime-history#6-2.-Phase-50---이미지-픽커-무반응(hang)-복구-(2026-07-16)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 6-2. Phase 50 - 이미지 픽커 무반응(hang) 복구 (2026-07-16)
+
+
+    - **참고 자료**: `planning/작업완료/50-image-picker-hang-recovery.md`, **DECISIONS 0017**
+
+    - **문제점**: "사진 버튼이 아예 안 먹힌다". Android에서 픽커 도중 액티비티 재생성 시 expo-image-picker 코루틴
+    미재개 → JS Promise 영구 pending(`isPending` 고착으로 모달 버튼 전체 사망) + 네이티브 `isPickerOpen`
+    래치(프로세스 전역, 이후 모든 픽이 조용히 즉시 취소). **권한은 원인이 아님을 소스 레벨로 확인**(시스템 포토 픽커는 무권한) - 오히려
+    기존 권한 가드가 Android 12 이하를 오차단.
+
+    - **의사결정**: 전역 포그라운드 회수(기각 - 플로우 문맥 소실로 라우팅 불가) / patch-package 네이티브 수정(기각 - SDK
+    업그레이드마다 파손) / 고정 타임아웃(기각 - 갤러리 장시간 탐색이 정상 UX) vs **픽 호출 컨텍스트 안의 워치독 래퍼(채택)**:
+    active 복귀 + 5초 유예 후 `getPendingResultAsync()`로 결과 회수해 원 플로우를 잇고, 실패 시 한국어 에러 throw로
+    고착을 푼다. 래치 의심은 3중 AND 휴리스틱으로 감지해 재시작 안내.
+
+    - **구현 후 지표**: 무반응 경로 4곳 → 0곳. TDD 유닛 9종(회수 경로 사보타주 음성 검증 포함), 호출처 4곳 수정 0(래퍼가
+    기존 에러 통로로 흐름).
+
+    - **역사적 위치**: 시대 ①의 "무한 대기를 시스템에서 제거"(타임아웃·재시도) 원칙이 네이티브 모듈 결함까지 확장된 종착점.
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#7.-시대-⑦---앱-전체-실시간-동기화-아키텍처:-Phase-59-(2026-07-28-~-07-29)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 7. 시대 ⑦ - 앱 전체 실시간 동기화 아키텍처: Phase 59 (2026-07-28 ~ 07-29)
+
+
+    이전 시대들의 종합. 채팅에서 검증한 복구 계층(②) + 캐시 규율(④) + 계측 문화(③⑥)를 **앱 표준 아키텍처**로 승격했다.
+
+
+    - **참고 자료**: `planning/작업완료/59-realtime-sync-architecture.md`, **DECISIONS 0021**,
+    커밋 `972f939`(A1) `81acafc`(A2·A3) `5c323c7`(B) `7acbcd3`(C1) `129405c`(C2) `2097a48`(C3·C4)
+    `7507fa6`(D1) `cc79e37`+`50e3dcc`(D2 구현·기각 롤백) `3227879`(D3) `8757d05`(E), 마이그레이션
+    00154~00160'
+- anchor: reference/perf-loading-realtime-history#7-1.-당시-지표-(착수-전-실측,-§2)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 7-1. 당시 지표 (착수 전 실측, §2)
+
+
+    - 실시간 구독이 채팅·알림에만 4개(postgres_changes). 커뮤니티·클럽 훅에는 **0건**.
+
+    - invalidate 179곳은 전부 "내 캐시"만 갱신 - **다른 유저**는 같은 글을 보고 있어도 아무 신호를 못 받는다.
+
+    - 타 유저 변경의 반영 지연(정량): 전역 staleTime 5분 + focus refetch 화면이 앱 전체 2개뿐 → 화면을 계속 보고
+    있으면 **무한정**, 재마운트해도 최대 **5분** stale. "실시간으로 잘 되나요?"의 실제 답은 "채팅 외에는 아니다".
+
+    - postgres_changes의 구조적 한계(Supabase 소스 확인): WAL 변경 1건마다 구독자별 RLS 검사가 선형, 테넌트 100
+    events/sec 초과분 **조용히 드롭** - 화면 구독을 이 방식으로 늘리면 막다른 길.'
+- anchor: reference/perf-loading-realtime-history#7-2.-의사결정-(DECISIONS-0021로-성문화)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 7-2. 의사결정 (DECISIONS 0021로 성문화)
+
+
+    - **전달 수단(가장 중요)**: postgres_changes 확장(기각 - 선형 RLS·드롭) / Edge Function fanout(기각
+    - 콜드스타트·새 장애점) / **Broadcast from Database 채택**(`realtime.broadcast_changes` 트리거
+    + private 채널, 인가는 구독 시점 1회).
+
+    - **전환 전략(운영자 결정 2026-07-28)**: 신규 표면(댓글·공지·멤버십)은 처음부터 Broadcast, **검증된 채팅 postgres_changes
+    4개는 신규 인프라 안정 운영 후 마지막(Phase E)에 이관** - 검증 안 된 인프라로 핵심 기능을 재작성하지 않는다.
+
+    - **갱신 규칙 성문화**: 잦은 이벤트(채팅 메시지)는 payload delta(`setQueryData`), 드문 이벤트(공지·멤버십)는
+    invalidate. 어느 쪽이든 재구독·focus 시 HTTP refetch가 정합성을 소유 - delta는 지연 최적화이지 정합성 수단이
+    아니다.
+
+    - **기각 목록**: 화면별 주기 폴링(배터리·부하 대비 무익), 전면 optimistic(롤백 복잡도), 전용 APM(Date.now 단순
+    계측으로 충분), 모든 화면 실시간화(저빈도 화면은 focus refetch + user 채널 신호로 충분).
+
+    - **가명 경계(45D)**: `post:{id}` payload에 실명·본문을 싣지 않음(차단 필터 RLS 우회 방지 - C1에서 delta가
+    아닌 invalidate로 결정 변경된 이유).
+
+    - **계측 우선**: "Phase D 채팅 최적화는 계측 후에만 착수" - A3에서 sync-latency 로거(dev 로그 + Sentry
+    breadcrumb 1% 샘플)를 먼저 깔고 baseline 확보.'
+- anchor: reference/perf-loading-realtime-history#7-3.-구현과-실측-(Phase별)
+  doc: reference/perf-loading-realtime-history.md
+  text: "### 7-3. 구현과 실측 (Phase별)\n\n- **A (일반화)**: push-data-sync를 chat_message 1종\
+    \ → NotificationType 27종 매핑으로, `useChatForegroundRecovery` → `useForegroundRecovery`\
+    \ 승격, sync-latency 계측 삽입.\n- **B (인프라)**: `realtime.messages` RLS(user/post/club\
+    \ 채널 인가) + `emit_domain_event` 래퍼(EXCEPTION 삼킴 - 발행 실패가 원 쓰기를 막지 않게) + `useRealtimeScreen`\
+    \ 표준 훅(useResilientChannel 위 합성) + 전역 `user:{userId}` 채널.\n- **C (화면 적용)**: C1\
+    \ 커뮤 글 상세 댓글 반영 **356~399ms** 실측(1초 목표 충족). C2 클럽 상세 **355~364ms** - 음성 프로브가 super_admin\
+    \ 비멤버 클럽의 Unauthorized 재시도 폭주를 실측으로 발견 → RLS 예외(00157) + Unauthorized 시 백오프 중단으로\
+    \ 해소. C3 회원 관리는 refetchOnMount로 충분(과표준화 회피). C4 댓글 낙관적 삽입.\n- **D (채팅 지연 제로)**:\
+    \ D1 계측이 **pressIn 프리페치 직후 focus refetch가 같은 데이터를 중복 요청**함을 발견(2-3에서 보류했던 그 중복)\
+    \ → 3초 신선도 게이트로 제거, 방 진입 **480ms → 132ms**. 푸시 탭 딥링크는 알림 탭 시점 프리페치로 워터폴을 네비게이션\
+    \ 300ms와 병렬화. **D2 typing indicator는 구현·2계정 검증까지 마쳤으나 운영자 결정으로 기각·롤백** - \"입력\
+    \ 중\" 표시가 제품 방향과 안 맞음. 완성도가 아니라 제품 판단으로 기능을 버린 기록. D3 메시지 삭제(본인 delta 23ms, 상대\
+    \ 225ms).\n  - **D-보너스(2계정 검증 중 발견)**: 세션 복원 전 구독이 익명 claims로 SUBSCRIBED되어 WALRUS\
+    \ RLS가 이벤트를 조용히 거르는 무배달 버그 - userId 게이트로 수정. 푸시 탭 콜드스타트 \"안 보임\" 제보의 유력한 실제 원인.\n\
+    - **E (이관 완성)**: messages 트리거 → `room:{id}` Broadcast(payload는 raw row - community_dm\
+    \ 실명 와이어 유출 방지), inbox·unread 채널을 user 채널로 수렴. **앱 내 postgres_changes 구독 0 달성.**\
+    \ 메시지 수신·삭제 전파 ~100ms, 목록 fan-out ~1s, 오프라인 복구 306ms(리로드·포커스 없이 자동 회수 실측)."
+- anchor: reference/perf-loading-realtime-history#7-4.-구현-후-지표-종합
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 7-4. 구현 후 지표 종합
+
+
+    | 지표                          | Before                | After                    |
+
+    | ----------------------------- | --------------------- | ------------------------
+    |
+
+    | 타 유저 변경 반영 (커뮤·클럽) | ∞ (재마운트 시 ≤5분)  | 100~400ms                |
+
+    | 채팅 소켓 좀비 시             | ≤25s (heartbeat 대기) | ≤2s (푸시 신호)          |
+
+    | 채팅방 진입                   | 480ms                 | 132ms                    |
+
+    | 오프라인 복구                 | 수동 새로고침         | 306ms 자동               |
+
+    | postgres_changes 구독         | 4                     | 0                        |
+
+    | 새 화면에 실시간 붙이는 비용  | 채팅 3파일 분량 복제  | 트리거 1줄 + 훅 선언 1개 |
+
+
+    - 웹 배포 완료, 네이티브는 8/1 EAS 빌드 대기(실기기 QA 잔여).'
+- anchor: reference/perf-loading-realtime-history#7-5.-웹-초기-로딩-다이어트-(59-후속,-2026-07-28)
+  doc: reference/perf-loading-realtime-history.md
+  text: '### 7-5. 웹 초기 로딩 다이어트 (59 후속, 2026-07-28)
+
+
+    - **참고 자료**: 커밋 `d6bb964`
+
+    - **당시 지표**: 단일 번들 **4.7MB**(브로틀리 1.23MB)가 웹 초기 진입을 지배.
+
+    - **구현·의사결정**: ① `asyncRoutes`(web 한정) 라우트 78청크 분할 - 화면 코드 ~450KB 지연 로드. 네이티브는
+    Hermes라 무이득 + 프로드 suspense 미지원이라 **제외**(플랫폼별 판단). ② `@expo/vector-icons` 배럴 임포트
+    101파일이 전 아이콘 패밀리 454KB를 실음 → 사용 패밀리가 Ionicons뿐임을 전수 확인 후 서브모듈 직접 임포트로 교체. ③ 로그인
+    로고 512px/204KB → 256px/66KB(표시 76pt, 3x 커버).
+
+    - **구현 후 지표**: 초기 JS **4.7MB → 3.7MB (-21%)**. 남은 큰 덩어리는 Sentry 스택 ~890KB(replay·feedback
+    포함) - 트리밍 후속 검토로 기록.
+
+
+    ---'
+- anchor: reference/perf-loading-realtime-history#8.-도구·검증-방법론의-축적-(역사에서-뽑은-재사용-자산)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 8. 도구·검증 방법론의 축적 (역사에서 뽑은 재사용 자산)
+
+
+    | 자산                                                 | 태어난 곳                                        |
+    현재 위치·역할                                                       |
+
+    | ---------------------------------------------------- | ------------------------------------------------
+    | -------------------------------------------------------------------- |
+
+    | `lib/query-persister.ts` + `query-persist-policy.ts` | e09ac9c(1-2) → 990cb50
+    → Phase 40 반전 → 3afe027 | denylist 기본 영속, buster v3, success만 dehydrate                   |
+
+    | `useResilientChannel`                                | Phase 10                                         |
+    백오프 재구독 + onSubscribed invalidate. 59 Broadcast 채널도 이 위에 |
+
+    | `lib/realtime-reconnect.ts`                          | Phase 41                                         |
+    zombie 전면 재구독 + `uniqueRealtimeTopic`(2.110 핫픽스)             |
+
+    | `useForegroundRecovery`                              | Phase 10(chat 전용) → 59
+    A2 승격                 | 포그라운드 복귀 회수의 전역 표준                                     |
+
+    | `push-data-sync`                                     | 2026-07-28(chat 1종) →
+    59 A1                     | 27종 NotificationType → 쿼리 키 매핑 (백그라운드 판 이벤트 버스)     |
+
+    | `useRealtimeScreen` + `emit_domain_event`            | 59 B                                             |
+    실시간을 "선언 가능한 속성"으로                                      |
+
+    | sync-latency 로거 (`lib/observability/`)             | 59 A3                                            |
+    이후 모든 성능 작업의 공용 계측 자산                                 |
+
+    | `useDebouncedValue`                                  | Phase 16                                         |
+    Phase 47에서 리스트 검색 전수 확산                                   |
+
+    | placeholderData 0ms 진입 패턴                        | b81d276(1-3)                                     |
+    상세 진입 표준, 채팅 프리페치의 참조 모델                            |
+
+    | verifier-web 증거 캡처                               | Phase 31~                                        |
+    캐시·실시간 검증의 표준 절차 (2계정 시나리오는 59)                   |
+
+    | 로컬 5만 건 + EXPLAIN + ROLLBACK 실험                | Phase 47                                         |
+    DB 성능 검증 표준 (음성 검증: DROP INDEX 회귀 재현)                  |'
+- anchor: reference/perf-loading-realtime-history#9.-반복해서-밟은-함정-(재발-방지-목록)
+  doc: reference/perf-loading-realtime-history.md
+  text: '## 9. 반복해서 밟은 함정 (재발 방지 목록)
+
+
+    1. **웹에서 reanimated entering/레이아웃 애니 = absolute 잔존·셀 붕괴** (fa941c1 → Phase 41
+    C·42 §3.3·부팅 Crossfade에서 3회 회피). 리스트 셀·오버레이엔 스타일 구동 애니만.
+
+    2. **invalidateQueries 기본 refetchType:''active''** - "앱이 느리게 반영"의 정체는 빌드가 아니라
+    이것 (Phase 31, 메모리에도 기록됨).
+
+    3. **캐시 영속 확대는 무효화 누락을 증폭** (Phase 40 → 8cda98f). 영속 정책 변경 시 무효화 감사 세트로.
+
+    4. **같은 realtime topic의 빠른 재구독/재사용** - churn으로 바인딩이 조용히 끊기거나(e9a2860), dedup으로
+    크래시(2.110). 채널 수명주기는 항상 명시 관리.
+
+    5. **세션 복원 전 realtime 구독** = 익명 claims로 SUBSCRIBED인데 무배달 (59 D-보너스, 메모리 realtime-auth-gate).
+
+    6. **GIN fastupdate pending list** - 벌크 삽입 직후 인덱스 비활용 (Phase 47).
+
+    7. **opt-in 리스트(화이트리스트·하드코딩 프리페치)는 반드시 드리프트** - 좋은 기본값+명시 예외로 극성 반전 (Phase 40).
+
+    8. **limit은 예상치가 아니라 폭주 방어 캡** - 예상치에 맞춘 limit은 사일런트 데이터 소실 (Phase 17).
+
+    9. **RN 전용 모듈 최상단 import는 웹을 깬다** (63f797b) - 플랫폼 분기·지연 로드.
+
+    10. **추측 픽스 금지** - 계측이 반증한 가설(Phase 10 C7)은 그럴듯해도 손대지 않는다.'

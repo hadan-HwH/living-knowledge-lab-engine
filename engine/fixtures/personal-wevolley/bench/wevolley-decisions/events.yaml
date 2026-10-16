@@ -1,0 +1,50 @@
+# Gold event ledger — we-volley planning/DECISIONS.md (실제 개인 프로젝트, 소유자=사용자)
+# 두 케이스:
+#  (1) 0004 → 0005      : clean full supersede (게스트 모델)
+#  (2) 0009③ → 0010     : partial supersede — 문서상 0009의 ③만 뒤집힘.
+#      축별 target 분해로 모델링 → "봇 노출" target 단독의 full supersede가 됨
+#      (annotation guide R6: 축별 분리. §9 미해결이던 partial-supersede 유형을 이 방식으로 흡수).
+events:
+  # (1) 게스트 모델
+  - event_id: WV.act.0004
+    type: adopt
+    target: WV.guest_model
+    option: o_msg_based              # 게스트 = clubs 플래그 + 문의 DM
+    actor: 사용자
+    authority_level: product
+    scope: wevolley/guest
+    valid_at: "2026-07-02"
+    recorded_at: "2026-07-02"
+  - event_id: WV.act.0005
+    type: supersede
+    target: WV.guest_model
+    option: o_apply_approve_pay      # 신청→승인→납부 흐름
+    supersedes: o_msg_based
+    actor: 사용자
+    authority_level: product
+    scope: wevolley/guest
+    valid_at: "2026-07-02"
+    recorded_at: "2026-07-02"
+    reason_type: scope_change        # 클럽 금고 기획서 게스트비 수금 요구 확인
+
+  # (2) 시딩 봇 노출 방식 — 0009의 ③만 0010이 뒤집음
+  - event_id: WV.act.0009c
+    type: adopt
+    target: WV.bot_disclosure
+    option: o_public_badge           # AI 배지 공개
+    actor: 사용자
+    authority_level: product
+    scope: wevolley/community/bot
+    valid_at: "2026-07-13"
+    recorded_at: "2026-07-13"
+  - event_id: WV.act.0010
+    type: supersede
+    target: WV.bot_disclosure
+    option: o_private_ops            # 비공개 운영 (익명 글 위주 + allow_dm)
+    supersedes: o_public_badge
+    actor: 사용자
+    authority_level: product
+    scope: wevolley/community/bot
+    valid_at: "2026-07-13"
+    recorded_at: "2026-07-14"        # 같은 날 뒤집힘 — recorded_at으로 순서 확정
+    reason_type: error_correction    # "0009 ③을 뒤집음 — 사용자 결정"

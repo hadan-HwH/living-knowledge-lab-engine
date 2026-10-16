@@ -1,0 +1,411 @@
+subconcepts:
+- anchor: sc-treasury-ledger
+  name: 클럽 금고 — 은행 연동 없는 회비 수금·지출·투명성 장부
+  commitment: hypothesis
+  confidence: high
+  quote: '**한 줄 정의**: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부.'
+- anchor: sc-treasury-semi-auto
+  name: 자동화 경계 — 청구 생성·독촉은 자동, 입금 확인은 셀프 신고+총무 승인
+  commitment: hypothesis
+  confidence: high
+  quote: 자동화되는 것은 **청구 생성과 독촉**이고, 입금 확인은 셀프 신고 + 총무 승인의 반자동.
+- anchor: sc-treasury-pain-three
+  name: 총무의 3대 페인 — 대조 노동·독촉의 감정 비용·연 1~2회뿐인 투명성 보고
+  commitment: hypothesis
+  confidence: high
+  quote: '**대조 노동**: 은행 내역과 멤버 명단을 수동 대조 — 입금자명이 제각각, 몰아내기(3개월치)·대납이 섞임.'
+- anchor: sc-treasury-must-replace-excel
+  name: v1 성립 조건 — 엑셀을 완전 대체 못 하면 만들 가치 없음
+  commitment: hypothesis
+  confidence: high
+  quote: '**핵심 판단: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다.**'
+- anchor: sc-treasury-success-metrics
+  name: 금고 성공 지표 4종 — 사용 클럽 수·확인 노동 시간·셀프 신고율·멤버 리텐션
+  commitment: hypothesis
+  confidence: medium
+  quote: '| 확인 노동 압축 | 월 청구 발행→전원 확정까지 총무 앱 체류 시간 (감각 목표: 월 10분 이내) | 정성 + 이벤트 |'
+- anchor: sc-open-banking-rejected
+  name: 은행 계좌 연동 기각 — 마이데이터 허가제·스크래핑 신용정보법
+  commitment: frozen
+  confidence: high
+  quote: '- **은행 계좌 연동 전면**: 마이데이터(허가제, 자본금 5억) 기각.'
+- anchor: sc-no-money-through-app
+  name: 돈은 앱을 거치지 않는다 — 송금/결제 대행 비목표
+  commitment: frozen
+  confidence: high
+  quote: '- **송금/결제 대행**: 돈은 앱을 거치지 않는다. 앱은 장부·독촉·투명성만.'
+- anchor: sc-tx-paste-parsing-deferred
+  name: 거래내역 복붙·엑셀 파싱은 v1 제외 — 셀프 신고 채택률 미달 시 승격
+  commitment: hypothesis
+  confidence: high
+  quote: '- **거래내역 복붙/엑셀 업로드 파싱**: v1 제외, v1.5 후보. 셀프 신고 채택률이 낮을 때의 보강 수단.'
+- anchor: sc-expense-record-only
+  name: 지출은 기록만 — 예산/승인 워크플로는 과설계로 제외
+  commitment: frozen
+  confidence: high
+  quote: '- **예산/승인 워크플로**(지출 품의 등): 과설계. 지출은 기록만.'
+- anchor: sc-noshow-tracking-deferred
+  name: 출석·노쇼 자동 집계 유보 — 수요 확인 후
+  commitment: hypothesis
+  confidence: high
+  quote: '- **출석/노쇼 자동 집계**: 게스트 흐름은 참석 확정까지만. 노쇼 이력은 수요 확인 후.'
+  governed_by: '0005'
+- anchor: sc-treasury-core-loop
+  name: 금고 코어 루프 — 청구 발행→송금→셀프 신고→총무 승인→장부 갱신
+  commitment: hypothesis
+  confidence: high
+  quote: '[청구 발행]  charge_plan이 매월/분기 자동 발행 (또는 총무 수동 발행)'
+- anchor: sc-designated-depositor-name
+  name: 지정 입금자명 — 앱이 입금자명을 지정해 대조 노동을 제거
+  commitment: hypothesis
+  confidence: high
+  quote: '[멤버 송금]  은행앱에서 이체 — 입금자명을 앱이 지정("김철수0403")'
+- anchor: sc-treasury-three-principles
+  name: 은행 연동 없이 성립하는 3원칙 — 입력 분산·매칭 상류 제거·독촉 외주
+  commitment: hypothesis
+  confidence: high
+  quote: '설계 원칙: **입력을 멤버에게 분산**(셀프 신고), **매칭을 상류에서 제거**(지정 입금자명), **독촉을 시스템에 외주**(자동 리마인드). 이 3개가 은행 연동 없이 성립하는 이유.'
+- anchor: sc-dues-auto-reminder
+  name: 미납 자동 리마인드 — 독촉의 주체를 총무에서 앱으로 옮긴다
+  commitment: hypothesis
+  confidence: high
+  quote: 미납은 N일차 자동 리마인드 (앱이 독촉, 총무 아님)
+- anchor: sc-club-finance-settings
+  name: club_finance_settings — 수금 계좌·입금자명 규칙·공개 범위(민감 정보 별도 테이블+RLS)
+  commitment: hypothesis
+  confidence: high
+  quote: club_finance_settings   클럽당 1행 — 수금 계좌(은행/번호/예금주), 입금자명 규칙,
+- anchor: sc-charge-plans
+  name: charge_plans — 청구 템플릿(주기·금액·발행일)
+  commitment: hypothesis
+  confidence: high
+  quote: charge_plans            청구 템플릿 — cycle(monthly|quarterly), amount, issue_day, active
+- anchor: sc-club-charges
+  name: club_charges — 장부의 원자 단위(type·status 전이)
+  commitment: hypothesis
+  confidence: high
+  quote: club_charges           장부의 원자 단위 —
+- anchor: sc-charge-status-enum
+  name: charge status 전이 — pending → reported → confirmed | exempt | void
+  commitment: hypothesis
+  confidence: high
+  quote: 'status: pending → reported → confirmed | exempt | void'
+- anchor: sc-club-expenses
+  name: club_expenses — 지출 기록(금액·카테고리·영수증 사진)
+  commitment: hypothesis
+  confidence: high
+  quote: club_expenses           지출 — amount, category(회식|장비|유니폼|대관|기타), memo,
+- anchor: sc-balance-is-derived
+  name: 잔액은 컬럼이 아니라 파생 — Σ confirmed charges − Σ expenses
+  commitment: hypothesis
+  confidence: high
+  quote: 잔액                    = Σ confirmed charges − Σ expenses (뷰/집계 쿼리, 컬럼 아님)
+- anchor: sc-thin-rules-dumb-ledger
+  name: 규칙은 얇게 장부는 멍청하게 — 입금:charge 1:N 매칭을 모델이 아니라 UX로
+  commitment: hypothesis
+  confidence: high
+  quote: '모델링 원칙: **규칙은 얇게, 장부는 멍청하게.**'
+- anchor: sc-guest-requests-table
+  name: guest_requests — 요청 도메인 4번째 인스턴스(범용 requests 통합 기각)
+  commitment: frozen
+  confidence: high
+  quote: guest_requests (신설 — 요청 도메인 4번째, 0005)
+  governed_by: '0005'
+- anchor: sc-guest-request-lifecycle
+  name: 게스트 신청 라이프사이클 — 신청→승인→납부 안내→확인→참석
+  commitment: frozen
+  confidence: high
+  quote: '- **ADR-0005**: 게스트 신청/승인 도입 — ADR-0004 supersede. 게스트 단위=일정 1회, 라이프사이클=신청→승인→charge→확인→참석.'
+  governed_by: '0005'
+- anchor: sc-guest-dm-coexists
+  name: DM 문의는 신청 도입 후에도 공존 — 사전 문의 채널
+  commitment: frozen
+  confidence: high
+  quote: DM 문의는 **공존** — 신청 전 사전 문의 채널로 유지.
+  governed_by: '0005'
+- anchor: sc-guest-fee-charge-on-approval
+  name: 승인 부수효과 = guest_fee charge 자동 생성 + 납부 안내 알림
+  commitment: hypothesis
+  confidence: high
+  quote: '승인 부수효과: guest_fee charge 자동 생성 → 게스트에게 납부 안내 알림'
+  governed_by: '0005'
+- anchor: sc-notify-single-entry-precondition
+  name: notify() 단일 진입점 — 금고·게스트 첫 마이그레이션의 선행 조건
+  commitment: frozen
+  confidence: high
+  quote: '**notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션 전에 선행**'
+- anchor: sc-fee-info-text-migration
+  name: clubs.fee_info·guest_fee_info 텍스트 → settings 구조화 금액 필드 이관
+  commitment: hypothesis
+  confidence: high
+  quote: guest_fee 금액 기본값 = 기존 `clubs.guest_fee_info`(텍스트) → settings의 구조화 금액 필드로 이관 필요.
+- anchor: sc-finance-summary-visibility
+  name: 재정 요약은 멤버 전체 열람 — 개인 납부 상태는 미노출
+  commitment: hypothesis
+  confidence: high
+  quote: 재정 요약(총계·잔액·지출)은 멤버 전체 열람 — 이 기능의 차별 가치(상시 투명성).
+- anchor: sc-treasury-admin-inbox
+  name: 확인 대기 인박스 — 스와이프 승인·일괄 처리·면제
+  commitment: hypothesis
+  confidence: high
+  quote: '| 총무 대시보드 | 운영진 | "3월 회비 18/22" 한 줄 + 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제) |'
+- anchor: sc-monthly-report-share-image
+  name: 월간 리포트 카톡 공유 이미지 — 카톡 문화 순응 + 하단 로고 자연 홍보
+  commitment: hypothesis
+  confidence: high
+  quote: '**카톡 공유용 이미지 생성** (카톡 문화에 순응 + 하단 로고 = 자연 홍보)'
+- anchor: sc-treasury-notification-set
+  name: 금고·게스트 신규 알림 6종
+  commitment: hypothesis
+  confidence: high
+  quote: charge_issued(청구 발행), dues_reminder(미납 N일차, push 중심), payment_reported(총무에게), payment_confirmed(멤버에게), guest_request(운영진에게), guest_approved+납부안내(게스트에게).
+- anchor: sc-treasury-write-role
+  name: 회계 쓰기 권한 = club_members.role admin — 별도 총무 역할 신설 안 함
+  commitment: hypothesis
+  confidence: high
+  quote: 회계 쓰기 권한 = `club_members.role = admin` (별도 '총무' 역할 신설 안 함
+- anchor: sc-account-info-exposure-scope
+  name: 수금 계좌 노출 범위 — 멤버는 납부 화면, 비멤버·게스트는 승인 후
+  commitment: hypothesis
+  confidence: high
+  quote: '수금 계좌 정보: 멤버에게는 납부 화면에서만 노출, 비멤버·게스트는 승인 후에만.'
+- anchor: sc-sensitive-transition-via-rpc
+  name: 민감 상태 전이(승인·면제·void)는 RPC 경유 — 기존 컨벤션 유지
+  commitment: working
+  confidence: high
+  quote: 민감 상태 전이(승인·면제·void)는 RPC 경유 — 기존 컨벤션 유지.
+- anchor: sc-treasury-open-question-visibility
+  name: 미결 — 미납 공개 범위 기본값(본인+운영진 vs 전체 공개)
+  commitment: hypothesis
+  confidence: high
+  quote: '1. **[결정 대기 — 운영자]** 미납 공개 범위 기본값: 본인+운영진(권장) vs 전체 공개. 두 차례 논의 미결.'
+- anchor: sc-treasury-phasing
+  name: 금고 요구사항 4단계 — P0 수금 루프 / P1 지출·리포트 / P1.5 게스트 / P2 설계만
+  commitment: hypothesis
+  confidence: high
+  quote: '**P0 (없으면 배포 안 함)** — Phase 1'
+- anchor: sc-self-report-adoption-risk
+  name: 최대 가정 — 멤버가 셀프 신고를 안 하면 가치 반감(채택률 60%)
+  commitment: hypothesis
+  confidence: high
+  quote: 멤버가 셀프 신고를 안 함 (**최대 가정**)
+- anchor: sc-dual-entry-transition-risk
+  name: 전환기 이중 입력 이탈 리스크 — 첫 달 미납 일괄 입력 온보딩
+  commitment: hypothesis
+  confidence: high
+  quote: '첫 달 온보딩: 기존 미납 상태 일괄 입력 도구(멤버별 체크 1회)'
+- anchor: sc-immutable-ledger
+  name: 수정 불가 원장 — confirmed 취소는 void+재발행
+  commitment: hypothesis
+  confidence: high
+  quote: confirmed 취소는 void+재발행(수정 불가 원장)
+- anchor: sc-ledger-precursor-to-payment
+  name: club_charges·expenses는 미래 결제(Phase C)의 원장 전신
+  commitment: hypothesis
+  confidence: medium
+  quote: '**ledger 계보**: club_charges/expenses는 미래 결제(Phase C)의 원장 전신'
+- anchor: sc-no-retroactive-approval-unification
+  name: 승인 부수효과 공통화는 이번엔 게스트만 — 소급 통합 안 함
+  commitment: working
+  confidence: high
+  quote: guest 승인 헬퍼를 club_join/scrimmage 승인과 공용화할지는 이번엔 게스트만 — 소급 통합 안 함(ADR-0004 계승).
+  governed_by: '0004'
+- anchor: sc-external-validation-needed
+  name: 셀프 신고 가정의 외부 검증 필요 — 본인 클럽만으론 표본 1
+  commitment: hypothesis
+  confidence: high
+  quote: 다른 클럽 총무 2~3명에게 이 코어 루프 검증 — 셀프 신고 가정의 외부 확인 (본인 클럽만으론 표본 1).
+- anchor: sc-guest-request-event-scoped
+  name: 게스트 신청 단위 = 클럽 일정(club_event) 1회 — scrimmage·일반 신청 제외
+  commitment: working
+  confidence: high
+  quote: '**경기(scrimmage) 게스트**: 이번 대상은 클럽 일정(club_events)만. scrimmage 인원 충원은 별개 문제.'
+- anchor: sc-guest-independent-release
+  name: 게스트 신청은 금고 없이 독립 배포 — v1 납부는 승인 후 안내 텍스트
+  commitment: frozen
+  confidence: high
+  quote: '**독립 배포 전제**: 클럽 금고(33) 없이 배포 가능. v1 납부 = 승인 후 안내 텍스트. 금고 출시 시 charge 연동으로 승격(P2).'
+- anchor: sc-guest-payment-guide-table-rls
+  name: guest_payment_guide는 clubs 컬럼으로 은닉 불가(행 단위 RLS) — 별도 테이블+RPC
+  commitment: frozen
+  confidence: high
+  quote: guest_payment_guide는 clubs 컬럼으로는 은닉 불가(행 단위 RLS)라 별도 테이블+RPC로 변경
+- anchor: sc-guest-payment-guide-gated
+  name: guest_payment_guide는 승인 후에만 노출
+  commitment: working
+  confidence: high
+  quote: + guest_payment_guide TEXT NULL    -- 승인 후에만 노출 (계좌·금액·규칙)
+- anchor: sc-guest-dm-roundtrip-pain
+  name: 현행 게스트 흐름의 페인 — DM 왕복·반복 응답·탐색 불가
+  commitment: working
+  confidence: high
+  quote: 실제 성사는 "언제 가면 되나요 / 이번 주 목요일이요 / 몇 명이나요…" 같은 DM 왕복으로 처리되고, 운영진은 같은 질문에 반복 응답한다.
+- anchor: sc-guest-as-personal-user-value
+  name: 게스트 탐색 = 무소속 개인 유저의 첫 번째 명확한 사용 이유
+  commitment: hypothesis
+  confidence: high
+  quote: '"이번 주 게스트 뛸 곳 찾기"는 개인 유저의 **첫 번째 명확한 사용 이유**가 되고, 게스트 참여는 클럽 가입의 자연 퍼널이 된다'
+- anchor: sc-guest-first-validation-target
+  name: 게스트 첫 검증 목표 — 출시 4주 내 3클럽 모집 + 신청 10건
+  commitment: hypothesis
+  confidence: high
+  quote: '첫 검증 목표(출시 4주): 자기 클럽 포함 **3개 클럽이 모집을 켜고, 신청 10건 발생**.'
+- anchor: sc-guest-login-required
+  name: 게스트 신청은 로그인 유저만 — 비로그인 신청 비목표
+  commitment: frozen
+  confidence: high
+  quote: '**비로그인 신청**: 신청은 로그인 유저만.'
+- anchor: sc-guest-review-deferred
+  name: 게스트 평가·후기 비목표 — 지금은 프로필 카드가 신뢰 근거
+  commitment: frozen
+  confidence: high
+  quote: '**게스트 평가/후기**: 신뢰 시스템은 별도 기획감. 지금은 프로필 카드가 신뢰 근거.'
+- anchor: sc-guest-open-toggle
+  name: 일정별 게스트 모집 토글 + 정원 — 기본 off
+  commitment: working
+  confidence: high
+  quote: '운영진: 일정 생성/수정 시 "게스트 모집" 토글 on + 모집 인원(정원) 설정'
+- anchor: sc-guest-profile-card
+  name: 신청 시 프로필 카드 자동 첨부 — 카톡 대비 핵심 우위
+  commitment: working
+  confidence: high
+  quote: ※ 신청에 내 프로필 카드(레벨·포지션·구력·성별) 자동 첨부 — 카톡 대비 핵심 우위
+- anchor: sc-guest-reject-reason-required
+  name: 거절 사유 선택 필수 — 게스트 알림에 사유 포함
+  commitment: frozen
+  confidence: high
+  quote: '**거절 사유 필수.** 선택지(정원 마감/수준 미스매치/일정 사정/기타+메모) → 게스트 알림에 포함.'
+  governed_by: '0005'
+- anchor: sc-guest-capacity-autoclose
+  name: 정원 도달 시 자동 마감 — 추가 신청 차단
+  commitment: working
+  confidence: high
+  quote: 정원 도달 시 자동 마감(추가 신청 차단)
+- anchor: sc-guest-cancellation
+  name: 게스트 취소·운영진 일정 취소 — 양쪽 알림
+  commitment: working
+  confidence: high
+  quote: '취소:   게스트 취소(시작 전까지), 운영진 취소(사유 선택) — 양쪽 알림'
+- anchor: sc-guest-request-edge-cases
+  name: 신청 차단 엣지 — 이미 멤버·중복·시작 이후·밴 유저
+  commitment: working
+  confidence: high
+  quote: '**엣지**: 이미 멤버인 유저의 신청 차단 / 같은 일정 중복 신청 차단 / 일정 시작 이후 신청 차단 / 승인 후 일정 취소 시 게스트 전원 알림 / 밴 유저 차단(기존 RLS).'
+- anchor: sc-my-requests-guest-section
+  name: my-requests에 게스트 섹션 추가 — 요청 union 4번째
+  commitment: working
+  confidence: high
+  quote: '`my-requests`(lib/api/account.ts fetchMyRequests)가 3종 union — **게스트가 4번째 섹션으로 추가** 필요.'
+- anchor: sc-guest-approval-rpc
+  name: 승인 RPC(SECURITY DEFINER) — 정원 검사+전이+알림을 트랜잭션으로
+  commitment: working
+  confidence: high
+  quote: '승인은 RPC(SECURITY DEFINER): 정원 검사 + status 전이 + 알림을 트랜잭션으로 — 동시 승인 초과 방지.'
+- anchor: sc-nonmember-event-visibility
+  name: 비멤버의 모집 일정 조회 RLS — 노출 필드 최소화, 상세는 승인 후
+  commitment: working
+  confidence: high
+  quote: '**RLS 신규 지점**: 비멤버가 guest_open=true 일정을 조회 가능해야 함. 노출 필드 최소화(제목·일시·장소명·클럽·정원/현황). 정확한 위치 등 상세는 승인 후.'
+- anchor: sc-guest-recruit-feed
+  name: 게스트 모집 피드(P1) — 성장 엔진이지만 코어 루프 검증 후
+  commitment: hypothesis
+  confidence: high
+  quote: '**게스트 모집 피드**: 게임 탭 또는 홈에 지역 필터 기반 "게스트 모집 중" 목록 — 이 기능의 성장 엔진이지만 코어 루프 검증 후.'
+- anchor: sc-guest-scope-club-detail-only
+  name: 게스트 노출 범위 = 클럽 상세 진입만 — 별도 피드 불필요
+  commitment: frozen
+  confidence: high
+  quote: '**공개 범위 = 클럽 상세 진입만.**'
+  governed_by: '0005'
+- anchor: sc-guest-post-approval-dm
+  name: 승인 후 소통은 기존 DM 재사용 — 추가 개발 없음
+  commitment: frozen
+  confidence: high
+  quote: '**승인 후 소통 = 기존 DM 재사용.** 추가 개발 없음.'
+  governed_by: '0005'
+- anchor: sc-repeat-request-friction-accepted
+  name: 반복 신청 마찰은 감수 — 준단골 게스트 완화 장치 안 만듦
+  commitment: frozen
+  confidence: high
+  quote: '**반복 신청은 감수.** 준단골 게스트의 마찰 완화 장치 안 만듦 — 알아서 할 일.'
+  governed_by: '0005'
+- anchor: sc-guest-phasing
+  name: 게스트 구현 단계 — notify 선행 → 스키마·RPC·RLS → 화면 → my-requests·안내
+  commitment: working
+  confidence: high
+  quote: Phase 2 화면 (일정 폼 토글, 모집 목록, 신청, 운영진 인박스)      — P0 완성
+- anchor: sc-view-as-member
+  name: 일반 회원 모드 — 클라이언트 뷰 모드만(서버 impersonation 아님)
+  commitment: working
+  confidence: high
+  quote: '범위: **클라이언트 뷰 모드만.** 서버(RLS·RPC) 권한 전환(impersonation)은 하지 않는다.'
+- anchor: sc-two-admin-lineages
+  name: 관리자 UI 두 계통 — app_role vs club_members role
+  commitment: working
+  confidence: high
+  quote: '**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**'
+- anchor: sc-view-as-member-v1-assets
+  name: v1(#81) 자산 — viewAsMember 상태·AsyncStorage 영속·auth.tsx 단일 파생 지점
+  commitment: working
+  confidence: high
+  quote: '`viewAsMember` 상태 + AsyncStorage 영속 + `setViewAsMember`'
+- anchor: sc-toggle-visible-to-real-superadmin
+  name: 토글은 실제 super_admin 기준 노출 — 일반 모드에서도 복귀 가능
+  commitment: working
+  confidence: high
+  quote: 완성. `isRealSuperAdmin` 기준 노출이라 일반 모드에서도 복귀 가능
+- anchor: sc-club-role-surface-dominates
+  name: 체감은 club role 표면에서 나온다 — 홈 footer·클럽 상세가 시야의 90%
+  commitment: working
+  confidence: high
+  quote: '**"일반 회원처럼 보기"의 체감은 app_role이 아니라 club role 표면에서 나온다.**'
+- anchor: sc-gate-at-derivation-point
+  name: 게이트는 파생 지점에서 내린다 — 소비처마다 체크하면 새 화면에서 잊는다
+  commitment: working
+  confidence: high
+  quote: '`viewAsMember`를 각 소비처에서 체크하면 새 화면마다 잊기 쉽다. **결정: 파생 지점에서 내린다**'
+- anchor: sc-badge-vs-action-gate
+  name: 정보성 뱃지는 두고 행동 게이트만 내린다 — 뱃지 변경은 거짓 정보
+  commitment: working
+  confidence: high
+  quote: '**결정: 기능/CTA 게이트(footer, 관리 진입, canEdit)만 내리고 정보 표시는 유지.**'
+- anchor: sc-impersonation-rejected
+  name: 서버 impersonation 기각 — 테스트 계정이 대체재
+  commitment: working
+  confidence: high
+  quote: C는 과욕 (테스트 계정이 대체재).
+- anchor: sc-mode-indicator-pill
+  name: 모드 인디케이터 = 좌하단 pill — 켜져 있음을 잊지 않게
+  commitment: working
+  confidence: high
+  quote: '**결정: C (좌하단 pill, "👁 일반 회원 모드 · 끄기").**'
+- anchor: sc-client-toggle-server-limit
+  name: 클라 토글의 한계 — RLS가 super admin에게 더 주는 행은 못 막는다
+  commitment: working
+  confidence: high
+  quote: RLS가 super admin에게 더 반환하는 행은 클라이언트 토글로 못 막는다. v2에서도 범위 밖 (§6).
+- anchor: sc-gate-only-no-cache-manipulation
+  name: 게이트만 내리므로 캐시 조작 불필요 — 상태 전파는 context 리렌더
+  commitment: working
+  confidence: high
+  quote: club role은 서버 데이터 그대로 두고 **게이트에서만** 내리므로 캐시 조작이 필요 없다
+- anchor: sc-mode-toggle-instant-reversible
+  name: OFF 복귀는 즉시·새로고침 불필요
+  commitment: working
+  confidence: high
+  quote: 4. OFF로 되돌리면 1~3이 전부 원상복구된다 (새로고침 불필요).
+- anchor: sc-ismember-drop-intended
+  name: isMember 하락으로 자기 클럽에 가입 신청 CTA가 뜨는 건 의도된 재현
+  commitment: working
+  confidence: medium
+  quote: 이게 바로 "회원이 아닌 시점" 재현이므로 의도된 동작
+- anchor: sc-guest-mode-deferred
+  name: 비회원(게스트) 모드는 별개 축 — 필요 확인 시 별도 기획
+  commitment: hypothesis
+  confidence: high
+  quote: '**비회원(게스트) 모드** — "회원도 아닌 사람"의 시점은 별개 축. 필요성이 확인되면 별도 기획.'
+- anchor: sc-view-as-member-quality-loop
+  name: 운영자가 회원 UX 문제를 직접 발견하는 품질 루프
+  commitment: working
+  confidence: medium
+  quote: 운영자 QoL + "회원 UX 문제를 운영자가 직접 발견"이라는 품질 루프를 만드는 도구.

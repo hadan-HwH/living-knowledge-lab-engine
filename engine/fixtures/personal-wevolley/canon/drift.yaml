@@ -1,0 +1,15 @@
+stale: []
+stale_citations: []
+stats:
+  changed: 0
+  added: 0
+  removed: 0
+freshness:
+  fresh: true
+  canon_sha: 5e773ff
+  newest: 5e773ff
+  available:
+  - 067d91b
+  - 5e773ff
+  stale_layers: []
+  undated: []

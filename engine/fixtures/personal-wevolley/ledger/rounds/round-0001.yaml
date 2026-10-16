@@ -1,0 +1,1034 @@
+meta:
+  generator: structure_app.run_promote
+  last_promoted_app: wevolley
+  promoted_total: 80
+  relations_total: 48
+  held_total:
+    candidate: 0
+    ambiguous: 0
+    gap: 0
+  dangling_auto_fold: []
+  source_sha: 067d91b
+  skipped:
+    current_plane: 개념에 governed_by 없음(S3a 미실행) — 이벤트는 있으나 걸 데가 없다
+concepts:
+- anchor: wevolley#sc-allow-dm-toggle
+  kind: concept
+  name: profiles.allow_dm — 전 유저 공통 DM 수신 설정(RPC 서버 강제)
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-anon-column-scoped-read
+  kind: concept
+  name: anon RLS는 테이블 전체 read 금지 — 공개 뷰/RPC로 컬럼 스코프만
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-article-spec-freed
+  kind: concept
+  name: article 규격 해방 800~1500자 — 렌더러 실측 근거, 앱 변경 0
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-author-set-null-on-delete
+  kind: concept
+  name: 탈퇴해도 커뮤니티 콘텐츠 보존 — author_id ON DELETE SET NULL
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-badge-vs-action-gate
+  kind: concept
+  name: 정보성 뱃지는 두고 행동 게이트만 내린다 — 뱃지 변경은 거짓 정보
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-bot-no-reresponse
+  kind: concept
+  name: 반응 패스는 댓글 1개·재응답 없음 — 무응답 발각 리스크 차단
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-bot-private-operation
+  kind: concept
+  name: 시딩 봇 비공개 운영 — AI 배지 공개(0009③)를 뒤집음
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-broadcast-over-postgres-changes
+  kind: concept
+  name: postgres_changes 부적합 — RLS 선형 검사·100ev/s 초과분 조용한 드롭
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-center-modal-only
+  kind: concept
+  name: 모달은 전부 화면 중앙 — 하단 시트 전면 폐지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-charge-plans
+  kind: concept
+  name: charge_plans — 청구 템플릿(주기·금액·발행일)
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-charge-status-enum
+  kind: concept
+  name: charge status 전이 — pending → reported → confirmed | exempt | void
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-client-side-image-pipeline
+  kind: concept
+  name: 아바타 = 클라이언트 가공 후 1장만 업로드 — 원본 서버 전송 0
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-club-charges
+  kind: concept
+  name: club_charges — 장부의 원자 단위(type·status 전이)
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-community-dm-room-type
+  kind: concept
+  name: 커뮤니티 DM = chat_rooms.type='community_dm' — 방 단위 정체성 스위칭
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-community-profiles
+  kind: concept
+  name: community_profiles — 커뮤니티 정체성을 배구 프로필과 분리한 가명 프로필
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-cover-baked-from-template
+  kind: concept
+  name: 커버는 레포 정적 HTML 템플릿에서 굽는다 — 즉석 HTML 폐지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-decisions-append-only
+  kind: concept
+  name: 결정 로그 append-only — 뒤집을 땐 원 항목에 대체 표시 후 새 항목
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-decisions-log-separation
+  kind: concept
+  name: 결정은 기획 문서가 아니라 DECISIONS.md에 — 문서가 폐기돼도 결정은 남는다
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-deep-opt-in
+  kind: concept
+  name: deep 인자만 Workflow 승격 — 항상-deep은 비용으로 기각
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-designated-depositor-name
+  kind: concept
+  name: 지정 입금자명 — 앱이 입금자명을 지정해 대조 노동을 제거
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-doc-global-number
+  kind: concept
+  name: 전역 시퀀스 번호 — 폴더를 옮겨도 유지되는 문서 정체성
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-doc-location-is-state
+  kind: concept
+  name: 문서 위치 = 상태 — planning/ 폴더 이동으로 진행 상태를 표현
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-doc-type-roles
+  kind: concept
+  name: 문서 유형 4종 — 기획(backlog)·구현(루트)·결정·참조
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-doc-wip-limit
+  kind: concept
+  name: 진행 중 작업 수 상한 — 루트 문서 3개 이상이면 과부하 신호
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-duplicate-over-shared-doc
+  kind: concept
+  name: 공통 블록은 복제 — 공유 문서는 스킬 자립성을 깬다
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-factpack-source-required
+  kind: concept
+  name: 팩트팩 밖 주장 리젝 — 출처 URL 필수(할루시네이션 방어)
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-font-fallback-explicit
+  kind: concept
+  name: 한글 글리프 없는 폰트는 폴백 명시 — 안 하면 렌더 머신마다 달라짐
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-format-choice-is-operator
+  kind: concept
+  name: 포맷 선택은 운영자 몫 — "애매하면 article" 자동 규칙 폐기
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-gate-at-derivation-point
+  kind: concept
+  name: 게이트는 파생 지점에서 내린다 — 소비처마다 체크하면 새 화면에서 잊는다
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-guest-as-personal-user-value
+  kind: concept
+  name: 게스트 탐색 = 무소속 개인 유저의 첫 번째 명확한 사용 이유
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-guest-capacity-autoclose
+  kind: concept
+  name: 정원 도달 시 자동 마감 — 추가 신청 차단
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-guest-dm-coexists
+  kind: concept
+  name: DM 문의는 신청 도입 후에도 공존 — 사전 문의 채널
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-guest-open-toggle
+  kind: concept
+  name: 일정별 게스트 모집 토글 + 정원 — 기본 off
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-guest-payment-guide-gated
+  kind: concept
+  name: guest_payment_guide는 승인 후에만 노출
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-guest-profile-card
+  kind: concept
+  name: 신청 시 프로필 카드 자동 첨부 — 카톡 대비 핵심 우위
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-guest-reject-reason-required
+  kind: concept
+  name: 거절 사유 선택 필수 — 게스트 알림에 사유 포함
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-guest-request-lifecycle
+  kind: concept
+  name: 게스트 신청 라이프사이클 — 신청→승인→납부 안내→확인→참석
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-guest-requests-table
+  kind: concept
+  name: guest_requests — 요청 도메인 4번째 인스턴스(범용 requests 통합 기각)
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-home-state-branching
+  kind: concept
+  name: 홈은 유저 상태 분기 — 전역 CTA·광고 금지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-http-refetch-owns-consistency
+  kind: concept
+  name: 정합성은 재구독·focus 시 HTTP refetch가 소유 — 실시간은 전달 수단
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-immutable-ledger
+  kind: concept
+  name: 수정 불가 원장 — confirmed 취소는 void+재발행
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-impersonation-rejected
+  kind: concept
+  name: 서버 impersonation 기각 — 테스트 계정이 대체재
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-is-anonymous-dropped
+  kind: concept
+  name: is_anonymous 도입 안 함 — 가명 프로필 자체가 실명 비노출
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-is-bot-never-exposed
+  kind: concept
+  name: is_bot은 어떤 공개 뷰/API에도 미노출 — 유출 = 즉시 판별
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-launchd-plist-restale
+  kind: concept
+  name: launchd plist는 문자열 박제 — 개명 시 재생성 필요
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-lib-api-on-demand
+  kind: concept
+  name: lib/api 승격은 재사용 시점에 — 전면 강제 안 함
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-liker-cron-stays
+  kind: concept
+  name: 좋아요는 크론 유지 — 스킬 이관 시 딸깍 누락 = 좋아요 정지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-modal-three-tier
+  kind: concept
+  name: 모달 3계층 — CenterMenuModal · AppModal · CenterModal
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-mode-indicator-pill
+  kind: concept
+  name: 모드 인디케이터 = 좌하단 pill — 켜져 있음을 잊지 않게
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-nickname-app-wide-unique
+  kind: concept
+  name: 닉네임은 앱 전체 유일 — 커뮤니티 UNIQUE 즉시, 배구 DB 승격은 후속
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-nickname-numeric-suffix
+  kind: concept
+  name: 자동 닉네임 결정적 숫자 접미 2자리 — 첫 진입 원탭이 UNIQUE에 안 막히게
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-no-direct-supabase-in-view
+  kind: concept
+  name: 화면·컴포넌트에서 supabase 직접 호출 금지 — 쿼리는 도메인 훅에
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-no-money-through-app
+  kind: concept
+  name: 돈은 앱을 거치지 않는다 — 송금/결제 대행 비목표
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-nonblocking-heuristic-gate
+  kind: concept
+  name: 비결정적 휴리스틱 가드는 차단 승격 부적합 — 로그 노출만
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-notify-single-entry-precondition
+  kind: concept
+  name: notify() 단일 진입점 — 금고·게스트 첫 마이그레이션의 선행 조건
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-one-pass-writing-root-cause
+  kind: concept
+  name: 품질 문제의 구조적 원인 = 한 패스 집필
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-open-banking-rejected
+  kind: concept
+  name: 은행 계좌 연동 기각 — 마이데이터 허가제·스크래핑 신용정보법
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-persist-denylist
+  kind: concept
+  name: 쿼리 persist는 denylist 기본 — allowlist 극성 반전
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-picker-watchdog
+  kind: concept
+  name: 픽커 유실 복구 = JS 워치독 래퍼 — 네이티브 패치 기각
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-publish-time-by-code-random
+  kind: concept
+  name: 발행 시각은 LLM 아닌 코드 난수 — 크론 틱 패턴 유출 차단
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-push-fallback-fail-open
+  kind: concept
+  name: 푸시 함수 ELSE 폴백이 실명 = fail-open — 한 마이그레이션에서 원자 처리
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-realtime-hybrid
+  kind: concept
+  name: 실시간 동기화 하이브리드 — 전역 최소 구독 + 화면 단위 Broadcast
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-research-critique-pipeline
+  kind: concept
+  name: 3단 품질 파이프라인 — 리서치 팩트팩 → 집필 → 비평 리젝
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-route-guard-default-deny
+  kind: concept
+  name: RouteGuard 기본 거부 — 비로그인 허용 경로 화이트리스트
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-script-orchestrator
+  kind: concept
+  name: 봇 시딩 아키텍처 = 대본 오케스트레이터(디렉터 1회/일 → 발행기 15분)
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-search-client-gate
+  kind: concept
+  name: 검색 클라 게이트 — 디바운스 300ms + 최소 2글자
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-self-report-adoption-risk
+  kind: concept
+  name: 최대 가정 — 멤버가 셀프 신고를 안 하면 가치 반감(채택률 60%)
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-share-deploy-order
+  kind: concept
+  name: 공유 배포 순서 강제 — 역순이면 redirect 루프
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-share-og-canonical-split
+  kind: concept
+  name: 공유 링크 = OG 엔트리(/s/)와 canonical(/type/) 분리 — 랜딩 폐지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-skeleton-render-contract
+  kind: concept
+  name: 렌더 계약 — 콜드에만 스켈레톤, 백그라운드 fetch엔 이전 데이터 유지
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-skill-per-publish-format
+  kind: concept
+  name: 발행 형태 1개 = 스킬 1개 — 포맷 자동 판단 폐기
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-treasury-ledger
+  kind: concept
+  name: 클럽 금고 — 은행 연동 없는 회비 수금·지출·투명성 장부
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-treasury-must-replace-excel
+  kind: concept
+  name: v1 성립 조건 — 엑셀을 완전 대체 못 하면 만들 가치 없음
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-treasury-open-question-visibility
+  kind: concept
+  name: 미결 — 미납 공개 범위 기본값(본인+운영진 vs 전체 공개)
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-treasury-semi-auto
+  kind: concept
+  name: 자동화 경계 — 청구 생성·독촉은 자동, 입금 확인은 셀프 신고+총무 승인
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-treasury-three-principles
+  kind: concept
+  name: 은행 연동 없이 성립하는 3원칙 — 입력 분산·매칭 상류 제거·독촉 외주
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-treasury-write-role
+  kind: concept
+  name: 회계 쓰기 권한 = club_members.role admin — 별도 총무 역할 신설 안 함
+  scope: wevolley
+  basis: document_stated
+  commitment: hypothesis
+  confidence: high
+- anchor: wevolley#sc-trigram-search
+  kind: concept
+  name: 커뮤니티 검색 = trigram GIN — FTS 기각(한국어 토크나이저 부재)
+  scope: wevolley
+  basis: document_stated
+  commitment: frozen
+  confidence: high
+- anchor: wevolley#sc-two-admin-lineages
+  kind: concept
+  name: 관리자 UI 두 계통 — app_role vs club_members role
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+- anchor: wevolley#sc-view-as-member
+  kind: concept
+  name: 일반 회원 모드 — 클라이언트 뷰 모드만(서버 impersonation 아님)
+  scope: wevolley
+  basis: document_stated
+  commitment: working
+  confidence: high
+relations:
+- from: wevolley#sc-bot-private-operation
+  to: wevolley#sc-allow-dm-toggle
+  canonical: realized_by
+  quote: 전 유저 공통 DM 수신 설정
+- from: wevolley#sc-bot-private-operation
+  to: wevolley#sc-is-bot-never-exposed
+  canonical: constrains
+  quote: '`is_bot`은 어떤 공개 뷰/API에도 미노출(유출 = 즉시 판별)'
+- from: wevolley#sc-bot-private-operation
+  to: wevolley#sc-script-orchestrator
+  canonical: realized_by
+  quote: 아키텍처는 **대본 오케스트레이터**
+- from: wevolley#sc-center-modal-only
+  to: wevolley#sc-modal-three-tier
+  canonical: realized_by
+  quote: '3계층: 순수 액션 메뉴 = CenterMenuModal'
+- from: wevolley#sc-charge-plans
+  to: wevolley#sc-club-charges
+  canonical: produces
+  quote: charge_plans            청구 템플릿
+- from: wevolley#sc-club-charges
+  to: wevolley#sc-charge-status-enum
+  canonical: has_state
+  quote: 'status: pending → reported → confirmed | exempt | void'
+- from: wevolley#sc-club-charges
+  to: wevolley#sc-immutable-ledger
+  canonical: constrains
+  quote: 수정 불가 원장
+- from: wevolley#sc-community-dm-room-type
+  to: wevolley#sc-push-fallback-fail-open
+  canonical: constrains
+  quote: 한 마이그레이션에서 원자 처리
+- from: wevolley#sc-community-profiles
+  to: wevolley#sc-community-dm-room-type
+  canonical: realized_by
+  quote: '**`chat_rooms.type`에 `community_dm` 추가**'
+- from: wevolley#sc-community-profiles
+  to: wevolley#sc-is-anonymous-dropped
+  canonical: supersedes
+  quote: 가명 프로필 자체가 실명 비노출이라 완전익명 모드 한계효용 낮고
+- from: wevolley#sc-community-profiles
+  to: wevolley#sc-nickname-app-wide-unique
+  canonical: constrains
+  quote: 커뮤니티는 prod 미배포라 **00122에서 `lower(trim(nickname))` 유니크 인덱스로 깨끗하게 시작**
+- from: wevolley#sc-cover-baked-from-template
+  to: wevolley#sc-font-fallback-explicit
+  canonical: constrains
+  quote: '**폴백을 명시**'
+- from: wevolley#sc-decisions-log-separation
+  to: wevolley#sc-decisions-append-only
+  canonical: constrains
+  quote: 구조 결정의 append-only 로그
+- from: wevolley#sc-doc-location-is-state
+  to: wevolley#sc-doc-type-roles
+  canonical: constrains
+  quote: 문서의 **위치가 곧 상태**다
+- from: wevolley#sc-doc-location-is-state
+  to: wevolley#sc-doc-wip-limit
+  canonical: constrains
+  quote: 루트에 문서가 3개 이상 쌓이면 진행 중 작업이 너무 많다는 신호
+- from: wevolley#sc-guest-open-toggle
+  to: wevolley#sc-guest-capacity-autoclose
+  canonical: constrains
+  quote: 정원 도달 시 자동 마감(추가 신청 차단)
+- from: wevolley#sc-guest-request-lifecycle
+  to: wevolley#sc-guest-payment-guide-gated
+  canonical: constrains
+  quote: 승인 후에만 노출
+- from: wevolley#sc-guest-request-lifecycle
+  to: wevolley#sc-guest-reject-reason-required
+  canonical: constrains
+  quote: '**거절 사유 필수.**'
+- from: wevolley#sc-guest-request-lifecycle
+  to: wevolley#sc-guest-requests-table
+  canonical: realized_by
+  quote: '`guest_requests` 테이블 신설'
+- from: wevolley#sc-guest-request-lifecycle
+  to: wevolley#sc-notify-single-entry-precondition
+  canonical: depends_on
+  quote: '**notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션 전에 선행**'
+- from: wevolley#sc-guest-request-lifecycle
+  to: wevolley#sc-treasury-ledger
+  canonical: depends_on
+  quote: guest_fee charge 자동 생성 → 게스트에게 납부 안내 알림
+- from: wevolley#sc-nickname-app-wide-unique
+  to: wevolley#sc-nickname-numeric-suffix
+  canonical: realized_by
+  quote: 자동 파생 닉네임에 결정적 숫자 접미 2자리
+- from: wevolley#sc-no-money-through-app
+  to: wevolley#sc-open-banking-rejected
+  canonical: constrains
+  quote: 돈은 앱을 거치지 않는다
+- from: wevolley#sc-one-pass-writing-root-cause
+  to: wevolley#sc-research-critique-pipeline
+  canonical: motivates
+  quote: '**기본 = 리서치 서브에이전트(팩트팩) → 집필 → 비평 서브에이전트(팩트 대조·무정보 리젝) 3단**'
+- from: wevolley#sc-persist-denylist
+  to: wevolley#sc-skeleton-render-contract
+  canonical: constrains
+  quote: 렌더 계약은 `!data && isLoading`에만 스켈레톤(콜드)
+- from: wevolley#sc-realtime-hybrid
+  to: wevolley#sc-broadcast-over-postgres-changes
+  canonical: constrains
+  quote: postgres_changes는 WAL 변경마다 구독자별 RLS 검사가 선형
+- from: wevolley#sc-realtime-hybrid
+  to: wevolley#sc-http-refetch-owns-consistency
+  canonical: constrains
+  quote: HTTP refetch가 정합성을 소유
+- from: wevolley#sc-research-critique-pipeline
+  to: wevolley#sc-deep-opt-in
+  canonical: constrains
+  quote: '`deep` 인자만 Workflow 승격'
+- from: wevolley#sc-research-critique-pipeline
+  to: wevolley#sc-factpack-source-required
+  canonical: constrains
+  quote: 팩트팩에 출처 URL 필수
+- from: wevolley#sc-route-guard-default-deny
+  to: wevolley#sc-anon-column-scoped-read
+  canonical: constrains
+  quote: anon RLS는 **테이블 전체 read 금지, 공개 뷰/RPC로 컬럼 스코프만**
+- from: wevolley#sc-script-orchestrator
+  to: wevolley#sc-bot-no-reresponse
+  canonical: constrains
+  quote: 재응답 없음 — 무응답 발각 리스크 차단
+- from: wevolley#sc-script-orchestrator
+  to: wevolley#sc-publish-time-by-code-random
+  canonical: constrains
+  quote: 발행 시각은 **LLM 아닌 코드 난수**
+- from: wevolley#sc-share-og-canonical-split
+  to: wevolley#sc-share-deploy-order
+  canonical: constrains
+  quote: '**배포 순서 강제**'
+- from: wevolley#sc-skill-per-publish-format
+  to: wevolley#sc-duplicate-over-shared-doc
+  canonical: constrains
+  quote: '**복제를 택하되**'
+- from: wevolley#sc-skill-per-publish-format
+  to: wevolley#sc-format-choice-is-operator
+  canonical: constrains
+  quote: '"애매하면 article" 같은 자동 판단 규칙은 폐기'
+- from: wevolley#sc-skill-per-publish-format
+  to: wevolley#sc-launchd-plist-restale
+  canonical: impacts
+  quote: '파급: launchd plist 재생성 필요(bot-auto.sh on)'
+- from: wevolley#sc-skill-per-publish-format
+  to: wevolley#sc-liker-cron-stays
+  canonical: constrains
+  quote: 좋아요 크론 로직 이관 기각
+- from: wevolley#sc-treasury-ledger
+  to: wevolley#sc-club-charges
+  canonical: realized_by
+  quote: club_charges           장부의 원자 단위 —
+- from: wevolley#sc-treasury-ledger
+  to: wevolley#sc-treasury-semi-auto
+  canonical: constrains
+  quote: 입금 확인은 셀프 신고 + 총무 승인의 반자동
+- from: wevolley#sc-treasury-ledger
+  to: wevolley#sc-treasury-write-role
+  canonical: constrains
+  quote: 회계 쓰기 권한 = `club_members.role = admin`
+- from: wevolley#sc-treasury-semi-auto
+  to: wevolley#sc-self-report-adoption-risk
+  canonical: depends_on
+  quote: 멤버가 셀프 신고를 안 함 (**최대 가정**)
+- from: wevolley#sc-treasury-three-principles
+  to: wevolley#sc-designated-depositor-name
+  canonical: realized_by
+  quote: '**매칭을 상류에서 제거**(지정 입금자명)'
+- from: wevolley#sc-trigram-search
+  to: wevolley#sc-search-client-gate
+  canonical: constrains
+  quote: '**디바운스 300ms + 최소 2글자**'
+- from: wevolley#sc-view-as-member
+  to: wevolley#sc-badge-vs-action-gate
+  canonical: constrains
+  quote: 기능/CTA 게이트(footer, 관리 진입, canEdit)만 내리고 정보 표시는 유지.
+- from: wevolley#sc-view-as-member
+  to: wevolley#sc-gate-at-derivation-point
+  canonical: realized_by
+  quote: '**결정: 파생 지점에서 내린다**'
+- from: wevolley#sc-view-as-member
+  to: wevolley#sc-impersonation-rejected
+  canonical: constrains
+  quote: C는 과욕 (테스트 계정이 대체재).
+- from: wevolley#sc-view-as-member
+  to: wevolley#sc-mode-indicator-pill
+  canonical: realized_by
+  quote: '**결정: C (좌하단 pill'
+- from: wevolley#sc-view-as-member
+  to: wevolley#sc-two-admin-lineages
+  canonical: depends_on
+  quote: '**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**'
+bodies:
+  wevolley#sc-allow-dm-toggle:
+  - key: quote
+    text: '`profiles.allow_dm=false`(전 유저 공통 DM 수신 설정 — 기본 허용, 프로필에서 토글, RPC 서버 강제)'
+  wevolley#sc-anon-column-scoped-read:
+  - key: quote
+    text: ② anon RLS는 **테이블 전체 read 금지, 공개 뷰/RPC로 컬럼 스코프만**
+  wevolley#sc-article-spec-freed:
+  - key: quote
+    text: article 규격은 렌더러 실측(상세 무클램프·피드 포인트 미노출) 근거로 800~1500자 해방 - 앱 변경 0.
+  wevolley#sc-author-set-null-on-delete:
+  - key: quote
+    text: '**탈퇴(하드 삭제)해도 커뮤니티 글/댓글은 남는다**(사용자 결정 — "행 보존은 불필요, 콘텐츠만")'
+  wevolley#sc-badge-vs-action-gate:
+  - key: quote
+    text: 이건 **거짓 정보**다(실제 role은 admin). 일반 회원 모드의 목적은 "회원이 보는 화면의 문제를 발견"이지 "내 정체를
+      속이기"가 아니다.
+  wevolley#sc-bot-no-reresponse:
+  - key: quote
+    text: 반응 패스가 사람 글에 댓글 1개(재응답 없음 — 무응답 발각 리스크 차단)
+  wevolley#sc-bot-private-operation:
+  - key: quote
+    text: '0009 ③(AI 배지 공개)을 뒤집음 — 사용자 결정: 봇 여부는 내부적으로만 알고 사용자에겐 비노출.'
+  wevolley#sc-broadcast-over-postgres-changes:
+  - key: quote
+    text: postgres_changes는 WAL 변경마다 구독자별 RLS 검사가 선형이고 테넌트 100ev/s 초과분을 조용히 드롭해(소스
+      실측) 화면 구독 확장에 부적합
+  wevolley#sc-center-modal-only:
+  - key: quote
+    text: 하단에서 올라오는 시트가 "붕 뜬" 느낌이라는 운영자 결정으로 모달을 중앙으로 통일한다.
+  wevolley#sc-charge-plans:
+  - key: quote
+    text: charge_plans            청구 템플릿 — cycle(monthly|quarterly), amount, issue_day,
+      active
+  wevolley#sc-charge-status-enum:
+  - key: quote
+    text: 'status: pending → reported → confirmed | exempt | void'
+  wevolley#sc-client-side-image-pipeline:
+  - key: quote
+    text: '가공은 **클라이언트 파이프라인**(expo-image-picker 편집UI off + expo-image-manipulator:
+      중앙 정사각 크롭→512²→JPEG q0.7)으로 가공된 1장만 업로드 — 원본 서버 전송 0'
+  wevolley#sc-club-charges:
+  - key: quote
+    text: club_charges           장부의 원자 단위 —
+  wevolley#sc-community-dm-room-type:
+  - key: quote
+    text: '**`chat_rooms.type`에 `community_dm` 추가**, 같은 유저 쌍이라도 실명 방과 가명 방은 별도 공존'
+  wevolley#sc-community-profiles:
+  - key: quote
+    text: '**`community_profiles`(user_id, nickname≤12, icon_id, color)** 신규 테이블,
+      아이콘+이름만 수정.'
+  wevolley#sc-cover-baked-from-template:
+  - key: quote
+    text: '**31장을 레포에 정적 HTML(1/2 스케일 인라인 스타일)로 담고** `render.mjs`(Playwright, deviceScaleFactor
+      2)가 1080×1350·1280×800 PNG로 굽는'
+  wevolley#sc-decisions-append-only:
+  - key: quote
+    text: '구조 결정의 append-only 로그. 한 결정 = 한 항목(5줄 내외: 결정·왜·기각한 대안). 뒤집을 땐 원 항목에 "→
+      NNNN로 대체" 표시 후 새 항목 추가.'
+  wevolley#sc-decisions-log-separation:
+  - key: quote
+    text: '**구조 결정은 문서 본문에 묻지 말고 DECISIONS.md에 한 항목으로 추가** — 기획 문서는 폐기돼도 결정은 남아야 한다.'
+  wevolley#sc-deep-opt-in:
+  - key: quote
+    text: '항상-deep은 주 3회 발행이라도 비용·시간 부담이 커서 기각 (2026-07-20 사용자 결정: "기본=경량, deep 인자").'
+  wevolley#sc-designated-depositor-name:
+  - key: quote
+    text: '[멤버 송금]  은행앱에서 이체 — 입금자명을 앱이 지정("김철수0403")'
+  wevolley#sc-doc-global-number:
+  - key: quote
+    text: 번호는 전역 시퀀스로 폴더를 옮겨도 유지된다 (33은 어디에 있어도 33)
+  wevolley#sc-doc-location-is-state:
+  - key: quote
+    text: 문서의 **위치가 곧 상태**다. 문서 하나가 기획→구현→완료로 흐르면서 폴더를 이동한다.
+  wevolley#sc-doc-type-roles:
+  - key: quote
+    text: '- **기획 문서** (backlog/): 문제·목표·비목표·코어 플로우·모델 초안·오픈 퀘스천. 구현 방법은 얕게.'
+  wevolley#sc-doc-wip-limit:
+  - key: quote
+    text: 루트에 문서가 3개 이상 쌓이면 진행 중 작업이 너무 많다는 신호
+  wevolley#sc-duplicate-over-shared-doc:
+  - key: quote
+    text: '**복제를 택하되** 두 파일 헤더에 "예약·대장 절차는 bot-cards/bot-article 동일 - 한쪽 수정 시 다른 쪽도"
+      상호 주석을 남긴다.'
+  wevolley#sc-factpack-source-required:
+  - key: quote
+    text: 팩트팩에 출처 URL 필수, 비평 단계가 팩트팩 밖 주장 리젝, 승인 게이트(운영자 최종 검수) 유지
+  wevolley#sc-font-fallback-explicit:
+  - key: quote
+    text: mono·Archivo에 한글 글리프가 없어 **폴백을 명시**(안 하면 렌더 머신마다 한글이 다른 폰트로 떨어짐
+  wevolley#sc-format-choice-is-operator:
+  - key: quote
+    text: '"소재 성격에 맞는 포맷 고르기"는 운영자 몫으로 명시 이동 (2026-07-20 사용자 결정). "애매하면 article" 같은
+      자동 판단 규칙은 폐기.'
+  wevolley#sc-gate-at-derivation-point:
+  - key: quote
+    text: '`viewAsMember`를 각 소비처에서 체크하면 새 화면마다 잊기 쉽다. **결정: 파생 지점에서 내린다**'
+  wevolley#sc-guest-as-personal-user-value:
+  - key: quote
+    text: '"이번 주 게스트 뛸 곳 찾기"는 개인 유저의 **첫 번째 명확한 사용 이유**가 되고, 게스트 참여는 클럽 가입의 자연 퍼널이
+      된다'
+  wevolley#sc-guest-capacity-autoclose:
+  - key: quote
+    text: 정원 도달 시 자동 마감(추가 신청 차단)
+  wevolley#sc-guest-dm-coexists:
+  - key: quote
+    text: DM 문의는 **공존** — 신청 전 사전 문의 채널로 유지.
+  wevolley#sc-guest-open-toggle:
+  - key: quote
+    text: "운영진: 일정 생성/수정 시 \"게스트 모집\" 토글 on + 모집 인원(정원) 설정\n        (기본 off — 자리 남는\
+      \ 날만 여는 게 현실)"
+  wevolley#sc-guest-payment-guide-gated:
+  - key: quote
+    text: + guest_payment_guide TEXT NULL    -- 승인 후에만 노출 (계좌·금액·규칙)
+  wevolley#sc-guest-profile-card:
+  - key: quote
+    text: ※ 신청에 내 프로필 카드(레벨·포지션·구력·성별) 자동 첨부 — 카톡 대비 핵심 우위
+  wevolley#sc-guest-reject-reason-required:
+  - key: quote
+    text: '**거절 사유 필수.** 선택지(정원 마감/수준 미스매치/일정 사정/기타+메모) → 게스트 알림에 포함.'
+  wevolley#sc-guest-request-lifecycle:
+  - key: quote
+    text: '게스트 단위 = 일정(club_event) 1회 참여. 라이프사이클: 신청→승인→납부 안내→확인→참석.'
+  wevolley#sc-guest-requests-table:
+  - key: quote
+    text: '`guest_requests` 테이블 신설 — 기존 3개 요청 테이블처럼 도메인별 테이블 유지(범용 requests 통합은 FK·RLS
+      희생으로 기각)'
+  wevolley#sc-home-state-branching:
+  - key: quote
+    text: 홈 상단 구성은 무소속/멤버/관리자 상태별로 다르게 렌더한다 — 모두에게 같은 CTA를 주는 전역 요소(퀵액션 그리드, 등록 버튼)는
+      두지 않는다.
+  wevolley#sc-http-refetch-owns-consistency:
+  - key: quote
+    text: 어느 쪽이든 재구독·focus 시 HTTP refetch가 정합성을 소유
+  wevolley#sc-immutable-ledger:
+  - key: quote
+    text: confirmed 취소는 void+재발행(수정 불가 원장)
+  wevolley#sc-impersonation-rejected:
+  - key: quote
+    text: C는 과욕 (테스트 계정이 대체재).
+  wevolley#sc-is-anonymous-dropped:
+  - key: quote
+    text: '**is_anonymous/"익명의 배구인"은 도입 안 함**(사용자 결정)'
+  wevolley#sc-is-bot-never-exposed:
+  - key: quote
+    text: '`is_bot`은 어떤 공개 뷰/API에도 미노출(유출 = 즉시 판별)'
+  wevolley#sc-launchd-plist-restale:
+  - key: quote
+    text: plist는 `bot-auto.sh on` 시점의 문자열이 박제되므로 스크립트만 고치면 기존 가동분은 계속 `/bot-tick`을
+      부른다
+  wevolley#sc-lib-api-on-demand:
+  - key: quote
+    text: '여러 곳 재사용 또는 복잡 조인만 lib/api로 승격. 이유: 훅 안 쿼리는 이미 qk·에러 분류 규율 안에 있고, 추상화는
+      재사용 시점에 사는 게 싸다.'
+  wevolley#sc-liker-cron-stays:
+  - key: quote
+    text: 로직을 스킬로 옮기면 딸깍 누락 = 좋아요 정지가 되므로 기각.
+  wevolley#sc-modal-three-tier:
+  - key: quote
+    text: '3계층: 순수 액션 메뉴 = CenterMenuModal(카카오톡식, 아이콘 없는 텍스트 행), 제목+본문+푸터 정형 = AppModal(기존,
+      커뮤 첫 진입이 기준 시각), 자유 콘텐츠(폼·픽커·목록) = CenterModal'
+  wevolley#sc-mode-indicator-pill:
+  - key: quote
+    text: '**결정: C (좌하단 pill, "👁 일반 회원 모드 · 끄기").**'
+  wevolley#sc-nickname-app-wide-unique:
+  - key: quote
+    text: 앱 정책을 **"닉네임은 유일"** 하나로 통일(사용자 결정).
+  wevolley#sc-nickname-numeric-suffix:
+  - key: quote
+    text: 자동 파생 닉네임에 결정적 숫자 접미 2자리(`든든한리베로07` — 풀 120→12,000, 첫 진입 원탭이 UNIQUE에 안 막힘)
+  wevolley#sc-no-direct-supabase-in-view:
+  - key: quote
+    text: 쿼리·뮤테이션은 `lib/hooks/{domain}/`에. 예외는 auth 플로우
+  wevolley#sc-no-money-through-app:
+  - key: quote
+    text: '- **송금/결제 대행**: 돈은 앱을 거치지 않는다. 앱은 장부·독촉·투명성만.'
+  wevolley#sc-nonblocking-heuristic-gate:
+  - key: quote
+    text: 차단 승격 안 함 — ±6줄 휴리스틱이라 거짓양성이 구조적으로 가능, 판정이 비결정적인 가드는 차단 부적합.
+  wevolley#sc-notify-single-entry-precondition:
+  - key: quote
+    text: '**notify() 단일 진입점(P1-1)을 이 기능 첫 마이그레이션 전에 선행**'
+  wevolley#sc-one-pass-writing-root-cause:
+  - key: quote
+    text: 2. **품질 문제의 구조적 원인은 "한 패스 집필"이다.**
+  wevolley#sc-open-banking-rejected:
+  - key: quote
+    text: '- **은행 계좌 연동 전면**: 마이데이터(허가제, 자본금 5억) 기각.'
+  wevolley#sc-persist-denylist:
+  - key: quote
+    text: persist 정책을 allowlist(10개 opt-in)→**denylist**로 반전.
+  wevolley#sc-picker-watchdog:
+  - key: quote
+    text: 대응은 **픽 호출 컨텍스트 안의 워치독 래퍼**
+  wevolley#sc-publish-time-by-code-random:
+  - key: quote
+    text: 발행 시각은 **LLM 아닌 코드 난수**(가중 시간창 + 분 단위 지터, `created_at := scheduled_at` —
+      크론 틱·라운드 시각 패턴 유출 차단)
+  wevolley#sc-push-fallback-fail-open:
+  - key: quote
+    text: '**푸시 함수(00095)는 ELSE 폴백이 실명이라 fail-open** → CHECK 확장·RPC 파라미터화·푸시 분기를 한
+      마이그레이션에서 원자 처리.'
+  wevolley#sc-realtime-hybrid:
+  - key: quote
+    text: 전역 상시 구독은 3개 이하(미읽음·채팅 inbox·user 세션 채널), 상세 화면은 진입 시 구독·이탈 시 해제.
+  wevolley#sc-research-critique-pipeline:
+  - key: quote
+    text: '**기본 = 리서치 서브에이전트(팩트팩) → 집필 → 비평 서브에이전트(팩트 대조·무정보 리젝) 3단**'
+  wevolley#sc-route-guard-default-deny:
+  - key: quote
+    text: ① RouteGuard는 **비로그인 허용 경로 화이트리스트(기본 거부)** — 새 화면은 자동으로 로그인 필요.
+  wevolley#sc-script-orchestrator:
+  - key: quote
+    text: '아키텍처는 **대본 오케스트레이터**: 디렉터 1회/일이 글+답글을 한 LLM 호출'
+  wevolley#sc-search-client-gate:
+  - key: quote
+    text: 클라 게이트는 **디바운스 300ms + 최소 2글자**(trigram이 2글자 이하 패턴을 인덱스 못 탐
+  wevolley#sc-self-report-adoption-risk:
+  - key: quote
+    text: 멤버가 셀프 신고를 안 함 (**최대 가정**)
+  wevolley#sc-share-deploy-order:
+  - key: quote
+    text: '**배포 순서 강제**: PR A(웹 게이트 완화 + AppOpenBanner) → PR B(share-page body 제거
+      + redirect) — 역순이면 redirect 목적지가 서빙 안 돼 루프.'
+  wevolley#sc-share-og-canonical-split:
+  - key: quote
+    text: '**URL이 아니라 그 URL이 보여주는 것을 바꾼다**'
+  wevolley#sc-skeleton-render-contract:
+  - key: quote
+    text: 렌더 계약은 `!data && isLoading`에만 스켈레톤(콜드), 백그라운드 fetch엔 이전 데이터 유지로 성문화.
+  wevolley#sc-skill-per-publish-format:
+  - key: quote
+    text: 역할 혼재 스킬 2개(bot-tick=반응+잡담, bot-content=cards+article 자동 판단)를 **발행 형태 기준
+      4개로 분리**
+  wevolley#sc-treasury-ledger:
+  - key: quote
+    text: '**한 줄 정의**: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부.'
+  wevolley#sc-treasury-must-replace-excel:
+  - key: quote
+    text: '**핵심 판단: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다.**'
+  wevolley#sc-treasury-open-question-visibility:
+  - key: quote
+    text: '1. **[결정 대기 — 운영자]** 미납 공개 범위 기본값: 본인+운영진(권장) vs 전체 공개. 두 차례 논의 미결.'
+  wevolley#sc-treasury-semi-auto:
+  - key: quote
+    text: 자동화되는 것은 **청구 생성과 독촉**이고, 입금 확인은 셀프 신고 + 총무 승인의 반자동.
+  wevolley#sc-treasury-three-principles:
+  - key: quote
+    text: '설계 원칙: **입력을 멤버에게 분산**(셀프 신고), **매칭을 상류에서 제거**(지정 입금자명), **독촉을 시스템에 외주**(자동
+      리마인드). 이 3개가 은행 연동 없이 성립하는 이유.'
+  wevolley#sc-treasury-write-role:
+  - key: quote
+    text: 회계 쓰기 권한 = `club_members.role = admin` (별도 '총무' 역할 신설 안 함
+  wevolley#sc-trigram-search:
+  - key: quote
+    text: '기각: FTS/tsvector(Postgres에 한국어 형태소 분석기 없음 — "배구를"≠"배구", Supabase 관리형에 mecab
+      불가)'
+  wevolley#sc-two-admin-lineages:
+  - key: quote
+    text: '**관리자 UI는 두 계통인데 v1은 한 계통만 내렸다:**'
+  wevolley#sc-view-as-member:
+  - key: quote
+    text: '범위: **클라이언트 뷰 모드만.** 서버(RLS·RPC) 권한 전환(impersonation)은 하지 않는다.'
+held:
+  candidate: []
+  ambiguous: []
+  gap: []

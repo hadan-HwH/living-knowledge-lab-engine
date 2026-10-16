@@ -1,0 +1,1194 @@
+subconcepts:
+- anchor: sc-account-info-exposure-scope
+  name: 수금 계좌 노출 범위 — 멤버는 납부 화면, 비멤버·게스트는 승인 후
+  commitment: working
+  confidence: high
+  quote: 계좌 정보 노출
+- anchor: sc-action-notification-inbox
+  name: 알림은 목록과 "행동 필요"를 가른다 — 운영진 처리 액션은 홈 카드로 승격, 목록은 페이지네이션
+  commitment: working
+  confidence: high
+  quote: CHECK-enum을 DB는 string으로 돌려줌
+- anchor: sc-adaptive-list-web-flatlist
+  name: AdaptiveList — 네이티브는 FlashList, 웹은 가상화 끈 FlatList(가변 높이 갭 회피)
+  commitment: frozen
+  confidence: high
+  quote: FlashList v2 재활용 엔진이 **가변 높이 카드의 오프셋을 잘못 계산**해 카드 사이에
+- anchor: sc-ai-types-human-decides
+  name: 타이핑은 AI·설계와 결정은 사람 — 바이브코딩의 상한은 설계 역량이 정한다
+  commitment: working
+  confidence: high
+  quote: 바이브코딩의 상한은 프롬프트 실력이 아니라 설계 역량이 정한다
+- anchor: sc-allow-dm-toggle
+  name: profiles.allow_dm — 전 유저 공통 DM 수신 설정(RPC 서버 강제)
+  commitment: working
+  confidence: high
+  quote: DM 수신 설정 토글 — profiles.allow_dm (00124). 서버 강제는 find_or_create_dm 가드,
+- anchor: sc-analytics-blind-spot
+  name: 행동 데이터 0 — analytics 스텁·호출처 0건이라 의사결정이 깜깜이
+  commitment: working
+  confidence: high
+  quote: 자동으로 사람에게 안 옴
+- anchor: sc-anon-column-scoped-read
+  name: anon RLS는 테이블 전체 read 금지 — 공개 뷰/RPC로 컬럼 스코프만
+  commitment: working
+  confidence: high
+  quote: guest_open_events 뷰 1행 - 컬럼 화이트리스트 (00143, anon 조회 가능)
+- anchor: sc-approval-gate
+  name: 승인 게이트 — 글은 awaiting_approval, 댓글은 자율 발행
+  commitment: frozen
+  confidence: high
+  quote: '승인 모드(config.require_approval, 기본 true): 생성된 행은 status=''awaiting_approval''로'
+- anchor: sc-approval-shift-required
+  name: psql 승인 전 시프트 문장 필수 — 빼먹으면 지난 예약이 한 틱에 도배된다
+  commitment: working
+  confidence: high
+  quote: 이미 지난(now+5분 이전) 시각은 다음날 같은 시각으로 — 밤 수동 주입 시 아침 창 시각이
+- anchor: sc-architecture-held-discipline-broke
+  name: 아키텍처는 버텼고 무너진 건 규율 — 감사 진단 "구조는 좋다, 강제와 관측성이 없다"
+  commitment: working
+  confidence: high
+  quote: 구조(아키텍처 선언)는 좋다. 강제와 관측성이 없다
+- anchor: sc-array-column-normalization
+  name: 배열 컬럼 정규화 — admin_positions TEXT[] → enum/정규화 테이블
+  commitment: working
+  confidence: high
+  quote: 배열→enum/정규화 테이블
+- anchor: sc-article-spec-freed
+  name: article 규격 해방 800~1500자 — 렌더러 실측 근거, 앱 변경 0
+  commitment: working
+  confidence: high
+  quote: article 확장은 공짜다
+- anchor: sc-auth-gate-return-to
+  name: 로그인 필요 액션의 단일 게이트 useAuthGate — returnTo 저장 후 시트, 로그인 뒤 원위치 복귀
+  commitment: working
+  confidence: high
+  quote: useAuthGate — 로그인 필요 액션의 단일 게이트 (45A).
+- anchor: sc-author-set-null-on-delete
+  name: 탈퇴해도 커뮤니티 콘텐츠 보존 — author_id ON DELETE SET NULL
+  commitment: frozen
+  confidence: high
+  quote: author null = 커뮤니티 프로필 소멸(계정 하드 삭제, 00120 SET NULL) — 글은 보존, 작성자만 익명 표시
+- anchor: sc-badge-vs-action-gate
+  name: 정보성 뱃지는 두고 행동 게이트만 내린다 — 뱃지 변경은 거짓 정보
+  commitment: working
+  confidence: high
+  quote: 정보성 role 뱃지
+- anchor: sc-bot-auto-launchd
+  name: scripts/bot-auto.sh — launchd 45분 헤드리스 자동 딸깍(옵션)
+  commitment: working
+  confidence: high
+  quote: launchd가 45분마다
+- anchor: sc-bot-credential-handling
+  name: 자격증명 취급 — service_role은 쉘에서 명시적으로, 키는 리포에 커밋 금지
+  commitment: working
+  confidence: high
+  quote: 어디에도 커밋/메모 금지
+- anchor: sc-bot-events-retention
+  name: community-bot-events-retention — 이벤트 큐 보존 기간 청소(done 14일·pending 30일)
+  commitment: working
+  confidence: high
+  quote: 이벤트 큐 정리(done/skipped 14일
+- anchor: sc-bot-ledger-files
+  name: 봇 운영 대장 — bot/topics.md(소재)·bot/content-log.md(발행), 커밋은 운영자
+  commitment: working
+  confidence: high
+  quote: bot/topics.md
+- anchor: sc-bot-liker
+  name: community-bot-liker — 사람 글 0.8·봇 글 0.4 확률 좋아요, 하루 3회 크론
+  commitment: working
+  confidence: high
+  quote: 'community-bot-liker — 하루 3회: 최근 글에 봇 페르소나가 좋아요를 찍는다.'
+- anchor: sc-bot-moderator
+  name: community-bot-moderator — 하드 룰 자동 숨김·검토 큐, 킬스위치와 무관하게 돈다
+  commitment: working
+  confidence: high
+  quote: 'community-bot-moderator - 2회/일: 워터마크 이후 신규·수정 글/댓글을 규칙과 대조 (49D §3-4).'
+- anchor: sc-bot-publisher
+  name: community-bot-publisher — 5분 크론 발행기(CAS 클레임, content JSONB 패스스루)
+  commitment: working
+  confidence: high
+  quote: 'community-bot-publisher — */15분: due 예약 발행.'
+- anchor: sc-bot-skill-four-plus-one
+  name: 봇 스킬 4+1 체계 — /bot-react·/bot-chat·/bot-cards·/bot-article + /bot-daily
+  commitment: working
+  confidence: high
+  quote: 역할이 섞인 봇 스킬 2개를 발행 형태 기준 4개로 쪼개고
+- anchor: sc-bot-volume-inverse-to-human
+  name: 봇 발화량은 사람 활동량에 반비례 — 봇이 사람을 밀어내지 않게 하는 상한
+  commitment: working
+  confidence: high
+  quote: 'export function clampPostCount(humanPosts7d: number, configMax: number):
+    number {'
+- anchor: sc-broadcast-over-postgres-changes
+  name: postgres_changes 부적합 — RLS 선형 검사·100ev/s 초과분 조용한 드롭
+  commitment: frozen
+  confidence: high
+  quote: '이관 배경(59 E): postgres_changes 는 WAL 변경마다 구독자별 RLS 실행이라 확장에'
+- anchor: sc-broadcast-payload-privacy
+  name: 가명 경계 — Broadcast payload에 실명·본문을 싣지 않는다
+  commitment: frozen
+  confidence: high
+  quote: 'community_dm: profiles 조인을 하지 않는다 — 조인하면 상대 클라이언트로 실명이 와이어에 실려'
+- anchor: sc-bundle-diet
+  name: 번들·자산 다이어트 — 폰트/아이콘/이미지·라우트 분할로 초기 로딩 감축
+  commitment: working
+  confidence: high
+  quote: 번들 사이즈를 위해 weight 3종(Regular/SemiBold/Bold)만 적재.
+- anchor: sc-card-snapshot-metadata
+  name: 공유·신고 시점 값 박제 — 카드/증거는 재조회 없이 그때의 스냅샷으로
+  commitment: working
+  confidence: high
+  quote: 채팅 카드로 공유할 시점의 동호회 값을 metadata에 박제한다(profile-snapshot 미러).
+- anchor: sc-catalog-item-promotion
+  name: 카탈로그 항목 착수 = /plan-doc으로 개별 상세 문서 승격
+  commitment: working
+  confidence: high
+  quote: '`/plan-doc <항목>`으로'
+- anchor: sc-center-modal-only
+  name: 모달은 전부 화면 중앙 — 하단 시트 전면 폐지
+  commitment: frozen
+  confidence: high
+  quote: '2026-07-28 운영자 결정: 하단에서 올라오는 시트는 전면 폐지하고 모달은 전부'
+- anchor: sc-charge-plans
+  name: charge_plans — 청구 템플릿(주기·금액·발행일)
+  commitment: working
+  confidence: high
+  quote: 청구 템플릿
+- anchor: sc-charge-status-enum
+  name: charge status 전이 — pending → reported → confirmed | exempt | void
+  commitment: working
+  confidence: high
+  quote: pending → reported → confirmed | exempt | void
+- anchor: sc-chat-realtime-three-symptoms-one-root
+  name: 채팅 3증상 한 뿌리 — realtime patch 단일 의존 + 폴백 refetch·구독 관측 부재
+  commitment: working
+  confidence: high
+  quote: 세 증상 = 한 뿌리
+- anchor: sc-churn-response-loop
+  name: 이탈 지점 대응 루프(G1) — 측정→수정→재측정, 한 번에 하나
+  commitment: working
+  confidence: high
+  quote: 한 번에 하나, 측정 기반
+- anchor: sc-client-side-image-pipeline
+  name: 아바타 = 클라이언트 가공 후 1장만 업로드 — 원본 서버 전송 0
+  commitment: working
+  confidence: high
+  quote: 중앙 정사각 크롭 → 512² 리사이즈 → JPEG q0.7 → base64 → ArrayBuffer.
+- anchor: sc-client-toggle-server-limit
+  name: 클라 토글의 한계 — RLS가 super admin에게 더 주는 행은 못 막는다
+  commitment: working
+  confidence: high
+  quote: RLS가 super admin에게 더 반환하는 행
+- anchor: sc-club-activity-survey
+  name: 동호회 활성도 실태 점검(G2) — managed vs shared 56개, 싼 선행 조사
+  commitment: working
+  confidence: high
+  quote: managed가 몇 개인지
+- anchor: sc-club-charges
+  name: club_charges — 장부의 원자 단위(type·status 전이)
+  commitment: working
+  confidence: high
+  quote: 장부의 원자 단위
+- anchor: sc-club-event-recurrence-model
+  name: 동호회 일정 모델 — 정기 훈련은 반복 규칙(recurrences), 단발은 club_events(대회 출전/기타) + 출석 투표
+  commitment: frozen
+  confidence: high
+  quote: ===== 조회 =====
+- anchor: sc-club-expenses
+  name: club_expenses — 지출 기록(금액·카테고리·영수증 사진)
+  commitment: working
+  confidence: high
+  quote: club_expenses
+- anchor: sc-club-finance-settings
+  name: club_finance_settings — 수금 계좌·입금자명 규칙·공개 범위(민감 정보 별도 테이블+RLS)
+  commitment: working
+  confidence: high
+  quote: 계좌는 민감 정보 → 별도 테이블 + RLS
+- anchor: sc-club-role-surface-dominates
+  name: 체감은 club role 표면에서 나온다 — 홈 footer·클럽 상세가 시야의 90%
+  commitment: working
+  confidence: high
+  quote: 체감은 app_role이 아니라 club role 표면에서 나온다
+- anchor: sc-committed-service-role-key-incident
+  name: 평문 service_role 키가 git에 커밋됨 — RLS 전면 우회 마스터 키, P0
+  commitment: working
+  confidence: high
+  quote: 평문으로 git에 커밋
+- anchor: sc-community-dm-room-type
+  name: 커뮤니티 DM = chat_rooms.type='community_dm' — 방 단위 정체성 스위칭
+  commitment: frozen
+  confidence: high
+  quote: export type ChatRoomType = 'dm' | 'group' | 'community_dm';
+  governed_by: DECISIONS 0015
+- anchor: sc-community-profiles
+  name: community_profiles — 커뮤니티 정체성을 배구 프로필과 분리한 가명 프로필
+  commitment: frozen
+  confidence: high
+  quote: '배구 닉네임을 그대로 쓰지 않는 이유: 커뮤니티는 배구 프로필과 분리된 가명(DECISIONS 0011).'
+  governed_by: DECISIONS 0011
+- anchor: sc-community-soft-launch-gate
+  name: 커뮤니티 소프트런치 게이트 COMMUNITY_PUBLIC — 진입점 한 곳으로 껐다 켠다
+  commitment: working
+  confidence: high
+  quote: 커뮤니티 소프트런치 게이트 — false면 진입점(5번째 탭·홈 프리뷰)을 숨긴다.
+- anchor: sc-content-schedule-no-body-edit
+  name: 콘텐츠 예약 수정 금지 — body만 고치면 content JSONB와 어긋난다, 취소 후 재집필
+  commitment: frozen
+  confidence: high
+  quote: 콘텐츠 글(category='content')은 본문 수정 불가 - 00139는 body(폴백)만 고쳐 content
+- anchor: sc-content-v3-format-spec
+  name: 콘텐츠 v3 포인트 정형 규격 — cards 하드 상한 vs article 확장, highlight는 head 부분문자열
+  commitment: working
+  confidence: high
+  quote: 콘텐츠 포인트 정형 (54 §1, v3, v1.5 format·highlight 확장).
+- anchor: sc-convention-drift-guard
+  name: 컨벤션 유지 — 새 패턴마다 규칙 문서 갱신, 안 하면 재확산 사이클
+  commitment: working
+  confidence: high
+  quote: 새 키를 추가하면 여기에도 매핑을 추가한다.
+- anchor: sc-daily-tick-cycle
+  name: 일상 딸깍 사이클 — 하루 2~3회 /bot-react, 랜덤 지연 예약·연속 실행 멱등
+  commitment: working
+  confidence: high
+  quote: /bot-react
+- anchor: sc-data-loop-alerting
+  name: 데이터 루프 — 모인 데이터가 자동으로 사람에게 오게(알림 규칙·전달률 대시보드)
+  commitment: working
+  confidence: high
+  quote: 모인 데이터가 행동으로 연결
+- anchor: sc-deep-link-path-normalization
+  name: 딥링크 경로 정규화 — /s/·intent://·커스텀 스킴을 앱 라우트 한 형태로
+  commitment: working
+  confidence: high
+  quote: 외부 공유 URL 경로(`/s/{type}/{id}`)를 앱 내부 라우트(`/share/{type}/{id}`)로 변환한다.
+- anchor: sc-deep-opt-in
+  name: deep 인자만 Workflow 승격 — 항상-deep은 비용으로 기각
+  commitment: working
+  confidence: high
+  quote: 항상-deep은 주 3회 발행이라도 비용·시간 부담이 커서 기각
+- anchor: sc-defaults-over-optin-lists
+  name: opt-in 리스트는 반드시 드리프트 — 좋은 기본값 + 명시 예외
+  commitment: working
+  confidence: high
+  quote: 화면 추가마다 캐시 부기를 늘리던 근본 원인이라 극성을 뒤집었다.
+- anchor: sc-dependency-health-policy
+  name: 의존성 건강 전략 — exact 고정 + 변동성 3등급 + dependabot weekly
+  commitment: working
+  confidence: high
+  quote: exact 고정
+- anchor: sc-design-first-db
+  name: 시작은 코드가 아니라 DB — 도메인 모델·권한 구조 선고정, 화면은 소모품
+  commitment: working
+  confidence: high
+  quote: 시작은 코드가 아니라 DB였습니다
+- anchor: sc-designated-depositor-name
+  name: 지정 입금자명 — 앱이 입금자명을 지정해 대조 노동을 제거
+  commitment: working
+  confidence: high
+  quote: 입금자명을 앱이 지정
+- anchor: sc-deterministic-default-avatar
+  name: 기본 아바타는 userId 해시로 결정적 — 저장 없이 항상 같은 얼굴
+  commitment: working
+  confidence: high
+  quote: '우선순위: 업로드 사진(avatar_url) > 선택 프리셋(avatar_preset 1~12) > 성별 자동 기본.'
+- anchor: sc-diagnostic-code-not-dead-code
+  name: 미해결 버그의 임시코드는 진단기구 — 단순 제거 ≠ 해결
+  commitment: working
+  confidence: high
+  quote: 임시코드 2곳
+- anchor: sc-director-manual-scene-injection
+  name: 수동 장면 주입 — scenes JSON이 있으면 LLM 무호출, 검증·시각 배정·승인은 동일
+  commitment: working
+  confidence: high
+  quote: '수동 장면 주입(LLM·API 키 불필요): service_role 또는 super_admin JWT로'
+- anchor: sc-draft-dm-room
+  name: DM은 방을 미리 만들지 않는다 — 첫 전송 시점에 findOrCreateDm
+  commitment: working
+  confidence: high
+  quote: 보내는 순간 비로소 방을 생성(findOrCreateDm)하고 실제 방으로 replace 한다.
+- anchor: sc-dual-entry-transition-risk
+  name: 전환기 이중 입력 이탈 리스크 — 첫 달 미납 일괄 입력 온보딩
+  commitment: working
+  confidence: high
+  quote: 총무의 이중 입력기
+- anchor: sc-dues-auto-reminder
+  name: 미납 자동 리마인드 — 독촉의 주체를 총무에서 앱으로 옮긴다
+  commitment: working
+  confidence: high
+  quote: 미납은 N일차 자동 리마인드
+- anchor: sc-duplicate-over-shared-doc
+  name: 공통 블록은 복제 — 공유 문서는 스킬 자립성을 깬다
+  commitment: working
+  confidence: high
+  quote: 공유 문서로 빼면 스킬 자립성이 깨지고
+- anchor: sc-early-solution-becomes-debt
+  name: 초기 해법이 나중에 부채로 재분류 — 하드코딩 프리페치 훅의 신설→삭제
+  commitment: working
+  confidence: high
+  quote: 탭 리스트 프리페치(세션 1회)는 제거됨 — persist denylist 반전으로 clubs/clubs-map/game-posts가
+- anchor: sc-eliminate-infinite-wait
+  name: 무한 대기를 시스템에서 제거 — 타임아웃·재시도·에러 UI
+  commitment: working
+  confidence: high
+  quote: Promise가 ms 안에 끝나지 않으면 reject (초기화 무한 대기 방지).
+- anchor: sc-enforcement-by-gates
+  name: 규율은 사람이 아니라 게이트가 지킨다 — pre-commit·CI·lint 총량 동결(ratchet)
+  commitment: working
+  confidence: high
+  quote: 반환 타입을 생성 Insert에 고정 — 컬럼 rename/삭제 시 literal이 컴파일 에러(write 경로 가드).
+- anchor: sc-entry-loading-data-gate
+  name: 부팅 로딩은 데이터 기반 게이트 — MIN 2.4s 하한·MAX 8s 상한
+  commitment: working
+  confidence: high
+  quote: '데이터 기반 게이트 상한: 홈 데이터가 이 시간 안에 settle 안 되면(오프라인/지연)'
+- anchor: sc-error-display-classification
+  name: 에러 UX는 "표시 필수 / 무음 저하 허용" 분류 — 전수 강제 아님
+  commitment: working
+  confidence: high
+  quote: 쿼리 에러를 표시한다. 빈 데이터로 삼키는 대신 "다시 시도"를 한 줄로 노출.
+- anchor: sc-expense-record-only
+  name: 지출은 기록만 — 예산/승인 워크플로는 과설계로 제외
+  commitment: working
+  confidence: high
+  quote: 지출은 기록만
+- anchor: sc-extract-when-two-places-diverge
+  name: 두 곳이 같은 걸 각자 그리면 어긋난다 — 공용 컴포넌트로 추출하고 "왜 추출했나"를 남긴다
+  commitment: working
+  confidence: high
+  quote: 각자 인라인으로 그리고 있어
+- anchor: sc-fallback-body-compact
+  name: 구버전 폴백 body는 압축 유지 — 본문 전문을 넣지 않는다
+  commitment: working
+  confidence: high
+  quote: 구조 깨진 콘텐츠로 보고 아래 일반 렌더로 폴백(degrade-ok, body가 폴백 텍스트).
+- anchor: sc-finance-summary-visibility
+  name: 재정 요약은 멤버 전체 열람 — 개인 납부 상태는 미노출
+  commitment: working
+  confidence: high
+  quote: 개인 납부 상태는 미노출
+- anchor: sc-fix-at-choke-point
+  name: 길목 수정 — 65곳이 아니라 공통 훅 ~8곳으로 8할 해결
+  commitment: working
+  confidence: high
+  quote: 무한 쿼리 + 페이지 flat + Set 중복 제거 + getNextPageParam + handleEndReached 골격을 공유.
+- anchor: sc-font-fallback-explicit
+  name: 한글 글리프 없는 폰트는 폴백 명시 — 안 하면 렌더 머신마다 달라짐
+  commitment: working
+  confidence: high
+  quote: 명시적으로 Pretendard 계열이 아닌 fontFamily 를 지정한 텍스트는 패치가 덮지 않는다.
+- anchor: sc-foreground-recovery
+  name: 포그라운드 복귀 회수 — 앱 레벨 단일 핸들러 + 화면 focus 이중 안전망
+  commitment: working
+  confidence: high
+  quote: 포그라운드 복귀 시 전역 데이터 회복. (Phase 10 — C0 → S4·S5, 59 Phase A2 일반화)
+- anchor: sc-form-hook-mirroring
+  name: 폼 통합은 기존 훅 패턴 미러링 — 제네릭 추상화 아님
+  commitment: working
+  confidence: high
+  quote: 동호회 등록/수정 폼 로직 단일 소스.
+- anchor: sc-format-choice-is-operator
+  name: 포맷 선택은 운영자 몫 — "애매하면 article" 자동 규칙 폐기
+  commitment: working
+  confidence: high
+  quote: 운영자 몫으로 명시 이동
+- anchor: sc-freshness-gate-dedupe
+  name: 프리페치·focus refetch 중복 제거 = 3초 신선도 게이트(방 진입 480→132ms)
+  commitment: working
+  confidence: high
+  quote: 3초 내 신선 데이터(pressIn·푸시 탭 프리페치 직후)는 재요청 생략 - 진입 중복 페치
+- anchor: sc-funnel-retention-visibility
+  name: 퍼널·리텐션 가시화(D1) — 가입→…→재방문 퍼널과 7/30일 리텐션
+  commitment: working
+  confidence: high
+  quote: WAU·리텐션 산정의 근거 이벤트. pathname 변화마다 1회 발화 →
+- anchor: sc-gate-at-derivation-point
+  name: 게이트는 파생 지점에서 내린다 — 소비처마다 체크하면 새 화면에서 잊는다
+  commitment: working
+  confidence: high
+  quote: 파생 지점만 고치면 일괄 적용
+- anchor: sc-gate-only-no-cache-manipulation
+  name: 게이트만 내리므로 캐시 조작 불필요 — 상태 전파는 context 리렌더
+  commitment: working
+  confidence: high
+  quote: 캐시 조작이 필요 없다
+- anchor: sc-git-history-purge-deferred
+  name: git history purge는 회전 후 긴급도 낮음 — 강제 push 위험으로 별도 판단
+  commitment: working
+  confidence: high
+  quote: git history purge
+- anchor: sc-guest-as-personal-user-value
+  name: 게스트 탐색 = 무소속 개인 유저의 첫 번째 명확한 사용 이유
+  commitment: working
+  confidence: high
+  quote: 첫 번째 명확한 사용 이유
+- anchor: sc-guest-cancellation
+  name: 게스트 취소·운영진 일정 취소 — 양쪽 알림
+  commitment: working
+  confidence: high
+  quote: 게스트의 일정 취소/변경 알림 - 수신자(게스트)는 비멤버라 클럽 일정 탭에 접근 불가 →
+- anchor: sc-guest-capacity-autoclose
+  name: 정원 도달 시 자동 마감 — 추가 신청 차단
+  commitment: working
+  confidence: high
+  quote: '정원 스테퍼: null = 무제한. 무제한 → 1 → 2 → ... , 1에서 감소하면 다시 무제한.'
+- anchor: sc-guest-dm-roundtrip-pain
+  name: 현행 게스트 흐름의 페인 — DM 왕복·반복 응답·탐색 불가
+  commitment: working
+  confidence: high
+  quote: DM 왕복으로 처리되고
+- anchor: sc-guest-first-validation-target
+  name: 게스트 첫 검증 목표 — 출시 4주 내 3클럽 모집 + 신청 10건
+  commitment: working
+  confidence: high
+  quote: 3개 클럽이 모집을 켜고
+- anchor: sc-guest-login-required
+  name: 게스트 신청은 로그인 유저만 — 비로그인 신청 비목표
+  commitment: frozen
+  confidence: high
+  quote: 비로그인도 목록을 보고, 신청 버튼은 useAuthGate로 로그인 유도 → returnTo 복귀.
+- anchor: sc-guest-mode-deferred
+  name: 비회원(게스트) 모드는 별개 축 — 필요 확인 시 별도 기획
+  commitment: working
+  confidence: high
+  quote: 비회원(게스트) 모드
+- anchor: sc-guest-open-toggle
+  name: 일정별 게스트 모집 토글 + 정원 — 기본 off
+  commitment: working
+  confidence: high
+  quote: 토글·정원 + 신청 승인/거절 인박스 + 승인 후 안내(payment_guide) 편집을 한 카드에 담는다.
+- anchor: sc-guest-payment-guide-gated
+  name: guest_payment_guide는 승인 후에만 노출
+  commitment: working
+  confidence: high
+  quote: 승인 후 안내 텍스트(계좌 등) — admin 전용 테이블 club_guest_settings (00143).
+- anchor: sc-guest-profile-card
+  name: 신청 시 프로필 카드 자동 첨부 — 카톡 대비 핵심 우위
+  commitment: working
+  confidence: high
+  quote: 신청 시트 - 한마디 + 프로필 카드 자동 첨부 안내.
+- anchor: sc-guest-reject-reason-required
+  name: 거절 사유 선택 필수 — 게스트 알림에 사유 포함
+  commitment: working
+  confidence: high
+  quote: 거절/취소 사유 시트
+- anchor: sc-guest-request-event-scoped
+  name: 게스트 신청 단위 = 클럽 일정(club_event) 1회 — scrimmage·일반 신청 제외
+  commitment: working
+  confidence: high
+  quote: 클럽의 게스트 모집 중 일정 - 비로그인 포함 모두 조회 가능 (planning/52 §3-2).
+- anchor: sc-guest-request-lifecycle
+  name: 게스트 신청 라이프사이클 — 신청→승인→납부 안내→확인→참석
+  commitment: working
+  confidence: high
+  quote: export type GuestRespondAction = 'accepted' | 'rejected' | 'cancelled_by_club';
+- anchor: sc-guest-scope-club-detail-only
+  name: 게스트 노출 범위 = 클럽 상세 진입만 — 별도 피드 불필요
+  commitment: working
+  confidence: high
+  quote: ClubInfoTab용 섹션 래퍼 - 모집 일정이 있을 때만 타이틀+카드를 렌더.
+- anchor: sc-home-state-branching
+  name: 홈은 유저 상태 분기 — 전역 CTA·광고 금지
+  commitment: frozen
+  confidence: high
+  quote: 홈 상태 분기(DECISIONS 0006)에 '비로그인'을 추가한 것.
+  governed_by: DECISIONS 0006
+- anchor: sc-http-refetch-owns-consistency
+  name: 정합성은 재구독·focus 시 HTTP refetch가 소유 — 실시간은 전달 수단
+  commitment: working
+  confidence: high
+  quote: '선언한다(59 §3-3: 이벤트는 지연 최적화, 정합성은 refetch 가 소유).'
+- anchor: sc-image-original-aspect
+  name: 콘텐츠 이미지는 자르지 않는다 — 원본 비율 + 병적 값만 막는 상하한
+  commitment: working
+  confidence: high
+  quote: 이미지의 가로/세로 비율을 구한다. 콘텐츠 이미지를 자르지 않고 원본 비율로 그리기 위한 것.
+- anchor: sc-ime-slice-trap
+  name: 웹 한글 IME 함정 — onChangeText 재절단(.slice) 금지, 상한은 maxLength·검색은 디바운스 값으로만
+  commitment: frozen
+  confidence: high
+  quote: redundant `.slice(0,10)` 제거
+- anchor: sc-immutable-ledger
+  name: 수정 불가 원장 — confirmed 취소는 void+재발행
+  commitment: working
+  confidence: high
+  quote: confirmed 취소는 void+재발행
+- anchor: sc-impersonation-rejected
+  name: 서버 impersonation 기각 — 테스트 계정이 대체재
+  commitment: working
+  confidence: high
+  quote: C는 과욕 (테스트 계정이 대체재)
+- anchor: sc-improvement-catalog
+  name: 개선 후보 통합 카탈로그 — 라이브 제품의 다음 작업 인덱스 + 추적표
+  commitment: working
+  confidence: high
+  quote: 다음에 손볼 것의 통합 카탈로그
+- anchor: sc-in-app-foreground-banner
+  name: 포그라운드 푸시 = 인앱 배너 FIFO 큐 — 순수 매핑 계층 + 아바타 조립, 배너 표시와 무관하게 쿼리 회수
+  commitment: working
+  confidence: high
+  quote: 배너 모델로 매핑하고 아바타를 조립해 FIFO 큐로
+- anchor: sc-insta-png-export
+  name: 인스타 PNG 추출 — VOLT 템플릿 1080×1350, DB 읽기 전용·업로드는 수동
+  commitment: working
+  confidence: high
+  quote: VOLT 템플릿 PNG 묶음(1080×1350)
+- anchor: sc-invalidation-audit-with-persistence
+  name: 캐시 영속 확대는 무효화 누락을 증폭 — 영속 정책 변경 시 무효화 감사 세트
+  commitment: working
+  confidence: high
+  quote: 무효화해야 탈퇴한 클럽 일정이 남지 않는다(영속 캐시라 재시작에도 잔존).
+- anchor: sc-invite-flag-not-secret-token
+  name: 초대 링크는 비밀 토큰이 아니라 ?invite=1 플래그 — 승인제라 비밀이 불필요하고 원탭 신청은 연락처 null 허용
+  commitment: frozen
+  confidence: high
+  quote: 링크는 비밀 토큰이 아니라
+- anchor: sc-is-bot-never-exposed
+  name: is_bot은 어떤 공개 뷰/API에도 미노출 — 유출 = 즉시 판별
+  commitment: frozen
+  confidence: high
+  quote: 봇 존재 자체가 민감 정보(45C, DECISIONS 0016) — 콘솔 뷰를 로컬 스토리지에 남기지 않는다.
+  governed_by: DECISIONS 0016
+- anchor: sc-ismember-drop-intended
+  name: isMember 하락으로 자기 클럽에 가입 신청 CTA가 뜨는 건 의도된 재현
+  commitment: working
+  confidence: high
+  quote: '`isMember` 하락'
+- anchor: sc-kill-switch
+  name: 킬스위치 — community_bot_config.enabled=false 한 방으로 봇 전체 정지
+  commitment: frozen
+  confidence: high
+  quote: 킬 스위치 off는 pending·대기 일괄 취소를 동반 - 스케줄도 무효화
+- anchor: sc-korean-error-single-mapping
+  name: 에러 한글화 단일 경로 — throw → toKoreanMessage → useAsyncFormSubmit/토스트
+  commitment: working
+  confidence: high
+  quote: fn이 throw하면 toKoreanMessage로 매핑하여 setError
+- anchor: sc-launchd-plist-restale
+  name: launchd plist는 문자열 박제 — 개명 시 재생성 필요
+  commitment: working
+  confidence: high
+  quote: 기존 가동분은 계속 `/bot-tick`을 부른다
+- anchor: sc-legacy-key-anon-coupling
+  name: 레거시 service_role은 anon과 같은 JWT secret — 회전하면 anon도 바뀐다
+  commitment: working
+  confidence: high
+  quote: 레거시 키는 anon 키와 같은 JWT secret으로 서명
+- anchor: sc-lib-api-on-demand
+  name: lib/api 승격은 재사용 시점에 — 전면 강제 안 함
+  commitment: working
+  confidence: high
+  quote: 글 행들에 작성자 커뮤니티 프로필을 IN 쿼리로 병합 — 피드·내 활동이 공유(재사용 2곳+ → api 승격).
+  governed_by: DECISIONS 0002
+- anchor: sc-library-minor-breaks-assumptions
+  name: 라이브러리 마이너 업데이트가 수명주기 가정을 깬다 — 의심 시 공식 문서
+  commitment: working
+  confidence: high
+  quote: 전 테이블 유니언(keyof Tables)은 supabase-js 2.110부터 .eq('id')의 컬럼 타입이
+- anchor: sc-limit-as-runaway-cap
+  name: limit은 예상치가 아니라 폭주 방어 캡 — 예상치 limit은 사일런트 데이터 소실
+  commitment: working
+  confidence: high
+  quote: 지도 마커 안전밸브 — 데이터 천장(~2000)의 ×2 여유.
+- anchor: sc-linkedin-post-grammar
+  name: 링크드인 문법 9규칙 — 한 포스트 한 메시지·1,000~1,500자·훅 2줄·숫자 3개
+  commitment: working
+  confidence: high
+  quote: 한 포스트 = 한 메시지
+- anchor: sc-linkedin-series-positioning
+  name: 연재 포지셔닝 — "코딩 못하는데 AI로 성공" 장르 기각, 설계하는 PM 페르소나
+  commitment: working
+  confidence: high
+  quote: 잘한 것 자랑이 아니라
+- anchor: sc-list-cell-render-cost
+  name: 리스트 렌더 고정비용 제거 — 셀 내부 select 구독·Date 메타 캐시·조건부 애니
+  commitment: working
+  confidence: high
+  quote: 단일 메시지의 안읽은 수를 개별 구독한다(Phase 41 §3.4).
+- anchor: sc-live-product-priority
+  name: 우선순위 = 실유저 영향 × 즉시성 — 기술부채는 후순위 배경 트랙
+  commitment: working
+  confidence: high
+  quote: 기술부채 정리
+- anchor: sc-loading-responsibility
+  name: 로딩 화면의 책임은 버티기 — 연출보다 응답성·비끊김·무한대기 방지
+  commitment: working
+  confidence: high
+  quote: 이 컴포넌트는 콜드 스타트 1회만 (app/index.tsx).
+- anchor: sc-local-date-string-scattered
+  name: 로컬 날짜 문자열 유틸이 4곳에 흩어짐 — toISOString UTC 함정을 각 파일이 따로 피한다(중복 실측)
+  commitment: working
+  confidence: medium
+  quote: export const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'] as const;
+- anchor: sc-local-push-config-redirect
+  name: db reset 후 _push_config 로컬 리다이렉트 — 안 하면 로컬이 prod를 때린다
+  commitment: working
+  confidence: high
+  quote: 리셋 후마다
+- anchor: sc-local-rehearsal-seed
+  name: 로컬 리허설·시드 — 스택 기동 후 페르소나 시드, GoTrue 403은 직접 INSERT 우회
+  commitment: working
+  confidence: high
+  quote: SRK=$(supabase status
+- anchor: sc-location-input-stack
+  name: 장소·지역 입력 스택 — 카카오 장소 검색/지오코딩 + 시도·구군 2단 선택 + 내 위치·거리 계산
+  commitment: working
+  confidence: high
+  quote: export interface PlaceSelectData {
+- anchor: sc-map-initial-view-policy
+  name: 지도 초기 뷰 정책(M1/M2/M3) — 근처 반경 20km 게이트 + fit 줌 상한 클램프, 결정은 순수 함수로 공유
+  commitment: working
+  confidence: high
+  quote: 위치 권한 없거나 결과 대기 중일 때
+- anchor: sc-map-platform-parity
+  name: 지도 앱↔웹 편차와 web SSR 미가드 — 양 플랫폼 검증 필수
+  commitment: working
+  confidence: high
+  quote: 'Phase 12 §3.1·§3.2: 초기 뷰 정책·마커/클러스터 토큰을 한 곳에서 정의해 플랫폼 시각 일치.'
+- anchor: sc-map-visual-single-source
+  name: 지도 시각 파라미터·오버레이 HTML은 clubMapConstants/clubMapHtml 한 곳 — web·WebView가 같은 값을
+    읽는다
+  commitment: frozen
+  confidence: high
+  quote: 'export type LatLng = { latitude: number; longitude: number };'
+- anchor: sc-measure-first
+  name: 계측 먼저 — 수정은 계측이 가리키는 곳만
+  commitment: working
+  confidence: high
+  quote: 개선 주장은 이 수치로만 한다(59 §3-6).
+- anchor: sc-micro-motion-p1
+  name: '마이크로 모션(디자인 시스템 P1 #8) — 상태 전환마다 짧은 피드백, 마운트 1회로 제한'
+  commitment: working
+  confidence: high
+  quote: 마이크로 모션, 출석 체크
+- anchor: sc-modal-three-tier
+  name: 모달 3계층 — CenterMenuModal · AppModal · CenterModal
+  commitment: frozen
+  confidence: high
+  quote: '역할 분담: 순수 액션 메뉴는 CenterMenuModal, 제목+본문+푸터 정형 모달은 AppModal,'
+- anchor: sc-mode-indicator-pill
+  name: 모드 인디케이터 = 좌하단 pill — 켜져 있음을 잊지 않게
+  commitment: working
+  confidence: high
+  quote: 모든 화면 상단에 모드 인디케이터
+- anchor: sc-mode-toggle-instant-reversible
+  name: OFF 복귀는 즉시·새로고침 불필요
+  commitment: working
+  confidence: high
+  quote: 새로고침 불필요
+- anchor: sc-monthly-report-share-image
+  name: 월간 리포트 카톡 공유 이미지 — 카톡 문화 순응 + 하단 로고 자연 홍보
+  commitment: working
+  confidence: high
+  quote: 카톡 공유용 이미지 생성
+- anchor: sc-my-activity-three-tabs
+  name: 내 활동 3탭 — 내가 쓴 글 / 내가 쓴 댓글(댓글 자체) / 좋아요한 글, 드로어 진입
+  commitment: frozen
+  confidence: high
+  quote: export type ActivityMode = 'posts' | 'comments' | 'liked';
+- anchor: sc-my-requests-guest-section
+  name: my-requests에 게스트 섹션 추가 — 요청 union 4번째
+  commitment: working
+  confidence: high
+  quote: 게스트 신청의 목적지는 클럽이 아닌 내 신청 상세 (/guest-request/[id]) - 승인 후 안내가 거기 있음
+- anchor: sc-native-e2e-gap
+  name: 네이티브 E2E 부재 — 안전망이 web-only(Playwright)라 네이티브 회귀 미검출
+  commitment: working
+  confidence: high
+  quote: '**web-only**'
+- anchor: sc-native-map-webview-kakao
+  name: 네이티브 지도 = WebView + 카카오 JS SDK — 구글맵·네이티브 카카오 SDK 기각
+  commitment: frozen
+  confidence: high
+  quote: Phase 19 — 네이티브 동호회 지도(WebView + 카카오 지도 JS SDK).
+- anchor: sc-negative-verification
+  name: 음성 검증 — 원인을 되돌려 회귀를 재현해 증명한다
+  commitment: working
+  confidence: high
+  quote: '**음성**'
+- anchor: sc-new-key-scheme-deferred
+  name: 새 sb_secret_* 체계 전환은 범위 밖 — JWT role 검증·verify_jwt 재설계 필요
+  commitment: working
+  confidence: high
+  quote: 이번 범위 밖
+- anchor: sc-nickname-app-wide-unique
+  name: 닉네임은 앱 전체 유일 — 커뮤니티 UNIQUE 즉시, 배구 DB 승격은 후속
+  commitment: working
+  confidence: high
+  quote: nickname UNIQUE(00122) 충돌은 닉네임 맥락 메시지로
+- anchor: sc-nickname-numeric-suffix
+  name: 자동 닉네임 결정적 숫자 접미 2자리 — 첫 진입 원탭이 UNIQUE에 안 막히게
+  commitment: frozen
+  confidence: high
+  quote: '숫자 접미: 조합 풀이 120개뿐이라(닉네임 UNIQUE, 00122) 접미 없인 수십 명 규모에서 충돌 확실'
+- anchor: sc-no-api-key-in-prod
+  name: prod에 LLM API 키 없음 — 두뇌는 Claude Code 구독, DB 파이프라인은 키 0
+  commitment: working
+  confidence: high
+  quote: LLM 무호출·ANTHROPIC 키 불필요 — community_likes INSERT만(글 내용 이해가 필요 없음).
+- anchor: sc-no-direct-supabase-in-view
+  name: 화면·컴포넌트에서 supabase 직접 호출 금지 — 쿼리는 도메인 훅에
+  commitment: working
+  confidence: high
+  quote: 피드·홈 프리뷰가 함께 쓰므로 api 레이어로 승격(DECISIONS 0002).
+- anchor: sc-no-money-through-app
+  name: 돈은 앱을 거치지 않는다 — 송금/결제 대행 비목표
+  commitment: working
+  confidence: high
+  quote: 돈은 앱을 거치지 않는다
+- anchor: sc-no-over-standardization
+  name: 과표준화 회피 — 조건이 다른 것을 억지로 통일하지 않는다
+  commitment: working
+  confidence: high
+  quote: 충분하며 이 훅을 태우지 않는다(59 §3-5 과표준화 경고).
+- anchor: sc-nonblocking-heuristic-gate
+  name: 비결정적 휴리스틱 가드는 차단 승격 부적합 — 로그 노출만
+  commitment: working
+  confidence: high
+  quote: '단순 URL: 탐지는 정확하지만 판정 오탐이 높음(영상·카페 공유 = 정상 행동) → 큐 적재만'
+- anchor: sc-nonmember-event-visibility
+  name: 비멤버의 모집 일정 조회 RLS — 노출 필드 최소화, 상세는 승인 후
+  commitment: working
+  confidence: high
+  quote: anon RLS 가 visibility='public' 만 노출(00113)하므로 비공개 일정·삭제 건은 "찾을 수 없어요".
+- anchor: sc-noshow-tracking-deferred
+  name: 출석·노쇼 자동 집계 유보 — 수요 확인 후
+  commitment: working
+  confidence: high
+  quote: 노쇼 이력은 수요 확인 후
+- anchor: sc-notice-official-channel
+  name: 운영자 공지 = 단방향 공식 채널(댓글·좋아요 없음) — 피드 스트립 1건 + 드로어 목록, 작성 권한은 RLS가 강제
+  commitment: frozen
+  confidence: high
+  quote: RLS(00137)가 최종 강제
+- anchor: sc-notification-deeplink-cold-start
+  name: 알림 딥링크·배너 — 콜드 스타트 응답 유실 회수 + 4종만 OS 배너 억제
+  commitment: working
+  confidence: high
+  quote: '콜드 스타트: 리스너 등록 이전에 발화·유실된 "앱을 띄운 알림"을 1회 회수.'
+- anchor: sc-notify-single-entry-precondition
+  name: notify() 단일 진입점 — 금고·게스트 첫 마이그레이션의 선행 조건
+  commitment: working
+  confidence: high
+  quote: notify() 단일 진입점 마이그레이션을 이 기능 첫 스키마 작업으로 선행
+- anchor: sc-one-pass-writing-root-cause
+  name: 품질 문제의 구조적 원인 = 한 패스 집필
+  commitment: working
+  confidence: high
+  quote: 품질 파이프라인 부재
+- anchor: sc-open-banking-rejected
+  name: 은행 계좌 연동 기각 — 마이데이터 허가제·스크래핑 신용정보법
+  commitment: working
+  confidence: high
+  quote: 마이데이터(허가제, 자본금 5억) 기각
+- anchor: sc-operator-free-club-vision
+  name: 운영자 없는 동호회 비전 — 총무 없이 자동화·탈중앙화로 돌아가는 커뮤니티
+  commitment: working
+  confidence: high
+  quote: 운영자 없이 자동으로 돌아가는 동호회
+- anchor: sc-optimistic-snapshot-rollback
+  name: 낙관적 반영 + 스냅샷 롤백 — 왕복 2회를 기다리지 않되 실패 시 되돌린다
+  commitment: working
+  confidence: high
+  quote: onMutate에서 qk.communityPost 캐시를 즉시 뒤집고, 실패 시 스냅샷 복원(앱 첫 롤백 패턴).
+- anchor: sc-option-value-single-label-variants
+  name: 옵션 어휘는 단일 소스 — value는 하나, 라벨만 맥락별(칩 단축 vs 상세 풀텍스트), 레거시 값은 매핑으로 흡수
+  commitment: working
+  confidence: high
+  quote: label 만 짧게 정의
+- anchor: sc-perf-history-reference
+  name: 성능·로딩·실시간성 개선의 전체 역사 — 7개 흐름의 상시 참조 기록
+  commitment: working
+  confidence: high
+  quote: 상시 참조 문서(reference)
+- anchor: sc-perf-improvement-cycle
+  name: 성능 개선 사이클 — 지표→문제→대안 비교→기각 사유→구현→재실측
+  commitment: working
+  confidence: high
+  quote: 이 반복이 곧 이 프로젝트의 성능 개선 방법론이다
+- anchor: sc-persist-denylist
+  name: 쿼리 persist는 denylist 기본 — allowlist 극성 반전
+  commitment: frozen
+  confidence: high
+  quote: '정책: **denylist 기본** (planning/40, DECISIONS 0008).'
+  governed_by: DECISIONS 0008
+- anchor: sc-persona-roster-split
+  name: 페르소나 명부 이원화 — 대화 페르소나 11명 vs 콘텐츠 채널 3계정(반응·잡담에서 제외)
+  commitment: working
+  confidence: high
+  quote: 콘텐츠봇은 답글 금지 (49A §3-2 발화 역할 분리) - 프롬프트 지시 + 코드 강제
+- anchor: sc-picker-watchdog
+  name: 픽커 유실 복구 = JS 워치독 래퍼 — 네이티브 패치 기각
+  commitment: frozen
+  confidence: high
+  quote: Android 픽커 유실/래치 복구 래퍼 (planning/50).
+- anchor: sc-placeholder-zero-ms-entry
+  name: placeholderData 0ms 진입 — 리스트 캐시를 상세 초기 데이터로 재사용
+  commitment: working
+  confidence: high
+  quote: 그 캐시를 placeholder로 끌어와 0ms 표시하고, 풀 데이터는 백그라운드 fetch가 채운다.
+- anchor: sc-platform-divergent-decision
+  name: 플랫폼별 판단 — 한쪽에만 이득인 최적화는 그쪽에만 적용
+  commitment: working
+  confidence: high
+  quote: 웹은 AdMob 미지원 — 네이티브 빌드 보호용 null 스텁 (props는 네이티브 쪽 시그니처와 호환).
+- anchor: sc-post-rotation-verification
+  name: 배포 후 검증 — Vault 주입·평문 부재·푸시 실발송·클라 로그인
+  commitment: working
+  confidence: high
+  quote: 푸시 실발송 1건
+- anchor: sc-posthog-http-capture
+  name: PostHog은 RN SDK 대신 capture HTTP API — 의존성 0·플랫폼 분기 0
+  commitment: working
+  confidence: high
+  quote: 제품 분석 — 퍼널·리텐션 측정. PostHog capture HTTP API로 직접 전송한다.
+- anchor: sc-preview-shares-real-renderer
+  name: 미리보기 전용 렌더러 금지 — 실제 화면 컴포넌트를 그대로 공유한다
+  commitment: frozen
+  confidence: high
+  quote: '핵심 규칙: 미리보기 전용 렌더러를 새로 만들지 않는다.'
+- anchor: sc-prod-deploy-is-manual
+  name: prod 배포는 수동 — 머지 ≠ 배포, 작업 전 반영 상태부터 확인
+  commitment: working
+  confidence: high
+  quote: prod 배포는 수동이다
+- anchor: sc-publish-time-by-code-random
+  name: 발행 시각은 LLM 아닌 코드 난수 — 크론 틱 패턴 유출 차단
+  commitment: frozen
+  confidence: high
+  quote: 시각은 LLM이 아니라 코드 난수(bot-logic) — LLM은 라운드 시각(07:00) 편향(45C §3-4).
+- anchor: sc-push-receipt-confirmation
+  name: 푸시 receipt 확인(Tier 3) — "서버가 보냄"에서 "단말이 받음"으로
+  commitment: working
+  confidence: high
+  quote: receipt(실제 단말 도달) 미확인
+- anchor: sc-push-rollout-client-first
+  name: 푸시 채널 롤아웃은 클라 선배포 — 서버 먼저면 구버전 푸시가 조용히 드롭
+  commitment: frozen
+  confidence: high
+  quote: '''default_v2'': 서버 전환 준비용. 이 빌드가 충분히 퍼진 뒤 send-push의 channelId를'
+- anchor: sc-read-progress-codec
+  name: 읽음은 boolean이 아니라 진행률 맵 — 후퇴 방지 + 삽입순 탈락 cap(AsyncStorage 순수 코덱)
+  commitment: frozen
+  confidence: high
+  quote: 읽음은 boolean이 아니라 진행률 맵
+- anchor: sc-reader-retired-detail-inline
+  name: 리더 철거(54 방향 전환) — 콘텐츠 글도 일반 상세로, 상세가 콘텐츠를 인라인 렌더한다
+  commitment: frozen
+  confidence: high
+  quote: 리더 철거(54 방향 전환)
+- anchor: sc-realtime-auth-gate
+  name: 세션 복원 전 구독 = 익명 claims SUBSCRIBED → RLS 무배달
+  commitment: frozen
+  confidence: high
+  quote: 'userId 게이트 필수: 세션 복원 전(딥링크·콜드스타트) 구독하면 SUBSCRIBED 는 뜨지만'
+- anchor: sc-realtime-hybrid
+  name: 실시간 동기화 하이브리드 — 전역 최소 구독 + 화면 단위 Broadcast
+  commitment: frozen
+  confidence: high
+  quote: 전역 유저 세션 채널 `user:{userId}` 구독. (59 Phase B4 → E 확장)
+- anchor: sc-realtime-screen-declarative
+  name: useRealtimeScreen — 실시간을 "선언 가능한 속성"으로
+  commitment: working
+  confidence: high
+  quote: 실시간을 붙이는 작업은 DB 트리거의 emit_domain_event 1줄 + 이 훅 선언 1개.
+- anchor: sc-realtime-topic-lifecycle
+  name: realtime 채널 수명주기 명시 관리 — churn·dedup이 조용히 바인딩을 끊는다
+  commitment: working
+  confidence: high
+  quote: 그 경우 create 가 던지고 useResilientChannel 이 백오프 재시도로 흡수한다.
+- anchor: sc-rebranding-tokens-first
+  name: 리브랜딩은 토큰 선치환 — 순서를 뒤집으니 색 변경이 값 교체가 됐다
+  commitment: working
+  confidence: high
+  quote: VOLT 이펙트 토큰 — 디자인 시스템 tokens/effects.css 의 RN 미러 (single source).
+- anchor: sc-reduce-motion-invariant
+  name: Reduce Motion 불변 규칙 — 장식 연출은 생략하고 즉시 최종 상태
+  commitment: frozen
+  confidence: high
+  quote: useReducedMotion 이면 장식 리빌을 생략하고 즉시 최종 상태 (MOTION.md 불변 규칙 6).
+- anchor: sc-refetch-type-tiering
+  name: refetchType 계층화 — Tier A 'all' / Tier B 낙관적 / Tier C 기본값 유지
+  commitment: working
+  confidence: high
+  quote: 'refetchType: ''all'' → 삭제 결과가 보통 다른 화면의 목록(게임 목록 등)에 반영되는데'
+- anchor: sc-release-automation
+  name: 릴리즈 자동화 — 헬스체크·배포 설정 정적 게이트·릴리즈 체크리스트
+  commitment: working
+  confidence: high
+  quote: 릴리즈 체크리스트
+- anchor: sc-report-block-ugc-safety
+  name: UGC 안전 장치 — 신고 사유 + 동시 차단, 차단은 RLS 필터로 즉시 소멸, 운영자 검토 큐로 이어진다
+  commitment: frozen
+  confidence: high
+  quote: 라디오 행
+- anchor: sc-research-critique-pipeline
+  name: 3단 품질 파이프라인 — 리서치 팩트팩 → 집필 → 비평 리젝
+  commitment: working
+  confidence: high
+  quote: 기본 = 서브에이전트 2회(리서치 1 + 비평 1)
+- anchor: sc-resilient-channel
+  name: useResilientChannel — 지수 백오프 재구독 + onSubscribed invalidate
+  commitment: working
+  confidence: high
+  quote: 끊김에 스스로 회복하는 realtime 채널 구독 훅. (Phase 10 — C1/C2)
+- anchor: sc-review-2026-07-05-nav-rollback
+  name: 2026-07-05 검수 — 헤더 pill·타입 선택 페이지·관리 허브 기각, FabMenu·통합 화면 복원(구 라우트는 리다이렉트만)
+  commitment: frozen
+  confidence: high
+  quote: 헤더 pill(38B D3)은 검수에서 기각
+- anchor: sc-rls-full-reaudit
+  name: RLS 정책 전수 재감사 — 자기참조·네이밍·banned 일관성
+  commitment: working
+  confidence: high
+  quote: 자기참조 정책이 모두 SECURITY DEFINER 헬퍼 경유하는지
+- anchor: sc-role-split-app-vs-club
+  name: 역할 구조 이원화 — 앱 전체 역할과 동호회 내 역할 분리(app_role vs club_members.role)
+  commitment: frozen
+  confidence: high
+  quote: export type AppRole = 'super_admin' | 'admin' | 'member';
+- anchor: sc-rotation-irreversible
+  name: 회전은 되돌릴 수 없다 — 선행조건을 회전 전에 갖춘다
+  commitment: working
+  confidence: high
+  quote: 회전하면 푸시가 즉시 끊긴다
+- anchor: sc-rotation-redeploy-single-window
+  name: 키 회전 + 클라이언트 재배포를 한 배포 윈도우에 묶는다
+  commitment: working
+  confidence: high
+  quote: 한 배포에 묶어야
+- anchor: sc-route-guard-default-deny
+  name: RouteGuard 기본 거부 — 비로그인 허용 경로 화이트리스트
+  commitment: working
+  confidence: high
+  quote: 무조건 true로 두면 home/ 하위에 새 화면이 생길 때 리뷰 신호 없이 공개됨.
+- anchor: sc-runbook-one-time-manual-op
+  name: 배포 런북 — 코드 완료 후 prod 배포 시점 1회 실행하는 수동 키 작업
+  commitment: working
+  confidence: high
+  quote: prod 배포 시점에 1회 실행하는 운영 작업
+- anchor: sc-scale-appropriate-design
+  name: 규모 적정화 — 과설계의 명시적 기각(실규모가 판단 기준)
+  commitment: working
+  confidence: high
+  quote: 모듈 캐시·구독은 과함 - 화면별 인스턴스 + 포커스 시 재로드로 화면 간 최신성을 맞춘다
+- anchor: sc-screen-orchestration-only
+  name: 화면은 조립 역할 — 인라인 스크롤·키보드 로직은 도메인 훅으로 추출
+  commitment: working
+  confidence: high
+  quote: 채팅방 키보드/세이프에어리어 처리. (08 A3 — chat/[roomId] 화면에서 분리)
+- anchor: sc-screenshot-privacy-check
+  name: 발행 전 캡처 프라이버시 점검 — 실유저 닉네임·민감 테이블명 노출 전수 확인
+  commitment: working
+  confidence: high
+  quote: 민감 테이블명(봇 관련) 노출 여부 확인
+- anchor: sc-script-orchestrator
+  name: 봇 시딩 아키텍처 = 대본 오케스트레이터(디렉터 1회/일 → 발행기 15분)
+  commitment: working
+  confidence: high
+  quote: 'community-bot-director — 1회/일: 하루치 "장면"(글+답글)을 한 LLM 호출로 집필해 예약.'
+- anchor: sc-search-client-gate
+  name: 검색 클라 게이트 — 디바운스 300ms + 최소 2글자
+  commitment: working
+  confidence: high
+  quote: 값이 delay(ms) 동안 변하지 않으면 그 값을 반영. 서버 검색 입력 폭주 방지용.
+- anchor: sc-self-report-adoption-risk
+  name: 최대 가정 — 멤버가 셀프 신고를 안 하면 가치 반감(채택률 60%)
+  commitment: working
+  confidence: high
+  quote: 멤버가 셀프 신고를 안 함
+- anchor: sc-sensitive-transition-via-rpc
+  name: 민감 상태 전이(승인·면제·void)는 RPC 경유 — 기존 컨벤션 유지
+  commitment: frozen
+  confidence: high
+  quote: 민감 작업은 전부 SECURITY DEFINER RPC(change_user_role, ban_user, unban_user)
+- anchor: sc-sentry-domain-tagging
+  name: 관측 표준 — 도메인 태그·전역 에러 통로·보고 제외 판정·PII 스크럽 공유
+  commitment: working
+  confidence: high
+  quote: 도메인 태그 표준. Sentry에서 필터·그룹 분석을 위해 모두 여기서 관리.
+- anchor: sc-server-pagination-keyset-deferred
+  name: 서버 오프셋 페이징(페이지당 20) — keyset은 수만 행 이상 후속으로 기록
+  commitment: working
+  confidence: high
+  quote: 오프셋 기반 무한 리스트 공통 훅.
+- anchor: sc-server-side-processing
+  name: '"전체 받아 클라 후처리"를 "필요한 만큼만 서버가 처리"로'
+  commitment: working
+  confidence: high
+  quote: 통합 RPC get_home_dashboard 호출 — 홈 콜드 진입에서 7 → 4 쿼리로 축소.
+- anchor: sc-share-og-canonical-split
+  name: 공유 링크 = OG 엔트리(/s/)와 canonical(/type/) 분리 — 랜딩 폐지
+  commitment: working
+  confidence: high
+  quote: 원본 웹 화면 경로(canonical). 사람 방문자 redirect·canonical 태그·sitemap 정본이 모두 이 경로.
+- anchor: sc-skeleton-render-contract
+  name: 렌더 계약 — 콜드에만 스켈레톤, 백그라운드 fetch엔 이전 데이터 유지
+  commitment: working
+  confidence: high
+  quote: placeholder(목록 캐시)가 있으면 data가 채워져 false → 깜빡임 없음.
+- anchor: sc-skill-per-publish-format
+  name: 발행 형태 1개 = 스킬 1개 — 포맷 자동 판단 폐기
+  commitment: working
+  confidence: high
+  quote: B안(채택) 포맷별 스킬 + 채널 자유
+- anchor: sc-soft-delete-placeholder
+  name: 소프트 삭제 + 플레이스홀더 — 지운 글/댓글/메시지가 트리를 무너뜨리지 않게
+  commitment: working
+  confidence: high
+  quote: '삭제 필터를 코드에서 처리(49C): 답글이 살아있는 삭제된 최상위 댓글은 플레이스홀더로'
+- anchor: sc-sourcemap-verification
+  name: 소스맵 업로드 검증 — production 빌드에서 원본 스택 확인
+  commitment: working
+  confidence: high
+  quote: minify 아닌 원본 스택 확인
+- anchor: sc-status-single-matrix
+  name: 상태 표기 단일 매트릭스 — 의미→variant 매핑을 StatusChip/Badge 한 곳에
+  commitment: working
+  confidence: high
+  quote: StatusChip — wevolley 전반의 "상태" 표기를 단일 매트릭스로 통일.
+- anchor: sc-study-not-business
+  name: 이건 사업이 아니라 공부 — 흩어진 실무 지식을 하나로 파이프라인화
+  commitment: working
+  confidence: high
+  quote: 이건 사업이 아니라 공부였다
+- anchor: sc-sync-latency-instrumentation
+  name: sync-latency 로거 — 공용 계측 자산(dev 로그 + 1% 샘플 breadcrumb)
+  commitment: working
+  confidence: high
+  quote: '"DB 변경 → 클라 캐시 반영" 지연 계측. (59 Phase A3)'
+- anchor: sc-three-refactoring-waves
+  name: 3번의 리팩토링 물결 — 증상 대응 → 체계전 → 캐시·아키텍처 정리
+  commitment: working
+  confidence: high
+  quote: 이후 모든 캐시 전략의 뼈대
+- anchor: sc-treasury-admin-inbox
+  name: 확인 대기 인박스 — 스와이프 승인·일괄 처리·면제
+  commitment: working
+  confidence: high
+  quote: 확인 대기 인박스(스와이프 승인, 일괄 처리, 면제)
+- anchor: sc-treasury-core-loop
+  name: 금고 코어 루프 — 청구 발행→송금→셀프 신고→총무 승인→장부 갱신
+  commitment: working
+  confidence: high
+  quote: '[청구 발행]'
+- anchor: sc-treasury-ledger
+  name: 클럽 금고 — 은행 연동 없는 회비 수금·지출·투명성 장부
+  commitment: working
+  confidence: high
+  quote: 은행 연동 없이 동호회의 회비 수금·지출·투명성 보고를 대체하는 장부
+- anchor: sc-treasury-must-replace-excel
+  name: v1 성립 조건 — 엑셀을 완전 대체 못 하면 만들 가치 없음
+  commitment: working
+  confidence: high
+  quote: v1이 엑셀을 완전히 대체하지 못하면 만들 가치가 없다
+- anchor: sc-treasury-notification-set
+  name: 금고·게스트 신규 알림 6종
+  commitment: working
+  confidence: high
+  quote: charge_issued(청구 발행)
+- anchor: sc-treasury-pain-three
+  name: 총무의 3대 페인 — 대조 노동·독촉의 감정 비용·연 1~2회뿐인 투명성 보고
+  commitment: working
+  confidence: high
+  quote: 대조 노동
+- anchor: sc-treasury-phasing
+  name: 금고 요구사항 4단계 — P0 수금 루프 / P1 지출·리포트 / P1.5 게스트 / P2 설계만
+  commitment: working
+  confidence: high
+  quote: P0 (없으면 배포 안 함)
+- anchor: sc-treasury-semi-auto
+  name: 자동화 경계 — 청구 생성·독촉은 자동, 입금 확인은 셀프 신고+총무 승인
+  commitment: working
+  confidence: high
+  quote: 입금 확인은 셀프 신고 + 총무 승인의 반자동
+- anchor: sc-treasury-success-metrics
+  name: 금고 성공 지표 4종 — 사용 클럽 수·확인 노동 시간·셀프 신고율·멤버 리텐션
+  commitment: working
+  confidence: high
+  quote: 총무의 엑셀 대체
+- anchor: sc-treasury-three-principles
+  name: 은행 연동 없이 성립하는 3원칙 — 입력 분산·매칭 상류 제거·독촉 외주
+  commitment: working
+  confidence: high
+  quote: 입력을 멤버에게 분산
+- anchor: sc-trigram-search
+  name: 커뮤니티 검색 = trigram GIN — FTS 기각(한국어 토크나이저 부재)
+  commitment: frozen
+  confidence: high
+  quote: '2글자 미만은 검색 미적용(전체 피드): trigram 인덱스가 2글자 이하 패턴을 못 타는 것과 세트 (47 §3-2).'
+- anchor: sc-two-admin-lineages
+  name: 관리자 UI 두 계통 — app_role vs club_members role
+  commitment: working
+  confidence: high
+  quote: 위저드 딥링크 버그(2026-07-04)와 동일 계열. 로딩 종료 후에만 판정.
+- anchor: sc-tx-paste-parsing-deferred
+  name: 거래내역 복붙·엑셀 파싱은 v1 제외 — 셀프 신고 채택률 미달 시 승격
+  commitment: working
+  confidence: high
+  quote: v1 제외, v1.5 후보
+- anchor: sc-ui-gate-rls-final
+  name: 클라 게이트는 UX·RLS/RPC가 최종 강제 — 화면 가드는 헛수고 차단용
+  commitment: frozen
+  confidence: high
+  quote: RLS가 최종 방어지만 UI에서 헛수고를 막는다.
+- anchor: sc-validation-single-rule-source
+  name: 폼 검증 규칙 단일 소스 + 스텝 필드 매핑 — create/edit drift 차단
+  commitment: working
+  confidence: high
+  quote: 검증 규칙은 `validateScrimmageForm` 한 곳뿐 — create는 이 매핑으로 현재 step에 해당하는
+- anchor: sc-vault-key-injection
+  name: 푸시 키는 Vault에서 읽는다 — push_service_role_key, 평문 저장·커밋 금지
+  commitment: working
+  confidence: high
+  quote: Supabase Vault
+- anchor: sc-verified-numbers-only
+  name: 검증된 숫자만 — 모든 수치는 repo 실측(타임라인 앵커·핵심 스탯)
+  commitment: working
+  confidence: high
+  quote: 모든 수치는 repo 실측
+- anchor: sc-verifier-web-evidence
+  name: verifier-web 증거 캡처 — 캐시·실시간 검증의 표준 절차(2계정 시나리오)
+  commitment: working
+  confidence: high
+  quote: verifier-web
+- anchor: sc-verify-then-fix
+  name: verify-then-fix — 착수 전 실재 확인으로 후보를 재판정(추측 스코프 금지)
+  commitment: working
+  confidence: high
+  quote: 추측이 아니라 실재 기준으로 좁힘
+- anchor: sc-view-as-member
+  name: 일반 회원 모드 — 클라이언트 뷰 모드만(서버 impersonation 아님)
+  commitment: working
+  confidence: high
+  quote: 일반 회원 모드 ON 상태에서
+- anchor: sc-view-as-member-quality-loop
+  name: 운영자가 회원 UX 문제를 직접 발견하는 품질 루프
+  commitment: working
+  confidence: high
+  quote: 운영자가 일반 회원의 실제 화면
+- anchor: sc-view-as-member-v1-assets
+  name: v1(#81) 자산 — viewAsMember 상태·AsyncStorage 영속·auth.tsx 단일 파생 지점
+  commitment: working
+  confidence: high
+  quote: AsyncStorage 영속
+- anchor: sc-volt-ink-over-lime-legibility
+  name: VOLT 대비 규칙 — 볼트 라임은 면·시그널, 전경 텍스트/선은 잉크(흰 배경 위 볼트는 판독 미달)
+  commitment: frozen
+  confidence: high
+  quote: 얇은 볼트 선은 흰 배경에서 판독 불가
+- anchor: sc-web-layout-animation-landmine
+  name: 웹에서 레이아웃/entering 애니 금지 — absolute 잔존·셀 붕괴
+  commitment: frozen
+  confidence: high
+  quote: '(Phase 41 §3.5). entering 레이아웃 애니메이션 금지: 웹에서 요소를 position:absolute 로'
+- anchor: sc-wizard-cold-load-prefill
+  name: 위저드 콜드 로드 prefill 결함 — 첫 렌더 profile로 state 초기화
+  commitment: working
+  confidence: high
+  quote: profile async 미도착으로 ''로 굳음
+- anchor: sc-zombie-channel-force-rebuild
+  name: 소켓 zombie 감지 = 전면 force-rebuild(채널별 가드 기각)
+  commitment: working
+  confidence: high
+  quote: Realtime 채널 강제 재구독 레지스트리. (Phase 41 — 축 B)

@@ -1,0 +1,239 @@
+# 경계 레지스트리 — 구조는 여기(데이터)서 자란다. 엔진 코드는 특정 이름을 모른다.
+# 새 프로젝트/플랫폼/코퍼스 추가·폐기 시 이 파일(또는 폴더)만 바뀌고 corpus.py는 안 고친다.
+#
+#   - 새 플랫폼: platform_root 아래 폴더 하나 = 자동 발견 (엔진 변경 0)
+#   - 새 앱:     플랫폼 폴더 아래 폴더 하나 = 자동 발견
+#   - 새 corpus: 아래 corpora에 블록 하나 추가
+#   - 새 공유 tier: 해당 corpus의 shared_tiers에 이름 추가
+#   - 폐기:      spec.md stage=archived 또는 폴더 제거 → ingest에서 deprecated로 표시/부재
+
+# 표시용 층 가족 — kind는 코퍼스마다 다르다(문서 코퍼스 article/screen_section 계열,
+# lab-self method 계열, wevolley interface/type까지).
+# 뷰어는 표시할 때만 접는다. kind 자체를 정규화하거나 코퍼스 간에 통일하지 않는다.
+kind_families:
+  조항: [article]
+  화면: [screen, screen_section]
+  명세: [spec_section, section]
+  필드: [field, state_enum]
+  코드: [function, method, module, class, const, interface, type]
+  갭: [gap]
+
+corpora:
+  acme-docs:
+    # ★가상 샘플 코퍼스 — 실제 데이터는 동봉하지 않는다(장착 시에만 의존 테스트가 돈다).
+    #   다층 레이아웃(line/platform/app)·공유 tier·조항형 결정 로그를 가진 문서 코퍼스가
+    #   어떻게 선언되는지를 보여주는 예시다. 이름은 전부 가공이다.
+    source: "../../../acme-docs-repo"       # 로컬 클론 (ingester가 읽는 경로, read-only)
+    shared_tiers: [foundations, business]   # 앱이 인용 가능한 공유 tier (slug 매칭)
+    meta_tiers: [corpdoc]                   # 최상위 메타(0-corpdoc) — 앱 아님, scope=그대로
+    # 라인이 여러 개이고 깊이도 다르다(prime-commerce/summit/inv=3단, neomart/billing=2단).
+    #   위치 대신 **말단 폴더=app, 전체 경로=scope**로 깊이-무관하게 파싱한다.
+    # 정본이 보는 시점 — 재생 스윕(scripts/regen.sh)의 기본 --snap.
+    # ★유도하지 않고 선언한다: SHA 알파벳 정렬은 시간 순이 아니라 "최신 스냅샷"을
+    #   sorted()[-1]로 고르면 언제든 조용히 틀린다.
+    #   선언이 정본보다 뒤처지면 재생이 옛 스냅샷으로 본문을 되돌린다 — 조각은 하나도
+    #   안 사라지므로 보존 계열 게이트는 전부 초록이다. → 불변식 11: 정본보다 오래된
+    #   스냅샷으로는 재생 거부(롤백은 --allow-older).
+    canon_snap: ba0a006
+    # ★서술 단위 — 개념이 조각을 모아오는 대상. 코퍼스가 선언한다(유도 금지).
+    #   새 kind가 생기면 여기 한 줄, 코드 변경 0.
+    statement_kinds: [article, screen_section, spec_section, field, state_enum, gap]
+    decision_format: corpdoc-table          # decisions-log.md 표 형식 (파서 데이터-선언, 하드코딩 아님)
+    decision_file: decisions-log.md
+    gold_events: fixtures/acme-docs/bench/listing-paused-readopt/events.yaml   # 현행성 블록용 이벤트 원장(선언)
+    default_scope: prime-commerce/summit/inv   # promote 무인자 시 대상 scope(선언)
+    # ★예외 선언(원칙 불변): 보통 한 제품은 일반/어드민/시스템을 한 앱 밑에 둔다(예: stock).
+    #   inv만 inv·inv-system 두 앱으로 분리돼 있어 개념은 하나의 우주를 공유해야 한다.
+    #   앱 경계 원칙은 그대로 두고 이 쌍만 예외로 병합.
+    concept_scope_merges:
+      prime-commerce/summit/inv: [prime-commerce/summit/inv-system]
+    ignore: [".system", ".git", ".github", ".claude"]   # 감사 제외 인프라 — 결정으로 안 셈
+    # 작업 폴더 슬러그 → **sid 접두**. app_scopes(정본 scope)와 다른 축이다.
+    # 폴더 이름과 같으면 선언 불필요 — 회차 폴더만 어긋난다(원장 sid가 `mango#`).
+    work_scopes:
+      mango-pipeline-r1: mango
+      mango-pipeline-r2: mango
+    # probe 앱 슬러그 → 정본 scope. **선언이지 유도가 아니다** — 말단 폴더 이름 매칭은
+    # slug 불일치(cargo→crate-platform·consolebuilder→console-builder)와 플랫폼 간
+    # 동명(crate·hub·inv)에서 실패한다. 새 앱은 여기 한 줄 = 코드 변경 0.
+    app_scopes:
+      alert: prime-commerce/summit/alert
+      audit: prime-commerce/summit/audit
+      cargo: prime-commerce/cargo/crate-platform
+      consolebuilder: prime-commerce/summit/console-builder
+      courier: prime-commerce/atlas/courier
+      courier-admin: prime-commerce/atlas/courier-admin
+      courier-admin-system: prime-commerce/atlas/courier-admin-system
+      crate: prime-commerce/atlas/crate
+      hub: prime-commerce/summit/hub
+      inv: prime-commerce/summit/inv
+      inv-system: prime-commerce/summit/inv-system
+      kms: prime-commerce/summit/kms
+      log: prime-commerce/summit/log
+      mango: prime-commerce/mango/mango
+      # ★회차 폴더 — 앱이 아니라 mango의 1·2회차 작업 단위다(원장 sid도 `mango#`).
+      #   미선언이면 promote가 scope를 날 슬러그로 적어 동일 anchor가 중복된다.
+      #   이미 만들어진 원장은 보존 자산이므로, 이름을 바꾸는 대신 **어느 앱의 회차인지 선언**한다.
+      mango-pipeline-r1: prime-commerce/mango/mango
+      mango-pipeline-r2: prime-commerce/mango/mango
+      mango-admin: prime-commerce/mango/mango-admin
+      meadow: prime-commerce/meadow/meadow
+      meadow-admin: prime-commerce/meadow/meadow-admin
+      neomart-billing: neomart/billing
+      neomart-hub: neomart/hub
+      notification: prime-commerce/summit/notification
+      security: prime-commerce/summit/security
+      settings: prime-commerce/summit/settings
+      stock: prime-commerce/atlas/stock
+      web-desktop-ui: prime-commerce/summit/web-desktop-ui
+    # 아카이브 세그먼트 — 침식 감시에서 dead/ambiguous를 `archived`로 분리(삭제 아님).
+    # 코퍼스의 자기 선언("분리 전 기존 앱 문서를 raw로 보존한 곳 — 정본이 아니다")을 옮긴 것.
+    # 세그먼트 완전일치로만 매치(부분 문자열 금지 — 실 앱 오분류 방지).
+    archive_segments: [source]
+    # ★개념층 적재 제외 — 애초에 **개념의 원천이 아닌** 것(archive_segments와 다른 축).
+    #   `3-research/`: 조사 문서. 파이프라인 산출도 여기 쌓이므로 안 빼면 **자기 산출을
+    #     다시 먹는 피드백 루프**가 된다.
+    #   `decisions-log.md`: 결정층의 원천이지 개념층의 원천이 아니다(두 번 먹으면 중복).
+    #   `README.md`: 폴더 안내.
+    #   `4-source/`: 구 위키 원본. 현행 조항이 이를 **대체**했으므로 개념층에 들이면
+    #     낡은 판이 현행 평면에 섞인다(조항은 이걸 `근거:`로 인용만 한다).
+    concept_exclude: ["3-research", "4-source", "decisions-log.md", "README.md"]
+    # ★파생 평면 — 제품 하나가 **다른 둘에서 유도**될 때의 원장 (derivation.py).
+    #   엔진은 제품 이름을 모른다: 어느 열이 어느 축인지, 그 축의 근거가 어느
+    #   인용 형식으로 오는지를 여기서 선언한다. 새 파생 제품은 블록 하나, 코드 변경 0.
+    #   `cite`는 인용 형식의 이름이지 제품 이름이 아니다:
+    #     article=`[XXX-NN]` 조항 · volume=`NN권 §X-Y` 분책 섹션
+    #     screen=`S-NN` · canon=`app#sc-x`(lab 정본) · decision=`XXX-D-NN`
+    derivation:
+      source: 04-neomart/03-research/01-rivalco/meadow-rivalco-mapping.md
+      # 자기 결정층 namespace. 미선언이면 문서 프론트매터 `platform:`에서 읽는다.
+      decision_ns: NEOMART
+      axes:
+        # 가진 쪽 — 근거가 spec 조항으로 온다
+        - column: Meadow
+          kind: spec_article
+          cite: [article, canon]
+          evidence_root: null            # Tier A 스냅샷에서 해소
+        # 참고할 쪽 — 근거가 조사 분책 섹션·화면으로 온다
+        - column: RivalCo
+          kind: survey_section
+          cite: [volume, screen]
+          evidence_root: 04-neomart/03-research/01-rivalco
+    # ★구성 평면 — 앱 스캐폴드 **전**(조항화 보류 단계)의 파생 제품을 lab이 드는 형태.
+    #   실질 지식이 리서치 초안에만 있으면 concept_exclude `3-research`에 걸려 개념층
+    #   사각지대가 된다. 스캐폴드 후 spec.md·조항이 생기면 이 평면은 은퇴한다.
+    composition:
+      product: neomart
+      sources:
+        - path: 04-neomart/03-research/03-proto/00-neomart-spec-draft.md
+          role: spec
+        - path: 04-neomart/03-research/03-proto/01-screens-draft.md
+          role: screens
+      screen_id_prefix: "NEO-S-"
+      decision_ns: [NEOMART, BILL]
+
+  personal-wevolley:
+    # ★2026-08-06 — `planning/`에서 저장소 루트로 넓혔다(소유자 지적).
+    #   종전엔 하위 폴더 하나만 코퍼스라 **제품의 절반이 안 보였다**: 문서 76파일
+    #   16,800줄 vs 앱 코드 431파일 54,407줄(코드가 문서의 3.2배)이 통째로 밖.
+    #   세션 10이 못 박은 "코퍼스 경계 = 제품 경계"와 어긋나 있던 자리다.
+    source: "../../../we-volley"
+    shared_tiers: []
+    flat: true                              # 단일 프로덕트 — 플랫폼 tier 없음
+    flat_app: wevolley                       # 루트 DECISIONS.md의 구조 scope (내용별 scope는 파싱이 담당)
+    canon_snap: 5e773ff                     # 재생 스윕 기본 시점(선언 — 유도 금지, 위 참조)
+    statement_kinds: [section, module, function, class, interface, type, const, enum]
+    decision_format: numbered-append        # DECISIONS.md 번호 형식 (ingest_wevolley 파서)
+    decision_file: DECISIONS.md
+    ignore: [".git"]
+    # 어댑터 둘 — 기획 문서는 산문, 앱은 TS/TSX. 발견도 포맷도 선언이 정한다.
+    # 코드 글롭은 앱 디렉터리만 — `node_modules`·`dist`·`android`·`ios`는 제품 서술이
+    # 아니라 빌드 산물/의존성이다(들이면 정본이 남의 코드로 덮인다).
+    concept_formats:
+      "planning/**/*.md": markdown-sections
+      "app/**/*.ts": code-symbols:typescript
+      "app/**/*.tsx": code-symbols:typescript
+      "components/**/*.tsx": code-symbols:typescript
+      "components/**/*.ts": code-symbols:typescript
+      "lib/**/*.ts": code-symbols:typescript
+      "api/**/*.ts": code-symbols:typescript
+      "supabase/**/*.ts": code-symbols:typescript
+      "types/**/*.ts": code-symbols:typescript
+      "constants/**/*.ts": code-symbols:typescript
+    statement_kinds_note: "아래 statement_kinds에 코드 kind를 더한다"
+    # `작업완료/`는 코퍼스 자기 선언상 **완료된 작업 계획서**다 — acme-docs `4-source/`와
+    # 같은 성격(현행 정본이 아니라 이력 보존). 64파일 = 코퍼스 md 크기의 87%.
+    # Tier A(결정론 스냅샷)에는 **포함**하되 침식 감시에서 archived로 분리하고,
+    # Tier B(LLM 추출)는 현행 정본만 — acme-docs에서 확립한 처리와 동형.
+    archive_segments: ["작업완료"]
+    # ★2026-08-06 — 바로 위 문장("Tier B는 현행 정본만")은 **선언만 있고 배선이 없었다.**
+    # `archive_segments`는 l1_integrity(침식 감시)에서만 읽히고 추출에는 아무 영향이 없다.
+    # 실측: 그래서 이 코퍼스의 추출 대상이 1512섹션(작업완료 1303 = 86%)으로 잡혔다.
+    # 배선하는 자리가 `concept_exclude`다 — Tier A 스냅샷(l1_snapshot)은 이 선언을 안 읽고
+    # 작업 원장 적재(run_ingest_cli)만 읽으므로, 의도한 "A는 포함·B는 제외"와 정확히 같다.
+    #
+    # ★확산 경로: 소유자 결정(2026-08-06)은 **영구 제외가 아니라 단계적**이다 —
+    # 현행 183섹션으로 먼저 재생성·증분 2회를 돌려 제너릭 결함을 턴 뒤, 작업완료 1303섹션은
+    # 별도 회차로 넓힌다. 넓힐 때는 아래 "작업완료" 한 줄을 지우면 되고, 그러면 prep의
+    # 증분 diff가 그 섹션들을 added로 내므로 정상 증분 경로를 탄다(tombstone 아님 —
+    # 정본에 올라간 적이 없어 사라질 것이 없다).
+    concept_exclude:
+      - "작업완료"      # 단계적 — 위 확산 경로 참조. 지우면 다음 prep이 1303섹션을 added로 낸다
+      - "README.md"     # 네비게이션 문서(3섹션) — acme-docs과 동일 처리
+      - "__tests__"     # 검증 장치지 개념의 원천이 아니다(lab에서 확립한 처리)
+      - "e2e"
+      - "__mocks__"
+      # DECISIONS.md는 안 적는다 — `decision_file` 선언에서 유도된다(corpus.concept_exclude_for)
+
+# 원칙: 엔진은 특정 corpus를 모른다. acme-docs은 실험 코퍼스 하나일 뿐. 새 corpus는
+#      포맷·레이아웃을 여기 데이터로 선언하면 코드 변경 없이 붙는다.
+# 변경 내성: 폴더 번호(1-·2-·a-)는 순번이라 언제든 재배정됨 → 정체성은 slug(번호 뗀 이름)와
+#           결정 ID/조항 prefix에 둔다. acme-docs이 3-platforms→N-platforms로 바꿔도 안 깨짐.
+
+  lab-self:
+    source: ".."                            # lab 레포 자신 (engine 기준 상위, read-only 관점 유지)
+    flat: true
+    flat_app: lab
+    # ★scope 통합(2026-08-07 소유자 판정) — 옛 회차 폴더 `pipeline`은 앱이 아니라
+    #   lab의 1회차 작업 단위다. 정본 접두를 lab#으로 통합했고(계보는 각 개념의
+    #   absorbed_anchors에 옛 anchor 보존), 이 선언이 재생 시 재분열을 막는다
+    #   (mango-pipeline-r1 선례와 동형).
+    app_scopes:
+      pipeline: lab
+    work_scopes:
+      pipeline: lab
+    # ★선언이 아예 없었다(2026-08-06). 다른 두 코퍼스는 있는데 여기만 비어서 재생이
+    #   "어느 시점을 볼지 모른 채 재생하지 않는다"로 거부했다 — 가드가 제 역할을 했다.
+    #   유도하지 않고 선언한다(SHA 정렬은 시간 순이 아니다).
+    canon_snap: 661dc97
+    # ★2026-08-06 — 어댑터 둘. 종전엔 `concept_format: markdown-sections` 하나였고
+    #   `ignore`에 `engine`이 들어 있어 **코드가 통째로 코퍼스 밖**이었다. 그런데 바로
+    #   아래 `seed_paths`는 같은 폴더를 가리킨다 — 둘은 07-31 `574eca9`에서 같은 커밋으로
+    #   함께 태어났다. 그때는 어댑터가 마크다운뿐이라 "engine의 **마크다운**(=fixtures,
+    #   파이프라인 자기 산출물)을 읽지 마라"를 적을 칸이 `ignore`밖에 없었다.
+    #   **"코드를 읽지 마라"는 원칙은 이 프로젝트에 존재한 적이 없다**(소유자 지적).
+    #   → 축을 가른다: 발견은 글롭, 포맷은 어댑터, 자기 산출 배제는 글롭의 정밀도.
+    concept_formats:
+      "*.md": markdown-sections              # 루트 진입점 (README·STATUS)
+      "docs/**/*.md": markdown-sections      # 설계·실험 문서
+      "engine/*.py": code-symbols:python     # 라이브 파이프라인
+      # ★봉인분도 **본다**(2026-08-06). 안 보면 "봉인으로 옮김"과 "삭제"를 구분할 수
+      #   없다 — 실측상 사라진 anchor 113건이 전부 이 이동이었고, 안 갈랐으면 정당한
+      #   봉인이 통째로 tombstone으로 굳는다(세션 12 ⓐ와 같은 계열).
+      #   `작업완료/`와 같은 층: Tier A에는 포함, archive_segments로 분리, Tier B에서 제외.
+      "engine/archive/*.py": code-symbols:python
+      "engine/research/*.py": code-symbols:python
+    # ★`engine/**/*.md`를 안 넣는 게 fixtures 배제의 자리다. `ignore`로 폴더를 통째
+    #   막으면 코드까지 같이 막힌다(그게 종전 상태였다). 글롭을 좁히면 마크다운만 막힌다.
+    statement_kinds: [section, module, function, method, class]
+    seed_sources: [implementation, owner-designation]   # 어휘 유도원 선언 (spec 부재 코퍼스)
+    seed_paths: ["engine"]                   # implementation 시드 스캔 경로
+    # `scripts`는 뺐다 — `.md`가 0개라 아무 일도 안 하던 **죽은 선언**이었다.
+    # `resources`(대화 로그)는 남긴다 — Tier B r2 대상이고 결정 추출 정확도 문제가 걸려 있다.
+    ignore: [".git", ".claude", "resources"]
+    # 테스트는 검증 장치지 개념의 원천이 아니다. 무필터 실측: test_*.py 심볼 760으로
+    # 라이브(270)의 2.8배 — 안 빼면 정본이 테스트 이름으로 덮인다(세션 12 결함 ⓑ와 동형).
+    # 침식 감시 분류 — 봉인분이 옛 것을 가리키는 건 보존이지 침식이 아니다(acme-docs
+    # `4-source`·wevolley `작업완료`와 같은 선언).
+    archive_segments: ["archive", "research"]
+    concept_exclude: ["test_*", "conftest.py", "README.md", "archive", "research"]

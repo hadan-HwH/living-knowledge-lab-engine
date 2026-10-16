@@ -1,0 +1,337 @@
+proposals:
+- sid: wevolley#sc-improvement-catalog
+  target: NEW
+  confidence: high
+  evidence: 정본에 카탈로그/추적표 개념 없음 — 문서 전체를 지배하는 조직 단위
+- sid: wevolley#sc-catalog-item-promotion
+  target: NEW
+  confidence: high
+  evidence: canon의 문서 유형·위치 개념과 별개인 '후보→상세문서 승격' 절차
+- sid: wevolley#sc-live-product-priority
+  target: NEW
+  confidence: high
+  evidence: 정본에 우선순위 판단 기준 개념 없음
+- sid: wevolley#sc-verify-then-fix
+  target: NEW
+  confidence: high
+  evidence: 실측 정정이 4개 항목에서 반복된 코퍼스 고유 규율 — 정본 미수록
+- sid: wevolley#sc-analytics-blind-spot
+  target: NEW
+  confidence: high
+  evidence: 정본에 계측 부재 진단 개념 없음
+- sid: wevolley#sc-funnel-retention-visibility
+  target: NEW
+  confidence: high
+  evidence: 미착수 후보(◧ A5 대기) — 정본 미수록
+- sid: wevolley#sc-posthog-http-capture
+  target: NEW
+  confidence: high
+  evidence: 구현 채택 결정 — 정본 미수록
+- sid: wevolley#sc-churn-response-loop
+  target: NEW
+  confidence: high
+  evidence: 미착수 후보 — 정본 미수록
+- sid: wevolley#sc-club-activity-survey
+  target: NEW
+  confidence: high
+  evidence: 가설 단계 조사 항목 — 정본 미수록
+- sid: wevolley#sc-push-receipt-confirmation
+  target: NEW
+  confidence: high
+  evidence: 정본의 푸시 개념(fail-open 폴백)과 다른 축 — 전달 확인
+- sid: wevolley#sc-rls-full-reaudit
+  target: NEW
+  confidence: high
+  evidence: 미착수 후보 — 정본 미수록
+- sid: wevolley#sc-array-column-normalization
+  target: NEW
+  confidence: high
+  evidence: 미착수 후보 — 정본 미수록
+- sid: wevolley#sc-native-e2e-gap
+  target: NEW
+  confidence: high
+  evidence: 정본에 테스트 안전망 개념 없음
+- sid: wevolley#sc-sourcemap-verification
+  target: NEW
+  confidence: high
+  evidence: 잔여 검증 항목 — 정본 미수록
+- sid: wevolley#sc-error-display-classification
+  target: NEW
+  confidence: high
+  evidence: 정본 sc-nonblocking-heuristic-gate는 '가드의 차단성' 축이고 이것은 '무엇을 표시할지' 분류 축
+- sid: wevolley#sc-form-hook-mirroring
+  target: NEW
+  confidence: high
+  evidence: 정본에 폼 훅 통합 패턴 없음
+- sid: wevolley#sc-no-over-standardization
+  target: NEW
+  confidence: high
+  evidence: 3문서에 반복 등장하는 판단 규율 — 정본 미수록
+- sid: wevolley#sc-screen-orchestration-only
+  target: AMBIGUOUS
+  confidence: low
+  evidence: 정본 wevolley#sc-no-direct-supabase-in-view와 같은 '화면 책임 경계' 계열이나 규칙 내용이 달라 확신 부족
+- sid: wevolley#sc-convention-drift-guard
+  target: NEW
+  confidence: high
+  evidence: 상시 운영 규율 — 정본 미수록
+- sid: wevolley#sc-data-loop-alerting
+  target: NEW
+  confidence: high
+  evidence: 옵션 후보 — 정본 미수록
+- sid: wevolley#sc-dependency-health-policy
+  target: NEW
+  confidence: high
+  evidence: 완료 항목 — 정본 미수록
+- sid: wevolley#sc-release-automation
+  target: NEW
+  confidence: high
+  evidence: 완료 항목 — 정본 미수록(정본 sc-share-deploy-order는 배포 순서 축)
+- sid: wevolley#sc-wizard-cold-load-prefill
+  target: NEW
+  confidence: high
+  evidence: 원인 추정 단계 미수정 버그 — 정본 미수록
+- sid: wevolley#sc-diagnostic-code-not-dead-code
+  target: NEW
+  confidence: high
+  evidence: 코드 정리와 버그 해결을 가르는 규율 — 정본 미수록
+- sid: wevolley#sc-map-platform-parity
+  target: NEW
+  confidence: high
+  evidence: 정본에 지도 개념 없음
+- sid: wevolley#sc-chat-realtime-three-symptoms-one-root
+  target: NEW
+  confidence: high
+  evidence: 진단 결론 자체가 개념 — 정본 미수록
+- sid: wevolley#sc-perf-history-reference
+  target: NEW
+  confidence: high
+  evidence: 참조 문서 자체의 정체성 — 정본 미수록
+- sid: wevolley#sc-perf-improvement-cycle
+  target: NEW
+  confidence: high
+  evidence: 코퍼스의 성능 방법론 — 정본 미수록
+- sid: wevolley#sc-measure-first
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-no-speculative-fix
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-realtime-best-effort-refetch-authority
+  target: wevolley#sc-http-refetch-owns-consistency
+  confidence: high
+  evidence: 정본 head '정합성은 재구독·focus 시 HTTP refetch가 소유 — 실시간은 전달 수단'과 동일 명제
+- sid: wevolley#sc-postgres-changes-structural-limit
+  target: wevolley#sc-broadcast-over-postgres-changes
+  confidence: high
+  evidence: 정본 head 'postgres_changes 부적합 — RLS 선형 검사·100ev/s 초과분 조용한 드롭'과 동일
+- sid: wevolley#sc-broadcast-from-database
+  target: wevolley#sc-realtime-hybrid
+  confidence: high
+  evidence: 정본 head '실시간 동기화 하이브리드 — 전역 최소 구독 + 화면 단위 Broadcast'의 전달 수단 결정 자체
+- sid: wevolley#sc-realtime-screen-declarative
+  target: NEW
+  confidence: high
+  evidence: 정본 sc-realtime-hybrid는 아키텍처 선택, 이것은 화면 적용 인터페이스
+- sid: wevolley#sc-emit-domain-event-swallow
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 구현 규약
+- sid: wevolley#sc-migrate-proven-surface-last
+  target: NEW
+  confidence: high
+  evidence: 운영자 결정(2026-07-28)인데 정본에 이관 순서 개념 없음
+- sid: wevolley#sc-broadcast-payload-privacy
+  target: NEW
+  confidence: high
+  evidence: 정본의 가명/노출 개념들과 대상이 다름(실시간 payload 경계)
+- sid: wevolley#sc-realtime-auth-gate
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-resilient-channel
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 복원력 자산
+- sid: wevolley#sc-realtime-topic-lifecycle
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-zombie-channel-force-rebuild
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 대안 비교 결정
+- sid: wevolley#sc-foreground-recovery
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-draft-dm-room
+  target: NEW
+  confidence: high
+  evidence: 정본 sc-community-dm-room-type은 방 타입, 이것은 방 생성 시점
+- sid: wevolley#sc-list-cell-render-cost
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-web-layout-animation-landmine
+  target: NEW
+  confidence: high
+  evidence: 3회 반복 회피된 함정 — 정본 미수록
+- sid: wevolley#sc-notification-deeplink-cold-start
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-server-side-processing
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-server-pagination-keyset-deferred
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-debounced-search-input
+  target: wevolley#sc-search-client-gate
+  confidence: high
+  evidence: 정본 head '검색 클라 게이트 — 디바운스 300ms + 최소 2글자'와 동일
+- sid: wevolley#sc-korean-trigram-over-fts
+  target: wevolley#sc-trigram-search
+  confidence: high
+  evidence: 정본 head '커뮤니티 검색 = trigram GIN — FTS 기각(한국어 토크나이저 부재)'과 동일
+- sid: wevolley#sc-gin-fastupdate-trap
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-limit-as-runaway-cap
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-scale-appropriate-design
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-refetch-type-tiering
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 캐시 갱신 규약
+- sid: wevolley#sc-fix-at-choke-point
+  target: AMBIGUOUS
+  confidence: low
+  evidence: 정본 wevolley#sc-gate-at-derivation-point('게이트는 파생 지점에서')와 같은 계열이나 게이트가 아닌 수정 지점 선택이라 확신 부족
+- sid: wevolley#sc-persist-policy-inversion
+  target: wevolley#sc-persist-denylist
+  confidence: high
+  evidence: 정본 head '쿼리 persist는 denylist 기본 — allowlist 극성 반전'과 동일
+- sid: wevolley#sc-render-contract-cold-only-skeleton
+  target: wevolley#sc-skeleton-render-contract
+  confidence: high
+  evidence: 정본 head '렌더 계약 — 콜드에만 스켈레톤, 백그라운드 fetch엔 이전 데이터 유지'와 동일
+- sid: wevolley#sc-defaults-over-optin-lists
+  target: NEW
+  confidence: high
+  evidence: 정본 sc-persist-denylist는 이 원칙의 한 적용 사례이고 원칙 자체는 미수록
+- sid: wevolley#sc-invalidation-audit-with-persistence
+  target: NEW
+  confidence: high
+  evidence: 재발 방지 목록 항목 — 정본 미수록
+- sid: wevolley#sc-cache-buster-on-policy-change
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 운영 규약
+- sid: wevolley#sc-entry-loading-data-gate
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-loading-responsibility
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-eliminate-infinite-wait
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-picker-hang-watchdog
+  target: wevolley#sc-picker-watchdog
+  confidence: high
+  evidence: 정본 head '픽커 유실 복구 = JS 워치독 래퍼 — 네이티브 패치 기각'과 동일
+- sid: wevolley#sc-placeholder-zero-ms-entry
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 표준 패턴
+- sid: wevolley#sc-bundle-diet
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-platform-divergent-decision
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 판단 규율
+- sid: wevolley#sc-sync-latency-instrumentation
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 계측 자산
+- sid: wevolley#sc-freshness-gate-dedupe
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-product-judgment-discards-feature
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 판단 기록
+- sid: wevolley#sc-negative-verification
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 검증 방법론
+- sid: wevolley#sc-verifier-web-evidence
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 검증 절차
+- sid: wevolley#sc-no-app-code-change-perf-win
+  target: NEW
+  confidence: high
+  evidence: 관통 원칙 — 정본 미수록
+- sid: wevolley#sc-early-solution-becomes-debt
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 관찰
+- sid: wevolley#sc-library-minor-breaks-assumptions
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 교훈
+- sid: wevolley#sc-runbook-one-time-manual-op
+  target: NEW
+  confidence: high
+  evidence: 정본에 배포 런북 개념 없음
+- sid: wevolley#sc-committed-service-role-key-incident
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 보안 사고 기록
+- sid: wevolley#sc-vault-key-injection
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 비밀 관리 규약
+- sid: wevolley#sc-legacy-key-anon-coupling
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 함정
+- sid: wevolley#sc-rotation-redeploy-single-window
+  target: NEW
+  confidence: high
+  evidence: 정본 sc-share-deploy-order와 다른 대상(키 회전) — 배포 순서 강제라는 형태만 유사
+- sid: wevolley#sc-rotation-irreversible
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록
+- sid: wevolley#sc-post-rotation-verification
+  target: NEW
+  confidence: high
+  evidence: 정본 미수록 검증 체크리스트
+- sid: wevolley#sc-new-key-scheme-deferred
+  target: NEW
+  confidence: high
+  evidence: 미착수 후속 — 정본 미수록
+- sid: wevolley#sc-git-history-purge-deferred
+  target: NEW
+  confidence: high
+  evidence: 미착수 후속 — 정본 미수록

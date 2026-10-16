@@ -1,0 +1,433 @@
+subconcepts:
+- anchor: sc-improvement-catalog
+  name: 개선 후보 통합 카탈로그 — 라이브 제품의 다음 작업 인덱스 + 추적표
+  commitment: working
+  confidence: high
+  quote: '**0~7(기초 공사)이 끝나고 실유저가 도는 라이브 제품에서, 다음에 손볼 것의 통합 카탈로그 + 추적표.**'
+- anchor: sc-catalog-item-promotion
+  name: 카탈로그 항목 착수 = /plan-doc으로 개별 상세 문서 승격
+  commitment: frozen
+  confidence: high
+  quote: 착수할 항목은 `/plan-doc <항목>`으로 **개별 상세 문서(`22-` …)로 승격**시킨 뒤 구현한다.
+- anchor: sc-live-product-priority
+  name: 우선순위 = 실유저 영향 × 즉시성 — 기술부채는 후순위 배경 트랙
+  commitment: working
+  confidence: high
+  quote: 권장순은 **라이브 제품 기준 = 실유저 영향 × 즉시성**.
+- anchor: sc-verify-then-fix
+  name: verify-then-fix — 착수 전 실재 확인으로 후보를 재판정(추측 스코프 금지)
+  commitment: frozen
+  confidence: high
+  quote: 실재 확인(web 런타임 / 네이티브 빌드) → 확인된 것만 최소 수정.
+- anchor: sc-analytics-blind-spot
+  name: 행동 데이터 0 — analytics 스텁·호출처 0건이라 의사결정이 깜깜이
+  commitment: frozen
+  confidence: high
+  quote: '`lib/analytics.ts`의 `trackEvent`/`identifyUser`가 **`console.log` 스텁이고 호출처 0건**(전수 확인)'
+- anchor: sc-funnel-retention-visibility
+  name: 퍼널·리텐션 가시화(D1) — 가입→…→재방문 퍼널과 7/30일 리텐션
+  commitment: hypothesis
+  confidence: high
+  quote: '**퍼널(가입→프로필완성→동호회참여→경기신청→재방문)과 7/30일 리텐션**을 본다.'
+- anchor: sc-posthog-http-capture
+  name: PostHog은 RN SDK 대신 capture HTTP API — 의존성 0·플랫폼 분기 0
+  commitment: frozen
+  confidence: high
+  quote: PostHog 분석은 RN SDK 대신 capture HTTP API(fetch 직접 전송) 채택 - 의존성 0·플랫폼 분기 0
+- anchor: sc-churn-response-loop
+  name: 이탈 지점 대응 루프(G1) — 측정→수정→재측정, 한 번에 하나
+  commitment: hypothesis
+  confidence: high
+  quote: 가장 큰 이탈 구간 1개를 골라 개선 → 재측정
+- anchor: sc-club-activity-survey
+  name: 동호회 활성도 실태 점검(G2) — managed vs shared 56개, 싼 선행 조사
+  commitment: hypothesis
+  confidence: high
+  quote: 56개 중 **실제 멤버십·활동이 도는 managed가 몇 개인지** 미확인
+- anchor: sc-push-receipt-confirmation
+  name: 푸시 receipt 확인(Tier 3) — "서버가 보냄"에서 "단말이 받음"으로
+  commitment: hypothesis
+  confidence: high
+  quote: '**receipt(실제 단말 도달) 미확인**'
+- anchor: sc-rls-full-reaudit
+  name: RLS 정책 전수 재감사 — 자기참조·네이밍·banned 일관성
+  commitment: hypothesis
+  confidence: high
+  quote: 자기참조 정책이 모두 SECURITY DEFINER 헬퍼 경유하는지, 정책 네이밍·banned 적용 일관성 점검
+- anchor: sc-array-column-normalization
+  name: 배열 컬럼 정규화 — admin_positions TEXT[] → enum/정규화 테이블
+  commitment: hypothesis
+  confidence: high
+  quote: '배열→enum/정규화 테이블(예: `club_admin_positions`), 유니크 제약.'
+- anchor: sc-native-e2e-gap
+  name: 네이티브 E2E 부재 — 안전망이 web-only(Playwright)라 네이티브 회귀 미검출
+  commitment: hypothesis
+  confidence: high
+  quote: Phase 3은 **web-only**(Playwright). 네이티브 회귀는 자동 안 잡힘.
+- anchor: sc-sourcemap-verification
+  name: 소스맵 업로드 검증 — production 빌드에서 원본 스택 확인
+  commitment: hypothesis
+  confidence: high
+  quote: production 빌드 후 Sentry에서 minify 아닌 원본 스택 확인.
+- anchor: sc-error-display-classification
+  name: 에러 UX는 "표시 필수 / 무음 저하 허용" 분류 — 전수 강제 아님
+  commitment: frozen
+  confidence: high
+  quote: 전수 ErrorRetry 강제가 아니라 **"표시 필수 / 무음 저하 허용" 분류** 후 필수만 닫고 허용은 주석으로 명시.
+- anchor: sc-form-hook-mirroring
+  name: 폼 통합은 기존 훅 패턴 미러링 — 제네릭 추상화 아님
+  commitment: frozen
+  confidence: high
+  quote: Phase 5의 `useClubForm` 패턴을 **미러링**(제네릭 추상화 아님).
+- anchor: sc-no-over-standardization
+  name: 과표준화 회피 — 조건이 다른 것을 억지로 통일하지 않는다
+  commitment: frozen
+  confidence: high
+  quote: 조건이 다른 걸 억지로 통일하지 않는다는 과표준화 경고
+- anchor: sc-screen-orchestration-only
+  name: 화면은 조립 역할 — 인라인 스크롤·키보드 로직은 도메인 훅으로 추출
+  commitment: frozen
+  confidence: medium
+  quote: '`chat/[roomId].tsx`의 스크롤·키보드 인라인 로직을 `useChatScroll`(63줄)·`useChatKeyboard`(37줄)로 추출.'
+- anchor: sc-convention-drift-guard
+  name: 컨벤션 유지 — 새 패턴마다 규칙 문서 갱신, 안 하면 재확산 사이클
+  commitment: working
+  confidence: high
+  quote: 안 하면 "정리했는데 또 흩어지는" 사이클로 회귀.
+- anchor: sc-data-loop-alerting
+  name: 데이터 루프 — 모인 데이터가 자동으로 사람에게 오게(알림 규칙·전달률 대시보드)
+  commitment: hypothesis
+  confidence: high
+  quote: Phase 1/4로 데이터는 **모이지만** 자동으로 사람에게 안 옴.
+- anchor: sc-dependency-health-policy
+  name: 의존성 건강 전략 — exact 고정 + 변동성 3등급 + dependabot weekly
+  commitment: frozen
+  confidence: high
+  quote: RN `^0.83.4`→exact 고정(위험 caret 1→0)
+- anchor: sc-release-automation
+  name: 릴리즈 자동화 — 헬스체크·배포 설정 정적 게이트·릴리즈 체크리스트
+  commitment: frozen
+  confidence: high
+  quote: share-link 헬스체크(`deploy-healthcheck.yml` + `scripts/check-share-links.sh`)
+- anchor: sc-wizard-cold-load-prefill
+  name: 위저드 콜드 로드 prefill 결함 — 첫 렌더 profile로 state 초기화
+  commitment: hypothesis
+  confidence: high
+  quote: '`useState(profile?.nickname ?? '''')`가 첫 렌더 profile에서 초기화 → 콜드 로드 시 profile async 미도착으로 ''''로 굳음'
+- anchor: sc-diagnostic-code-not-dead-code
+  name: 미해결 버그의 임시코드는 진단기구 — 단순 제거 ≠ 해결
+  commitment: working
+  confidence: high
+  quote: 단순 제거 ≠ 해결.
+- anchor: sc-map-platform-parity
+  name: 지도 앱↔웹 편차와 web SSR 미가드 — 양 플랫폼 검증 필수
+  commitment: frozen
+  confidence: high
+  quote: '**앱↔웹 다르게 보임**(클러스터 SuperCluster vs Kakao·마커 PNG/SVG·초기뷰)'
+- anchor: sc-chat-realtime-three-symptoms-one-root
+  name: 채팅 3증상 한 뿌리 — realtime patch 단일 의존 + 폴백 refetch·구독 관측 부재
+  commitment: frozen
+  confidence: high
+  quote: 세 증상 = 한 뿌리.
+- anchor: sc-perf-history-reference
+  name: 성능·로딩·실시간성 개선의 전체 역사 — 7개 흐름의 상시 참조 기록
+  commitment: frozen
+  confidence: high
+  quote: 위볼리 앱의 로딩 속도·반영 지연·실시간성·번들 크기 개선이 어떤 순서로, 어떤 근거로, 어떤 의사결정을 거쳐 진행됐는지의 종합 기록.
+- anchor: sc-perf-improvement-cycle
+  name: 성능 개선 사이클 — 지표→문제→대안 비교→기각 사유→구현→재실측
+  commitment: frozen
+  confidence: high
+  quote: 각 사이클은 `참고 자료 → 당시 지표 → 문제점 → 개선 방법 고안(대안 비교) → 의사결정 → 구현 → 구현 후 지표`의 반복 구조다.
+- anchor: sc-measure-first
+  name: 계측 먼저 — 수정은 계측이 가리키는 곳만
+  commitment: frozen
+  confidence: high
+  quote: '**"계측 먼저, 수정은 계측이 가리키는 곳만"** 원칙이 확립됐다'
+- anchor: sc-no-speculative-fix
+  name: 추측 픽스 금지 — 계측이 반증한 가설은 그럴듯해도 손대지 않는다
+  commitment: frozen
+  confidence: high
+  quote: '**추측 픽스 금지** - 계측이 반증한 가설(Phase 10 C7)은 그럴듯해도 손대지 않는다.'
+- anchor: sc-realtime-best-effort-refetch-authority
+  name: realtime은 best-effort 가속, 정확성은 refetch/invalidate가 보장
+  commitment: frozen
+  confidence: high
+  quote: '**realtime은 best-effort 가속, 정확성은 refetch/invalidate가 보장한다**'
+  governed_by: '0021'
+- anchor: sc-postgres-changes-structural-limit
+  name: postgres_changes의 구조적 한계 — 선형 RLS 검사·100ev/s 초과분 조용한 드롭
+  commitment: frozen
+  confidence: high
+  quote: WAL 변경 1건마다 구독자별 RLS 검사가 선형, 테넌트 100 events/sec 초과분 **조용히 드롭**
+  governed_by: '0021'
+- anchor: sc-broadcast-from-database
+  name: Broadcast from Database 채택 — 트리거 + private 채널, 인가는 구독 시점 1회
+  commitment: frozen
+  confidence: high
+  quote: '**Broadcast from Database 채택**(`realtime.broadcast_changes` 트리거 + private 채널, 인가는 구독 시점 1회)'
+  governed_by: '0021'
+- anchor: sc-realtime-screen-declarative
+  name: useRealtimeScreen — 실시간을 "선언 가능한 속성"으로
+  commitment: frozen
+  confidence: high
+  quote: 실시간을 "선언 가능한 속성"으로
+- anchor: sc-emit-domain-event-swallow
+  name: emit_domain_event는 EXCEPTION 삼킴 — 발행 실패가 원 쓰기를 막지 않게
+  commitment: frozen
+  confidence: high
+  quote: '`emit_domain_event` 래퍼(EXCEPTION 삼킴 - 발행 실패가 원 쓰기를 막지 않게)'
+- anchor: sc-migrate-proven-surface-last
+  name: 전환 전략 — 신규 표면부터 Broadcast, 검증된 채팅 4개는 마지막에 이관
+  commitment: frozen
+  confidence: high
+  quote: 검증 안 된 인프라로 핵심 기능을 재작성하지 않는다
+  governed_by: '0021'
+- anchor: sc-broadcast-payload-privacy
+  name: 가명 경계 — Broadcast payload에 실명·본문을 싣지 않는다
+  commitment: frozen
+  confidence: high
+  quote: '`post:{id}` payload에 실명·본문을 싣지 않음(차단 필터 RLS 우회 방지'
+  governed_by: '0021'
+- anchor: sc-realtime-auth-gate
+  name: 세션 복원 전 구독 = 익명 claims SUBSCRIBED → RLS 무배달
+  commitment: frozen
+  confidence: high
+  quote: 세션 복원 전 구독이 익명 claims로 SUBSCRIBED되어 WALRUS RLS가 이벤트를 조용히 거르는 무배달 버그
+- anchor: sc-resilient-channel
+  name: useResilientChannel — 지수 백오프 재구독 + onSubscribed invalidate
+  commitment: frozen
+  confidence: high
+  quote: '`useResilientChannel` 신설(지수 백오프 1s→30s 재구독 + onSubscribed invalidate + Sentry 집계)'
+- anchor: sc-realtime-topic-lifecycle
+  name: realtime 채널 수명주기 명시 관리 — churn·dedup이 조용히 바인딩을 끊는다
+  commitment: frozen
+  confidence: high
+  quote: '**같은 realtime topic의 빠른 재구독/재사용** - churn으로 바인딩이 조용히 끊기거나(e9a2860), dedup으로 크래시(2.110). 채널 수명주기는 항상 명시 관리.'
+- anchor: sc-zombie-channel-force-rebuild
+  name: 소켓 zombie 감지 = 전면 force-rebuild(채널별 가드 기각)
+  commitment: frozen
+  confidence: high
+  quote: '**B: zombie 감지는 전면 force-rebuild(방식 A)** - 채널별 last-received 가드(방식 B)보다 4~5개 채널 전면 재구독이 저렴·즉시.'
+- anchor: sc-foreground-recovery
+  name: 포그라운드 복귀 회수 — 앱 레벨 단일 핸들러 + 화면 focus 이중 안전망
+  commitment: frozen
+  confidence: high
+  quote: '**결정 ② AppState 포그라운드 재연결은 앱 레벨 단일 핸들러**'
+- anchor: sc-draft-dm-room
+  name: DM은 방을 미리 만들지 않는다 — 첫 전송 시점에 findOrCreateDm
+  commitment: frozen
+  confidence: high
+  quote: '**A(가장 중요): DM은 방을 미리 안 만든다 - 드래프트 흐름**.'
+- anchor: sc-list-cell-render-cost
+  name: 리스트 렌더 고정비용 제거 — 셀 내부 select 구독·Date 메타 캐시·조건부 애니
+  commitment: frozen
+  confidence: high
+  quote: '**C: extraData 제거는 셀 내부 select 구독(방식 A)** - 숫자가 바뀐 tail 셀만 재렌더.'
+- anchor: sc-web-layout-animation-landmine
+  name: 웹에서 레이아웃/entering 애니 금지 — absolute 잔존·셀 붕괴
+  commitment: frozen
+  confidence: high
+  quote: '**웹에서 reanimated entering/레이아웃 애니 = absolute 잔존·셀 붕괴**'
+- anchor: sc-notification-deeplink-cold-start
+  name: 알림 딥링크·배너 — 콜드 스타트 응답 유실 회수 + 4종만 OS 배너 억제
+  commitment: frozen
+  confidence: high
+  quote: 콜드 스타트는 `getLastNotificationResponseAsync` + identifier dedupe.
+- anchor: sc-server-side-processing
+  name: '"전체 받아 클라 후처리"를 "필요한 만큼만 서버가 처리"로'
+  commitment: frozen
+  confidence: high
+  quote: '**"전체 받아 클라에서 후처리"를 "필요한 만큼만 서버가 처리"로**'
+- anchor: sc-server-pagination-keyset-deferred
+  name: 서버 오프셋 페이징(페이지당 20) — keyset은 수만 행 이상 후속으로 기록
+  commitment: frozen
+  confidence: high
+  quote: 서버 `.range()` 오프셋 페이징(페이지당 20) + `useInfiniteQuery`. keyset은 수만 행 이상에서 후속 전환으로 리스크 표에 기록.
+- anchor: sc-debounced-search-input
+  name: 검색 클라 게이트 — 디바운스 300ms + 최소 글자수(도메인 때문에 2글자)
+  commitment: frozen
+  confidence: high
+  quote: 검색은 `ilike` 서버 처리 + **디바운스 300ms**(`useDebouncedValue` 첫 도입 - Phase 47에서 전수 확산).
+  governed_by: '0012'
+- anchor: sc-korean-trigram-over-fts
+  name: 한국어엔 trigram이 FTS보다 정답 — 형태소 분석기 부재
+  commitment: frozen
+  confidence: high
+  quote: '**한국어엔 trigram이 FTS보다 정답** - Postgres tsvector는 한국어 형태소 분석기 부재'
+  governed_by: '0012'
+- anchor: sc-gin-fastupdate-trap
+  name: GIN fastupdate pending list — 벌크 삽입 직후 인덱스 비활용
+  commitment: frozen
+  confidence: high
+  quote: 벌크 INSERT 직후 GIN fastupdate pending list 때문에 플래너가 인덱스를 안 탐(실측)
+- anchor: sc-limit-as-runaway-cap
+  name: limit은 예상치가 아니라 폭주 방어 캡 — 예상치 limit은 사일런트 데이터 소실
+  commitment: frozen
+  confidence: high
+  quote: '**limit은 예상치가 아니라 폭주 방어 캡** - 예상치에 맞춘 limit은 사일런트 데이터 소실'
+- anchor: sc-scale-appropriate-design
+  name: 규모 적정화 — 과설계의 명시적 기각(실규모가 판단 기준)
+  commitment: frozen
+  confidence: high
+  quote: '**규모 적정화 - 과설계의 명시적 기각**'
+- anchor: sc-refetch-type-tiering
+  name: refetchType 계층화 — Tier A 'all' / Tier B 낙관적 / Tier C 기본값 유지
+  commitment: frozen
+  confidence: high
+  quote: '**개선 방법 고안 (Tier 계층화 - 이 시대의 가장 중요한 결정)**'
+- anchor: sc-fix-at-choke-point
+  name: 길목 수정 — 65곳이 아니라 공통 훅 ~8곳으로 8할 해결
+  commitment: frozen
+  confidence: medium
+  quote: 65곳이 아니라 **길목 ~8곳** 수정으로 8할이 해결된다.
+- anchor: sc-persist-policy-inversion
+  name: 쿼리 persist 극성 반전 — allowlist → denylist(기본 영속 + 3범주 제외)
+  commitment: frozen
+  confidence: high
+  quote: 극성 반전 - 기본 영속 + **명확한 사유 3범주만 제외**
+  governed_by: 0008
+- anchor: sc-render-contract-cold-only-skeleton
+  name: 렌더 계약 — 스켈레톤은 콜드에만, 백그라운드 fetch엔 이전 데이터 유지
+  commitment: frozen
+  confidence: high
+  quote: '렌더 계약 성문화: 스켈레톤은 콜드(`!data && isLoading`)에만, 백그라운드 fetch엔 이전 데이터 유지.'
+  governed_by: 0008
+- anchor: sc-defaults-over-optin-lists
+  name: opt-in 리스트는 반드시 드리프트 — 좋은 기본값 + 명시 예외
+  commitment: frozen
+  confidence: high
+  quote: '**opt-in 리스트(화이트리스트·하드코딩 프리페치)는 반드시 드리프트** - 좋은 기본값+명시 예외로 극성 반전'
+- anchor: sc-invalidation-audit-with-persistence
+  name: 캐시 영속 확대는 무효화 누락을 증폭 — 영속 정책 변경 시 무효화 감사 세트
+  commitment: frozen
+  confidence: high
+  quote: '**캐시 영속 확대는 무효화 누락을 증폭** (Phase 40 → 8cda98f). 영속 정책 변경 시 무효화 감사 세트로.'
+- anchor: sc-cache-buster-on-policy-change
+  name: 정책 변경 시 buster 교체 — 안 바꾸면 옛 정책 캐시와 섞여 비결정적
+  commitment: frozen
+  confidence: high
+  quote: buster `v2-whitelist`→`v3-denylist`(안 바꾸면 옛 정책 캐시와 섞여 비결정적)
+  governed_by: 0008
+- anchor: sc-entry-loading-data-gate
+  name: 부팅 로딩은 데이터 기반 게이트 — MIN 2.4s 하한·MAX 8s 상한
+  commitment: frozen
+  confidence: high
+  quote: '**데이터 기반 게이트**: 3쿼리 settled까지 EntryLoading 유지, 하한 MIN 2.4s(연출 완주)·상한 MAX 8s(오프라인 무한대기 방지).'
+- anchor: sc-loading-responsibility
+  name: 로딩 화면의 책임은 버티기 — 연출보다 응답성·비끊김·무한대기 방지
+  commitment: frozen
+  confidence: high
+  quote: '**로딩은 연출보다 응답성·비끊김·무한대기 방지가 우선**'
+- anchor: sc-eliminate-infinite-wait
+  name: 무한 대기를 시스템에서 제거 — 타임아웃·재시도·에러 UI
+  commitment: frozen
+  confidence: high
+  quote: '"무한 대기 상태를 시스템에서 제거한다(타임아웃·재시도·에러 UI)"는 원칙이 여기서 시작돼 Phase 50(픽커 hang)까지 이어진다.'
+- anchor: sc-picker-hang-watchdog
+  name: 픽커 무반응 복구 = 픽 호출 컨텍스트 안의 워치독 래퍼
+  commitment: frozen
+  confidence: high
+  quote: '**픽 호출 컨텍스트 안의 워치독 래퍼(채택)**'
+  governed_by: '0017'
+- anchor: sc-placeholder-zero-ms-entry
+  name: placeholderData 0ms 진입 — 리스트 캐시를 상세 초기 데이터로 재사용
+  commitment: frozen
+  confidence: high
+  quote: 리스트 캐시를 `placeholderData`로 재사용해 상세 **0ms 진입** (ClubDetailContext).
+- anchor: sc-bundle-diet
+  name: 번들·자산 다이어트 — 폰트/아이콘/이미지·라우트 분할로 초기 로딩 감축
+  commitment: frozen
+  confidence: high
+  quote: 합계 **네이티브 번들 ≈ -4MB**.
+- anchor: sc-platform-divergent-decision
+  name: 플랫폼별 판단 — 한쪽에만 이득인 최적화는 그쪽에만 적용
+  commitment: frozen
+  confidence: high
+  quote: 네이티브는 Hermes라 무이득 + 프로드 suspense 미지원이라 **제외**(플랫폼별 판단)
+- anchor: sc-sync-latency-instrumentation
+  name: sync-latency 로거 — 공용 계측 자산(dev 로그 + 1% 샘플 breadcrumb)
+  commitment: frozen
+  confidence: high
+  quote: A3에서 sync-latency 로거(dev 로그 + Sentry breadcrumb 1% 샘플)를 먼저 깔고 baseline 확보
+  governed_by: '0021'
+- anchor: sc-freshness-gate-dedupe
+  name: 프리페치·focus refetch 중복 제거 = 3초 신선도 게이트(방 진입 480→132ms)
+  commitment: frozen
+  confidence: high
+  quote: 3초 신선도 게이트로 제거, 방 진입 **480ms → 132ms**
+- anchor: sc-product-judgment-discards-feature
+  name: 완성도가 아니라 제품 판단으로 기능을 버린다 — 구현 완료 후 기각·롤백
+  commitment: frozen
+  confidence: high
+  quote: '**D2 typing indicator는 구현·2계정 검증까지 마쳤으나 운영자 결정으로 기각·롤백**'
+- anchor: sc-negative-verification
+  name: 음성 검증 — 원인을 되돌려 회귀를 재현해 증명한다
+  commitment: frozen
+  confidence: high
+  quote: '음성 검증: 트랜잭션 내 DROP INDEX로 28ms 회귀 재현 - 인덱스가 실제 원인임을 증명'
+- anchor: sc-verifier-web-evidence
+  name: verifier-web 증거 캡처 — 캐시·실시간 검증의 표준 절차(2계정 시나리오)
+  commitment: frozen
+  confidence: high
+  quote: 캐시·실시간 검증의 표준 절차 (2계정 시나리오는 59)
+- anchor: sc-no-app-code-change-perf-win
+  name: 동작 불변·앱 코드 무변경으로 성능만 개선할 수 있으면 그 길을 먼저
+  commitment: frozen
+  confidence: high
+  quote: '**동작 불변·앱 코드 무변경으로 성능만 개선할 수 있으면 그 길을 먼저**'
+- anchor: sc-early-solution-becomes-debt
+  name: 초기 해법이 나중에 부채로 재분류 — 하드코딩 프리페치 훅의 신설→삭제
+  commitment: frozen
+  confidence: high
+  quote: 초기 해법이 나중에 부채로 재분류된 대표 사례
+- anchor: sc-library-minor-breaks-assumptions
+  name: 라이브러리 마이너 업데이트가 수명주기 가정을 깬다 — 의심 시 공식 문서
+  commitment: frozen
+  confidence: high
+  quote: 라이브러리 마이너 업데이트가 realtime 수명주기 가정을 깰 수 있다
+- anchor: sc-runbook-one-time-manual-op
+  name: 배포 런북 — 코드 완료 후 prod 배포 시점 1회 실행하는 수동 키 작업
+  commitment: frozen
+  confidence: high
+  quote: '**prod 배포 시점에 1회 실행하는 운영 작업**(대시보드/SQL Editor)'
+- anchor: sc-committed-service-role-key-incident
+  name: 평문 service_role 키가 git에 커밋됨 — RLS 전면 우회 마스터 키, P0
+  commitment: frozen
+  confidence: high
+  quote: service_role 키는 **RLS를 전부 우회하는 마스터 키**라, 커밋 히스토리에 박제된 것 자체가 사고(P0)다.
+- anchor: sc-vault-key-injection
+  name: 푸시 키는 Vault에서 읽는다 — push_service_role_key, 평문 저장·커밋 금지
+  commitment: frozen
+  confidence: high
+  quote: 시크릿 이름은 반드시 `push_service_role_key` (코드가 이 이름으로 조회).
+- anchor: sc-legacy-key-anon-coupling
+  name: 레거시 service_role은 anon과 같은 JWT secret — 회전하면 anon도 바뀐다
+  commitment: frozen
+  confidence: high
+  quote: '**레거시 키는 anon 키와 같은 JWT secret으로 서명**된다 → 레거시를 회전하면 **anon 키도 함께 바뀐다.**'
+- anchor: sc-rotation-redeploy-single-window
+  name: 키 회전 + 클라이언트 재배포를 한 배포 윈도우에 묶는다
+  commitment: frozen
+  confidence: high
+  quote: 따라서 **레거시 키 회전 + 클라이언트(앱/웹) 새 anon 키로 재배포**를 반드시 **한 배포에 묶어야** 한다.
+- anchor: sc-rotation-irreversible
+  name: 회전은 되돌릴 수 없다 — 선행조건을 회전 전에 갖춘다
+  commitment: frozen
+  confidence: high
+  quote: '**회전을 되돌릴 수는 없다**(구 키는 영구 무효)'
+- anchor: sc-post-rotation-verification
+  name: 배포 후 검증 — Vault 주입·평문 부재·푸시 실발송·클라 로그인
+  commitment: frozen
+  confidence: high
+  quote: '**푸시 실발송 1건**: 테스트 알림 trigger(예: 본인에게 알림 발생) → 단말 수신 확인.'
+- anchor: sc-new-key-scheme-deferred
+  name: 새 sb_secret_* 체계 전환은 범위 밖 — JWT role 검증·verify_jwt 재설계 필요
+  commitment: hypothesis
+  confidence: high
+  quote: 대안(새 `sb_secret_*` 체계로 전환)은 send-push의 JWT role 디코드 검증과 게이트웨이 `verify_jwt` 동작을 다시 설계해야 하므로 **이번 범위 밖**
+- anchor: sc-git-history-purge-deferred
+  name: git history purge는 회전 후 긴급도 낮음 — 강제 push 위험으로 별도 판단
+  commitment: hypothesis
+  confidence: high
+  quote: '**git history purge**: 회전으로 유출 키가 무효화되면 긴급도 낮음.'

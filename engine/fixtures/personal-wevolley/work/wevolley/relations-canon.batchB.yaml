@@ -1,0 +1,256 @@
+relations:
+- from: sc-measure-first
+  to: sc-no-speculative-fix
+  canonical: enables
+  surface: 계측으로 반증되어 보류
+  quote: C7(인증 타이밍)은 **계측으로 반증되어 보류**
+- from: sc-measure-first
+  to: sc-perf-improvement-cycle
+  canonical: constrains
+  surface: 계측 먼저
+  quote: '**"계측 먼저, 수정은 계측이 가리키는 곳만"** 원칙이 확립됐다'
+- from: sc-broadcast-from-database
+  to: sc-postgres-changes-structural-limit
+  canonical: derived_from
+  surface: 기각 - 선형 RLS·드롭
+  quote: postgres_changes 확장(기각 - 선형 RLS·드롭)
+- from: sc-broadcast-from-database
+  to: sc-realtime-screen-declarative
+  canonical: enables
+  surface: 표준 훅
+  quote: '`useRealtimeScreen` 표준 훅(useResilientChannel 위 합성)'
+- from: sc-realtime-screen-declarative
+  to: sc-resilient-channel
+  canonical: derived_from
+  surface: 위 합성
+  quote: '`useRealtimeScreen` 표준 훅(useResilientChannel 위 합성)'
+- from: sc-realtime-best-effort-refetch-authority
+  to: sc-broadcast-from-database
+  canonical: constrains
+  surface: 정합성을 소유
+  quote: 어느 쪽이든 재구독·focus 시 HTTP refetch가 정합성을 소유
+- from: sc-broadcast-payload-privacy
+  to: sc-broadcast-from-database
+  canonical: constrains
+  surface: 싣지 않음
+  quote: '`post:{id}` payload에 실명·본문을 싣지 않음'
+- from: sc-migrate-proven-surface-last
+  to: sc-broadcast-from-database
+  canonical: constrains
+  surface: 마지막(Phase E)에 이관
+  quote: 검증된 채팅 postgres_changes 4개는 신규 인프라 안정 운영 후 마지막(Phase E)에 이관
+- from: sc-realtime-auth-gate
+  to: sc-broadcast-from-database
+  canonical: constrains
+  surface: 무배달 버그
+  quote: 세션 복원 전 구독이 익명 claims로 SUBSCRIBED되어 WALRUS RLS가 이벤트를 조용히 거르는 무배달 버그
+- from: sc-emit-domain-event-swallow
+  to: sc-broadcast-from-database
+  canonical: constrains
+  surface: 원 쓰기를 막지 않게
+  quote: 발행 실패가 원 쓰기를 막지 않게
+- from: sc-realtime-topic-lifecycle
+  to: sc-resilient-channel
+  canonical: constrains
+  surface: remove하므로 누수 없음
+  quote: 옛 채널은 `useResilientChannel`이 remove하므로 누수 없음.
+- from: sc-zombie-channel-force-rebuild
+  to: sc-resilient-channel
+  canonical: derived_from
+  surface: 원시 채널 2곳
+  quote: 원시 채널 2곳 `useResilientChannel`로 통일
+- from: sc-library-minor-breaks-assumptions
+  to: sc-realtime-topic-lifecycle
+  canonical: triggers
+  surface: dedup으로 크래시
+  quote: dedup으로 크래시(2.110)
+- from: sc-persist-policy-inversion
+  to: sc-defaults-over-optin-lists
+  canonical: derived_from
+  surface: 반드시 드리프트한다
+  quote: 사람이 항목 추가를 기억해야 하는 구조는 반드시 드리프트한다.
+- from: sc-persist-policy-inversion
+  to: sc-invalidation-audit-with-persistence
+  canonical: triggers
+  surface: 잠복 버그가 표면화
+  quote: denylist 반전으로 이 키들이 자동 영속되면서 stale이 재시작에도 살아남아** 잠복 버그가 표면화
+- from: sc-render-contract-cold-only-skeleton
+  to: sc-persist-policy-inversion
+  canonical: part_of
+  surface: 렌더 계약 성문화
+  quote: '렌더 계약 성문화: 스켈레톤은 콜드'
+- from: sc-cache-buster-on-policy-change
+  to: sc-persist-policy-inversion
+  canonical: constrains
+  surface: 비결정적
+  quote: 안 바꾸면 옛 정책 캐시와 섞여 비결정적
+- from: sc-early-solution-becomes-debt
+  to: sc-persist-policy-inversion
+  canonical: derived_from
+  surface: 삭제(140줄)
+  quote: 프리페치 훅은 반전으로 redundant → **삭제(140줄)**.
+- from: sc-fix-at-choke-point
+  to: sc-refetch-type-tiering
+  canonical: enables
+  surface: 길목 ~8곳
+  quote: 65곳이 아니라 **길목 ~8곳** 수정으로 8할이 해결된다.
+- from: sc-invalidation-audit-with-persistence
+  to: sc-refetch-type-tiering
+  canonical: compares_with
+  surface: refetchType 문제가 아니라
+  quote: '**이번엔 refetchType 문제가 아니라 무효화 대상 키 누락**'
+- from: sc-no-over-standardization
+  to: sc-refetch-type-tiering
+  canonical: constrains
+  surface: 과표준화 경고
+  quote: Tier C를 "일관성" 명목으로 Tier A에 욱여넣지 말라는 과표준화 경고를 문서에 명시.
+- from: sc-debounced-search-input
+  to: sc-korean-trigram-over-fts
+  canonical: constrains
+  surface: 최소 글자수 정책 = 인덱스 정책
+  quote: pg_trgm은 3글자 미만 패턴에 인덱스를 못 쓴다(최소 글자수 정책 = 인덱스 정책)
+- from: sc-gin-fastupdate-trap
+  to: sc-korean-trigram-over-fts
+  canonical: constrains
+  surface: 플래너가 인덱스를 안 탐
+  quote: 벌크 INSERT 직후 GIN fastupdate pending list 때문에 플래너가 인덱스를 안 탐(실측)
+- from: sc-negative-verification
+  to: sc-korean-trigram-over-fts
+  canonical: tests
+  surface: 인덱스가 실제 원인임을 증명
+  quote: 트랜잭션 내 DROP INDEX로 28ms 회귀 재현 - 인덱스가 실제 원인임을 증명
+- from: sc-no-app-code-change-perf-win
+  to: sc-korean-trigram-over-fts
+  canonical: constrains
+  surface: 앱 코드 무변경
+  quote: 인덱스만 빠진 것이라 **앱 코드 무변경**으로 해결 가능
+- from: sc-limit-as-runaway-cap
+  to: sc-scale-appropriate-design
+  canonical: derived_from
+  surface: 개념 재정의
+  quote: limit은 "예상치에 맞추는 값이 아니라 정상이면 절대 안 닿는 폭주 방어 캡"으로 개념 재정의
+- from: sc-scale-appropriate-design
+  to: sc-server-side-processing
+  canonical: constrains
+  surface: 실규모가 판단 기준
+  quote: prod ~90명/56클럽이라는 실규모가 판단 기준
+- from: sc-server-side-processing
+  to: sc-server-pagination-keyset-deferred
+  canonical: enables
+  surface: 전체를 받아 클라에서 후처리
+  quote: '"한 화면에 다 그릴 것도 아니면서 전체를 받아 클라에서 후처리"'
+- from: sc-analytics-blind-spot
+  to: sc-funnel-retention-visibility
+  canonical: triggers
+  surface: 전혀 측정하지 못함
+  quote: '**실유저 90명의 행동을 전혀 측정하지 못함** — 의사결정이 깜깜이.'
+- from: sc-posthog-http-capture
+  to: sc-funnel-retention-visibility
+  canonical: part_of
+  surface: capture HTTP API
+  quote: PostHog 분석은 RN SDK 대신 capture HTTP API(fetch 직접 전송) 채택
+- from: sc-funnel-retention-visibility
+  to: sc-churn-response-loop
+  canonical: precedes
+  surface: D1 선행 필요
+  quote: '**D1 선행 필요.**'
+- from: sc-club-activity-survey
+  to: sc-churn-response-loop
+  canonical: precedes
+  surface: 먼저 슬쩍
+  quote: '**비용 소, 레버리지 큼** → G1·D1·E보다 먼저 슬쩍.'
+- from: sc-data-loop-alerting
+  to: sc-funnel-retention-visibility
+  canonical: enables
+  surface: 함께 깔면 시너지
+  quote: '**D1(제품 분석) 착수 시 함께 깔면 시너지**'
+- from: sc-live-product-priority
+  to: sc-improvement-catalog
+  canonical: constrains
+  surface: 권장순
+  quote: 권장순은 **라이브 제품 기준 = 실유저 영향 × 즉시성**.
+- from: sc-verify-then-fix
+  to: sc-improvement-catalog
+  canonical: constrains
+  surface: 재판정됨
+  quote: '**착수 전 코드 전수 확인(2026-06-03) 결과 "4건"이 재판정됨.**'
+- from: sc-catalog-item-promotion
+  to: sc-improvement-catalog
+  canonical: part_of
+  surface: 인덱스이자
+  quote: 이 문서는 그 인덱스이자 각 후보의 1차 설계 메모.
+- from: sc-diagnostic-code-not-dead-code
+  to: sc-verify-then-fix
+  canonical: constrains
+  surface: 단순 제거 ≠ 해결
+  quote: 단순 제거 ≠ 해결.
+- from: sc-chat-realtime-three-symptoms-one-root
+  to: sc-resilient-channel
+  canonical: triggers
+  surface: 백오프 재구독
+  quote: 실패 시 invalidate+백오프 재구독.
+- from: sc-chat-realtime-three-symptoms-one-root
+  to: sc-foreground-recovery
+  canonical: triggers
+  surface: 신설
+  quote: '`useChatForegroundRecovery` 신설(active 복귀 시 `realtime.connect()`'
+- from: sc-web-layout-animation-landmine
+  to: sc-list-cell-render-cost
+  canonical: constrains
+  surface: 레이아웃 애니 금지 유지
+  quote: 조건부 `MessageEnter`(스타일 구동만 - 레이아웃 애니 금지 유지)
+- from: sc-eliminate-infinite-wait
+  to: sc-picker-hang-watchdog
+  canonical: precedes
+  surface: Phase 50(픽커 hang)까지 이어진다
+  quote: 원칙이 여기서 시작돼 Phase 50(픽커 hang)까지 이어진다
+- from: sc-loading-responsibility
+  to: sc-entry-loading-data-gate
+  canonical: constrains
+  surface: 끊기지 않게 버티기
+  quote: 로딩 화면의 책임은 "데이터가 준비될 때까지 끊기지 않게 버티기"뿐이다.
+- from: sc-sync-latency-instrumentation
+  to: sc-freshness-gate-dedupe
+  canonical: precedes
+  surface: 계측 후에만 착수
+  quote: '"Phase D 채팅 최적화는 계측 후에만 착수"'
+- from: sc-platform-divergent-decision
+  to: sc-bundle-diet
+  canonical: constrains
+  surface: 플랫폼별 판단
+  quote: 네이티브는 Hermes라 무이득 + 프로드 suspense 미지원이라 **제외**(플랫폼별 판단)
+- from: sc-verifier-web-evidence
+  to: sc-persist-policy-inversion
+  canonical: tests
+  surface: verifier-web 실측
+  quote: '**구현 후 지표 (verifier-web 실측)**'
+- from: sc-committed-service-role-key-incident
+  to: sc-vault-key-injection
+  canonical: triggers
+  surface: 평문 키를 제거
+  quote: '**평문 키를 `_push_config`에서 제거**하고'
+- from: sc-legacy-key-anon-coupling
+  to: sc-rotation-redeploy-single-window
+  canonical: constrains
+  surface: 재배포 전까지 클라이언트가 접속 불가
+  quote: 회전하는 순간 **재배포 전까지 클라이언트가 접속 불가**가 된다.
+- from: sc-rotation-irreversible
+  to: sc-rotation-redeploy-single-window
+  canonical: constrains
+  surface: 회전 **전에** 갖출 것
+  quote: 선행조건(00095 적용 + 클라이언트 재배포 준비)을 반드시 회전 **전에** 갖출 것.
+- from: sc-post-rotation-verification
+  to: sc-vault-key-injection
+  canonical: tests
+  surface: Vault 주입 확인
+  quote: Vault 주입 확인
+- from: sc-new-key-scheme-deferred
+  to: sc-legacy-key-anon-coupling
+  canonical: compares_with
+  surface: 이번 범위 밖
+  quote: 대안(새 `sb_secret_*` 체계로 전환)은
+- from: sc-runbook-one-time-manual-op
+  to: sc-committed-service-role-key-incident
+  canonical: records
+  surface: 수동 키 작업
+  quote: 그 코드를 prod에 적용할 때 함께 해야 하는 **수동 키 작업**만 다룬다.

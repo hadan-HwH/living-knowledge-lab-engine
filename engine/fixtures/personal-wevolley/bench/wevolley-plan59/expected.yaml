@@ -1,0 +1,54 @@
+queries:
+  - name: typing_revoked_current      # ★ REVOKE → 현재 없음 (successor 없는 죽은 결정)
+    type: CURRENT_AUTHORITY
+    target: WV.T.chat_typing_indicator
+    valid_at: "2026-12-31"
+    known_at: "2026-12-31"
+    expect:
+      current_option: null
+      current_state: none
+      states: {o_typing: revoked}
+
+  - name: typing_history
+    type: HISTORY_RATIONALE
+    target: WV.T.chat_typing_indicator
+    known_at: "2026-12-31"
+    expect:
+      current_option: null
+      timeline_event_ids: [WV59.act.d2.adopt, WV59.act.d2.revoke]
+
+  # ★ S≠A의 역방향 실증: 증거는 supported(동작 검증됨)인데 A는 revoked —
+  #   기술적으로 되는 것과 제품으로 채택하는 것은 다른 축 (§4.2 "증거 유망 ≠ 현재 결정")
+  - name: typing_supported_but_revoked
+    type: OPTION_EVIDENCE_PROFILE
+    target: WV.T.chat_typing_indicator
+    valid_at: "2026-12-31"
+    known_at: "2026-12-31"
+    expect:
+      current_option: null
+      options:
+        o_typing: {authority_state: revoked, derived_label: supported, support_groups: 1, attack_groups: 0}
+
+  - name: msg_delete_active
+    type: CURRENT_AUTHORITY
+    target: WV.T.chat_message_delete
+    valid_at: "2026-12-31"
+    known_at: "2026-12-31"
+    expect:
+      current_option: o_soft_delete
+      current_state: active
+      states: {o_soft_delete: active}
+
+  # ── T3 WHY_CHANGED (candidate) ─────────────────────────────────────────────
+  # ★이 픽스처가 T3의 판별 문항이다: 증거는 **지지**했는데 권위가 **철회**했다
+  #   (supported+revoked 사분면). 근거 집합이 비어 있는 게 정답이다 — 철회 사유는
+  #   증거가 아니라 권위 행위(git revert)다. S와 A를 뭉개는 모델은 ev.d2를 잘못 인용한다.
+  - name: why_typing_revoked
+    type: WHY_CHANGED
+    status: candidate
+    target: WV.T.chat_typing_indicator
+    valid_at: "2026-07-29"
+    known_at: "2026-07-29"
+    expect:
+      reason_type: authority_change
+      evidence_event_ids: []
