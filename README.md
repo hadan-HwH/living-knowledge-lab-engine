@@ -48,19 +48,10 @@ LLM은 "이 조각이 어떤 개념에 속하나"를 고르는 **추출 한 단�
 
 ### 연구 흐름: 문서 → 구조 → 기계 추출
 
-```mermaid
-gantt
-    title 2026 연구 흐름 (10.16 기준)
-    dateFormat YYYY-MM-DD
-    axisFormat %m.%d
-    section 문서 시스템 (비공개)
-    PM 핸드북                   :done, 2026-03-30, 2026-06-04
-    정책 위키                   :done, 2026-06-04, 2026-07-03
-    팀 기획 문서 저장소 (운영 중) :active, 2026-07-03, 2026-10-16
-    section 기계 구조화 실험 (공개)
-    PPIR                        :done, 2026-07-03, 2026-07-29
-    LKL                         :done, 2026-07-29, 2026-09-01
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/timeline-dark.svg">
+  <img src="assets/timeline-light.svg" alt="연구 흐름 타임라인: PM 핸드북 → 정책 위키 → 팀 기획 문서 저장소, PPIR → LKL" width="100%">
+</picture>
 
 | 단계 | 기간 | 설명 |
 |---|---|---|
