@@ -17,7 +17,7 @@
   <a href="https://github.com/hadan-HwH/product-planning-ir"><img src="https://img.shields.io/badge/%EC%9D%B4%EC%A0%84%20%EC%97%B0%EA%B5%AC-PPIR-0F766E?style=flat-square" alt="이전 연구: PPIR"></a>
 </p>
 
-<p align="center"><sub>개인 연구 프로젝트 · 2026.07–08 · 개발 일시 중단</sub></p>
+<p align="center"><sub>개인 연구 프로젝트 · 2026.07–08</sub></p>
 
 ---
 
@@ -168,8 +168,6 @@ LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추�
 </picture>
 
 ## 현재 상태와 한계
-
-현재 개발 중단된 상태입니다.
 
 | 항목 | 현재 상태 |
 | --- | --- |
