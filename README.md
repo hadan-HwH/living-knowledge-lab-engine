@@ -67,13 +67,10 @@
 
 이 프로젝트에서는 LLM의 의미 판단과 검증 가능한 데이터 처리 과정을 분리했습니다.
 
-```mermaid
-flowchart LR
-    A["Markdown 문서<br/>Python · TypeScript 코드"] --> B["LLM 기반 개념 추출"]
-    B --> C[("추출 기록<br/>Ledger")]
-    C --> D["결정론적 재구성<br/>출처 · 무결성 검증"]
-    D --> E["정본 · 질의 · 뷰어"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/flow-dark.svg">
+  <img src="assets/flow-light.svg" alt="LKL 처리 흐름: 원문 → LLM 개념 추출 → 추출 기록 → 결정론적 재구성 · 검증 → 정본" width="100%">
+</picture>
 
 - **LLM의 역할 제한:** 의미 기반 개념 추출과 관계 판단에 LLM을 활용하고, 기록된 결과를 조립·검증하는 단계는 결정론적으로 처리합니다.
 - **원문 기반 검증:** 정본에 포함되는 본문은 원문에 실제로 존재하는 구간인지 대조합니다. 이는 근거 없는 문장 삽입을 제한하지만, 의미 해석의 정확성까지 보장하지는 않습니다.
