@@ -5,8 +5,8 @@
 <h1 align="center">Living Knowledge Lab — Engine</h1>
 
 <p align="center">
-  기획 문서와 코드에 흩어진 결정을 연결하고,<br>
-  변경 이력과 영향 범위를 추적하는 지식 구조화 엔진
+  기획 문서를 정리하기 위한 실험 ②<br>
+  이미 써 둔 문서와 코드에서 <b>같은 개념을 찾아 한곳에 연결</b>
 </p>
 
 <p align="center">
@@ -14,138 +14,122 @@
     <img src="https://github.com/hadan-HwH/living-knowledge-lab-engine/actions/workflows/verify.yml/badge.svg" alt="Verification workflow">
   </a>
   <img src="https://img.shields.io/badge/Research-Prototype-64748b?style=flat-square" alt="Research prototype">
-  <a href="https://github.com/hadan-HwH/product-planning-ir"><img src="https://img.shields.io/badge/%EC%9D%B4%EC%A0%84%20%EC%97%B0%EA%B5%AC-PPIR-0F766E?style=flat-square" alt="이전 연구: PPIR"></a>
+  <a href="https://github.com/hadan-HwH/product-planning-ir"><img src="https://img.shields.io/badge/%EC%9D%B4%EC%A0%84%20%EC%8B%A4%ED%97%98-PPIR-0F766E?style=flat-square" alt="이전 실험: PPIR"></a>
 </p>
 
-<p align="center"><sub>개인 연구 프로젝트 · 2026.07–08</sub></p>
+<p align="center"><sub>개인 연구 프로젝트</sub></p>
 
 ---
 
-## 프로젝트 소개
-
-> 이전 연구 [PPIR](https://github.com/hadan-HwH/product-planning-ir)에서 드러난 한계를 바탕으로 다시 설계한 후속 연구입니다.
-
-기획 문서와 실제 구현 코드는 같은 기능을 서로 다른 방식으로 설명합니다. 변경이 쌓이면 어느 설명이 최신인지, 특정 결정이 코드의 어디에 반영되어 있는지, 이전에는 왜 다르게 설계했는지 파악하기 어려워집니다.
-
-<b>Living Knowledge Lab(LKL)</b>은 Markdown 문서와 Python·TypeScript 코드를 분석해 관련 정보를 **개념 단위로 연결하는 연구용 엔진**입니다. 이렇게 구성된 지식 구조를 <i>정본(canonical)</i>으로 관리하며, 원문 출처와 변경 이력을 함께 보존합니다.
-
-목표는 문서를 새로 작성하게 만드는 것이 아니라, **이미 작성한 문서와 코드에서 필요한 맥락을 찾아갈 수 있게 하는 것**입니다.
-
-### 출발점
-
-기획 문서는 Slack · Notion · 회의록 · Word · Figma 등 여러 도구에 흩어져 있었습니다. 이 문서들을 하나로 통합하기 위해 개인 PM 핸드북을 정리하는 작업에서 시작해, 팀 단위 기획 문서를 GitHub 기반 Markdown 저장소 한곳으로 모으고 정책 · 규칙 · 설명을 구분해 관리했습니다. 문서를 한곳에서 검토하고 변경 사항을 반영하기는 편해졌지만, 서로 연결된 결정과 구현을 찾는 과정은 여전히 수작업에 의존했습니다.
-
-이 문제를 해결하기 위한 첫 번째 실험이 [PPIR](https://github.com/hadan-HwH/product-planning-ir)이었습니다. PPIR에서는 지식을 구조화하는 가능성을 확인했지만, 사람이 개념 구조를 직접 작성하고 유지해야 하는 부담이 컸습니다.
-
-LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추가로 관리하기보다, 기존 문서와 코드에서 구조를 추출하는 방식**을 연구했습니다.
-
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/timeline-dark.svg">
-  <img src="assets/timeline-light.svg" alt="PM 핸드북에서 PPIR을 거쳐 LKL로 이어진 연구 과정" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
+  <img src="assets/hero-light.svg" alt="정책 문서, 회의록, 코드에 흩어진 '주문 취소 가능 시간'을 개념 카드 하나로 모으고, 지금 값 · 출처 · 이력 · 어긋남 후보를 보여 주는 그림" width="100%">
 </picture>
 
-## 주요 기능
+## 왜 만들었나
+
+앞선 실험 [PPIR](https://github.com/hadan-HwH/product-planning-ir)에서는 사람이 구조를 직접 써 넣어야 했고, 그 부담 때문에 오래 유지하기 어려웠습니다.
+
+LKL 은 방향을 바꿨습니다. 문서를 새로 쓰게 하지 않고, <b>이미 있는 기획 문서와 코드에서 구조를 뽑아</b> 같은 개념끼리 연결합니다. 어느 설명이 최신인지, 그 결정이 코드 어디에 반영됐는지, 왜 바뀌었는지를 한곳에서 볼 수 있게 하는 것이 목표입니다.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/journey-dark.svg">
+  <img src="assets/journey-light.svg" alt="문서 정리 여정: 흩어진 문서 → 한곳에 모으기 → PPIR → LKL → 팀 기획 문서 저장소" width="100%">
+</picture>
+
+## 하는 일
 
 | 기능 | 설명 |
 | --- | --- |
-| **개념 중심 구조화** | 여러 문서와 코드에 흩어진 정보를 같은 개념 아래 연결합니다. |
-| **출처 추적** | 정본에 포함된 내용을 원본 문서의 위치나 코드 심볼과 연결합니다. |
-| **변경 이력 관리** | 현재 유효한 내용과 과거 기록을 구분해 결정의 변화를 확인합니다. |
-| **영향 범위 탐색** | 특정 코드나 개념의 변경과 연결된 항목을 조회합니다. |
-| **일관성 점검** | 관련 자료 사이의 값 불일치 후보를 제시해 검토를 돕습니다. |
+| **개념으로 묶기** | 여러 문서와 코드에 흩어진 내용을 같은 개념 아래로 모읍니다. |
+| **출처 연결** | 정리된 내용마다 원래 문서의 위치와 코드 위치를 붙입니다. |
+| **변경 이력** | 지금 유효한 내용과 지난 내용을 구분해 보여 줍니다. |
+| **영향 범위** | 코드나 개념 하나를 바꾸면 무엇이 함께 걸리는지 찾습니다. |
+| **어긋남 점검** | 문서끼리 값이 다른 곳을 후보로 알려 줍니다. |
 
-### 동작 화면
+### 데모 규모
 
-공개 데모에는 개인 사이드 프로젝트의 기획 문서와 TypeScript 코드가 사용되었습니다.
+| 원문 섹션 | 정리된 개념 | 개념 간 관계 |
+| :---: | :---: | :---: |
+| **1,482** | **297** | **242** |
 
-**Knowledge Map** — 문서와 코드에서 추출한 개념의 분포를 확인하는 화면
+<sub>개인 사이드 프로젝트의 기획 문서와 코드로 돌린 데모 기준입니다.</sub>
 
-![개념 분포를 보여주는 Knowledge Map](assets/viewer-map.png)
-
-<details>
-<summary><b>Concept Detail — 개념별 원문과 변경 이력 보기</b></summary>
-
-<br>
-
-![문서와 코드의 출처를 연결한 개념 상세 화면](assets/viewer-concept.png)
-
-</details>
-
-### 데모 데이터 규모
-
-| 원문 섹션 | 정본 개념 | 개념 간 관계 | 기록된 재생 회차 |
-| :---: | :---: | :---: | :---: |
-| **1,482** | **297** | **242** | **12** |
-
-<sub>2026년 8월 기준, 저장소에 포함된 단일 데모 코퍼스의 기록입니다. 이 수치는 외부 데이터에 대한 일반화 성능이나 탐지 정확도를 의미하지 않습니다.</sub>
-
-## 기술적 접근
-
-이 프로젝트에서는 LLM의 의미 판단과 검증 가능한 데이터 처리 과정을 분리했습니다.
+## 어떻게 만들었나
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/flow-dark.svg">
-  <img src="assets/flow-light.svg" alt="LKL 처리 흐름: 원문 → LLM 개념 추출 → 추출 기록 → 결정론적 재구성 · 검증 → 정본" width="100%">
+  <img src="assets/flow-light.svg" alt="처리 흐름: 문서 · 코드 → 개념 뽑기 → 원문 대조 → 정리된 지식 → 조회 · 점검" width="100%">
 </picture>
 
-- **LLM의 역할 제한:** 의미 기반 개념 추출과 관계 판단에 LLM을 활용하고, 기록된 결과를 조립·검증하는 단계는 결정론적으로 처리합니다.
-- **원문 기반 검증:** 정본에 포함되는 본문은 원문에 실제로 존재하는 구간인지 대조합니다. 이는 근거 없는 문장 삽입을 제한하지만, 의미 해석의 정확성까지 보장하지는 않습니다.
-- **재현 가능한 결과:** 저장된 추출 기록을 기준으로 정본을 다시 생성하고, 동일한 입력에서 바이트 단위로 같은 결과가 나오는지 확인합니다. 재현성의 보장 범위는 **LLM 추출 이후**입니다.
-- **지식 구조 검증:** 출처, 참조 무결성, 이력 보존, 재현성 등에 관한 16개 불변식을 검증 대상으로 정의했습니다. 일부 경계조건은 추가 보완이 필요한 상태입니다.
+- **AI 는 의미를 읽는 데만**: 개념을 뽑고 관계를 판단하는 일만 AI 가 맡고, 조립과 검증은 규칙으로 처리합니다.
+- **원문에 없는 말은 넣지 않는다**: 정리된 내용이 원문에 실제로 있는 구간인지 하나씩 대조합니다.
+- **다시 돌려도 같은 결과**: 저장해 둔 기록으로 다시 만들면 바이트 단위까지 같은지 매번 확인합니다.
 
-## 아키텍처
+## 그래서 팀 문서는 이렇게 쓰기로 했습니다
 
-### 처리 단계
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/team-dark.svg">
+  <img src="assets/team-light.svg" alt="팀 기획 문서 저장소: 제품 하나에 폴더 하나, 그 안에 Spec · Rules · Screens 세 문서. 결정은 번호를 붙여 기록하고, 승인은 PR 머지, 다른 팀에는 핸드오프로 전달" width="100%">
+</picture>
+
+실험을 거쳐, 팀의 기획 문서는 사람이 쓰고 읽기 쉬운 단순한 구조로 정리했습니다. 제품마다 폴더 하나에 문서 세 가지를 두고, 결정은 번호를 붙여 기록하며, 승인은 PR 머지로 남깁니다.
+
+## 더 보기
+
+<details>
+<summary><b>처리 단계와 검증</b></summary>
+
+<br>
 
 | 단계 | 처리 방식 | 결과 |
 | --- | :---: | --- |
-| **수집** | 결정론 | 문서 섹션과 코드 심볼 스냅샷 |
-| **개념 추출** | LLM | 개념 · 소속 · 관계 · 별칭 후보 |
-| **원문 대조** | 결정론 | 원문에 없는 인용 거부, 판정 대기 목록 |
-| **정본 생성** | 결정론 | 개념별 현행 본문과 이력 |
-| **검증 · 조회** | 결정론 | 지표 · 재현성 검증 · 불일치 후보 · 뷰어 |
+| **수집** | 규칙 | 문서 섹션과 코드 심볼 스냅샷 |
+| **개념 뽑기** | AI | 개념 · 소속 · 관계 · 별칭 후보 |
+| **원문 대조** | 규칙 | 원문에 없는 인용 거부, 판정 대기 목록 |
+| **정리** | 규칙 | 개념별 지금 내용과 이력 |
+| **검증 · 조회** | 규칙 | 지표 · 재현성 검증 · 어긋남 후보 · 뷰어 |
 
-### 저장소 구조
+GitHub Actions 에서 push 마다 아래 검증을 실행합니다.
+
+| 단계 | 확인 내용 |
+| --- | --- |
+| **테스트** | 각 단계와 검증 관문의 동작 |
+| **다시 만들기** | 저장한 기록만으로 AI 없이 처음부터 다시 생성 |
+| **재현성** | 다시 만든 결과가 저장소의 결과와 바이트 단위로 같은지 |
+| **불변식** | 출처 · 참조 무결성 · 이력 보존 등 16개 규칙 |
+
+</details>
+
+<details>
+<summary><b>저장소 구조</b></summary>
+
+<br>
 
 ```
 living-knowledge-lab-engine/
 ├── engine/
-│   ├── structure_app.py         # 명령 진입점 (수집 · 정본 생성 · 조회)
-│   ├── regen.py                 # 정본 재생 절차
+│   ├── structure_app.py         # 명령 진입점 (수집 · 정리 · 조회)
+│   ├── regen.py                 # 다시 만들기 절차
 │   ├── ingest.py · parsers.py   # 문서 · 코드 수집과 파싱
-│   ├── canon_store.py           # 정본 조립 · 병합
+│   ├── canon_store.py           # 조립 · 병합
 │   ├── queries.py · brief.py    # 조회와 요약
-│   ├── crosscheck.py            # 불일치 후보 탐지
+│   ├── crosscheck.py            # 어긋남 후보 찾기
 │   ├── provenance_gate.py       # 출처 검증
-│   ├── viewer.py                # 정본 뷰어 생성
+│   ├── viewer.py                # 뷰어 생성
 │   ├── INVARIANTS.md            # 16개 불변식
-│   └── fixtures/personal-wevolley/   # 데모 코퍼스 (추출 기록 · 정본)
-└── scripts/regen.sh             # 정본 재생 실행
+│   └── fixtures/                # 데모 데이터
+└── scripts/regen.sh             # 다시 만들기 실행
 ```
 
-처리 과정 상세는 [엔진 기술 문서](engine/README.md)를 참고하세요.
-
-## 검증
-
-GitHub Actions에서 push마다 아래 검증을 실행합니다.
-
-| 단계 | 확인 내용 |
-| --- | --- |
-| **테스트** | 파이프라인 각 단계와 게이트의 동작 |
-| **정본 재생** | 저장된 추출 기록만으로 LLM 없이 정본을 다시 생성 |
-| **재현성** | 다시 생성한 정본이 저장소의 정본과 바이트 단위로 같은지 |
-| **불변식** | 출처 · 참조 무결성 · 이력 보존 등 16개 규칙 |
-
-불변식별 정의와 도입 배경은 [불변식 문서](engine/INVARIANTS.md)를 참고하세요.
-
-## 실행 및 확인
+</details>
 
 <details>
-<summary><b>실행 방법 보기</b></summary>
+<summary><b>실행 방법</b></summary>
 
 <br>
 
-Python 3.9 이상 환경이 필요합니다. 공개 데모의 **테스트·재생·질의에는 LLM API가 필요하지 않습니다.** 새 자료의 의미 추출은 별도 LLM 실행 과정에 의존합니다.
+Python 3.9 이상 환경이 필요합니다. 공개 데모의 테스트 · 다시 만들기 · 조회에는 LLM API 가 필요하지 않습니다.
 
 ```bash
 git clone https://github.com/hadan-HwH/living-knowledge-lab-engine.git
@@ -156,50 +140,17 @@ pip install -r requirements.txt
 cd engine
 python -m pytest -q
 cd ..
-
-# 저장된 기록을 이용해 정본 재생
-scripts/regen.sh personal-wevolley
 ```
 
-다음 명령으로 개념의 현재 상태, 변경 이력, 영향 범위를 조회할 수 있습니다.
-
-```bash
-cd engine
-
-# 프로젝트 요약
-python structure_app.py brief personal-wevolley wevolley
-
-# 최근 변경된 개념
-python structure_app.py recent personal-wevolley wevolley
-
-# 특정 코드 심볼과 연결된 개념
-python structure_app.py impact personal-wevolley lib.realtime-reconnect.forceReconnectAllChannels
-```
-
-재생 후 `engine/fixtures/personal-wevolley/canon/canon-viewer.html` 파일을 브라우저에서 열면 정본 뷰어를 확인할 수 있습니다.
+데모 데이터로 다시 만들고 조회하는 명령은 [엔진 기술 문서](engine/README.md)에 있습니다.
 
 </details>
 
-## 현재 상태와 한계
-
-| 항목 | 현재 상태 |
-| --- | --- |
-| **추출 재현성** | 저장된 원장 이후의 처리 결과는 재생·검증할 수 있지만, LLM 추출 결과 자체는 실행마다 달라질 수 있습니다. |
-| **검증 범위** | 공개 코퍼스 1종과 소규모 기준 데이터(gold) 2건을 사용했습니다. 다른 프로젝트에 대한 일반화는 검증하지 못했습니다. |
-| **불일치 탐지** | 표에 포함된 값의 차이를 중심으로 확인하며, 산문 사이의 의미적 모순은 탐지하지 못합니다. |
-| **검증 체계** | 일부 단조성 기준값과 최신성 경고 처리 등 보완이 필요한 경계조건이 남아 있습니다. |
-| **실사용 효과** | 실제 업무에서 변경 영향 분석에 드는 시간이나 의사결정 품질이 개선되는지는 측정하지 못했습니다. |
-
-후속 연구를 진행한다면 검증 체계의 신뢰성을 먼저 높이고, 다른 데이터셋에서의 재현성과 실제 업무 활용 가치를 확인하는 것이 우선 과제입니다.
-
-## 기술 및 문서
-
-**Python 3.9+ · YAML · Markdown · TypeScript 파싱 · LLM 보조 추출 · pytest · GitHub Actions · 단일 HTML 뷰어**
+**Python 3.9+ · YAML · Markdown · TypeScript 파싱 · LLM 보조 추출 · pytest · GitHub Actions**
 
 | 문서 | 내용 |
 | --- | --- |
-| [Engine Documentation](engine/README.md) | 파이프라인, 재생, 질의, 검증 흐름 |
+| [Engine Documentation](engine/README.md) | 파이프라인, 다시 만들기, 조회, 검증 흐름 |
 | [Invariants](engine/INVARIANTS.md) | 16개 불변식과 설계 배경 |
-| [Demo Corpus](engine/fixtures/README.md) | 예시 데이터와 저장 구조 |
 
-<sub>공개 저장소에는 데모 코퍼스만 포함되어 있습니다. 별도로 사용한 비공개 데이터는 포함하지 않았으며, 이에 의존하는 테스트는 사유를 기록하고 건너뜁니다.</sub>
+<sub>공개 저장소에는 데모 데이터만 들어 있습니다.</sub>
