@@ -56,7 +56,7 @@ LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추�
 
 ### 동작 화면
 
-공개 데모에는 개인 사이드 프로젝트 <b><a href="https://github.com/hadan-HwH/wevolley">위볼리(WeVolley)</a></b>의 기획 문서와 TypeScript 코드가 사용되었습니다.
+공개 데모에는 개인 사이드 프로젝트의 기획 문서와 TypeScript 코드가 사용되었습니다.
 
 **Knowledge Map** — 문서와 코드에서 추출한 개념의 분포를 확인하는 화면
 
@@ -202,4 +202,4 @@ python structure_app.py impact personal-wevolley lib.realtime-reconnect.forceRec
 | [Invariants](engine/INVARIANTS.md) | 16개 불변식과 설계 배경 |
 | [Demo Corpus](engine/fixtures/README.md) | 예시 데이터와 저장 구조 |
 
-<sub>공개 저장소에는 위볼리 데모 코퍼스만 포함되어 있습니다. 별도로 사용한 비공개 데이터는 포함하지 않았으며, 이에 의존하는 테스트는 사유를 기록하고 건너뜁니다.</sub>
+<sub>공개 저장소에는 데모 코퍼스만 포함되어 있습니다. 별도로 사용한 비공개 데이터는 포함하지 않았으며, 이에 의존하는 테스트는 사유를 기록하고 건너뜁니다.</sub>
