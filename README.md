@@ -56,7 +56,7 @@ LKL에서는 접근을 바꿨습니다. **사람이 구조화된 문서를 추�
 
 ### 동작 화면
 
-공개 데모에는 개인 사이드 프로젝트 <b>위볼리(Wevolley)</b>의 기획 문서와 TypeScript 코드가 사용되었습니다.
+공개 데모에는 개인 사이드 프로젝트 <b><a href="https://github.com/hadan-HwH/wevolley">위볼리(WeVolley)</a></b>의 기획 문서와 TypeScript 코드가 사용되었습니다.
 
 **Knowledge Map** — 문서와 코드에서 추출한 개념의 분포를 확인하는 화면
 
